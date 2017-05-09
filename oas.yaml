@@ -2,7 +2,7 @@
 swagger: "2.0"
 info:
   description: "No description"
-  version: "2.0.0"
+  version: "1.0.0"
   title: "Ruimtelijke Plannen API"
   contact:
     name: "Kadaster"
@@ -18,11 +18,13 @@ produces:
 - "application/hal+json"
 - "application/problem+json"
 security:
-- API Key: []
+- apiKey: []
 paths:
   /_zoek:
     post:
-      summary: "zoeken in alle root collecties"
+      tags:
+      - "Globale zoekfunctie"
+      summary: "Zoeken in alle collecties op hoofdniveau"
       consumes:
       - "application/json"
       produces:
@@ -33,12 +35,20 @@ paths:
         in: "header"
         required: false
         type: "string"
-        description: "CRS van de meegegeven geometrie (standaard WGS84)"
+        description: "CRS van de meegegeven geometrie"
+        default: "epsg:4326"
+        enum:
+        - "epsg:4326"
+        - "epsg:28992"
       - name: "Accept-Crs"
         in: "header"
         required: false
         type: "string"
-        description: "Gewenste CRS van de coördinaten in de response (standaard WGS84)"
+        description: "Gewenste CRS van de coördinaten in de response"
+        default: "epsg:4326"
+        enum:
+        - "epsg:4326"
+        - "epsg:28992"
       - name: "body"
         in: "body"
         required: true
@@ -80,6 +90,7 @@ paths:
                     properties:
                       href:
                         type: "string"
+                        example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/_zoek"
                   next:
                     required:
                     - "href"
@@ -89,6 +100,7 @@ paths:
                     properties:
                       href:
                         type: "string"
+                        example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/_zoek?page=2"
           headers:
             Content-Crs:
               type: "string"
@@ -101,6 +113,8 @@ paths:
         401:
           description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
             \ header meegestuurd."
+          schema:
+            $ref: "#/definitions/Error"
         403:
           description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
           schema:
@@ -125,6 +139,8 @@ paths:
               x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
   /bestemmingsplangebieden:
     get:
+      tags:
+      - "Bestemmingsplangebieden"
       summary: "bestemmingsplangebieden"
       produces:
       - "application/hal+json"
@@ -134,7 +150,11 @@ paths:
         in: "header"
         required: false
         type: "string"
-        description: "Gewenste CRS van de coördinaten in de response (standaard WGS84)"
+        description: "Gewenste CRS van de coördinaten in de response"
+        default: "epsg:4326"
+        enum:
+        - "epsg:4326"
+        - "epsg:28992"
       responses:
         200:
           description: "Status 200"
@@ -174,19 +194,83 @@ paths:
             Content-Crs:
               type: "string"
               description: "CRS van de teruggegeven geometrieën"
-        404:
-          description: "Status 404"
+        401:
+          description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
+            \ header meegestuurd."
           schema:
             $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
+          schema:
+            $ref: "#/definitions/Error"
+        406:
+          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
+            \ kan momenteel alleen `application/hal+json` terugsturen."
+          schema:
+            $ref: "#/definitions/Error"
+        503:
+          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
+            \ of een storing plaats."
+          schema:
+            $ref: "#/definitions/Error"
+          headers:
+            Retry-After:
+              type: "string"
+              format: "date-time"
+              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
+                \ zal zijn."
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
   /bestemmingsplangebieden/{id}:
     get:
+      tags:
+      - "Bestemmingsplangebieden"
       summary: "bestemmingsplangebied"
-      parameters: []
+      produces:
+      - "application/hal+json"
+      - "application/problem+json"
+      parameters:
+      - name: "Accept-Crs"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Gewenste CRS van de coördinaten in de response"
+        default: "epsg:4326"
+        enum:
+        - "epsg:4326"
+        - "epsg:28992"
       responses:
         200:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Bestemmingsplangebied"
+        401:
+          description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
+            \ header meegestuurd."
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
+          schema:
+            $ref: "#/definitions/Error"
+        406:
+          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
+            \ kan momenteel alleen `application/hal+json` terugsturen."
+          schema:
+            $ref: "#/definitions/Error"
+        503:
+          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
+            \ of een storing plaats."
+          schema:
+            $ref: "#/definitions/Error"
+          headers:
+            Retry-After:
+              type: "string"
+              format: "date-time"
+              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
+                \ zal zijn."
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
     parameters:
     - name: "id"
       in: "path"
@@ -194,6 +278,8 @@ paths:
       type: "string"
   /bestemmingsplangebieden/{id}/teksten:
     get:
+      tags:
+      - "Bestemmingsplangebieden"
       summary: "bestemmingsplangebied teksten"
       parameters: []
       responses:
@@ -207,6 +293,37 @@ paths:
                 properties:
                   teksten:
                     $ref: "#/definitions/Tekst"
+        401:
+          description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
+            \ header meegestuurd."
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Status 404"
+          schema:
+            $ref: "#/definitions/Error"
+        406:
+          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
+            \ kan momenteel alleen `application/hal+json` terugsturen."
+          schema:
+            $ref: "#/definitions/Error"
+        503:
+          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
+            \ of een storing plaats."
+          schema:
+            $ref: "#/definitions/Error"
+          headers:
+            Retry-After:
+              type: "string"
+              format: "date-time"
+              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
+                \ zal zijn."
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
     parameters:
     - name: "id"
       in: "path"
@@ -214,6 +331,8 @@ paths:
       type: "string"
   /bestemmingsvlakken:
     get:
+      tags:
+      - "Bestemmingsvlakken"
       summary: "bestemmingsvlakken"
       produces:
       - "application/hal+json"
@@ -223,7 +342,11 @@ paths:
         in: "header"
         required: false
         type: "string"
-        description: "Gewenste CRS van de coördinaten in de response (standaard WGS84)"
+        description: "Gewenste CRS van de coördinaten in de response"
+        default: "epsg:4326"
+        enum:
+        - "epsg:4326"
+        - "epsg:28992"
       responses:
         200:
           description: "Status 200"
@@ -263,19 +386,84 @@ paths:
             Content-Crs:
               type: "string"
               description: "CRS van de teruggegeven geometrieën"
-        404:
-          description: "Status 404"
+        401:
+          description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
+            \ header meegestuurd."
           schema:
             $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
+          schema:
+            $ref: "#/definitions/Error"
+        406:
+          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
+            \ kan momenteel alleen `application/hal+json` terugsturen."
+          schema:
+            $ref: "#/definitions/Error"
+        503:
+          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
+            \ of een storing plaats."
+          schema:
+            $ref: "#/definitions/Error"
+          headers:
+            Retry-After:
+              type: "string"
+              format: "date-time"
+              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
+                \ zal zijn."
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
   /bestemmingsvlakken/{id}:
     get:
+      tags:
+      - "Bestemmingsvlakken"
       summary: "bestemmingsvlak"
-      parameters: []
+      parameters:
+      - name: "Accept-Crs"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Gewenste CRS van de coördinaten in de response"
+        default: "epsg:4326"
+        enum:
+        - "epsg:4326"
+        - "epsg:28992"
       responses:
         200:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Bestemmingsvlak"
+        401:
+          description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
+            \ header meegestuurd."
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Status 404"
+          schema:
+            $ref: "#/definitions/Error"
+        406:
+          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
+            \ kan momenteel alleen `application/hal+json` terugsturen."
+          schema:
+            $ref: "#/definitions/Error"
+        503:
+          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
+            \ of een storing plaats."
+          schema:
+            $ref: "#/definitions/Error"
+          headers:
+            Retry-After:
+              type: "string"
+              format: "date-time"
+              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
+                \ zal zijn."
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
     parameters:
     - name: "id"
       in: "path"
@@ -283,6 +471,8 @@ paths:
       type: "string"
   /bestemmingsvlakken/{id}/teksten:
     get:
+      tags:
+      - "Bestemmingsvlakken"
       summary: "bestemmingsvlak teksten"
       parameters: []
       responses:
@@ -296,6 +486,37 @@ paths:
                 properties:
                   teksten:
                     $ref: "#/definitions/Tekst"
+        401:
+          description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
+            \ header meegestuurd."
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Status 404"
+          schema:
+            $ref: "#/definitions/Error"
+        406:
+          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
+            \ kan momenteel alleen `application/hal+json` terugsturen."
+          schema:
+            $ref: "#/definitions/Error"
+        503:
+          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
+            \ of een storing plaats."
+          schema:
+            $ref: "#/definitions/Error"
+          headers:
+            Retry-After:
+              type: "string"
+              format: "date-time"
+              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
+                \ zal zijn."
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
     parameters:
     - name: "id"
       in: "path"
@@ -303,6 +524,8 @@ paths:
       type: "string"
   /dossiers:
     get:
+      tags:
+      - "Dossiers"
       summary: "dossiers"
       produces:
       - "application/hal+json"
@@ -312,7 +535,11 @@ paths:
         in: "header"
         required: false
         type: "string"
-        description: "Gewenste CRS van de coördinaten in de response (standaard WGS84)"
+        description: "Gewenste CRS van de coördinaten in de response"
+        default: "epsg:4326"
+        enum:
+        - "epsg:4326"
+        - "epsg:28992"
       responses:
         200:
           description: "Status 200"
@@ -343,20 +570,838 @@ paths:
                     properties:
                       href:
                         type: "string"
+                        example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/dossiers"
                   next:
                     type: "object"
                     properties:
                       href:
                         type: "string"
+                        example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/dossiers?page=2"
           headers:
             Content-Crs:
               type: "string"
               description: "CRS van de teruggegeven geometrieën"
+        401:
+          description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
+            \ header meegestuurd."
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
+          schema:
+            $ref: "#/definitions/Error"
+        406:
+          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
+            \ kan momenteel alleen `application/hal+json` terugsturen."
+          schema:
+            $ref: "#/definitions/Error"
+        503:
+          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
+            \ of een storing plaats."
+          schema:
+            $ref: "#/definitions/Error"
+          headers:
+            Retry-After:
+              type: "string"
+              format: "date-time"
+              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
+                \ zal zijn."
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
+  /bestemmingsvlakken/{id}/functieaanduidingen:
+    get:
+      tags:
+      - "Bestemmingsvlakken"
+      summary: "bestemmingsvlak functieaanduidingen"
+      parameters:
+      - name: "Accept-Crs"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Gewenste CRS van de coördinaten in de response"
+        default: "epsg:4326"
+        enum:
+        - "epsg:4326"
+        - "epsg:28992"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            required:
+            - "_embedded"
+            type: "object"
+            properties:
+              _embedded:
+                required:
+                - "functieaanduidingen"
+                type: "object"
+                properties:
+                  functieaanduidingen:
+                    $ref: "#/definitions/Functieaanduiding"
+        401:
+          description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
+            \ header meegestuurd."
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
+          schema:
+            $ref: "#/definitions/Error"
         404:
           description: "Status 404"
           schema:
             $ref: "#/definitions/Error"
+        406:
+          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
+            \ kan momenteel alleen `application/hal+json` terugsturen."
+          schema:
+            $ref: "#/definitions/Error"
+        503:
+          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
+            \ of een storing plaats."
+          schema:
+            $ref: "#/definitions/Error"
+          headers:
+            Retry-After:
+              type: "string"
+              format: "date-time"
+              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
+                \ zal zijn."
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
+    parameters:
+    - name: "id"
+      in: "path"
+      required: true
+      type: "string"
+  /bestemmingsvlakken/{id}/gebiedsaanduidingen:
+    get:
+      tags:
+      - "Bestemmingsvlakken"
+      summary: "bestemmingsvlak gebiedsaanduidingen"
+      parameters:
+      - name: "Accept-Crs"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Gewenste CRS van de coördinaten in de response"
+        default: "epsg:4326"
+        enum:
+        - "epsg:4326"
+        - "epsg:28992"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            required:
+            - "_embedded"
+            type: "object"
+            properties:
+              _embedded:
+                required:
+                - "gebiedsaanduidingen"
+                type: "object"
+                properties:
+                  gebiedsaanduidingen:
+                    $ref: "#/definitions/Gebiedsaanduiding"
+        401:
+          description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
+            \ header meegestuurd."
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Status 404"
+          schema:
+            $ref: "#/definitions/Error"
+        406:
+          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
+            \ kan momenteel alleen `application/hal+json` terugsturen."
+          schema:
+            $ref: "#/definitions/Error"
+        503:
+          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
+            \ of een storing plaats."
+          schema:
+            $ref: "#/definitions/Error"
+          headers:
+            Retry-After:
+              type: "string"
+              format: "date-time"
+              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
+                \ zal zijn."
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
+    parameters:
+    - name: "id"
+      in: "path"
+      required: true
+      type: "string"
+  /bestemmingsvlakken/{id}/maatvoeringen:
+    get:
+      tags:
+      - "Bestemmingsvlakken"
+      summary: "bestemmingsvlak maatvoeringen"
+      parameters:
+      - name: "Accept-Crs"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Gewenste CRS van de coördinaten in de response"
+        default: "epsg:4326"
+        enum:
+        - "epsg:4326"
+        - "epsg:28992"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            required:
+            - "_embedded"
+            type: "object"
+            properties:
+              _embedded:
+                required:
+                - "maatvoeringen"
+                type: "object"
+                properties:
+                  maatvoeringen:
+                    $ref: "#/definitions/Maatvoering"
+        401:
+          description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
+            \ header meegestuurd."
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Status 404"
+          schema:
+            $ref: "#/definitions/Error"
+        406:
+          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
+            \ kan momenteel alleen `application/hal+json` terugsturen."
+          schema:
+            $ref: "#/definitions/Error"
+        503:
+          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
+            \ of een storing plaats."
+          schema:
+            $ref: "#/definitions/Error"
+          headers:
+            Retry-After:
+              type: "string"
+              format: "date-time"
+              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
+                \ zal zijn."
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
+    parameters:
+    - name: "id"
+      in: "path"
+      required: true
+      type: "string"
+  /bestemmingsvlakken/{id}/bouwvlakken:
+    get:
+      tags:
+      - "Bestemmingsvlakken"
+      summary: "bestemmingsvlak bouwvlakken"
+      parameters:
+      - name: "Accept-Crs"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Gewenste CRS van de coördinaten in de response"
+        default: "epsg:4326"
+        enum:
+        - "epsg:4326"
+        - "epsg:28992"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            required:
+            - "_embedded"
+            type: "object"
+            properties:
+              _embedded:
+                required:
+                - "bouwvlakken"
+                type: "object"
+                properties:
+                  bouwvlakken:
+                    $ref: "#/definitions/Bouwvlak"
+        401:
+          description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
+            \ header meegestuurd."
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Status 404"
+          schema:
+            $ref: "#/definitions/Error"
+        406:
+          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
+            \ kan momenteel alleen `application/hal+json` terugsturen."
+          schema:
+            $ref: "#/definitions/Error"
+        503:
+          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
+            \ of een storing plaats."
+          schema:
+            $ref: "#/definitions/Error"
+          headers:
+            Retry-After:
+              type: "string"
+              format: "date-time"
+              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
+                \ zal zijn."
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
+    parameters:
+    - name: "id"
+      in: "path"
+      required: true
+      type: "string"
+  /bestemmingsvlakken/{id}/bouwaanduidingen:
+    get:
+      tags:
+      - "Bestemmingsvlakken"
+      summary: "bestemmingsvlak bouwaanduidingen"
+      parameters:
+      - name: "Accept-Crs"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Gewenste CRS van de coördinaten in de response"
+        default: "epsg:4326"
+        enum:
+        - "epsg:4326"
+        - "epsg:28992"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            required:
+            - "_embedded"
+            type: "object"
+            properties:
+              _embedded:
+                required:
+                - "bouwaanduidingen"
+                type: "object"
+                properties:
+                  bouwaanduidingen:
+                    $ref: "#/definitions/Bouwaanduiding"
+        401:
+          description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
+            \ header meegestuurd."
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Status 404"
+          schema:
+            $ref: "#/definitions/Error"
+        406:
+          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
+            \ kan momenteel alleen `application/hal+json` terugsturen."
+          schema:
+            $ref: "#/definitions/Error"
+        503:
+          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
+            \ of een storing plaats."
+          schema:
+            $ref: "#/definitions/Error"
+          headers:
+            Retry-After:
+              type: "string"
+              format: "date-time"
+              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
+                \ zal zijn."
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
+    parameters:
+    - name: "id"
+      in: "path"
+      required: true
+      type: "string"
+  /bestemmingsvlakken/{id}/figuren:
+    get:
+      tags:
+      - "Bestemmingsvlakken"
+      summary: "bestemmingsvlak figuren"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            required:
+            - "_embedded"
+            type: "object"
+            properties:
+              _embedded:
+                required:
+                - "figuren"
+                type: "object"
+                properties:
+                  figuren:
+                    $ref: "#/definitions/Figuur"
+        401:
+          description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
+            \ header meegestuurd."
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Status 404"
+          schema:
+            $ref: "#/definitions/Error"
+        406:
+          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
+            \ kan momenteel alleen `application/hal+json` terugsturen."
+          schema:
+            $ref: "#/definitions/Error"
+        503:
+          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
+            \ of een storing plaats."
+          schema:
+            $ref: "#/definitions/Error"
+          headers:
+            Retry-After:
+              type: "string"
+              format: "date-time"
+              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
+                \ zal zijn."
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
+    parameters:
+    - name: "id"
+      in: "path"
+      required: true
+      type: "string"
+  /teksten:
+    get:
+      tags:
+      - "Teksten"
+      summary: "teksten"
+      produces:
+      - "application/hal+json"
+      - "application/problem+json"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            required:
+            - "_embedded"
+            - "_links"
+            type: "object"
+            properties:
+              _embedded:
+                required:
+                - "teksten"
+                type: "object"
+                properties:
+                  teksten:
+                    type: "array"
+                    items:
+                      required:
+                      - "_links"
+                      type: "object"
+                      properties:
+                        _links:
+                          required:
+                          - "self"
+                          type: "object"
+                          properties:
+                            self:
+                              type: "string"
+                              example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten/257"
+                            title:
+                              type: "string"
+                              description: "Regel 257"
+              _links:
+                required:
+                - "self"
+                type: "object"
+                properties:
+                  self:
+                    required:
+                    - "href"
+                    type: "object"
+                    properties:
+                      href:
+                        type: "string"
+                  next:
+                    type: "object"
+                    properties:
+                      href:
+                        type: "string"
+        401:
+          description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
+            \ header meegestuurd."
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
+          schema:
+            $ref: "#/definitions/Error"
+        406:
+          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
+            \ kan momenteel alleen `application/hal+json` terugsturen."
+          schema:
+            $ref: "#/definitions/Error"
+        503:
+          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
+            \ of een storing plaats."
+          schema:
+            $ref: "#/definitions/Error"
+          headers:
+            Retry-After:
+              type: "string"
+              format: "date-time"
+              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
+                \ zal zijn."
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
+  /teksten/{id}:
+    get:
+      tags:
+      - "Teksten"
+      summary: "tekst"
+      produces:
+      - "application/hal+json"
+      - "application/problem+json"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Tekst"
+        401:
+          description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
+            \ header meegestuurd."
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
+          schema:
+            $ref: "#/definitions/Error"
+        406:
+          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
+            \ kan momenteel alleen `application/hal+json` terugsturen."
+          schema:
+            $ref: "#/definitions/Error"
+        503:
+          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
+            \ of een storing plaats."
+          schema:
+            $ref: "#/definitions/Error"
+          headers:
+            Retry-After:
+              type: "string"
+              format: "date-time"
+              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
+                \ zal zijn."
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
+    parameters:
+    - name: "id"
+      in: "path"
+      required: true
+      type: "string"
 definitions:
+  Figuur:
+    type: "object"
+    required:
+    - "_links"
+    properties:
+      id:
+        type: "string"
+      verwijzingNaarIllustratieInfo:
+        type: "string"
+      labelInfo:
+        type: "string"
+      verwijzingNaarTekstInfo:
+        type: "string"
+      geometrie:
+        $ref: "#/definitions/GeoJSON"
+      _links:
+        required:
+        - "tekst"
+        type: "object"
+        properties:
+          tekst:
+            required:
+            - "href"
+            type: "object"
+            properties:
+              href:
+                type: "string"
+                description: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten/94"
+  Error:
+    type: "object"
+    required:
+    - "detail"
+    - "instance"
+    - "status"
+    - "title"
+    - "type"
+    properties:
+      type:
+        type: "string"
+        description: "URI naar een pagina met meer informatie over deze foutmelding\
+          \ voor de ontwikkelaar."
+        default: "about:blank"
+        example: "about:blank"
+      title:
+        type: "string"
+      status:
+        type: "integer"
+        example: 404
+      detail:
+        type: "string"
+      instance:
+        type: "string"
+  Bestemmingsvlak:
+    type: "object"
+    required:
+    - "_links"
+    - "type"
+    properties:
+      _links:
+        required:
+        - "self"
+        type: "object"
+        properties:
+          self:
+            type: "object"
+            properties:
+              href:
+                type: "string"
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken/94"
+          bestemmingsplangebied:
+            type: "object"
+            properties:
+              href:
+                type: "string"
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden/759"
+          teksten:
+            type: "object"
+            properties:
+              href:
+                type: "string"
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken/94/teksten"
+          bouwvlakken:
+            type: "object"
+            properties:
+              href:
+                type: "string"
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken/94/bouwvlakken"
+          functieaanduidingen:
+            type: "object"
+            properties:
+              href:
+                type: "string"
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken/94/functieaanduidingen"
+          bouwaanduidingen:
+            type: "object"
+            properties:
+              href:
+                type: "string"
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken/94/bouwaanduidingen"
+          maatvoeringen:
+            type: "object"
+            properties:
+              href:
+                type: "string"
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken/94/maatvoeringen"
+          gebiedsaanduidingen:
+            type: "object"
+            properties:
+              href:
+                type: "string"
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken/94/gebiedsaanduidingen"
+          figuren:
+            type: "object"
+            properties:
+              href:
+                type: "string"
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken/94/figuren"
+      id:
+        type: "string"
+        example: "94"
+      type:
+        type: "string"
+        enum:
+        - "enkelbestemming"
+        - "dubbelbestemming"
+        example: "enkelbestemming"
+      dossier:
+        type: "string"
+      naam:
+        type: "string"
+        example: "Enkelbestemming Bedrijventerrein"
+      bestemmingshoofdgroep:
+        type: "string"
+      artikelnummer:
+        type: "string"
+      verwijzingNaarTekstInfo:
+        type: "string"
+      labelInfo:
+        type: "string"
+      geometrie:
+        $ref: "#/definitions/GeoJSON"
+  Tekst:
+    type: "object"
+    required:
+    - "_links"
+    - "label"
+    - "plain"
+    properties:
+      label:
+        type: "string"
+      plain:
+        type: "string"
+      html:
+        type: "string"
+      _links:
+        required:
+        - "self"
+        type: "object"
+        properties:
+          self:
+            required:
+            - "href"
+            type: "object"
+            properties:
+              href:
+                type: "string"
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten/429"
+          bestemmingsvlakken:
+            required:
+            - "href"
+            type: "object"
+            properties:
+              href:
+                type: "string"
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken/234"
+          bouwaanduidingen:
+            type: "object"
+            properties:
+              href:
+                type: "string"
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken/234/bouwaanduidingen"
+  Bouwaanduiding:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      labelInfo:
+        type: "string"
+      verwijzingNaarTekstInfo:
+        type: "string"
+      geometrie:
+        $ref: "#/definitions/GeoJSON"
+  Bouwvlak:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      geometrie:
+        $ref: "#/definitions/GeoJSON"
+  Functieaanduiding:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      labelInfo:
+        type: "string"
+      verwijzingNaarTekstInfo:
+        type: "string"
+      geometrie:
+        $ref: "#/definitions/GeoJSON"
+  Gebiedsaanduiding:
+    type: "object"
+    required:
+    - "_links"
+    properties:
+      id:
+        type: "string"
+      gebiedsaanduidinggroep:
+        type: "string"
+        example: "overige zone"
+      artikelnummer:
+        type: "string"
+        example: "18.1"
+      verwijzingNaarTekstInfo:
+        type: "string"
+        example: "http://www.ruimtelijkeplannen.nl/documents/NL.IMRO.0268.BPa10500-VG01/r_NL.IMRO.0268.BPa10500-VG01.html#_18.1_geluidgezoneerdindustrieterrein"
+      labelInfo:
+        type: "string"
+        example: "Gebiedsaanduiding overige zone - .geluidgezoneerd industrieterrein"
+      geometrie:
+        $ref: "#/definitions/GeoJSON"
+      _links:
+        required:
+        - "tekst"
+        type: "object"
+        properties:
+          tekst:
+            required:
+            - "href"
+            type: "object"
+            properties:
+              href:
+                type: "string"
+                example: "http://www.ruimtelijkeplannen.nl/documents/NL.IMRO.0268.BPa10500-VG01/r_NL.IMRO.0268.BPa10500-VG01.html#_18.1_geluidgezoneerdindustrieterrein"
+  Dossier:
+    type: "object"
+    required:
+    - "_links"
+    properties:
+      id:
+        type: "string"
+        example: "NL.IMRO.0268.BPa10500"
+      title:
+        type: "string"
+        example: "dossier NL.IMRO.0268.BPa10500"
+      _links:
+        type: "object"
+        properties:
+          bestemmingsvlakken:
+            type: "string"
+            example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken?dossier=3487"
+  Maatvoering:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      symboolInfo:
+        type: "string"
+      maatvoeringInfo:
+        type: "string"
+        example: "Maximum bouwhoogte (m): 18"
+      verwijzingNaarTekstInfo:
+        type: "string"
+      geometrie:
+        $ref: "#/definitions/GeoJSON"
   SearchResult:
     type: "object"
     required:
@@ -387,6 +1432,64 @@ definitions:
                 type: "string"
                 description: "Human-readable titel van de link"
                 example: "NL.IMRO.0289.0044kamergewverh-VSG1"
+  Bestemmingsplangebied:
+    type: "object"
+    required:
+    - "_links"
+    - "id"
+    - "type"
+    properties:
+      _links:
+        required:
+        - "self"
+        type: "object"
+        properties:
+          self:
+            type: "object"
+            properties:
+              href:
+                type: "string"
+          bestemmingsvlakken:
+            type: "object"
+            properties:
+              href:
+                type: "string"
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken?bestemmingsplangebied=759"
+      id:
+        type: "string"
+        example: "NL.IMRO.0268.BPa10500-VG01"
+      type:
+        type: "string"
+        enum:
+        - "bestemmingsplan"
+        example: "bestemmingsplan"
+      beleidsmatigVerantwoordelijkeOverheid:
+        type: "string"
+      naamOverheid:
+        type: "string"
+        example: "gemeente Nijmegen"
+      overheidsCode:
+        type: "string"
+      naam:
+        type: "string"
+        example: "Nijmegen Westkanaaldijk 2016"
+      locatieNaam:
+        type: "string"
+      planstatusInfo:
+        type: "string"
+        example: "vastgesteld 2016-11-16"
+      besluitnummer:
+        type: "string"
+      verwijzingNaarVaststellingsbesluit:
+        type: "string"
+      verwijzingNaarTekstInfo:
+        type: "string"
+      verwijzingNaarExternPlanInfo:
+        type: "string"
+      verwijzingNorm:
+        type: "string"
+      geometrie:
+        $ref: "#/definitions/GeoJSON"
   GeoJSON:
     type: "object"
     required:
@@ -409,281 +1512,3 @@ definitions:
           type: "number"
           format: "float"
         example: "5.9623762, 52.2118093"
-  Dossier:
-    type: "object"
-    required:
-    - "_links"
-    properties:
-      id:
-        type: "string"
-      title:
-        type: "string"
-      _links:
-        required:
-        - "self"
-        type: "object"
-        properties:
-          self:
-            required:
-            - "href"
-            type: "object"
-            properties:
-              href:
-                type: "string"
-          bestemmingsvlakken:
-            type: "string"
-            example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken?dossier=3487"
-  Bestemmingsplangebied:
-    type: "object"
-    required:
-    - "_links"
-    properties:
-      _links:
-        required:
-        - "self"
-        type: "object"
-        properties:
-          self:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-          bestemmingsvlakken:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken?bestemmingsplangebied=759"
-      id:
-        type: "string"
-      type:
-        type: "string"
-      beleidsmatigVerantwoordelijkeOverheid:
-        type: "string"
-      naamOverheid:
-        type: "string"
-      overheidsCode:
-        type: "string"
-      naam:
-        type: "string"
-      locatieNaam:
-        type: "string"
-      planstatusInfo:
-        type: "string"
-      besluitnummer:
-        type: "string"
-      verwijzingNaarVaststellingsbesluit:
-        type: "string"
-      verwijzingNaarTekstInfo:
-        type: "string"
-      ondergrondInfo:
-        type: "string"
-      verwijzingNaarExternPlanInfo:
-        type: "string"
-      verwijzingNorm:
-        type: "string"
-      geometrie:
-        $ref: "#/definitions/GeoJSON"
-  Error:
-    type: "object"
-    required:
-    - "detail"
-    - "instance"
-    - "status"
-    - "title"
-    - "type"
-    properties:
-      type:
-        type: "string"
-      title:
-        type: "string"
-      status:
-        type: "integer"
-        enum:
-        - 400
-        - 401
-        - 403
-        - 404
-        - 405
-        - 406
-        - 409
-        - 410
-        - 429
-        - 500
-        - 503
-        example: 404
-      detail:
-        type: "string"
-      instance:
-        type: "string"
-  Bestemmingsvlak:
-    type: "object"
-    required:
-    - "_links"
-    - "type"
-    properties:
-      _links:
-        required:
-        - "self"
-        type: "object"
-        properties:
-          self:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-          bestemmingsplangebied:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden/759"
-          teksten:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken/94/teksten"
-          bouwvlakken:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-          functieaanduidingen:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-          bouwaanduidingen:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-          maatvoeringen:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-          gebiedsaanduidingen:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-          figuren:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-      id:
-        type: "string"
-        example: "94"
-      type:
-        type: "string"
-        enum:
-        - "enkelbestemming"
-        - "dubbelbestemming"
-        example: "enkelbestemming"
-      dossier:
-        type: "string"
-      naam:
-        type: "string"
-      bestemmingshoofdgroep:
-        type: "string"
-      artikelnummer:
-        type: "string"
-      verwijzingNaarTekstInfo:
-        type: "string"
-      labelInfo:
-        type: "string"
-      geometrie:
-        $ref: "#/definitions/GeoJSON"
-  Tekst:
-    type: "object"
-    required:
-    - "label"
-    - "plain"
-    properties:
-      label:
-        type: "string"
-      plain:
-        type: "string"
-      html:
-        type: "string"
-      _links:
-        type: "object"
-        properties:
-          self:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-  Bouwvlak:
-    type: "object"
-    properties:
-      id:
-        type: "string"
-      geometrie:
-        $ref: "#/definitions/GeoJSON"
-  Functieaanduiding:
-    type: "object"
-    properties:
-      id:
-        type: "string"
-      labelInfo:
-        type: "string"
-      verwijzingNaarTekstInfo:
-        type: "string"
-      geometrie:
-        $ref: "#/definitions/GeoJSON"
-  Bouwaanduiding:
-    type: "object"
-    properties:
-      id:
-        type: "string"
-      labelInfo:
-        type: "string"
-      verwijzingNaarTekstInfo:
-        type: "string"
-      geometrie:
-        $ref: "#/definitions/GeoJSON"
-  Maatvoering:
-    type: "object"
-    properties:
-      id:
-        type: "string"
-      symboolInfo:
-        type: "string"
-      maatvoeringInfo:
-        type: "string"
-      verwijzingNaarTekstInfo:
-        type: "string"
-      geometrie:
-        $ref: "#/definitions/GeoJSON"
-  Gebiedsaanduiding:
-    type: "object"
-    properties:
-      id:
-        type: "string"
-      gebiedsaanduidinggroep:
-        type: "string"
-      artikelnummer:
-        type: "string"
-      verwijzingNaarTekstInfo:
-        type: "string"
-      labelInfo:
-        type: "string"
-      geometrie:
-        $ref: "#/definitions/GeoJSON"
-  Figuur:
-    type: "object"
-    properties:
-      id:
-        type: "string"
-      verwijzingNaarIllustratieInfo:
-        type: "string"
-      labelInfo:
-        type: "string"
-      verwijzingNaarTekstInfo:
-        type: "string"
-      geometrie:
-        $ref: "#/definitions/GeoJSON"
