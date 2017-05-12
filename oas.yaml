@@ -1268,7 +1268,7 @@ definitions:
         example: "Enkelbestemming Bedrijventerrein"
       bestemmingshoofdgroep:
         type: "string"
-        example: "TODO"
+        example: "Overig"
       artikelnummer:
         type: "string"
         example: "TODO"
