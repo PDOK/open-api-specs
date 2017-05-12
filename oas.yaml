@@ -1036,6 +1036,7 @@ paths:
                             title:
                               type: "string"
                               description: "Regel 257"
+                              example: "TODO"
               _links:
                 required:
                 - "self"
@@ -1048,11 +1049,13 @@ paths:
                     properties:
                       href:
                         type: "string"
+                        example: "TODO"
                   next:
                     type: "object"
                     properties:
                       href:
                         type: "string"
+                        example: "TODO"
         401:
           description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
             \ header meegestuurd."
