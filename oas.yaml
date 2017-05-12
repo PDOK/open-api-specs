@@ -1262,7 +1262,7 @@ definitions:
         example: "enkelbestemming"
       dossier:
         type: "string"
-        example: "TODO"
+        example: "dossier NL.IMRO.0268.BPa10500"
       naam:
         type: "string"
         example: "Enkelbestemming Bedrijventerrein"
@@ -1475,6 +1475,7 @@ definitions:
             properties:
               href:
                 type: "string"
+                example: "TODO"
           bestemmingsvlakken:
             type: "object"
             properties:
@@ -1512,7 +1513,7 @@ definitions:
         example: "TODO"
       verwijzingNaarVaststellingsbesluit:
         type: "string"
-        example: "TODO"
+        example: "http://www.ruimtelijkeplannen.nl/documents/NL.IMRO.0268.BPa10500-VG01/vb_NL.IMRO.0268.BPa10500-VG01.pdf"
       verwijzingNaarTekstInfo:
         type: "string"
         example: "TODO"
