@@ -1137,7 +1137,7 @@ definitions:
     properties:
       id:
         type: "string"
-        example: "TODO"
+        example: "NL.IMRO.6ba21d351eda49a9808e79b3617f4dcf"
       verwijzingNaarIllustratieInfo:
         type: "string"
         example: "TODO"
@@ -1350,7 +1350,7 @@ definitions:
     properties:
       id:
         type: "string"
-        example: "TODO"
+        example: "NL.IMRO.3e542fd876e84c3db419b4e2d3f11089"
       labelInfo:
         type: "string"
         example: "TODO"
@@ -1416,10 +1416,10 @@ definitions:
     properties:
       id:
         type: "string"
-        example: "TODO"
+        example: "NL.IMRO.c233eb4c242c4d01bb41f41b983b1e95"
       symboolInfo:
         type: "string"
-        example: "TODO"
+        example: "s130h"
       maatvoeringInfo:
         type: "string"
         example: "Maximum bouwhoogte (m): 18"
