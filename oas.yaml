@@ -1134,12 +1134,16 @@ definitions:
     properties:
       id:
         type: "string"
+        example: "TODO"
       verwijzingNaarIllustratieInfo:
         type: "string"
+        example: "TODO"
       labelInfo:
         type: "string"
+        example: "TODO"
       verwijzingNaarTekstInfo:
         type: "string"
+        example: "TODO"
       geometrie:
         $ref: "#/definitions/GeoJSON"
       _links:
@@ -1255,17 +1259,22 @@ definitions:
         example: "enkelbestemming"
       dossier:
         type: "string"
+        example: "TODO"
       naam:
         type: "string"
         example: "Enkelbestemming Bedrijventerrein"
       bestemmingshoofdgroep:
         type: "string"
+        example: "TODO"
       artikelnummer:
         type: "string"
+        example: "TODO"
       verwijzingNaarTekstInfo:
         type: "string"
+        example: "TODO"
       labelInfo:
         type: "string"
+        example: "TODO"
       geometrie:
         $ref: "#/definitions/GeoJSON"
   Tekst:
@@ -1277,10 +1286,13 @@ definitions:
     properties:
       label:
         type: "string"
+        example: "TODO"
       plain:
         type: "string"
+        example: "TODO"
       html:
         type: "string"
+        example: "TODO"
       _links:
         required:
         - "self"
@@ -1313,10 +1325,13 @@ definitions:
     properties:
       id:
         type: "string"
+        example: "TODO"
       labelInfo:
         type: "string"
+        example: "TODO"
       verwijzingNaarTekstInfo:
         type: "string"
+        example: "TODO"
       geometrie:
         $ref: "#/definitions/GeoJSON"
   Bouwvlak:
@@ -1324,6 +1339,7 @@ definitions:
     properties:
       id:
         type: "string"
+        example: "TODO"
       geometrie:
         $ref: "#/definitions/GeoJSON"
   Functieaanduiding:
@@ -1331,10 +1347,13 @@ definitions:
     properties:
       id:
         type: "string"
+        example: "TODO"
       labelInfo:
         type: "string"
+        example: "TODO"
       verwijzingNaarTekstInfo:
         type: "string"
+        example: "TODO"
       geometrie:
         $ref: "#/definitions/GeoJSON"
   Gebiedsaanduiding:
@@ -1344,6 +1363,7 @@ definitions:
     properties:
       id:
         type: "string"
+        example: "TODO"
       gebiedsaanduidinggroep:
         type: "string"
         example: "overige zone"
@@ -1393,13 +1413,16 @@ definitions:
     properties:
       id:
         type: "string"
+        example: "TODO"
       symboolInfo:
         type: "string"
+        example: "TODO"
       maatvoeringInfo:
         type: "string"
         example: "Maximum bouwhoogte (m): 18"
       verwijzingNaarTekstInfo:
         type: "string"
+        example: "TODO"
       geometrie:
         $ref: "#/definitions/GeoJSON"
   SearchResult:
@@ -1465,29 +1488,37 @@ definitions:
         example: "bestemmingsplan"
       beleidsmatigVerantwoordelijkeOverheid:
         type: "string"
+        example: "TODO"
       naamOverheid:
         type: "string"
         example: "gemeente Nijmegen"
       overheidsCode:
         type: "string"
+        example: "TODO"
       naam:
         type: "string"
         example: "Nijmegen Westkanaaldijk 2016"
       locatieNaam:
         type: "string"
+        example: "TODO"
       planstatusInfo:
         type: "string"
         example: "vastgesteld 2016-11-16"
       besluitnummer:
         type: "string"
+        example: "TODO"
       verwijzingNaarVaststellingsbesluit:
         type: "string"
+        example: "TODO"
       verwijzingNaarTekstInfo:
         type: "string"
+        example: "TODO"
       verwijzingNaarExternPlanInfo:
         type: "string"
+        example: "TODO"
       verwijzingNorm:
         type: "string"
+        example: "TODO"
       geometrie:
         $ref: "#/definitions/GeoJSON"
   GeoJSON:
