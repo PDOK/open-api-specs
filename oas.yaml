@@ -1036,6 +1036,7 @@ paths:
                             title:
                               type: "string"
                               description: "Regel 257"
+                              example: "TODO"
               _links:
                 required:
                 - "self"
@@ -1048,11 +1049,13 @@ paths:
                     properties:
                       href:
                         type: "string"
+                        example: "TODO"
                   next:
                     type: "object"
                     properties:
                       href:
                         type: "string"
+                        example: "TODO"
         401:
           description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
             \ header meegestuurd."
@@ -1134,12 +1137,16 @@ definitions:
     properties:
       id:
         type: "string"
+        example: "NL.IMRO.6ba21d351eda49a9808e79b3617f4dcf"
       verwijzingNaarIllustratieInfo:
         type: "string"
+        example: "TODO"
       labelInfo:
         type: "string"
+        example: "TODO"
       verwijzingNaarTekstInfo:
         type: "string"
+        example: "TODO"
       geometrie:
         $ref: "#/definitions/GeoJSON"
       _links:
@@ -1255,17 +1262,22 @@ definitions:
         example: "enkelbestemming"
       dossier:
         type: "string"
+        example: "dossier NL.IMRO.0268.BPa10500"
       naam:
         type: "string"
         example: "Enkelbestemming Bedrijventerrein"
       bestemmingshoofdgroep:
         type: "string"
+        example: "Overig"
       artikelnummer:
         type: "string"
+        example: "TODO"
       verwijzingNaarTekstInfo:
         type: "string"
+        example: "TODO"
       labelInfo:
         type: "string"
+        example: "TODO"
       geometrie:
         $ref: "#/definitions/GeoJSON"
   Tekst:
@@ -1277,10 +1289,13 @@ definitions:
     properties:
       label:
         type: "string"
+        example: "TODO"
       plain:
         type: "string"
+        example: "TODO"
       html:
         type: "string"
+        example: "TODO"
       _links:
         required:
         - "self"
@@ -1313,10 +1328,13 @@ definitions:
     properties:
       id:
         type: "string"
+        example: "TODO"
       labelInfo:
         type: "string"
+        example: "TODO"
       verwijzingNaarTekstInfo:
         type: "string"
+        example: "TODO"
       geometrie:
         $ref: "#/definitions/GeoJSON"
   Bouwvlak:
@@ -1324,6 +1342,7 @@ definitions:
     properties:
       id:
         type: "string"
+        example: "TODO"
       geometrie:
         $ref: "#/definitions/GeoJSON"
   Functieaanduiding:
@@ -1331,10 +1350,13 @@ definitions:
     properties:
       id:
         type: "string"
+        example: "NL.IMRO.3e542fd876e84c3db419b4e2d3f11089"
       labelInfo:
         type: "string"
+        example: "TODO"
       verwijzingNaarTekstInfo:
         type: "string"
+        example: "TODO"
       geometrie:
         $ref: "#/definitions/GeoJSON"
   Gebiedsaanduiding:
@@ -1344,6 +1366,7 @@ definitions:
     properties:
       id:
         type: "string"
+        example: "TODO"
       gebiedsaanduidinggroep:
         type: "string"
         example: "overige zone"
@@ -1393,13 +1416,16 @@ definitions:
     properties:
       id:
         type: "string"
+        example: "NL.IMRO.c233eb4c242c4d01bb41f41b983b1e95"
       symboolInfo:
         type: "string"
+        example: "s130h"
       maatvoeringInfo:
         type: "string"
         example: "Maximum bouwhoogte (m): 18"
       verwijzingNaarTekstInfo:
         type: "string"
+        example: "TODO"
       geometrie:
         $ref: "#/definitions/GeoJSON"
   SearchResult:
@@ -1449,6 +1475,7 @@ definitions:
             properties:
               href:
                 type: "string"
+                example: "TODO"
           bestemmingsvlakken:
             type: "object"
             properties:
@@ -1465,29 +1492,37 @@ definitions:
         example: "bestemmingsplan"
       beleidsmatigVerantwoordelijkeOverheid:
         type: "string"
+        example: "TODO"
       naamOverheid:
         type: "string"
         example: "gemeente Nijmegen"
       overheidsCode:
         type: "string"
+        example: "TODO"
       naam:
         type: "string"
         example: "Nijmegen Westkanaaldijk 2016"
       locatieNaam:
         type: "string"
+        example: "TODO"
       planstatusInfo:
         type: "string"
         example: "vastgesteld 2016-11-16"
       besluitnummer:
         type: "string"
+        example: "TODO"
       verwijzingNaarVaststellingsbesluit:
         type: "string"
+        example: "http://www.ruimtelijkeplannen.nl/documents/NL.IMRO.0268.BPa10500-VG01/vb_NL.IMRO.0268.BPa10500-VG01.pdf"
       verwijzingNaarTekstInfo:
         type: "string"
+        example: "TODO"
       verwijzingNaarExternPlanInfo:
         type: "string"
+        example: "TODO"
       verwijzingNorm:
         type: "string"
+        example: "TODO"
       geometrie:
         $ref: "#/definitions/GeoJSON"
   GeoJSON:
