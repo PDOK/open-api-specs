@@ -1174,7 +1174,7 @@ definitions:
         example: "TODO"
       geometrie:
         $ref: "#/definitions/GeoJSON"
-Tekst:
+  Tekst:
     type: "object"
     required:
     - "_links"
