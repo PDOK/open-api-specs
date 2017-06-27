@@ -276,59 +276,6 @@ paths:
       in: "path"
       required: true
       type: "string"
-  /bestemmingsplangebieden/{id}:
-    get:
-      tags:
-      - "Bestemmingsplangebieden"
-      summary: "bestemmingsplangebied teksten"
-      parameters: []
-      responses:
-        200:
-          description: "Status 200"
-          schema:
-            type: "object"
-            properties:
-              _embedded:
-                type: "object"
-                properties:
-                  teksten:
-                    $ref: "#/definitions/Tekst"
-        401:
-          description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
-            \ header meegestuurd."
-          schema:
-            $ref: "#/definitions/Error"
-        403:
-          description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
-          schema:
-            $ref: "#/definitions/Error"
-        404:
-          description: "Status 404"
-          schema:
-            $ref: "#/definitions/Error"
-        406:
-          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
-            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
-            \ kan momenteel alleen `application/hal+json` terugsturen."
-          schema:
-            $ref: "#/definitions/Error"
-        503:
-          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
-            \ of een storing plaats."
-          schema:
-            $ref: "#/definitions/Error"
-          headers:
-            Retry-After:
-              type: "string"
-              format: "date-time"
-              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
-                \ zal zijn."
-              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
-    parameters:
-    - name: "id"
-      in: "path"
-      required: true
-      type: "string"
   /bestemmingsvlakken:
     get:
       tags:
@@ -433,59 +380,6 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Bestemmingsvlak"
-        401:
-          description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
-            \ header meegestuurd."
-          schema:
-            $ref: "#/definitions/Error"
-        403:
-          description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
-          schema:
-            $ref: "#/definitions/Error"
-        404:
-          description: "Status 404"
-          schema:
-            $ref: "#/definitions/Error"
-        406:
-          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
-            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
-            \ kan momenteel alleen `application/hal+json` terugsturen."
-          schema:
-            $ref: "#/definitions/Error"
-        503:
-          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
-            \ of een storing plaats."
-          schema:
-            $ref: "#/definitions/Error"
-          headers:
-            Retry-After:
-              type: "string"
-              format: "date-time"
-              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
-                \ zal zijn."
-              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
-    parameters:
-    - name: "id"
-      in: "path"
-      required: true
-      type: "string"
-  /bestemmingsvlakken/{id}:
-    get:
-      tags:
-      - "Bestemmingsvlakken"
-      summary: "bestemmingsvlak teksten"
-      parameters: []
-      responses:
-        200:
-          description: "Status 200"
-          schema:
-            type: "object"
-            properties:
-              _embedded:
-                type: "object"
-                properties:
-                  teksten:
-                    $ref: "#/definitions/Tekst"
         401:
           description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
             \ header meegestuurd."
