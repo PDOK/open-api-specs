@@ -55,7 +55,7 @@ paths:
         schema:
           type: "object"
           properties:
-            geometry:
+            _geo:
               type: "object"
               properties:
                 contains:
@@ -276,7 +276,7 @@ paths:
       in: "path"
       required: true
       type: "string"
-  /bestemmingsplangebieden/{id}/teksten:
+  /bestemmingsplangebieden/{id}:
     get:
       tags:
       - "Bestemmingsplangebieden"
@@ -469,7 +469,7 @@ paths:
       in: "path"
       required: true
       type: "string"
-  /bestemmingsvlakken/{id}/teksten:
+  /bestemmingsvlakken/{id}:
     get:
       tags:
       - "Bestemmingsvlakken"
@@ -1280,22 +1280,18 @@ definitions:
         example: "TODO"
       geometrie:
         $ref: "#/definitions/GeoJSON"
-  Tekst:
+Tekst:
     type: "object"
     required:
     - "_links"
-    - "label"
-    - "plain"
+    - "tekst"
+    - "titel"
     properties:
-      label:
+      titel:
         type: "string"
-        example: "TODO"
-      plain:
+        example: "1.0: Hoofdstuk 1"
+      tekst:
         type: "string"
-        example: "TODO"
-      html:
-        type: "string"
-        example: "TODO"
       _links:
         required:
         - "self"
@@ -1304,11 +1300,15 @@ definitions:
           self:
             required:
             - "href"
+            - "title"
             type: "object"
             properties:
               href:
                 type: "string"
                 example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten/429"
+              title:
+                type: "string"
+                example: "1.0: Hoofdstuk 1"
           bestemmingsvlakken:
             required:
             - "href"
@@ -1323,6 +1323,28 @@ definitions:
               href:
                 type: "string"
                 example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken/234/bouwaanduidingen"
+          children:
+            type: "array"
+            items:
+              required:
+              - "href"
+              type: "object"
+              properties:
+                href:
+                  type: "string"
+                  example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten/430"
+                title:
+                  type: "string"
+                  example: "1.1: Hoofstuk 1, paragraaf 1"
+          parent:
+            type: "object"
+            properties:
+              href:
+                type: "string"
+                description: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten/429"
+              title:
+                type: "string"
+                example: "1.0: Hoofdstuk 1"
   Bouwaanduiding:
     type: "object"
     properties:
