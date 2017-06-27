@@ -1235,7 +1235,7 @@ definitions:
             properties:
               href:
                 type: "string"
-                description: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten/429"
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten/429"
               title:
                 type: "string"
                 example: "1.0: Hoofdstuk 1"
