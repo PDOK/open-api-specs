@@ -139,7 +139,7 @@ paths:
     get:
       tags:
       - "Bestemmingsplangebieden"
-      summary: "bestemmingslpangebieden collectie"
+      summary: "bestemmingsplangebieden collectie"
       produces:
       - "application/hal+json"
       - "application/problem+json"
