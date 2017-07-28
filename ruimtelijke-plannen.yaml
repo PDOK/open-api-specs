@@ -56,7 +56,7 @@ paths:
             _geo:
               type: "object"
               properties:
-                contains:
+                intersects:
                   $ref: "#/definitions/GeoJSON"
       responses:
         200:
@@ -697,36 +697,16 @@ paths:
         required: false
         type: "string"
         description: "Filteren op bestemmingsvlak"
-      - name: "gebiedsaanduiding"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op gebiedsaanduiding"
-      - name: "maatvoering"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op maatvoering"
-      - name: "bouwaanduiding"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bouwaanduiding"
-      - name: "figuur"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op figuur"
-      - name: "bouwvlak"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bouwvlak"
       - name: "tekst"
         in: "query"
         required: false
         type: "string"
         description: "Filteren op tekst"
+      - name: "gebiedsaanduiding"
+        in: "query"
+        required: false
+        type: "string"
+        description: "Filteren op gebiedsaanduiding"
       responses:
         200:
           description: "Status 200"
@@ -878,6 +858,11 @@ paths:
         required: false
         type: "string"
         description: "Filteren op bestemmingsvlak"
+      - name: "tekst"
+        in: "query"
+        required: false
+        type: "string"
+        description: "Filteren op tekst"
       - name: "functieaanduiding"
         in: "query"
         required: false
@@ -898,16 +883,6 @@ paths:
         required: false
         type: "string"
         description: "Filteren op figuur"
-      - name: "bouwvlak"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bouwvlak"
-      - name: "tekst"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op tekst"
       responses:
         200:
           description: "Status 200"
@@ -1059,36 +1034,21 @@ paths:
         required: false
         type: "string"
         description: "Filteren op bestemmingsvlak"
-      - name: "functieaanduiding"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op functieaanduiding"
-      - name: "gebiedsaanduiding"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op gebiedsaanduiding"
-      - name: "bouwaanduiding"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bouwaanduiding"
-      - name: "figuur"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op figuur"
-      - name: "bouwvlak"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bouwvlak"
       - name: "tekst"
         in: "query"
         required: false
         type: "string"
         description: "Filteren op tekst"
+      - name: "gebiedsaanduiding"
+        in: "query"
+        required: false
+        type: "string"
+        description: "Filteren op gebiedsaanduiding"
+      - name: "bouwvlak"
+        in: "query"
+        required: false
+        type: "string"
+        description: "Filteren op bouwvlak"
       responses:
         200:
           description: "Status 200"
@@ -1240,36 +1200,21 @@ paths:
         required: false
         type: "string"
         description: "Filteren op bestemmingsvlak"
-      - name: "functieaanduiding"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op functieaanduiding"
-      - name: "gebiedsaanduiding"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op gebiedsaanduiding"
-      - name: "maatvoering"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op maatvoering"
-      - name: "figuur"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op figuur"
-      - name: "bouwvlak"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bouwvlak"
       - name: "tekst"
         in: "query"
         required: false
         type: "string"
         description: "Filteren op tekst"
+      - name: "gebiedsaanduiding"
+        in: "query"
+        required: false
+        type: "string"
+        description: "Filteren op gebiedsaanduiding"
+      - name: "bouwvlak"
+        in: "query"
+        required: false
+        type: "string"
+        description: "Filteren op bouwvlak"
       responses:
         200:
           description: "Status 200"
@@ -1412,36 +1357,21 @@ paths:
         required: false
         type: "string"
         description: "Filteren op bestemmingsvlak"
-      - name: "functieaanduiding"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op functieaanduiding"
-      - name: "gebiedsaanduiding"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op gebiedsaanduiding"
-      - name: "maatvoering"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op maatvoering"
-      - name: "bouwaanduiding"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bouwaanduiding"
-      - name: "bouwvlak"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bouwvlak"
       - name: "tekst"
         in: "query"
         required: false
         type: "string"
         description: "Filteren op tekst"
+      - name: "gebiedsaanduiding"
+        in: "query"
+        required: false
+        type: "string"
+        description: "Filteren op gebiedsaanduiding"
+      - name: "bouwvlak"
+        in: "query"
+        required: false
+        type: "string"
+        description: "Filteren op bouwvlak"
       responses:
         200:
           description: "Status 200"
@@ -1593,16 +1523,11 @@ paths:
         required: false
         type: "string"
         description: "Filteren op bestemmingsvlak"
-      - name: "functieaanduiding"
+      - name: "tekst"
         in: "query"
         required: false
         type: "string"
-        description: "Filteren op functieaanduiding"
-      - name: "gebiedsaanduiding"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op gebiedsaanduiding"
+        description: "Filteren op tekst"
       - name: "maatvoering"
         in: "query"
         required: false
@@ -1618,11 +1543,6 @@ paths:
         required: false
         type: "string"
         description: "Filteren op figuur"
-      - name: "tekst"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op tekst"
       responses:
         200:
           description: "Status 200"
@@ -2103,6 +2023,12 @@ definitions:
               href:
                 type: "string"
                 example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/functieaanduidingen/94"
+          teksten:
+            type: "object"
+            properties:
+              href:
+                type: "string"
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?functieaanduiding=94"                
           bestemmingsplangebieden:
             type: "object"
             properties:
@@ -2121,36 +2047,12 @@ definitions:
               href:
                 type: "string"
                 example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/gebiedsaanduidingen?functieaanduiding=94"
-          maatvoeringen:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/maatvoeringen?functieaanduiding=94"
-          bouwaanduidingen:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwaanduidingen?functieaanduiding=94"
           figuren:
             type: "object"
             properties:
               href:
                 type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren?functieaanduiding=94"          
-          bouwvlakken:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwvlakken?functieaanduiding=94"
-          teksten:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?functieaanduiding=94"
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren?functieaanduiding=94"
       id:
         type: "string"
         example: "NL.IMRO.3e542fd876e84c3db419b4e2d3f11089"
@@ -2201,6 +2103,12 @@ definitions:
               href:
                 type: "string"
                 example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken?gebiedsaanduiding=94"
+          teksten:
+            type: "object"
+            properties:
+              href:
+                type: "string"
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?gebiedsaanduiding=94"                
           functieaanduidingen:
             type: "object"
             properties:
@@ -2225,18 +2133,6 @@ definitions:
               href:
                 type: "string"
                 example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren?gebiedsaanduiding=94"          
-          bouwvlakken:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwvlakken?gebiedsaanduiding=94"
-          teksten:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?gebiedsaanduiding=94"
   Maatvoering:
     type: "object"
     properties:
@@ -2274,42 +2170,24 @@ definitions:
               href:
                 type: "string"
                 example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken?maatvoering=94"
-          functieaanduidingen:
+          teksten:
             type: "object"
             properties:
               href:
                 type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/functieaanduidingen?maatvoering=94"
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?maatvoering=94"                
           gebiedsaanduidingen:
             type: "object"
             properties:
               href:
                 type: "string"
                 example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/gebiedsaanduidingen?maatvoering=94"
-          bouwaanduidingen:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwaanduidingen?maatvoering=94"
-          figuren:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren?maatvoering=94"          
           bouwvlakken:
             type: "object"
             properties:
               href:
                 type: "string"
                 example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwvlakken?maatvoering=94"
-          teksten:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?maatvoering=94"
   Bouwaanduiding:
     type: "object"
     properties:
@@ -2344,42 +2222,24 @@ definitions:
               href:
                 type: "string"
                 example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken?bouwaanduiding=94"
-          functieaanduidingen:
+          teksten:
             type: "object"
             properties:
               href:
                 type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/functieaanduidingen?bouwaanduiding=94"
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?bouwaanduiding=94"                
           gebiedsaanduidingen:
             type: "object"
             properties:
               href:
                 type: "string"
                 example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/gebiedsaanduidingen?bouwaanduiding=94"
-          maatvoeringen:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/maatvoeringen?bouwaanduiding=94"
-          figuren:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren?bouwaanduiding=94"          
           bouwvlakken:
             type: "object"
             properties:
               href:
                 type: "string"
                 example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwvlakken?bouwaanduiding=94"
-          teksten:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?bouwaanduiding=94"
   Figuur:
     type: "object"
     required:
@@ -2416,42 +2276,24 @@ definitions:
               href:
                 type: "string"
                 example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken?figuur=94"
-          functieaanduidingen:
+          teksten:
             type: "object"
             properties:
               href:
                 type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/functieaanduidingen?figuur=94"
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?figuur=94"                
           gebiedsaanduidingen:
             type: "object"
             properties:
               href:
                 type: "string"
                 example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/gebiedsaanduidingen?figuur=94"
-          maatvoeringen:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/maatvoeringen?figuur=94"
-          bouwaanduidingen:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwaanduidingen?figuur=94"     
           bouwvlakken:
             type: "object"
             properties:
               href:
                 type: "string"
                 example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwvlakken?figuur=94"
-          teksten:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?figuur=94"
   Bouwvlak:
     type: "object"
     properties:
@@ -2483,18 +2325,12 @@ definitions:
               href:
                 type: "string"
                 example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken?bouwvlak=94"
-          functieaanduidingen:
+          teksten:
             type: "object"
             properties:
               href:
                 type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/functieaanduidingen?bouwvlak=94"
-          gebiedsaanduidingen:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/gebiedsaanduidingen?bouwvlak=94"
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?bouwvlak=94"                   
           maatvoeringen:
             type: "object"
             properties:
@@ -2512,13 +2348,7 @@ definitions:
             properties:
               href:
                 type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren?bouwvlak=94"
-          teksten:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?bouwvlak=94"        
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren?bouwvlak=94"     
   GeoJSON:
     type: "object"
     required:
@@ -2534,13 +2364,28 @@ definitions:
         - "MultiPoint"
         - "MultiLineString"
         - "MultiPolygon"
-        example: "Point"
+        example: "Polygon"
       coordinates:
-        type: "array"
-        items:
-          type: "number"
-          format: "float"
-        example: "5.9623762, 52.2118093"
+        example: [
+          [
+            [
+              5.858910083770752,
+              51.84376540294041
+            ],
+            [
+              5.85968255996704,
+              51.84259879644993
+            ],
+            [
+              5.860852003097533,
+              51.84413658957469
+            ],
+            [
+              5.858910083770752,
+              51.84376540294041
+            ]
+          ]
+        ]
   Error:
     type: "object"
     required:
