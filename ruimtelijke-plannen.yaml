@@ -1950,19 +1950,25 @@ definitions:
         - "wijzigingsplan"
         example: "bestemmingsplan"
       beleidsmatigVerantwoordelijkeOverheid:
-        type: "string"
-        enum:
-        - "gemeentelijke overheid"
-        - "deelgemeente/stadsdeel"
-        - "provinciale overheid"
-        - "nationale overheid"
-        example: "gemeentelijke overheid"
-      naamOverheid:
-        type: "string"
-        example: "gemeente Nijmegen"
-      overheidsCode:
-        type: "string"
-        example: "TODO"
+        type: object
+        properties:
+          type:
+            type: "string"
+            enum:
+            - "gemeentelijke overheid"
+            - "deelgemeente/stadsdeel"
+            - "provinciale overheid"
+            - "nationale overheid"
+            example: "gemeentelijke overheid"
+          code:
+            type: "string"
+            description: "CBS-code van de beleidsmatig verantwoordelijke overheid. Altijd 4 cijfers, indien nodig aangevuld met voorloopnullen."         
+            example: "0000"
+          naam:
+            type: "array"
+            items:
+              type: "string"
+              example: "gemeente Nijmegen"
       naam:
         type: "string"
         example: "Nijmegen Westkanaaldijk 2016"
@@ -1970,8 +1976,21 @@ definitions:
         type: "string"
         example: "TODO"
       planstatusInfo:
-        type: "string"
-        example: "vastgesteld 2016-11-16"
+        type: "object"
+        properties:
+          planstatus:
+            type: "string"
+            enum:
+            - "concept"
+            - "voorontwerp"
+            - "ontwerp"
+            - "vastgesteld"    
+            - "geconsolideerd"            
+            example: "vastgesteld"
+          datum:
+            type: "string"
+            example: "2016-11-16"
+            format: "date"
       besluitnummer:
         type: "string"
         example: "TODO"
@@ -1979,8 +1998,10 @@ definitions:
         type: "string"
         example: "http://www.ruimtelijkeplannen.nl/documents/NL.IMRO.0268.BPa10500-VG01/vb_NL.IMRO.0268.BPa10500-VG01.pdf"
       verwijzingNorm:
-        type: "string"
-        example: "IMRO2012, IMRO2008, ETC."
+        type: "array"
+        items:
+          type: "string"
+          example: "IMRO2012"
       geometrie:
         $ref: "#/definitions/GeoJSON"
   Tekst:
@@ -2531,6 +2552,7 @@ definitions:
         - "MultiPolygon"
         example: "Polygon"
       coordinates:
+        description: "Array met coördinaten behorende bij dit GeoJSON object. De structuur van de array hangt af van het `type`."
         example: [
           [
             [
