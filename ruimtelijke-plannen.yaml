@@ -193,6 +193,23 @@ paths:
         required: false
         type: "string"
         description: "Filteren op tekst"
+      - name: "type"
+        in: "query"
+        required: false
+        type: "string"
+        description: "Filteren op type plan"
+        enum:
+        - "bestemmingsplan"
+      - name: "beleidsmatigVerantwoordelijkeOverheid"
+        in: "query"
+        required: false
+        type: "string"
+        description: "Filteren op beleidsmatigVerantwoordelijkeOverheid"
+        enum:
+        - "gemeentelijke overheid"
+        - "deelgemeente/stadsdeel"
+        - "provinciale overheid"
+        - "nationale overheid"    
       responses:
         200:
           description: "Status 200"
@@ -1791,7 +1808,12 @@ definitions:
         example: "bestemmingsplan"
       beleidsmatigVerantwoordelijkeOverheid:
         type: "string"
-        example: "TODO"
+        enum:
+        - "gemeentelijke overheid"
+        - "deelgemeente/stadsdeel"
+        - "provinciale overheid"
+        - "nationale overheid"
+        example: "gemeentelijke overheid"
       naamOverheid:
         type: "string"
         example: "gemeente Nijmegen"
