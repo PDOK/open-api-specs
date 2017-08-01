@@ -200,6 +200,7 @@ paths:
         description: "Filteren op type plan"
         enum:
         - "bestemmingsplan"
+        default: "bestemmingsplan"
       - name: "beleidsmatigVerantwoordelijkeOverheid"
         in: "query"
         required: false
@@ -210,6 +211,17 @@ paths:
         - "deelgemeente/stadsdeel"
         - "provinciale overheid"
         - "nationale overheid"    
+      - name: "status"
+        in: "query"
+        required: false
+        type: "string"
+        description: "Filteren op status van een plan"
+        enum:
+        - "concept"
+        - "voorontwerp"
+        - "ontwerp"
+        - "vastgesteld"    
+        - "geconsolideerd"
       responses:
         200:
           description: "Status 200"
