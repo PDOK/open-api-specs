@@ -49,7 +49,7 @@ paths:
         - "epsg:28992"
       - name: "body"
         in: "body"
-        required: true
+        required: false
         schema:
           type: "object"
           properties:
@@ -205,7 +205,7 @@ paths:
         in: "query"
         required: false
         type: "string"
-        description: "Filteren op beleidsmatigVerantwoordelijkeOverheid"
+        description: "Filteren op beleidsmatig verantwoordelijke overheid"
         enum:
         - "gemeentelijke overheid"
         - "deelgemeente/stadsdeel"
@@ -295,6 +295,137 @@ paths:
               description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
                 \ zal zijn."
               x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
+  /bestemmingsplangebieden/_zoek:
+    post:
+      tags:
+      - "Bestemmingsplangebieden"
+      summary: "Zoeken binnen bestemmingsplangebieden"
+      produces:
+      - "application/hal+json"
+      - "application/problem+json"
+      parameters:
+      - name: "Accept-Crs"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Gewenste CRS van de coördinaten in de response"
+        default: "epsg:4326"
+        enum:
+        - "epsg:4326"
+        - "epsg:28992"
+      - name: "type"
+        in: "query"
+        required: false
+        type: "string"
+        description: "Filteren op type plan"
+        enum:
+        - "bestemmingsplan"
+        default: "bestemmingsplan"
+      - name: "beleidsmatigVerantwoordelijkeOverheid"
+        in: "query"
+        required: false
+        type: "string"
+        description: "Filteren op beleidsmatig verantwoordelijke overheid"
+        enum:
+        - "gemeentelijke overheid"
+        - "deelgemeente/stadsdeel"
+        - "provinciale overheid"
+        - "nationale overheid"    
+      - name: "status"
+        in: "query"
+        required: false
+        type: "string"
+        description: "Filteren op status van een plan"
+        enum:
+        - "concept"
+        - "voorontwerp"
+        - "ontwerp"
+        - "vastgesteld"    
+        - "geconsolideerd"
+      - name: "body"
+        in: "body"
+        required: false
+        schema:
+          type: "object"
+          properties:
+            _geo:
+              type: "object"
+              properties:
+                intersects:
+                  $ref: "#/definitions/GeoJSON"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            required:
+            - "_embedded"
+            - "_links"
+            type: "object"
+            properties:
+              _embedded:
+                required:
+                - "bestemmingsplangebieden"
+                type: "object"
+                properties:
+                  bestemmingsplangebieden:
+                    type: "array"
+                    items:
+                      $ref: "#/definitions/Bestemmingsplangebied"
+              _links:
+                required:
+                - "self"
+                type: "object"
+                properties:
+                  self:
+                    required:
+                    - "href"
+                    type: "object"
+                    description: "Absolute link naar huidige pagina"
+                    properties:
+                      href:
+                        type: "string"
+                        example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden"
+                  next:
+                    required:
+                    - "href"
+                    type: "object"
+                    description: "Absolute link naar volgende pagina (niet aanwezig\
+                      \ als er geen volgende pagina is)"
+                    properties:
+                      href:
+                        type: "string"
+                        example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden?page=2"
+          headers:
+            Content-Crs:
+              type: "string"
+              description: "CRS van de teruggegeven geometrieën"
+        401:
+          description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
+            \ header meegestuurd."
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
+          schema:
+            $ref: "#/definitions/Error"
+        406:
+          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
+            \ kan momenteel alleen `application/hal+json` terugsturen."
+          schema:
+            $ref: "#/definitions/Error"
+        503:
+          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
+            \ of een storing plaats."
+          schema:
+            $ref: "#/definitions/Error"
+          headers:
+            Retry-After:
+              type: "string"
+              format: "date-time"
+              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
+                \ zal zijn."
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"              
   /bestemmingsplangebieden/{id}:
     get:
       tags:
