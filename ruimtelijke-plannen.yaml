@@ -201,16 +201,16 @@ paths:
         enum:
         - "bestemmingsplan"
         default: "bestemmingsplan"
-      - name: "beleidsmatigVerantwoordelijkeOverheid"
+      - name: "beleidsmatigVerantwoordelijkeOverheid.type"
         in: "query"
         required: false
         type: "string"
         description: "Filteren op beleidsmatig verantwoordelijke overheid"
         enum:
-        - "gemeentelijke overheid"
-        - "deelgemeente/stadsdeel"
-        - "provinciale overheid"
-        - "nationale overheid"    
+        - "GemeentelijkeOverheid"
+        - "Deelgemeente_Stadsdeel"
+        - "ProvincialeOverheid"
+        - "NationaleOverheid"    
       - name: "status"
         in: "query"
         required: false
