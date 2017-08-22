@@ -1,55 +1,117 @@
----
 swagger: "2.0"
 info:
-  description: "No description"
   version: "1.0.0"
   title: "Ruimtelijke Plannen API"
-  contact:
-    name: "Kadaster"
-    email: "dimitri.vanhees@kadaster.nl"
 host: "data.pdok.nl"
-basePath: "/ruimtelijke-plannen/api/v2"
+basePath: "/rp/api/v1"
 schemes:
 - "https"
 consumes:
-- "application/hal+json"
-- "application/problem+json"
+- "application/json"
 produces:
 - "application/hal+json"
 - "application/problem+json"
+x-ldpath-namespaces:
+  nen3610: http://data.informatiehuisruimte.nl/def/nen3610#
+  skos: http://www.w3.org/2004/02/skos/core#
+  dcterms: http://purl.org/dc/terms/
+  ro: http://data.informatiehuisruimte.nl/def/ro#
+  pdok: http://data.pdok.nl/def/pdok#
+  geo: http://www.opengis.net/ont/geosparql#
+parameters:
+  id:
+    name: id
+    in: path
+    description: Identifier
+    required: true
+    type: string
+  contentCrs:
+    name: "Content-Crs"
+    in: "header"
+    required: false
+    type: "string"
+    description: "CRS van de meegegeven geometrie"
+    default: "epsg:4326"
+    enum:
+    - "epsg:4326"
+    - "epsg:28992"
+  acceptCrs:
+    name: "Accept-Crs"
+    in: "header"
+    required: false
+    type: "string"
+    description: "Gewenste CRS van de coördinaten in de response"
+    default: "epsg:4326"
+    enum:
+    - "epsg:4326"
+    - "epsg:28992"
+  bestemmingsplangebied:
+    name: "bestemmingsplangebied"
+    in: "query"
+    required: false
+    type: "string"
+    description: "Filteren op bestemmingsplangebied"
+  bestemmingsvlak:
+    name: "bestemmingsvlak"
+    in: "query"
+    required: false
+    type: "string"
+    description: "Filteren op bestemmingsvlak"
+  functieaanduiding:
+    name: "functieaanduiding"
+    in: "query"
+    required: false
+    type: "string"
+    description: "Filteren op functieaanduiding"
+  gebiedsaanduiding:
+    name: "gebiedsaanduiding"
+    in: "query"
+    required: false
+    type: "string"
+    description: "Filteren op gebiedsaanduiding"
+  maatvoering:
+    name: "maatvoering"
+    in: "query"
+    required: false
+    type: "string"
+    description: "Filteren op maatvoering"
+  bouwaanduiding:
+    name: "bouwaanduiding"
+    in: "query"
+    required: false
+    type: "string"
+    description: "Filteren op bouwaanduiding"
+  figuur:
+    name: "figuur"
+    in: "query"
+    required: false
+    type: "string"
+    description: "Filteren op figuur"
+  bouwvlak:
+    name: "bouwvlak"
+    in: "query"
+    required: false
+    type: "string"
+    description: "Filteren op bouwvlak"
+  tekst:
+    name: "tekst"
+    in: "query"
+    required: false
+    type: "string"
+    description: "Filteren op tekst"      
 paths:
   /_zoek:
+    x-product: zoek
     post:
       tags:
       - "Globale zoekfunctie"
       summary: "Zoeken in alle collecties op hoofdniveau"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/hal+json"
-      - "application/problem+json"
       parameters:
-      - name: "Content-Crs"
-        in: "header"
-        required: false
-        type: "string"
-        description: "CRS van de meegegeven geometrie"
-        default: "epsg:4326"
-        enum:
-        - "epsg:4326"
-        - "epsg:28992"
-      - name: "Accept-Crs"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Gewenste CRS van de coördinaten in de response"
-        default: "epsg:4326"
-        enum:
-        - "epsg:4326"
-        - "epsg:28992"
+      - $ref: '#/parameters/contentCrs'
+      - $ref: '#/parameters/acceptCrs'
       - name: "body"
         in: "body"
-        required: false
+        required: true
         schema:
           type: "object"
           properties:
@@ -73,6 +135,7 @@ paths:
                 properties:
                   resultaten:
                     type: "array"
+                    x-result-ref: collection
                     items:
                       $ref: "#/definitions/SearchResult"
               _links:
@@ -88,6 +151,8 @@ paths:
                     properties:
                       href:
                         type: "string"
+                        x-relative-link:
+                          pattern: /_zoek
                         example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/_zoek"
                   next:
                     required:
@@ -136,63 +201,21 @@ paths:
                 \ zal zijn."
               x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
   /bestemmingsplangebieden:
+    x-product: bestemmingsplangebied
     get:
       tags:
       - "Bestemmingsplangebieden"
       summary: "bestemmingsplangebieden collectie"
-      produces:
-      - "application/hal+json"
-      - "application/problem+json"
       parameters:
-      - name: "Accept-Crs"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Gewenste CRS van de coördinaten in de response"
-        default: "epsg:4326"
-        enum:
-        - "epsg:4326"
-        - "epsg:28992"
-      - name: "bestemmingsvlak"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bestemmingsvlak"
-      - name: "functieaanduiding"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op functieaanduiding"
-      - name: "gebiedsaanduiding"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op gebiedsaanduiding"
-      - name: "maatvoering"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op maatvoering"
-      - name: "bouwaanduiding"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bouwaanduiding"
-      - name: "figuur"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op figuur"
-      - name: "bouwvlak"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bouwvlak"
-      - name: "tekst"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op tekst"
+      - $ref: '#/parameters/acceptCrs'
+      - $ref: '#/parameters/bestemmingsvlak'
+      - $ref: '#/parameters/functieaanduiding'
+      - $ref: '#/parameters/gebiedsaanduiding'
+      - $ref: '#/parameters/maatvoering'
+      - $ref: '#/parameters/bouwaanduiding'
+      - $ref: '#/parameters/figuur'
+      - $ref: '#/parameters/bouwvlak'
+      - $ref: '#/parameters/tekst'
       - name: "type"
         in: "query"
         required: false
@@ -210,7 +233,7 @@ paths:
         - "GemeentelijkeOverheid"
         - "Deelgemeente_Stadsdeel"
         - "ProvincialeOverheid"
-        - "NationaleOverheid"    
+        - "NationaleOverheid"
       - name: "status"
         in: "query"
         required: false
@@ -220,7 +243,7 @@ paths:
         - "concept"
         - "voorontwerp"
         - "ontwerp"
-        - "vastgesteld"    
+        - "vastgesteld"
         - "geconsolideerd"
       responses:
         200:
@@ -238,6 +261,7 @@ paths:
                 properties:
                   bestemmingsplangebieden:
                     type: "array"
+                    x-result-ref: collection
                     items:
                       $ref: "#/definitions/Bestemmingsplangebied"
               _links:
@@ -254,16 +278,18 @@ paths:
                       href:
                         type: "string"
                         example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden"
-                  next:
-                    required:
-                    - "href"
-                    type: "object"
-                    description: "Absolute link naar volgende pagina (niet aanwezig\
-                      \ als er geen volgende pagina is)"
-                    properties:
-                      href:
-                        type: "string"
-                        example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden?page=2"
+                        x-relative-link:
+                          pattern: /bestemmingsplangebieden
+#                  next:
+#                    required:
+#                    - "href"
+#                    type: "object"
+#                    description: "Absolute link naar volgende pagina (niet aanwezig\
+#                      \ als er geen volgende pagina is)"
+#                    properties:
+#                      href:
+#                        type: "string"
+#                        example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden?page=2"
           headers:
             Content-Crs:
               type: "string"
@@ -300,19 +326,8 @@ paths:
       tags:
       - "Bestemmingsplangebieden"
       summary: "Zoeken binnen bestemmingsplangebieden"
-      produces:
-      - "application/hal+json"
-      - "application/problem+json"
       parameters:
-      - name: "Accept-Crs"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Gewenste CRS van de coördinaten in de response"
-        default: "epsg:4326"
-        enum:
-        - "epsg:4326"
-        - "epsg:28992"
+      - $ref: '#/parameters/acceptCrs'
       - name: "type"
         in: "query"
         required: false
@@ -330,7 +345,7 @@ paths:
         - "GemeentelijkeOverheid"
         - "Deelgemeente_Stadsdeel"
         - "ProvincialeOverheid"
-        - "NationaleOverheid"   
+        - "NationaleOverheid"
       - name: "status"
         in: "query"
         required: false
@@ -340,7 +355,7 @@ paths:
         - "concept"
         - "voorontwerp"
         - "ontwerp"
-        - "vastgesteld"    
+        - "vastgesteld"
         - "geconsolideerd"
       - name: "body"
         in: "body"
@@ -369,6 +384,7 @@ paths:
                 properties:
                   bestemmingsplangebieden:
                     type: "array"
+                    x-result-ref: collection
                     items:
                       $ref: "#/definitions/Bestemmingsplangebied"
               _links:
@@ -425,25 +441,16 @@ paths:
               format: "date-time"
               description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
                 \ zal zijn."
-              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"              
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
   /bestemmingsplangebieden/{id}:
+    x-product: bestemmingsplangebied
     get:
       tags:
       - "Bestemmingsplangebieden"
       summary: "bestemmingsplangebied resource"
-      produces:
-      - "application/hal+json"
-      - "application/problem+json"
       parameters:
-      - name: "Accept-Crs"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Gewenste CRS van de coördinaten in de response"
-        default: "epsg:4326"
-        enum:
-        - "epsg:4326"
-        - "epsg:28992"
+      - $ref: '#/parameters/id'
+      - $ref: '#/parameters/acceptCrs'
       responses:
         200:
           description: "Status 200"
@@ -476,60 +483,21 @@ paths:
               description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
                 \ zal zijn."
               x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
-    parameters:
-    - name: "id"
-      in: "path"
-      required: true
-      type: "string"
   /teksten:
+    x-product: tekst
     get:
       tags:
       - "Teksten"
       summary: "teksten collectie"
-      produces:
-      - "application/hal+json"
-      - "application/problem+json"
       parameters:
-      - name: "bestemmingsplangebied"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bestemmingsplangebied"
-      - name: "bestemmingsvlak"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bestemmingsvlak"
-      - name: "functieaanduiding"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op functieaanduiding"
-      - name: "gebiedsaanduiding"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op gebiedsaanduiding"
-      - name: "maatvoering"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op maatvoering"
-      - name: "bouwaanduiding"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bouwaanduiding"
-      - name: "figuur"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op figuur"
-      - name: "bouwvlak"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bouwvlak"
+      - $ref: '#/parameters/bestemmingsplangebied'
+      - $ref: '#/parameters/bestemmingsvlak'
+      - $ref: '#/parameters/functieaanduiding'
+      - $ref: '#/parameters/gebiedsaanduiding'
+      - $ref: '#/parameters/maatvoering'
+      - $ref: '#/parameters/bouwaanduiding'
+      - $ref: '#/parameters/figuur'
+      - $ref: '#/parameters/bouwvlak'
       responses:
         200:
           description: "Status 200"
@@ -546,6 +514,7 @@ paths:
                 properties:
                   teksten:
                     type: "array"
+                    x-result-ref: collection
                     items:
                       $ref: "#/definitions/Tekst"
               _links:
@@ -562,16 +531,18 @@ paths:
                       href:
                         type: "string"
                         example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten"
-                  next:
-                    required:
-                    - "href"
-                    type: "object"
-                    description: "Absolute link naar volgende pagina (niet aanwezig\
-                      \ als er geen volgende pagina is)"
-                    properties:
-                      href:
-                        type: "string"
-                        example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?page=2"
+                        x-relative-link:
+                          pattern: /teksten
+#                  next:
+#                    required:
+#                    - "href"
+#                    type: "object"
+#                    description: "Absolute link naar volgende pagina (niet aanwezig\
+#                      \ als er geen volgende pagina is)"
+#                    properties:
+#                      href:
+#                        type: "string"
+#                        example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?page=2"
         401:
           description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
             \ header meegestuurd."
@@ -604,10 +575,8 @@ paths:
       tags:
       - "Teksten"
       summary: "tekst"
-      produces:
-      - "application/hal+json"
-      - "application/problem+json"
-      parameters: []
+      parameters:
+      - $ref: '#/parameters/id'
       responses:
         200:
           description: "Status 200"
@@ -640,69 +609,22 @@ paths:
               description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
                 \ zal zijn."
               x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
-    parameters:
-    - name: "id"
-      in: "path"
-      required: true
-      type: "string"
   /bestemmingsvlakken:
+    x-product: bestemmingsvlak
     get:
       tags:
       - "Bestemmingsvlakken"
       summary: "bestemmingsvlakken collectie"
-      produces:
-      - "application/hal+json"
-      - "application/problem+json"
       parameters:
-      - name: "Accept-Crs"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Gewenste CRS van de coördinaten in de response"
-        default: "epsg:4326"
-        enum:
-        - "epsg:4326"
-        - "epsg:28992"
-      - name: "bestemmingsplangebied"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bestemmingsplangebied"
-      - name: "functieaanduiding"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op functieaanduiding"
-      - name: "gebiedsaanduiding"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op gebiedsaanduiding"
-      - name: "maatvoering"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op maatvoering"
-      - name: "bouwaanduiding"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bouwaanduiding"
-      - name: "figuur"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op figuur"
-      - name: "bouwvlak"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bouwvlak"
-      - name: "tekst"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op tekst"
+      - $ref: '#/parameters/acceptCrs'
+      - $ref: '#/parameters/bestemmingsplangebied'
+      # - $ref: '#/parameters/functieaanduiding'
+      # - $ref: '#/parameters/gebiedsaanduiding'
+      # - $ref: '#/parameters/maatvoering'
+      # - $ref: '#/parameters/bouwaanduiding'
+      # - $ref: '#/parameters/figuur'
+      # - $ref: '#/parameters/bouwvlak'
+      # - $ref: '#/parameters/tekst'
       responses:
         200:
           description: "Status 200"
@@ -719,6 +641,7 @@ paths:
                 properties:
                   bestemmingsvlakken:
                     type: "array"
+                    x-result-ref: collection
                     items:
                       $ref: "#/definitions/Bestemmingsvlak"
               _links:
@@ -777,20 +700,14 @@ paths:
                 \ zal zijn."
               x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
   /bestemmingsvlakken/{id}:
+    x-product: bestemmingsvlak
     get:
       tags:
       - "Bestemmingsvlakken"
       summary: "bestemmingsvlakken resource"
       parameters:
-      - name: "Accept-Crs"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Gewenste CRS van de coördinaten in de response"
-        default: "epsg:4326"
-        enum:
-        - "epsg:4326"
-        - "epsg:28992"
+      - $ref: '#/parameters/acceptCrs'
+      - $ref: '#/parameters/id'
       responses:
         200:
           description: "Status 200"
@@ -827,46 +744,17 @@ paths:
               description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
                 \ zal zijn."
               x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
-    parameters:
-    - name: "id"
-      in: "path"
-      required: true
-      type: "string"
   /functieaanduidingen:
     get:
       tags:
       - "Functieaanduidingen"
       summary: "functieaanduidingen collectie"
       parameters:
-      - name: "Accept-Crs"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Gewenste CRS van de coördinaten in de response"
-        default: "epsg:4326"
-        enum:
-        - "epsg:4326"
-        - "epsg:28992"
-      - name: "bestemmingsplangebied"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bestemmingsplangebied"
-      - name: "bestemmingsvlak"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bestemmingsvlak"
-      - name: "tekst"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op tekst"
-      - name: "gebiedsaanduiding"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op gebiedsaanduiding"
+      - $ref: '#/parameters/acceptCrs'
+      - $ref: '#/parameters/bestemmingsplangebied'
+      # - $ref: '#/parameters/bestemmingsvlak'
+      # - $ref: '#/parameters/gebiedsaanduiding'
+      # - $ref: '#/parameters/tekst'
       responses:
         200:
           description: "Status 200"
@@ -881,7 +769,10 @@ paths:
                 type: "object"
                 properties:
                   functieaanduidingen:
-                    $ref: "#/definitions/Functieaanduiding"
+                    type: array
+                    x-result-ref: collection
+                    items:
+                      $ref: "#/definitions/Functieaanduiding"
               _links:
                 required:
                 - "self"
@@ -905,7 +796,7 @@ paths:
                     properties:
                       href:
                         type: "string"
-                        example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/functieaanduidingen?page=2"                    
+                        example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/functieaanduidingen?page=2"
         401:
           description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
             \ header meegestuurd."
@@ -943,15 +834,8 @@ paths:
       - "Functieaanduidingen"
       summary: "functieaanduidingen resource"
       parameters:
-      - name: "Accept-Crs"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Gewenste CRS van de coördinaten in de response"
-        default: "epsg:4326"
-        enum:
-        - "epsg:4326"
-        - "epsg:28992"
+      - $ref: '#/parameters/id'
+      - $ref: '#/parameters/acceptCrs'
       responses:
         200:
           description: "Status 200"
@@ -988,61 +872,20 @@ paths:
               description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
                 \ zal zijn."
               x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
-    parameters:
-    - name: "id"
-      in: "path"
-      required: true
-      type: "string"
   /gebiedsaanduidingen:
     get:
       tags:
       - "Gebiedsaanduidingen"
       summary: "gebiedsaanduidingen collectie"
       parameters:
-      - name: "Accept-Crs"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Gewenste CRS van de coördinaten in de response"
-        default: "epsg:4326"
-        enum:
-        - "epsg:4326"
-        - "epsg:28992"
-      - name: "bestemmingsplangebied"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bestemmingsplangebied"
-      - name: "bestemmingsvlak"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bestemmingsvlak"
-      - name: "tekst"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op tekst"
-      - name: "functieaanduiding"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op functieaanduiding"
-      - name: "maatvoering"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op maatvoering"
-      - name: "bouwaanduiding"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bouwaanduiding"
-      - name: "figuur"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op figuur"
+      - $ref: '#/parameters/acceptCrs'
+      - $ref: '#/parameters/bestemmingsplangebied'
+      # - $ref: '#/parameters/bestemmingsvlak'
+      # - $ref: '#/parameters/functieaanduiding'
+      # - $ref: '#/parameters/maatvoering'
+      # - $ref: '#/parameters/bouwaanduiding'
+      # - $ref: '#/parameters/figuur'
+      # - $ref: '#/parameters/tekst'
       responses:
         200:
           description: "Status 200"
@@ -1057,7 +900,10 @@ paths:
                 type: "object"
                 properties:
                   gebiedsaanduidingen:
-                    $ref: "#/definitions/Gebiedsaanduiding"
+                    type: array
+                    x-result-ref: collection
+                    items:
+                      $ref: "#/definitions/Gebiedsaanduiding"
               _links:
                 required:
                 - "self"
@@ -1081,7 +927,7 @@ paths:
                     properties:
                       href:
                         type: "string"
-                        example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/gebiedsaanduidingen?page=2"                    
+                        example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/gebiedsaanduidingen?page=2"
         401:
           description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
             \ header meegestuurd."
@@ -1119,15 +965,8 @@ paths:
       - "Gebiedsaanduidingen"
       summary: "gebiedsaanduidingen resource"
       parameters:
-      - name: "Accept-Crs"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Gewenste CRS van de coördinaten in de response"
-        default: "epsg:4326"
-        enum:
-        - "epsg:4326"
-        - "epsg:28992"
+      - $ref: '#/parameters/id'
+      - $ref: '#/parameters/acceptCrs'
       responses:
         200:
           description: "Status 200"
@@ -1164,51 +1003,18 @@ paths:
               description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
                 \ zal zijn."
               x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
-    parameters:
-    - name: "id"
-      in: "path"
-      required: true
-      type: "string"
   /maatvoeringen:
     get:
       tags:
       - "Maatvoeringen"
       summary: "maatvoeringen collectie"
       parameters:
-      - name: "Accept-Crs"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Gewenste CRS van de coördinaten in de response"
-        default: "epsg:4326"
-        enum:
-        - "epsg:4326"
-        - "epsg:28992"
-      - name: "bestemmingsplangebied"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bestemmingsplangebied"
-      - name: "bestemmingsvlak"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bestemmingsvlak"
-      - name: "tekst"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op tekst"
-      - name: "gebiedsaanduiding"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op gebiedsaanduiding"
-      - name: "bouwvlak"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bouwvlak"
+      - $ref: '#/parameters/acceptCrs'
+      - $ref: '#/parameters/bestemmingsplangebied'
+      # - $ref: '#/parameters/bestemmingsvlak'
+      # - $ref: '#/parameters/gebiedsaanduiding'
+      # - $ref: '#/parameters/bouwvlak'
+      # - $ref: '#/parameters/tekst'      
       responses:
         200:
           description: "Status 200"
@@ -1223,7 +1029,10 @@ paths:
                 type: "object"
                 properties:
                   maatvoeringen:
-                    $ref: "#/definitions/Maatvoering"
+                    type: array
+                    x-result-ref: collection
+                    items:
+                      $ref: "#/definitions/Maatvoering"
               _links:
                 required:
                 - "self"
@@ -1247,7 +1056,7 @@ paths:
                     properties:
                       href:
                         type: "string"
-                        example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/maatvoeringen?page=2"                    
+                        example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/maatvoeringen?page=2"
         401:
           description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
             \ header meegestuurd."
@@ -1285,15 +1094,8 @@ paths:
       - "Maatvoeringen"
       summary: "maatvoeringen resource"
       parameters:
-      - name: "Accept-Crs"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Gewenste CRS van de coördinaten in de response"
-        default: "epsg:4326"
-        enum:
-        - "epsg:4326"
-        - "epsg:28992"
+      - $ref: '#/parameters/id'
+      - $ref: '#/parameters/acceptCrs'
       responses:
         200:
           description: "Status 200"
@@ -1330,51 +1132,18 @@ paths:
               description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
                 \ zal zijn."
               x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
-    parameters:
-    - name: "id"
-      in: "path"
-      required: true
-      type: "string"
   /bouwaanduidingen:
     get:
       tags:
       - "Bouwaanduidingen"
       summary: "bouwaanduidingen collectie"
       parameters:
-      - name: "Accept-Crs"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Gewenste CRS van de coördinaten in de response"
-        default: "epsg:4326"
-        enum:
-        - "epsg:4326"
-        - "epsg:28992"
-      - name: "bestemmingsplangebied"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bestemmingsplangebied"
-      - name: "bestemmingsvlak"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bestemmingsvlak"
-      - name: "tekst"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op tekst"
-      - name: "gebiedsaanduiding"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op gebiedsaanduiding"
-      - name: "bouwvlak"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bouwvlak"
+      - $ref: '#/parameters/acceptCrs'
+      - $ref: '#/parameters/bestemmingsplangebied'
+      # - $ref: '#/parameters/bestemmingsvlak'
+      # - $ref: '#/parameters/gebiedsaanduiding'
+      # - $ref: '#/parameters/bouwvlak'
+      # - $ref: '#/parameters/tekst'      
       responses:
         200:
           description: "Status 200"
@@ -1389,7 +1158,10 @@ paths:
                 type: "object"
                 properties:
                   bouwaanduidingen:
-                    $ref: "#/definitions/Bouwaanduiding"
+                    type: array
+                    x-result-ref: collection
+                    items:
+                      $ref: "#/definitions/Bouwaanduiding"
               _links:
                 required:
                 - "self"
@@ -1413,7 +1185,7 @@ paths:
                     properties:
                       href:
                         type: "string"
-                        example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwaanduidingen?page=2"                    
+                        example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwaanduidingen?page=2"
         401:
           description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
             \ header meegestuurd."
@@ -1451,15 +1223,8 @@ paths:
       - "Bouwaanduidingen"
       summary: "bouwaanduidingen resource"
       parameters:
-      - name: "Accept-Crs"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Gewenste CRS van de coördinaten in de response"
-        default: "epsg:4326"
-        enum:
-        - "epsg:4326"
-        - "epsg:28992"
+      - $ref: '#/parameters/id'
+      - $ref: '#/parameters/acceptCrs'
       responses:
         200:
           description: "Status 200"
@@ -1496,42 +1261,17 @@ paths:
               description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
                 \ zal zijn."
               x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
-    parameters:
-    - name: "id"
-      in: "path"
-      required: true
-      type: "string"
   /figuren:
     get:
       tags:
       - "Figuren"
       summary: "figuren collectie"
       parameters:
-      - name: "bestemmingsplangebied"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bestemmingsplangebied"
-      - name: "bestemmingsvlak"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bestemmingsvlak"
-      - name: "tekst"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op tekst"
-      - name: "gebiedsaanduiding"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op gebiedsaanduiding"
-      - name: "bouwvlak"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bouwvlak"
+      - $ref: '#/parameters/bestemmingsplangebied'
+      # - $ref: '#/parameters/bestemmingsvlak'
+      # - $ref: '#/parameters/gebiedsaanduiding'
+      # - $ref: '#/parameters/bouwvlak'
+      # - $ref: '#/parameters/tekst'      
       responses:
         200:
           description: "Status 200"
@@ -1546,7 +1286,10 @@ paths:
                 type: "object"
                 properties:
                   figuren:
-                    $ref: "#/definitions/Figuur"
+                    type: array
+                    x-result-ref: collection
+                    items:
+                      $ref: "#/definitions/Figuur"
               _links:
                 required:
                 - "self"
@@ -1570,7 +1313,7 @@ paths:
                     properties:
                       href:
                         type: "string"
-                        example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren?page=2"                    
+                        example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren?page=2"
         401:
           description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
             \ header meegestuurd."
@@ -1608,15 +1351,8 @@ paths:
       - "Figuren"
       summary: "figuren resource"
       parameters:
-      - name: "Accept-Crs"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Gewenste CRS van de coördinaten in de response"
-        default: "epsg:4326"
-        enum:
-        - "epsg:4326"
-        - "epsg:28992"
+      - $ref: '#/parameters/id'
+      - $ref: '#/parameters/acceptCrs'
       responses:
         200:
           description: "Status 200"
@@ -1653,56 +1389,19 @@ paths:
               description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
                 \ zal zijn."
               x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
-    parameters:
-    - name: "id"
-      in: "path"
-      required: true
-      type: "string"
   /bouwvlakken:
     get:
       tags:
       - "Bouwvlakken"
       summary: "bouwvlakken collectie"
       parameters:
-      - name: "Accept-Crs"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Gewenste CRS van de coördinaten in de response"
-        default: "epsg:4326"
-        enum:
-        - "epsg:4326"
-        - "epsg:28992"
-      - name: "bestemmingsplangebied"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bestemmingsplangebied"
-      - name: "bestemmingsvlak"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bestemmingsvlak"
-      - name: "tekst"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op tekst"
-      - name: "maatvoering"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op maatvoering"
-      - name: "bouwaanduiding"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op bouwaanduiding"
-      - name: "figuur"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op figuur"
+      - $ref: '#/parameters/acceptCrs'
+      - $ref: '#/parameters/bestemmingsplangebied'
+      - $ref: '#/parameters/bestemmingsvlak'
+      - $ref: '#/parameters/tekst'
+      - $ref: '#/parameters/maatvoering'
+      - $ref: '#/parameters/bouwaanduiding'
+      - $ref: '#/parameters/figuur'
       responses:
         200:
           description: "Status 200"
@@ -1717,7 +1416,10 @@ paths:
                 type: "object"
                 properties:
                   bouwvlakken:
-                    $ref: "#/definitions/Bouwvlak"
+                    type: array
+                    x-result-ref: collection
+                    items:
+                      $ref: "#/definitions/Bouwvlak"
               _links:
                 required:
                 - "self"
@@ -1741,7 +1443,7 @@ paths:
                     properties:
                       href:
                         type: "string"
-                        example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwvlakken?page=2"                    
+                        example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwvlakken?page=2"
         401:
           description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
             \ header meegestuurd."
@@ -1779,15 +1481,8 @@ paths:
       - "Bouwvlakken"
       summary: "bouwvlakken resource"
       parameters:
-      - name: "Accept-Crs"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Gewenste CRS van de coördinaten in de response"
-        default: "epsg:4326"
-        enum:
-        - "epsg:4326"
-        - "epsg:28992"
+      - $ref: '#/parameters/id'
+      - $ref: '#/parameters/acceptCrs'
       responses:
         200:
           description: "Status 200"
@@ -1824,47 +1519,7 @@ paths:
               description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
                 \ zal zijn."
               x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
-    parameters:
-    - name: "id"
-      in: "path"
-      required: true
-      type: "string"
 definitions:
-  SearchResult:
-    type: "object"
-    required:
-    - "_links"
-    - "type"
-    properties:
-      type:
-        type: "string"
-        enum:
-        - "bestemmingsplangebied"
-        - "bestemmingsvlak"
-        - "functieaanduiding"
-        - "gebiedsaanduiding"
-        - "maatvoering"
-        - "bouwaanduiding"
-        - "figuur"
-        - "bouwvlak"
-        - "tekst"
-      _links:
-        required:
-        - "self"
-        type: "object"
-        properties:
-          self:
-            required:
-            - "href"
-            - "title"
-            type: "object"
-            properties:
-              href:
-                type: "string"
-              title:
-                type: "string"
-                description: "Human-readable titel van de link"
-                example: "NL.IMRO.0289.0044kamergewverh-VSG1"
   Bestemmingsplangebied:
     type: "object"
     required:
@@ -1876,6 +1531,7 @@ definitions:
         required:
         - "self"
         type: "object"
+        x-exclude-empty-and-null-value-properties: true
         properties:
           self:
             type: "object"
@@ -1883,63 +1539,78 @@ definitions:
               href:
                 type: "string"
                 example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden/759"
+                x-relative-link:
+                  pattern: /bestemmingsplangebieden/$1
+                  x-ldpath: "fn:concat(nen3610:identificatie / nen3610:namespace, \".\", nen3610:identificatie / nen3610:lokaalID, \"-\", nen3610:identificatie / nen3610:versie) :: xsd:string"
           externPlan:
             type: "object"
+            x-ldpath: "(ro:vervangt|ro:muteert|ro:tenGevolgeVan)"
             properties:
               href:
                 type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden/758"                
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden/758"
+                x-relative-link:
+                  pattern: /bestemmingsplangebieden/$1
+                  x-ldpath: "ro:identificatieExternPlan :: xsd:string"
+                  x-href-required: false
           bestemmingsvlakken:
             type: "object"
             properties:
               href:
                 type: "string"
                 example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken?bestemmingsplangebied=759"
-          functieaanduidingen:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/functieaanduidingen?bestemmingsplangebied=759"
-          gebiedsaanduidingen:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/gebiedsaanduidingen?bestemmingsplangebied=759"
-          maatvoeringen:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/maatvoeringen?bestemmingsplangebied=759"
-          bouwaanduidingen:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwaanduidingen?bestemmingsplangebied=759"          
-          figuren:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren?bestemmingsplangebied=759"          
-          bouwvlakken:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwvlakken?bestemmingsplangebied=759"
+                x-relative-link:
+                  pattern: /bestemmingsvlakken?bestemmingsplangebied=$1
+                  x-ldpath: "fn:concat(nen3610:identificatie / nen3610:namespace, \".\", nen3610:identificatie / nen3610:lokaalID, \"-\", nen3610:identificatie / nen3610:versie) :: xsd:string"
+#          functieaanduidingen:
+#            type: "object"
+#            properties:
+#              href:
+#                type: "string"
+#                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/functieaanduidingen?bestemmingsplangebied=759"
+#          gebiedsaanduidingen:
+#            type: "object"
+#            properties:
+#              href:
+#                type: "string"
+#                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/gebiedsaanduidingen?bestemmingsplangebied=759"
+#          maatvoeringen:
+#            type: "object"
+#            properties:
+#              href:
+#                type: "string"
+#                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/maatvoeringen?bestemmingsplangebied=759"
+#          bouwaanduidingen:
+#            type: "object"
+#            properties:
+#              href:
+#                type: "string"
+#                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwaanduidingen?bestemmingsplangebied=759"
+#          figuren:
+#            type: "object"
+#            properties:
+#              href:
+#                type: "string"
+#                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren?bestemmingsplangebied=759"
+#          bouwvlakken:
+#            type: "object"
+#            properties:
+#              href:
+#                type: "string"
+#                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwvlakken?bestemmingsplangebied=759"
           teksten:
             type: "object"
             properties:
               href:
                 type: "string"
                 example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?bestemmingsplangebied=759"
+                x-relative-link:
+                  pattern: /teksten?bestemmingsplangebied=$1
+                  x-ldpath: "fn:concat(nen3610:identificatie / nen3610:namespace, \".\", nen3610:identificatie / nen3610:lokaalID, \"-\", nen3610:identificatie / nen3610:versie) :: xsd:string"
       id:
         type: "string"
         example: "NL.IMRO.0268.BPa10500-VG01"
+        x-ldpath: "fn:concat(nen3610:identificatie / nen3610:namespace, \".\", nen3610:identificatie / nen3610:lokaalID, \"-\", nen3610:identificatie / nen3610:versie) :: xsd:string"
       type:
         type: "string"
         enum:
@@ -1949,6 +1620,7 @@ definitions:
         - "uitwerkingsplan"
         - "wijzigingsplan"
         example: "bestemmingsplan"
+        x-ldpath: "rdf:type / dcterms:subject / skos:notation :: xsd:string"
       beleidsmatigVerantwoordelijkeOverheid:
         type: object
         properties:
@@ -1960,21 +1632,26 @@ definitions:
             - "provinciale overheid"
             - "nationale overheid"
             example: "gemeentelijke overheid"
+            x-ldpath: "ro:beleidsmatigVerantwoordelijkeOverheid / rdf:type / rdfs:label :: xsd:string"
           code:
             type: "string"
-            description: "CBS-code van de beleidsmatig verantwoordelijke overheid. Altijd 4 cijfers, indien nodig aangevuld met voorloopnullen."         
+            description: "CBS-code van de beleidsmatig verantwoordelijke overheid. Altijd 4 cijfers, indien nodig aangevuld met voorloopnullen."
             example: "0000"
+            x-ldpath: "ro:beleidsmatigVerantwoordelijkeOverheid / ro:code :: xsd:string"
           naam:
             type: "array"
+            x-ldpath: "ro:beleidsmatigVerantwoordelijkeOverheid / ro:naamOverheid"
             items:
               type: "string"
               example: "gemeente Nijmegen"
       naam:
         type: "string"
         example: "Nijmegen Westkanaaldijk 2016"
+        x-ldpath: "ro:naam :: xsd:string"
       locatieNaam:
         type: "string"
         example: "TODO"
+        x-ldpath: "ro:locatienaam"
       planstatusInfo:
         type: "object"
         properties:
@@ -1984,127 +1661,148 @@ definitions:
             - "concept"
             - "voorontwerp"
             - "ontwerp"
-            - "vastgesteld"    
-            - "geconsolideerd"            
+            - "vastgesteld"
+            - "geconsolideerd"
             example: "vastgesteld"
+            x-ldpath: "ro:planstatus / ro:status :: xsd:string"
           datum:
             type: "string"
-            example: "2016-11-16"
-            format: "date"
-      besluitnummer:
-        type: "string"
-        example: "TODO"
+            example: "TODO: xsd:date wordt nog niet ondersteund door grid-api?"
+#            format: "date"
+            x-ldpath: "ro:planstatus / ro:datum :: xsd:date"
       verwijzingNaarVaststellingsbesluit:
         type: "string"
-        example: "http://www.ruimtelijkeplannen.nl/documents/NL.IMRO.0268.BPa10500-VG01/vb_NL.IMRO.0268.BPa10500-VG01.pdf"
+        example: "TODO: URL onderdeel van `vaststellingsbesluit`? Is dit een link naar een API resource of naar een extern document (bijv. pdf)`?"
+        x-ldpath: "ro:vaststellingsbesluit"
+      besluitnummer:
+        type: "string"
+        example: "TODO: besluitnummer is onderdeel van `vaststellingsbesluit`?"
+        x-ldpath: "ro:vaststellingsbesluit / ro:besluitnummer :: xsd:string"
       verwijzingNorm:
         type: "array"
+        x-ldpath: "ro:norm / skos:notation"
         items:
           type: "string"
           example: "IMRO2012"
       geometrie:
-        $ref: "#/definitions/GeoJSON"
+        type: object
+        # $ref: "#/definitions/GeoJSON"
+        x-type: geometry
+        x-ldpath: "geo:hasGeometry / geo:asWKT :: geo:wktLiteral"
   Tekst:
     type: "object"
     required:
-    - "_links"
-    - "inhoud"
     - "titel"
+    - "volgnummer"
+    - "_links"
     properties:
       titel:
         type: "string"
         example: "1.0: Hoofdstuk 1"
+        x-ldpath: "ro:titel / ro:titelnaam :: xsd:string"
       inhoud:
         type: "string"
         description: "Inhoud van van het tekstblok. Voor de Ruimtelijke Plannen is dit XHTML, voor LVBB wellicht XML en voor andere informatiehuizen wellicht plain text. Hoe een client dit moet behandelen wordt in de verbeelding afgehandeld."
         example: "<p>Dit is een paragraaf met een <a href=\"https://www.google.com\">Linkje naar Google</a>.</p>"
+        x-ldpath: "ro:tekst :: xsd:string"
+      volgnummer:
+        type: "integer"
+        example: "42"
+        x-ldpath: "ro:volgnummer :: xsd:string"
       _links:
         required:
         - "self"
         type: "object"
+        x-exclude-empty-and-null-value-properties: true
         properties:
-          parent:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten/428"
-              title:
-                type: "string"
-                example: "1.0: Hoofdstuk 1"        
           self:
             required:
             - "href"
-            - "title"
             type: "object"
             properties:
               href:
                 type: "string"
                 example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten/429"
-              title:
+                x-relative-link:
+                  pattern: "/teksten/$1"
+                  x-ldpath: 'fn:keepAfterLast(., "/") :: xsd:string'
+          parent:
+            type: "object"
+            x-ldpath: "ro:ouder"
+            properties:
+              href:
                 type: "string"
-                example: "1.1: Hoofdstuk 1.1"
-          children:
-            type: "array"
-            items:
-              required:
-              - "href"
-              type: "object"
-              properties:
-                href:
-                  type: "string"
-                  example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten/430"
-                title:
-                  type: "string"
-                  example: "1.1.1: Hoofstuk 1.1.1"
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten/428"
+                x-relative-link:
+                  pattern: "/teksten/$1"
+                  x-ldpath: 'fn:keepAfterLast(., "/") :: xsd:string'
+#             title:
+#               type: "string"
+#               example: "1.0: Hoofdstuk 1"
           bestemmingsplangebieden:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden?tekst=429"
-          bestemmingsvlakken:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken?tekst=429"
-          functieaanduidingen:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/functieaanduidingen?tekst=429"
-          gebiedsaanduidingen:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/gebiedsaanduidingen?tekst=429"
-          maatvoeringen:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/maatvoeringen?tekst=429"
-          bouwaanduidingen:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwaanduidingen?tekst=429"
-          figuren:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren?tekst=429"          
-          bouwvlakken:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwvlakken?tekst=429"
+           type: "object"
+           properties:
+             href:
+               type: "string"
+               example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden?tekst=429"
+               x-relative-link:
+                 pattern: "/bestemmingsplangebieden?tekst=$1"
+                 x-ldpath: 'fn:keepAfterLast(., "/") :: xsd:string'
+        #   children:
+        #     type: "array"
+        #     items:
+        #       required:
+        #       - "href"
+        #       type: "object"
+        #       properties:
+        #         href:
+        #           type: "string"
+        #           example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten/430"
+        #         title:
+        #           type: "string"
+        #           example: "1.1.1: Hoofstuk 1.1.1"
+        #   bestemmingsvlakken:
+        #     type: "object"
+        #     properties:
+        #       href:
+        #         type: "string"
+        #         example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken?tekst=429"
+        #   functieaanduidingen:
+        #     type: "object"
+        #     properties:
+        #       href:
+        #         type: "string"
+        #         example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/functieaanduidingen?tekst=429"
+        #   gebiedsaanduidingen:
+        #     type: "object"
+        #     properties:
+        #       href:
+        #         type: "string"
+        #         example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/gebiedsaanduidingen?tekst=429"
+        #   maatvoeringen:
+        #     type: "object"
+        #     properties:
+        #       href:
+        #         type: "string"
+        #         example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/maatvoeringen?tekst=429"
+        #   bouwaanduidingen:
+        #     type: "object"
+        #     properties:
+        #       href:
+        #         type: "string"
+        #         example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwaanduidingen?tekst=429"
+        #   figuren:
+        #     type: "object"
+        #     properties:
+        #       href:
+        #         type: "string"
+        #         example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren?tekst=429"
+        #   bouwvlakken:
+        #     type: "object"
+        #     properties:
+        #       href:
+        #         type: "string"
+        #         example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwvlakken?tekst=429"
   Bestemmingsvlak:
     type: "object"
     required:
@@ -2121,78 +1819,89 @@ definitions:
             properties:
               href:
                 type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken/94"
-          bestemmingsplangebieden:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden?bestemmingsvlak=94"
-          functieaanduidingen:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/functieaanduidingen?bestemmingsvlak=94"
-          gebiedsaanduidingen:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/gebiedsaanduidingen?bestemmingsvlak=94"
-          maatvoeringen:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/maatvoeringen?bestemmingsvlak=94"
-          bouwaanduidingen:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwaanduidingen?bestemmingsvlak=94"
-          figuren:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren?bestemmingsvlak=94"          
-          bouwvlakken:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwvlakken?bestemmingsvlak=94"
-          teksten:
-            type: "object"
-            properties:
-              href:
-                type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?bestemmingsvlak=94"
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken/NL.IMRO.423d9f5d924c4f76a001a94f8ca284b4"
+                x-grid-link:
+                  pattern: /bestemmingsvlakken/$1
+                  x-ldpath: "fn:concat(nen3610:identificatie / nen3610:namespace, \".\", nen3610:identificatie / nen3610:lokaalID) :: xsd:string"
+          # bestemmingsplangebieden:
+          #   type: "object"
+          #   properties:
+          #     href:
+          #       type: "string"
+          #       example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden?bestemmingsvlak=94"
+          # functieaanduidingen:
+          #   type: "object"
+          #   properties:
+          #     href:
+          #       type: "string"
+          #       example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/functieaanduidingen?bestemmingsvlak=94"
+          # gebiedsaanduidingen:
+          #   type: "object"
+          #   properties:
+          #     href:
+          #       type: "string"
+          #       example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/gebiedsaanduidingen?bestemmingsvlak=94"
+          # maatvoeringen:
+          #   type: "object"
+          #   properties:
+          #     href:
+          #       type: "string"
+          #       example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/maatvoeringen?bestemmingsvlak=94"
+          # bouwaanduidingen:
+          #   type: "object"
+          #   properties:
+          #     href:
+          #       type: "string"
+          #       example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwaanduidingen?bestemmingsvlak=94"
+          # figuren:
+          #   type: "object"
+          #   properties:
+          #     href:
+          #       type: "string"
+          #       example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren?bestemmingsvlak=94"
+          # bouwvlakken:
+          #   type: "object"
+          #   properties:
+          #     href:
+          #       type: "string"
+          #       example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwvlakken?bestemmingsvlak=94"
+          # teksten:
+          #   type: "object"
+          #   properties:
+          #     href:
+          #       type: "string"
+          #       example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?bestemmingsvlak=94"
       id:
         type: "string"
-        example: "94"
+        example: "NL.IMRO.423d9f5d924c4f76a001a94f8ca284b4"
+        x-ldpath: "fn:concat(nen3610:identificatie / nen3610:namespace, \".\", nen3610:identificatie / nen3610:lokaalID) :: xsd:string"
       type:
         type: "string"
         enum:
         - "enkelbestemming"
         - "dubbelbestemming"
         example: "enkelbestemming"
+        x-ldpath: "rdf:type[rdfs:subClassOf is ro:Bestemmingsvlak] :: xsd:string"
       naam:
         type: "string"
         example: "Enkelbestemming Bedrijventerrein"
+        x-ldpath: "ro:naam :: xsd:string"
       bestemmingshoofdgroep:
         type: "string"
-        example: "Overig"
+        example: "Natuur"
+        x-ldpath: "ro:bestemmingshoofdgroep :: xsd:string"
       artikelnummer:
         type: "string"
-        example: "TODO"
-      labelInfo:
-        type: "string"
-        example: "TODO VERBEELDING"
+        example: "43"
+        x-ldpath: "ro:artikelnummer :: xsd:string"
+      # labelInfo:
+      #   type: "string"
+      #   example: "TODO VERBEELDING"
       geometrie:
-        $ref: "#/definitions/GeoJSON"
+        type: object
+        # $ref: "#/definitions/GeoJSON"
+        x-type: geometry
+        x-ldpath: "geo:hasGeometry / geo:asWKT :: geo:wktLiteral"
   Functieaanduiding:
     type: "object"
     required:
@@ -2214,7 +1923,7 @@ definitions:
             properties:
               href:
                 type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?functieaanduiding=94"                
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?functieaanduiding=94"
           bestemmingsplangebieden:
             type: "object"
             properties:
@@ -2242,9 +1951,13 @@ definitions:
       id:
         type: "string"
         example: "NL.IMRO.3e542fd876e84c3db419b4e2d3f11089"
-      labelInfo:
+        x-ldpath: "fn:concat(nen3610:identificatie / nen3610:namespace, \".\", nen3610:identificatie / nen3610:lokaalID) :: xsd:string"
+      naam:
         type: "string"
-        example: "TODO"
+        x-ldpath: "ro:naam"
+    #   labelInfo:
+    #     type: "string"
+    #     example: "TODO"
       geometrie:
         $ref: "#/definitions/GeoJSON"
   Gebiedsaanduiding:
@@ -2294,7 +2007,7 @@ definitions:
             properties:
               href:
                 type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?gebiedsaanduiding=94"                
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?gebiedsaanduiding=94"
           functieaanduidingen:
             type: "object"
             properties:
@@ -2318,7 +2031,7 @@ definitions:
             properties:
               href:
                 type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren?gebiedsaanduiding=94"          
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren?gebiedsaanduiding=94"
   Maatvoering:
     type: "object"
     properties:
@@ -2361,7 +2074,7 @@ definitions:
             properties:
               href:
                 type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?maatvoering=94"                
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?maatvoering=94"
           gebiedsaanduidingen:
             type: "object"
             properties:
@@ -2385,6 +2098,7 @@ definitions:
         example: "TODO"
       geometrie:
         $ref: "#/definitions/GeoJSON"
+        x-ldpath: "rdf:type / dcterms:subject / skos:notation :: xsd:string"
       _links:
         required:
         - "self"
@@ -2396,6 +2110,27 @@ definitions:
               href:
                 type: "string"
                 example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwaanduidingen/94"
+                x-relative-link:
+                  pattern: /bestemmingsplangebieden/$1
+                  x-ldpath: "fn:concat(nen3610:identificatie / nen3610:lokaalID, \"-\", nen3610:identificatie / nen3610:versie) :: xsd:string"
+
+                # context-sensitive links
+                # looks up a specific x-relative-link object by comparing "id" with reference to a field
+                #                x-grid-context-links:
+                #                  - id: "bestemmingsplangebied"
+                #                    x-relative-link:
+                #                      pattern: /bestemmingsplangebieden/$1
+                #                      x-ldpath: "fn:concat(nen3610:identificatie / nen3610:lokaalID, \"-\", nen3610:identificatie / nen3610:versie) :: xsd:string"
+                #                  - id: "bestemmingsvlak"
+                #                    x-relative-link:
+                #                      pattern: /bestemmingsvlakken/$1
+                #                      x-ldpath: "fn:concat(nen3610:identificatie / nen3610:lokaalID, \"-\", nen3610:identificatie / nen3610:versie) :: xsd:string"
+
+              title:
+                type: "string"
+                description: "Human-readable titel van de link"
+                x-ldpath: "ro:naam :: xsd:string"
+                example: "Kamergewverh VSG1"
           bestemmingsplangebieden:
             type: "object"
             properties:
@@ -2413,7 +2148,7 @@ definitions:
             properties:
               href:
                 type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?bouwaanduiding=94"                
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?bouwaanduiding=94"
           gebiedsaanduidingen:
             type: "object"
             properties:
@@ -2467,7 +2202,7 @@ definitions:
             properties:
               href:
                 type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?figuur=94"                
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?figuur=94"
           gebiedsaanduidingen:
             type: "object"
             properties:
@@ -2516,7 +2251,7 @@ definitions:
             properties:
               href:
                 type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?bouwvlak=94"                   
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?bouwvlak=94"
           maatvoeringen:
             type: "object"
             properties:
@@ -2534,7 +2269,55 @@ definitions:
             properties:
               href:
                 type: "string"
-                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren?bouwvlak=94"     
+                example: "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren?bouwvlak=94"
+  SearchResult:
+    type: "object"
+    required:
+    - "_links"
+    - "type"
+    properties:
+      type:
+        type: "string"
+        enum:
+        - "bestemmingsplangebied"
+        - "bestemmingsvlak"
+        - "dossier"
+        - "tekst"
+        x-ldpath: "rdf:type / dcterms:subject / skos:notation :: xsd:string"
+      _links:
+        required:
+        - "self"
+        type: "object"
+        properties:
+          self:
+            required:
+            - "href"
+            - "title"
+            type: "object"
+            properties:
+              href:
+                type: "string"
+                x-relative-link:
+                  pattern: /bestemmingsplangebieden/$1
+                  x-ldpath: "fn:concat(nen3610:identificatie / nen3610:lokaalID, \"-\", nen3610:identificatie / nen3610:versie) :: xsd:string"
+
+                # context-sensitive links
+                # looks up a specific x-relative-link object by comparing "id" with reference to a field
+#                x-grid-context-links:
+#                  - id: "bestemmingsplangebied"
+#                    x-relative-link:
+#                      pattern: /bestemmingsplangebieden/$1
+#                      x-ldpath: "fn:concat(nen3610:identificatie / nen3610:lokaalID, \"-\", nen3610:identificatie / nen3610:versie) :: xsd:string"
+#                  - id: "bestemmingsvlak"
+#                    x-relative-link:
+#                      pattern: /bestemmingsvlakken/$1
+#                      x-ldpath: "fn:concat(nen3610:identificatie / nen3610:lokaalID, \"-\", nen3610:identificatie / nen3610:versie) :: xsd:string"
+
+              title:
+                type: "string"
+                x-ldpath: "ro:naam :: xsd:string"
+                description: "Human-readable titel van de link"
+                example: "Kamergewverh VSG1"
   GeoJSON:
     type: "object"
     required:
@@ -2552,27 +2335,11 @@ definitions:
         - "MultiPolygon"
         example: "Polygon"
       coordinates:
+        type: "array"
+# do *not* set type of array content explicitly (because it may vary and depend on whether
+# this Geo object describes point or polygon or multi-point, or.. etc)
         description: "Array met coördinaten behorende bij dit GeoJSON object. De structuur van de array hangt af van het `type`."
-        example: [
-          [
-            [
-              5.858910083770752,
-              51.84376540294041
-            ],
-            [
-              5.85968255996704,
-              51.84259879644993
-            ],
-            [
-              5.860852003097533,
-              51.84413658957469
-            ],
-            [
-              5.858910083770752,
-              51.84376540294041
-            ]
-          ]
-        ]
+        example: [[[5.858910083770752,51.84376540294041],[5.85968255996704,51.84259879644993],[5.860852003097533,51.84413658957469],[5.858910083770752,51.84376540294041]]]
   Error:
     type: "object"
     required:
@@ -2597,3 +2364,4 @@ definitions:
         type: "string"
       instance:
         type: "string"
+       
