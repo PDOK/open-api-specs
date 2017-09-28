@@ -1,0 +1,862 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FeatureTypeStyle xmlns="http://www.opengis.net/se"
+	xmlns:app="http://www.deegree.org/app" xmlns:deegreeogc="http://www.deegree.org/ogc"
+	xmlns:ogc="http://www.opengis.net/ogc" xmlns:sed="http://www.deegree.org/se"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink"
+	xsi:schemaLocation="http://www.opengis.net/se http://schemas.opengis.net/se/1.1.0/FeatureStyle.xsd http://www.deegree.org/se http://schemas.deegree.org/se/1.1.0/Symbolizer-deegree.xsd">
+	<Name>BP:Dubbelbestemming</Name>
+    <Description>
+        <Title>default:BP:Dubbelbestemming</Title>
+    </Description>
+	<FeatureTypeName>app:Dubbelbestemming</FeatureTypeName>
+
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- +++++ These are the rules for IMRO2008/IMRO2012 plans +++++++++++++++++ -->
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+	<Rule>
+		<Name>Leiding</Name>
+        <Description>
+            <Title>Leiding</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:And>
+				<ogc:Or>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+						<ogc:Literal>IMRO2008</ogc:Literal>
+					</ogc:PropertyIsEqualTo>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+						<ogc:Literal>IMRO2012</ogc:Literal>
+					</ogc:PropertyIsEqualTo>
+				</ogc:Or>
+				<ogc:PropertyIsEqualTo>
+					<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+					<ogc:Literal>leiding</ogc:Literal>
+				</ogc:PropertyIsEqualTo>
+			</ogc:And>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Fill>
+				<SvgParameter name="fill">#ffffff</SvgParameter>
+				<SvgParameter name="fill-opacity">0.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+		<PolygonSymbolizer>
+			<Fill>
+				<GraphicFill>
+					<Graphic>
+						<ExternalGraphic>
+							<OnlineResource xlink:href="./symbols/bp_db_leiding.png" />
+							<Format>image/png</Format>
+						</ExternalGraphic>
+						<Size>16</Size>
+					</Graphic>
+				</GraphicFill>
+				<SvgParameter name="fill">#000000</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1
+				</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>Waterstaat</Name>
+        <Description>
+            <Title>Waterstaat</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:And>
+				<ogc:Or>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+						<ogc:Literal>IMRO2008</ogc:Literal>
+					</ogc:PropertyIsEqualTo>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+						<ogc:Literal>IMRO2012</ogc:Literal>
+					</ogc:PropertyIsEqualTo>
+				</ogc:Or>
+				<ogc:PropertyIsEqualTo>
+					<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+					<ogc:Literal>waterstaat</ogc:Literal>
+				</ogc:PropertyIsEqualTo>
+			</ogc:And>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Fill>
+				<SvgParameter name="fill">#ffffff</SvgParameter>
+				<SvgParameter name="fill-opacity">0.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+		<PolygonSymbolizer>
+			<Fill>
+				<GraphicFill>
+					<Graphic>
+						<ExternalGraphic>
+							<OnlineResource xlink:href="./symbols/bp_db_waterstaat.png" />
+							<Format>image/png</Format>
+						</ExternalGraphic>
+						<Size>16</Size>
+					</Graphic>
+				</GraphicFill>
+				<SvgParameter name="fill">#000000</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>Waarde</Name>
+        <Description>
+            <Title>Waarde</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:And>
+				<ogc:Or>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+						<ogc:Literal>IMRO2008</ogc:Literal>
+					</ogc:PropertyIsEqualTo>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+						<ogc:Literal>IMRO2012</ogc:Literal>
+					</ogc:PropertyIsEqualTo>
+				</ogc:Or>
+				<ogc:PropertyIsEqualTo>
+					<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+					<ogc:Literal>waarde</ogc:Literal>
+				</ogc:PropertyIsEqualTo>
+			</ogc:And>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Fill>
+				<SvgParameter name="fill">#ffffff</SvgParameter>
+				<SvgParameter name="fill-opacity">0.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+		<PolygonSymbolizer>
+			<Fill>
+				<GraphicFill>
+					<Graphic>
+						<ExternalGraphic>
+							<OnlineResource xlink:href="./symbols/bp_db_waarde.png" />
+							<Format>image/png</Format>
+						</ExternalGraphic>
+						<Size>16</Size>
+					</Graphic>
+				</GraphicFill>
+				<SvgParameter name="fill">#000000</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>Not accordingly classified</Name>
+        <Description>
+            <Title>Not accordingly classified</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:And>
+				<ogc:PropertyIsEqualTo>
+					<ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+					<ogc:Literal>IMRO2006</ogc:Literal>
+				</ogc:PropertyIsEqualTo>
+				<ogc:PropertyIsNull>
+					<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+				</ogc:PropertyIsNull>
+			</ogc:And>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Fill>
+				<SvgParameter name="fill">#ffffff</SvgParameter>
+				<SvgParameter name="fill-opacity">0.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+		<PolygonSymbolizer>
+			<Fill>
+				<SvgParameter name="fill">#ffffff</SvgParameter>
+				<SvgParameter name="fill-opacity">0.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+
+
+
+
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- ++++++++++ These are the rules for IMRO2006 plans +++++++++++++++++++++ -->
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+	<Rule>
+		<Name>Leiding</Name>
+        <Description>
+            <Title>Leiding</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:And>
+				<ogc:PropertyIsEqualTo>
+					<ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+					<ogc:Literal>IMRO2006</ogc:Literal>
+				</ogc:PropertyIsEqualTo>
+				<ogc:PropertyIsLike wildCard="*" singleChar="?"
+					escapeChar="\">
+					<ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+					<ogc:Literal>*technische infrastructuur; kabel*</ogc:Literal>
+				</ogc:PropertyIsLike>
+			</ogc:And>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Fill>
+				<SvgParameter name="fill">#ffffff</SvgParameter>
+				<SvgParameter name="fill-opacity">0.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+		<PolygonSymbolizer>
+			<Fill>
+				<GraphicFill>
+					<Graphic>
+						<ExternalGraphic>
+							<OnlineResource xlink:href="./symbols/bp_db_leiding.png" />
+							<Format>image/png</Format>
+						</ExternalGraphic>
+						<Size>16</Size>
+					</Graphic>
+				</GraphicFill>
+				<SvgParameter name="fill">#000000</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>Waterkering</Name>
+        <Description>
+            <Title>Waterkering</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:And>
+				<ogc:PropertyIsEqualTo>
+					<ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+					<ogc:Literal>IMRO2006</ogc:Literal>
+				</ogc:PropertyIsEqualTo>
+				<ogc:PropertyIsLike wildCard="*" singleChar="?"
+					escapeChar="\">
+					<ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+					<ogc:Literal>*waterhuishouding; waterkeren*</ogc:Literal>
+				</ogc:PropertyIsLike>
+			</ogc:And>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Fill>
+				<SvgParameter name="fill">#ffffff</SvgParameter>
+				<SvgParameter name="fill-opacity">0.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+		<PolygonSymbolizer>
+			<Fill>
+				<GraphicFill>
+					<Graphic>
+						<ExternalGraphic>
+							<OnlineResource xlink:href="./symbols/bp_db_waterkering.png" />
+							<Format>image/png</Format>
+						</ExternalGraphic>
+						<Size>16</Size>
+					</Graphic>
+				</GraphicFill>
+				<SvgParameter name="fill">#000000</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>Waterstaatsdoeleinden, Waterstaat</Name>
+        <Description>
+            <Title>Waterstaatsdoeleinden, Waterstaat</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:And>
+				<ogc:PropertyIsEqualTo>
+					<ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+					<ogc:Literal>IMRO2006</ogc:Literal>
+				</ogc:PropertyIsEqualTo>
+				<ogc:PropertyIsLike wildCard="*" singleChar="?"
+					escapeChar="\">
+					<ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+					<ogc:Literal>*verkeer; waterverkeer*</ogc:Literal>
+				</ogc:PropertyIsLike>
+			</ogc:And>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Fill>
+				<SvgParameter name="fill">#ffffff</SvgParameter>
+				<SvgParameter name="fill-opacity">0.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+		<PolygonSymbolizer>
+			<Fill>
+				<GraphicFill>
+					<Graphic>
+						<ExternalGraphic>
+							<OnlineResource xlink:href="./symbols/bp_db_waterstaat.png" />
+							<Format>image/png</Format>
+						</ExternalGraphic>
+						<Size>16</Size>
+					</Graphic>
+				</GraphicFill>
+				<SvgParameter name="fill">#000000</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>Waarde</Name>
+        <Description>
+            <Title>Waarde</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:And>
+				<ogc:PropertyIsEqualTo>
+					<ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+					<ogc:Literal>IMRO2006</ogc:Literal>
+				</ogc:PropertyIsEqualTo>
+				<ogc:PropertyIsLike wildCard="*" singleChar="?"
+					escapeChar="\">
+					<ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+					<ogc:Literal>*+++*</ogc:Literal>
+				</ogc:PropertyIsLike>
+			</ogc:And>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Fill>
+				<SvgParameter name="fill">#ffffff</SvgParameter>
+				<SvgParameter name="fill-opacity">0.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+		<PolygonSymbolizer>
+			<Fill>
+				<GraphicFill>
+					<Graphic>
+						<ExternalGraphic>
+							<OnlineResource xlink:href="./symbols/bp_db_waarde.png" />
+							<Format>image/png</Format>
+						</ExternalGraphic>
+						<Size>16</Size>
+					</Graphic>
+				</GraphicFill>
+				<SvgParameter name="fill">#000000</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>Archeologisch/Cultuurhistorisch Waardevol Gebied</Name>
+        <Description>
+            <Title>Archeologisch/Cultuurhistorisch Waardevol Gebied</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:And>
+				<ogc:PropertyIsEqualTo>
+					<ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+					<ogc:Literal>IMRO2006</ogc:Literal>
+				</ogc:PropertyIsEqualTo>
+				<ogc:Not>
+					<ogc:PropertyIsLike wildCard="*" singleChar="?"
+						escapeChar="\">
+						<ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+						<ogc:Literal>*cultuurhistorie en archeologie; cultuurhistorische waarde; stads-/dorpsgezicht*</ogc:Literal>
+					</ogc:PropertyIsLike>
+				</ogc:Not>
+				<ogc:PropertyIsLike wildCard="*" singleChar="?"
+					escapeChar="\">
+					<ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+					<ogc:Literal>*cultuurhistorie en archeologie*</ogc:Literal>
+				</ogc:PropertyIsLike>
+			</ogc:And>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Fill>
+				<SvgParameter name="fill">#ffffff</SvgParameter>
+				<SvgParameter name="fill-opacity">0.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+		<PolygonSymbolizer>
+			<Fill>
+				<GraphicFill>
+					<Graphic>
+						<ExternalGraphic>
+							<OnlineResource xlink:href="./symbols/bp_db_archeologie.png" />
+							<Format>image/png</Format>
+						</ExternalGraphic>
+						<Size>16</Size>
+					</Graphic>
+				</GraphicFill>
+				<SvgParameter name="fill">#000000</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>Militaire Voorzieningen</Name>
+        <Description>
+            <Title>Militaire Voorzieningen</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:And>
+				<ogc:PropertyIsEqualTo>
+					<ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+					<ogc:Literal>IMRO2006</ogc:Literal>
+				</ogc:PropertyIsEqualTo>
+				<ogc:PropertyIsLike wildCard="*" singleChar="?"
+					escapeChar="\">
+					<ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+					<ogc:Literal>*voorzieningen; militaire voorzieningen*</ogc:Literal>
+				</ogc:PropertyIsLike>
+			</ogc:And>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Fill>
+				<SvgParameter name="fill">#ffffff</SvgParameter>
+				<SvgParameter name="fill-opacity">0.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+		<PolygonSymbolizer>
+			<Fill>
+				<GraphicFill>
+					<Graphic>
+						<ExternalGraphic>
+							<OnlineResource xlink:href="./symbols/bp_db_militaire.png" />
+							<Format>image/png</Format>
+						</ExternalGraphic>
+						<Size>16</Size>
+					</Graphic>
+				</GraphicFill>
+				<SvgParameter name="fill">#000000</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>Aanvliegroute</Name>
+        <Description>
+            <Title>Aanvliegroute</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:And>
+				<ogc:PropertyIsEqualTo>
+					<ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+					<ogc:Literal>IMRO2006</ogc:Literal>
+				</ogc:PropertyIsEqualTo>
+				<ogc:Or>
+					<ogc:PropertyIsLike wildCard="*" singleChar="?"
+						escapeChar="\">
+						<ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+						<ogc:Literal>*verkeer; luchtverkeer*</ogc:Literal>
+					</ogc:PropertyIsLike>
+					<ogc:PropertyIsLike wildCard="*" singleChar="?"
+						escapeChar="\">
+						<ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+						<ogc:Literal>*zonering; milieuzonering; luchtzonering*</ogc:Literal>
+					</ogc:PropertyIsLike>
+				</ogc:Or>
+			</ogc:And>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Fill>
+				<SvgParameter name="fill">#ffffff</SvgParameter>
+				<SvgParameter name="fill-opacity">0.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+		<PolygonSymbolizer>
+			<Fill>
+				<GraphicFill>
+					<Graphic>
+						<ExternalGraphic>
+							<OnlineResource xlink:href="./symbols/bp_db_aanvliegroute.png" />
+							<Format>image/png</Format>
+						</ExternalGraphic>
+						<Size>16</Size>
+					</Graphic>
+				</GraphicFill>
+				<SvgParameter name="fill">#000000</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>Molenbiotoop</Name>
+        <Description>
+            <Title>Molenbiotoop</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:And>
+				<ogc:PropertyIsEqualTo>
+					<ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+					<ogc:Literal>IMRO2006</ogc:Literal>
+				</ogc:PropertyIsEqualTo>
+				<ogc:PropertyIsLike wildCard="*" singleChar="?"
+					escapeChar="\">
+					<ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+					<ogc:Literal>*+++*</ogc:Literal>
+				</ogc:PropertyIsLike>
+			</ogc:And>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Fill>
+				<SvgParameter name="fill">#ffffff</SvgParameter>
+				<SvgParameter name="fill-opacity">0.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+		<PolygonSymbolizer>
+			<Fill>
+				<GraphicFill>
+					<Graphic>
+						<ExternalGraphic>
+							<OnlineResource xlink:href="./symbols/bp_db_molenbiotoop.png" />
+							<Format>image/png</Format>
+						</ExternalGraphic>
+						<Size>24</Size>
+					</Graphic>
+				</GraphicFill>
+				<SvgParameter name="fill">#000000</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>Straalpad</Name>
+        <Description>
+            <Title>Straalpad</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:And>
+				<ogc:PropertyIsEqualTo>
+					<ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+					<ogc:Literal>IMRO2006</ogc:Literal>
+				</ogc:PropertyIsEqualTo>
+				<ogc:PropertyIsLike wildCard="*" singleChar="?"
+					escapeChar="\">
+					<ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+					<ogc:Literal>*technische infrastructuur; straalpad*</ogc:Literal>
+				</ogc:PropertyIsLike>
+			</ogc:And>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Fill>
+				<SvgParameter name="fill">#ffffff</SvgParameter>
+				<SvgParameter name="fill-opacity">0.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+		<PolygonSymbolizer>
+			<Fill>
+				<GraphicFill>
+					<Graphic>
+						<ExternalGraphic>
+							<OnlineResource xlink:href="./symbols/bp_db_straalpad.png" />
+							<Format>image/png</Format>
+						</ExternalGraphic>
+						<Size>24</Size>
+					</Graphic>
+				</GraphicFill>
+				<SvgParameter name="fill">#000000</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>Beschermd Dorps-/Stadsgezicht</Name>
+        <Description>
+            <Title>Beschermd Dorps-/Stadsgezicht</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:And>
+				<ogc:PropertyIsEqualTo>
+					<ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+					<ogc:Literal>IMRO2006</ogc:Literal>
+				</ogc:PropertyIsEqualTo>
+				<ogc:PropertyIsLike wildCard="*" singleChar="?"
+					escapeChar="\">
+					<ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+					<ogc:Literal>*cultuurhistorie en archeologie; cultuurhistorische waarde; stads-/dorpsgezicht*</ogc:Literal>
+				</ogc:PropertyIsLike>
+			</ogc:And>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Fill>
+				<SvgParameter name="fill">#ffffff</SvgParameter>
+				<SvgParameter name="fill-opacity">0.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+		<PolygonSymbolizer>
+			<Fill>
+				<GraphicFill>
+					<Graphic>
+						<ExternalGraphic>
+							<OnlineResource xlink:href="./symbols/bp_db_drops_stadsgezicht.png" />
+							<Format>image/png</Format>
+						</ExternalGraphic>
+						<Size>24</Size>
+					</Graphic>
+				</GraphicFill>
+				<SvgParameter name="fill">#000000</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>Geluidszone</Name>
+        <Description>
+            <Title>Geluidszone</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:And>
+				<ogc:PropertyIsEqualTo>
+					<ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+					<ogc:Literal>IMRO2006</ogc:Literal>
+				</ogc:PropertyIsEqualTo>
+				<ogc:PropertyIsLike wildCard="*" singleChar="?"
+					escapeChar="\">
+					<ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+					<ogc:Literal>*zonering; milieuzonering; geluidzonering*</ogc:Literal>
+				</ogc:PropertyIsLike>
+			</ogc:And>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Fill>
+				<SvgParameter name="fill">#ffffff</SvgParameter>
+				<SvgParameter name="fill-opacity">0.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+		<PolygonSymbolizer>
+			<Fill>
+				<GraphicFill>
+					<Graphic>
+						<ExternalGraphic>
+							<OnlineResource xlink:href="./symbols/bp_db_geluidszone.png" />
+							<Format>image/png</Format>
+						</ExternalGraphic>
+						<Size>16</Size>
+					</Graphic>
+				</GraphicFill>
+				<SvgParameter name="fill">#000000</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>Not accordingly classified</Name>
+        <Description>
+            <Title>Not accordingly classified</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:And>
+				<ogc:PropertyIsEqualTo>
+					<ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+					<ogc:Literal>IMRO2006</ogc:Literal>
+				</ogc:PropertyIsEqualTo>
+				<ogc:Or>
+					<ogc:PropertyIsNull>
+						<ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+					</ogc:PropertyIsNull>
+					<ogc:PropertyIsLike wildCard="*" singleChar="?"
+						escapeChar="\">
+						<ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+						<ogc:Literal>*</ogc:Literal>
+					</ogc:PropertyIsLike>
+				</ogc:Or>
+			</ogc:And>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Fill>
+				<SvgParameter name="fill">#ffffff</SvgParameter>
+				<SvgParameter name="fill-opacity">0.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+		<PolygonSymbolizer>
+			<Fill>
+				<SvgParameter name="fill">#ffffff</SvgParameter>
+				<SvgParameter name="fill-opacity">0.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+</FeatureTypeStyle>

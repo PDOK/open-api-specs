@@ -1,0 +1,1871 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FeatureTypeStyle xmlns="http://www.opengis.net/se" xmlns:app="http://www.deegree.org/app" xmlns:deegreeogc="http://www.deegree.org/ogc" xmlns:ogc="http://www.opengis.net/ogc" xmlns:sed="http://www.deegree.org/se" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/se http://schemas.opengis.net/se/1.1.0/FeatureStyle.xsd http://www.deegree.org/se http://schemas.deegree.org/se/1.1.0/Symbolizer-deegree.xsd">
+  <Name>BP:Gebiedsaanduiding_overzicht</Name>
+  <Description>
+    <Title>default:BP:Gebiedsaanduiding_overzicht</Title>
+  </Description>
+  <FeatureTypeName>app:Gebiedsaanduiding</FeatureTypeName>
+
+  <!-- ###################################################### -->
+  <!-- ############# Gebiedsaanduiding_overzicht ############ -->
+  <!-- ###################################################### -->
+
+  <!-- ############# Geluidzonering ######################### -->
+  <Rule>
+    <Name>Geluidzonering</Name>
+    <Description>
+      <Title>Geluidzonering</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2008</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2012</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsSurface">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+          <ogc:Literal>geluidzone</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+      </ogc:And>
+    </ogc:Filter>
+    <PolygonSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Fill>
+        <SvgParameter name="fill">#ff9b00</SvgParameter>
+        <SvgParameter name="fill-opacity">0.4</SvgParameter>
+      </Fill>
+      <Stroke>
+        <SvgParameter name="stroke">#ff9b00</SvgParameter>
+        <SvgParameter name="stroke-opacity">1</SvgParameter>
+        <SvgParameter name="stroke-width">1.5</SvgParameter>
+        <SvgParameter name="stroke-linejoin">round</SvgParameter>
+        <SvgParameter name="stroke-linecap">round</SvgParameter>
+        <SvgParameter name="stroke-dasharray">1</SvgParameter>
+      </Stroke>
+    </PolygonSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Geluidzonering</Name>
+    <Description>
+      <Title>Geluidzonering</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2008</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2012</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsCurve">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+          <ogc:Literal>geluidzone</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+      </ogc:And>
+    </ogc:Filter>
+    <LineSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Stroke>
+        <SvgParameter name="stroke">#ff9b00</SvgParameter>
+        <SvgParameter name="stroke-opacity">1</SvgParameter>
+        <SvgParameter name="stroke-width">1.5</SvgParameter>
+        <SvgParameter name="stroke-linejoin">round</SvgParameter>
+        <SvgParameter name="stroke-linecap">round</SvgParameter>
+        <SvgParameter name="stroke-dasharray">1</SvgParameter>
+      </Stroke>
+    </LineSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Geluidzonering</Name>
+    <Description>
+      <Title>Geluidzonering</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2008</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2012</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsPoint">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+          <ogc:Literal>geluidzone</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+      </ogc:And>
+    </ogc:Filter>
+    <MinScaleDenominator>0.0</MinScaleDenominator>
+    <MaxScaleDenominator>15000000</MaxScaleDenominator>
+    <PointSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Graphic>
+        <Mark>
+          <WellKnownName>square</WellKnownName>
+          <Fill>
+            <SvgParameter name="fill">#ff9b00</SvgParameter>
+            <SvgParameter name="fill-opacity">1.0</SvgParameter>
+          </Fill>
+        </Mark>
+        <Size>5</Size>
+        <Rotation>0</Rotation>
+      </Graphic>
+    </PointSymbolizer>
+  </Rule>
+
+  <!-- ############# Luchtvaartzone ####################### -->
+  <Rule>
+    <Name>Luchtvaartzone</Name>
+    <Description>
+      <Title>Luchtvaartzone</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2008</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2012</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsSurface">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+          <ogc:Literal>luchtvaartverkeerzone</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+      </ogc:And>
+    </ogc:Filter>
+    <PolygonSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Fill>
+        <SvgParameter name="fill">#9b32cd</SvgParameter>
+        <SvgParameter name="fill-opacity">0.4</SvgParameter>
+      </Fill>
+      <Stroke>
+        <SvgParameter name="stroke">#9b32cd</SvgParameter>
+        <SvgParameter name="stroke-opacity">1</SvgParameter>
+        <SvgParameter name="stroke-width">1.5</SvgParameter>
+        <SvgParameter name="stroke-linejoin">round</SvgParameter>
+        <SvgParameter name="stroke-linecap">round</SvgParameter>
+        <SvgParameter name="stroke-dasharray">1</SvgParameter>
+      </Stroke>
+    </PolygonSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Luchtvaartzone</Name>
+    <Description>
+      <Title>Luchtvaartzone</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2008</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2012</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsCurve">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+          <ogc:Literal>luchtvaartverkeerzone</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+      </ogc:And>
+    </ogc:Filter>
+    <LineSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Stroke>
+        <SvgParameter name="stroke">#9b32cd</SvgParameter>
+        <SvgParameter name="stroke-opacity">1</SvgParameter>
+        <SvgParameter name="stroke-width">1.5</SvgParameter>
+        <SvgParameter name="stroke-linejoin">round</SvgParameter>
+        <SvgParameter name="stroke-linecap">round</SvgParameter>
+        <SvgParameter name="stroke-dasharray">1</SvgParameter>
+      </Stroke>
+    </LineSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Luchtvaartzone</Name>
+    <Description>
+      <Title>Luchtvaartzone</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2008</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2012</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsPoint">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+          <ogc:Literal>luchtvaartverkeerzone</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+      </ogc:And>
+    </ogc:Filter>
+    <MinScaleDenominator>0.0</MinScaleDenominator>
+    <MaxScaleDenominator>15000000</MaxScaleDenominator>
+    <PointSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Graphic>
+        <Mark>
+          <WellKnownName>square</WellKnownName>
+          <Fill>
+            <SvgParameter name="fill">#9b32cd</SvgParameter>
+            <SvgParameter name="fill-opacity">1.0</SvgParameter>
+          </Fill>
+        </Mark>
+        <Size>5</Size>
+        <Rotation>0</Rotation>
+      </Graphic>
+    </PointSymbolizer>
+  </Rule>
+
+  <!-- ############# Vrijwaringszone ######################### -->
+  <Rule>
+    <Name>Vrijwaringszone</Name>
+    <Description>
+      <Title>Vrijwaringszone</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2008</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2012</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsSurface">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+          <ogc:Literal>vrijwaringszone</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+      </ogc:And>
+    </ogc:Filter>
+    <PolygonSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Fill>
+        <SvgParameter name="fill">#37cd00</SvgParameter>
+        <SvgParameter name="fill-opacity">0.4</SvgParameter>
+      </Fill>
+      <Stroke>
+        <SvgParameter name="stroke">#37cd00</SvgParameter>
+        <SvgParameter name="stroke-opacity">1</SvgParameter>
+        <SvgParameter name="stroke-width">1.5</SvgParameter>
+        <SvgParameter name="stroke-linejoin">round</SvgParameter>
+        <SvgParameter name="stroke-linecap">round</SvgParameter>
+        <SvgParameter name="stroke-dasharray">1</SvgParameter>
+      </Stroke>
+    </PolygonSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Vrijwaringszone</Name>
+    <Description>
+      <Title>Vrijwaringszone</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2008</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2012</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsCurve">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+          <ogc:Literal>vrijwaringszone</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+      </ogc:And>
+    </ogc:Filter>
+    <LineSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Stroke>
+        <SvgParameter name="stroke">#37cd00</SvgParameter>
+        <SvgParameter name="stroke-opacity">1</SvgParameter>
+        <SvgParameter name="stroke-width">1.5</SvgParameter>
+        <SvgParameter name="stroke-linejoin">round</SvgParameter>
+        <SvgParameter name="stroke-linecap">round</SvgParameter>
+        <SvgParameter name="stroke-dasharray">1</SvgParameter>
+      </Stroke>
+    </LineSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Vrijwaringszone</Name>
+    <Description>
+      <Title>Vrijwaringszone</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2008</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2012</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsPoint">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+          <ogc:Literal>vrijwaringszone</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+      </ogc:And>
+    </ogc:Filter>
+    <MinScaleDenominator>0.0</MinScaleDenominator>
+    <MaxScaleDenominator>15000000</MaxScaleDenominator>
+    <PointSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Graphic>
+        <Mark>
+          <WellKnownName>square</WellKnownName>
+          <Fill>
+            <SvgParameter name="fill">#37cd00</SvgParameter>
+            <SvgParameter name="fill-opacity">1.0</SvgParameter>
+          </Fill>
+        </Mark>
+        <Size>5</Size>
+        <Rotation>0</Rotation>
+      </Graphic>
+    </PointSymbolizer>
+  </Rule>
+
+  <!-- ######### Veiligheidszone ####### -->
+  <Rule>
+    <Name>Veiligheidszone</Name>
+    <Description>
+      <Title>Veiligheidszone</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2008</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2012</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsSurface">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+          <ogc:Literal>veiligheidszone</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+      </ogc:And>
+    </ogc:Filter>
+    <PolygonSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Fill>
+        <SvgParameter name="fill">#0000ff</SvgParameter>
+        <SvgParameter name="fill-opacity">0.4</SvgParameter>
+      </Fill>
+      <Stroke>
+        <SvgParameter name="stroke">#0000ff</SvgParameter>
+        <SvgParameter name="stroke-opacity">1</SvgParameter>
+        <SvgParameter name="stroke-width">1.5</SvgParameter>
+        <SvgParameter name="stroke-linejoin">round</SvgParameter>
+        <SvgParameter name="stroke-linecap">round</SvgParameter>
+        <SvgParameter name="stroke-dasharray">1</SvgParameter>
+      </Stroke>
+    </PolygonSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Veiligheidszone</Name>
+    <Description>
+      <Title>Veiligheidszone</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2008</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2012</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsCurve">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+          <ogc:Literal>veiligheidszone</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+      </ogc:And>
+    </ogc:Filter>
+    <LineSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Stroke>
+        <SvgParameter name="stroke">#0000ff</SvgParameter>
+        <SvgParameter name="stroke-opacity">1</SvgParameter>
+        <SvgParameter name="stroke-width">1.5</SvgParameter>
+        <SvgParameter name="stroke-linejoin">round</SvgParameter>
+        <SvgParameter name="stroke-linecap">round</SvgParameter>
+        <SvgParameter name="stroke-dasharray">1</SvgParameter>
+      </Stroke>
+    </LineSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Veiligheidszone</Name>
+    <Description>
+      <Title>Veiligheidszone</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2008</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2012</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsPoint">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+          <ogc:Literal>veiligheidszone</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+      </ogc:And>
+    </ogc:Filter>
+    <MinScaleDenominator>0.0</MinScaleDenominator>
+    <MaxScaleDenominator>15000000</MaxScaleDenominator>
+    <PointSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Graphic>
+        <Mark>
+          <WellKnownName>square</WellKnownName>
+          <Fill>
+            <SvgParameter name="fill">#0000ff</SvgParameter>
+            <SvgParameter name="fill-opacity">1.0</SvgParameter>
+          </Fill>
+        </Mark>
+        <Size>5</Size>
+        <Rotation>0</Rotation>
+      </Graphic>
+    </PointSymbolizer>
+  </Rule>
+
+
+  <!-- ########### Milieuzone ############ -->
+
+  <Rule>
+    <Name>Milieuzone</Name>
+    <Description>
+      <Title>Milieuzone</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2008</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2012</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsSurface">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+          <ogc:Literal>milieuzone</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+      </ogc:And>
+    </ogc:Filter>
+    <PolygonSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Fill>
+        <SvgParameter name="fill">#009b00</SvgParameter>
+        <SvgParameter name="fill-opacity">0.4</SvgParameter>
+      </Fill>
+      <Stroke>
+        <SvgParameter name="stroke">#009b00</SvgParameter>
+        <SvgParameter name="stroke-opacity">1</SvgParameter>
+        <SvgParameter name="stroke-width">1.5</SvgParameter>
+        <SvgParameter name="stroke-linejoin">round</SvgParameter>
+        <SvgParameter name="stroke-linecap">round</SvgParameter>
+        <SvgParameter name="stroke-dasharray">1</SvgParameter>
+      </Stroke>
+    </PolygonSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Milieuzone</Name>
+    <Description>
+      <Title>Milieuzone</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2008</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2012</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsCurve">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+          <ogc:Literal>milieuzone</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+      </ogc:And>
+    </ogc:Filter>
+    <LineSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Stroke>
+        <SvgParameter name="stroke">#009b00</SvgParameter>
+        <SvgParameter name="stroke-opacity">1</SvgParameter>
+        <SvgParameter name="stroke-width">1.5</SvgParameter>
+        <SvgParameter name="stroke-linejoin">round</SvgParameter>
+        <SvgParameter name="stroke-linecap">round</SvgParameter>
+        <SvgParameter name="stroke-dasharray">1</SvgParameter>
+      </Stroke>
+    </LineSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Milieuzone</Name>
+    <Description>
+      <Title>Milieuzone</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2008</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2012</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsPoint">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+          <ogc:Literal>milieuzone</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+      </ogc:And>
+    </ogc:Filter>
+    <MinScaleDenominator>0.0</MinScaleDenominator>
+    <MaxScaleDenominator>15000000</MaxScaleDenominator>
+    <PointSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Graphic>
+        <Mark>
+          <WellKnownName>square</WellKnownName>
+          <Fill>
+            <SvgParameter name="fill">#009b00</SvgParameter>
+            <SvgParameter name="fill-opacity">1.0</SvgParameter>
+          </Fill>
+        </Mark>
+        <Size>5</Size>
+        <Rotation>0</Rotation>
+      </Graphic>
+    </PointSymbolizer>
+  </Rule>
+
+
+  <!-- ############# IMRO2008 Wro-zone / IMRO2012 wetgevingzone ####################### -->
+  <Rule>
+    <Name>Wetgevingzone / Wro-zone</Name>
+    <Description>
+      <Title>Wetgevingzone / Wro-zone</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2008</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2012</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsSurface">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+            <ogc:Literal>wro-zone</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+            <ogc:Literal>wetgevingzone</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+      </ogc:And>
+    </ogc:Filter>
+    <PolygonSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Fill>
+        <SvgParameter name="fill">#FF0000</SvgParameter>
+        <SvgParameter name="fill-opacity">0.4</SvgParameter>
+      </Fill>
+      <Stroke>
+        <SvgParameter name="stroke">#FF0000</SvgParameter>
+        <SvgParameter name="stroke-opacity">1</SvgParameter>
+        <SvgParameter name="stroke-width">1.5</SvgParameter>
+        <SvgParameter name="stroke-linejoin">round</SvgParameter>
+        <SvgParameter name="stroke-linecap">round</SvgParameter>
+        <SvgParameter name="stroke-dasharray">1</SvgParameter>
+      </Stroke>
+    </PolygonSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Wetgevingzone / Wro-zone</Name>
+    <Description>
+      <Title>Wetgevingzone / Wro-zone</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2008</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2012</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsCurve">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+            <ogc:Literal>wro-zone</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+            <ogc:Literal>wetgevingzone</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+      </ogc:And>
+    </ogc:Filter>
+    <LineSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Stroke>
+        <SvgParameter name="stroke">#FF0000</SvgParameter>
+        <SvgParameter name="stroke-opacity">1</SvgParameter>
+        <SvgParameter name="stroke-width">1.5</SvgParameter>
+        <SvgParameter name="stroke-linejoin">round</SvgParameter>
+        <SvgParameter name="stroke-linecap">round</SvgParameter>
+        <SvgParameter name="stroke-dasharray">1</SvgParameter>
+      </Stroke>
+    </LineSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Wetgevingzone / Wro-zone</Name>
+    <Description>
+      <Title>Wetgevingzone / Wro-zone</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2008</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2012</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsPoint">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+            <ogc:Literal>wro-zone</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+            <ogc:Literal>wetgevingzone</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+      </ogc:And>
+    </ogc:Filter>
+    <MinScaleDenominator>0.0</MinScaleDenominator>
+    <MaxScaleDenominator>15000000</MaxScaleDenominator>
+    <PointSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Graphic>
+        <Mark>
+          <WellKnownName>square</WellKnownName>
+          <Fill>
+            <SvgParameter name="fill">#FF0000</SvgParameter>
+            <SvgParameter name="fill-opacity">1.0</SvgParameter>
+          </Fill>
+        </Mark>
+        <Size>5</Size>
+        <Rotation>0</Rotation>
+      </Graphic>
+    </PointSymbolizer>
+  </Rule>
+
+  <!-- ########### Reconstructiewetzone ############ -->
+
+  <Rule>
+    <Name>Reconstructiewetzone</Name>
+    <Description>
+      <Title>Reconstructiewetzone</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2008</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2012</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsSurface">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+          <ogc:Literal>reconstructiewetzone</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+      </ogc:And>
+    </ogc:Filter>
+    <PolygonSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Fill>
+        <SvgParameter name="fill">#38855E</SvgParameter>
+        <SvgParameter name="fill-opacity">0.4</SvgParameter>
+      </Fill>
+      <Stroke>
+        <SvgParameter name="stroke">#38855E</SvgParameter>
+        <SvgParameter name="stroke-opacity">1</SvgParameter>
+        <SvgParameter name="stroke-width">1.5</SvgParameter>
+        <SvgParameter name="stroke-linejoin">round</SvgParameter>
+        <SvgParameter name="stroke-linecap">round</SvgParameter>
+        <SvgParameter name="stroke-dasharray">1</SvgParameter>
+      </Stroke>
+    </PolygonSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Reconstructiewetzone</Name>
+    <Description>
+      <Title>Reconstructiewetzone</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2008</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2012</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsCurve">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+          <ogc:Literal>reconstructiewetzone</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+      </ogc:And>
+    </ogc:Filter>
+    <LineSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Stroke>
+        <SvgParameter name="stroke">#38855E</SvgParameter>
+        <SvgParameter name="stroke-opacity">1</SvgParameter>
+        <SvgParameter name="stroke-width">1.5</SvgParameter>
+        <SvgParameter name="stroke-linejoin">round</SvgParameter>
+        <SvgParameter name="stroke-linecap">round</SvgParameter>
+        <SvgParameter name="stroke-dasharray">1</SvgParameter>
+      </Stroke>
+    </LineSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Reconstructiewetzone</Name>
+    <Description>
+      <Title>Reconstructiewetzone</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2008</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2012</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsPoint">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+          <ogc:Literal>reconstructiewetzone</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+      </ogc:And>
+    </ogc:Filter>
+    <MinScaleDenominator>0.0</MinScaleDenominator>
+    <MaxScaleDenominator>15000000</MaxScaleDenominator>
+    <PointSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Graphic>
+        <Mark>
+          <WellKnownName>square</WellKnownName>
+          <Fill>
+            <SvgParameter name="fill">#38855E</SvgParameter>
+            <SvgParameter name="fill-opacity">1.0</SvgParameter>
+          </Fill>
+        </Mark>
+        <Size>5</Size>
+        <Rotation>0</Rotation>
+      </Graphic>
+    </PointSymbolizer>
+  </Rule>
+
+  <!-- ########### IMRO 2008 overig / IMRO 2012 overige zone ############ -->
+
+  <Rule>
+    <Name>Overige Zone</Name>
+    <Description>
+      <Title>Overige Zone</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2008</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2012</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsSurface">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+            <ogc:Literal>overig</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+            <ogc:Literal>overige zone</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+      </ogc:And>
+    </ogc:Filter>
+    <PolygonSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Fill>
+        <SvgParameter name="fill">#646464</SvgParameter>
+        <SvgParameter name="fill-opacity">0.4</SvgParameter>
+      </Fill>
+      <Stroke>
+        <SvgParameter name="stroke">#646464</SvgParameter>
+        <SvgParameter name="stroke-opacity">1</SvgParameter>
+        <SvgParameter name="stroke-width">1.5</SvgParameter>
+        <SvgParameter name="stroke-linejoin">round</SvgParameter>
+        <SvgParameter name="stroke-linecap">round</SvgParameter>
+        <SvgParameter name="stroke-dasharray">1</SvgParameter>
+      </Stroke>
+    </PolygonSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Overige Zone</Name>
+    <Description>
+      <Title>Overige Zone</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2008</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2012</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsCurve">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+            <ogc:Literal>overig</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+            <ogc:Literal>overige zone</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+      </ogc:And>
+    </ogc:Filter>
+    <MinScaleDenominator>0.0</MinScaleDenominator>
+    <MaxScaleDenominator>15000000</MaxScaleDenominator>
+    <LineSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Stroke>
+        <SvgParameter name="stroke">#646464</SvgParameter>
+        <SvgParameter name="stroke-opacity">1</SvgParameter>
+        <SvgParameter name="stroke-width">1.5</SvgParameter>
+        <SvgParameter name="stroke-linejoin">round</SvgParameter>
+        <SvgParameter name="stroke-linecap">round</SvgParameter>
+        <SvgParameter name="stroke-dasharray">1</SvgParameter>
+      </Stroke>
+    </LineSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Overige Zone</Name>
+    <Description>
+      <Title>Overige Zone</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2008</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+            <ogc:Literal>IMRO2012</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsPoint">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:Or>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+            <ogc:Literal>overig</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+          <ogc:PropertyIsEqualTo>
+            <ogc:PropertyName>app:gebiedsaanduidinggroep</ogc:PropertyName>
+            <ogc:Literal>overige zone</ogc:Literal>
+          </ogc:PropertyIsEqualTo>
+        </ogc:Or>
+      </ogc:And>
+    </ogc:Filter>
+    <MinScaleDenominator>0.0</MinScaleDenominator>
+    <MaxScaleDenominator>15000000</MaxScaleDenominator>
+    <PointSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Graphic>
+        <Mark>
+          <WellKnownName>square</WellKnownName>
+          <Fill>
+            <SvgParameter name="fill">#646464</SvgParameter>
+            <SvgParameter name="fill-opacity">1.0</SvgParameter>
+          </Fill>
+        </Mark>
+        <Size>5</Size>
+        <Rotation>0</Rotation>
+      </Graphic>
+    </PointSymbolizer>
+  </Rule>
+
+
+
+
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- ++++++++++ These are the rules for IMRO2006 plans +++++++++++++++++++++ -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+  <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+
+  <Rule>
+    <Name>Geluidzonering</Name>
+    <Description>
+      <Title>Geluidzonering</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+          <ogc:Literal>IMRO2006</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsSurface">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+          <ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+          <ogc:Literal>*zonering; milieuzonering; geluidzonering*</ogc:Literal>
+        </ogc:PropertyIsLike>
+      </ogc:And>
+    </ogc:Filter>
+    <PolygonSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Fill>
+        <SvgParameter name="fill">#ff9b00</SvgParameter>
+        <SvgParameter name="fill-opacity">0.4</SvgParameter>
+      </Fill>
+      <Stroke>
+        <SvgParameter name="stroke">#ff9b00</SvgParameter>
+        <SvgParameter name="stroke-opacity">1</SvgParameter>
+        <SvgParameter name="stroke-width">1.5</SvgParameter>
+        <SvgParameter name="stroke-linejoin">round</SvgParameter>
+        <SvgParameter name="stroke-linecap">round</SvgParameter>
+        <SvgParameter name="stroke-dasharray">1</SvgParameter>
+      </Stroke>
+    </PolygonSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Geluidzonering</Name>
+    <Description>
+      <Title>Geluidzonering</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+          <ogc:Literal>IMRO2006</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsCurve">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+          <ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+          <ogc:Literal>*zonering; milieuzonering; geluidzonering*</ogc:Literal>
+        </ogc:PropertyIsLike>
+      </ogc:And>
+    </ogc:Filter>
+    <LineSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Stroke>
+        <SvgParameter name="stroke">#ff9b00</SvgParameter>
+        <SvgParameter name="stroke-opacity">1</SvgParameter>
+        <SvgParameter name="stroke-width">1.5</SvgParameter>
+        <SvgParameter name="stroke-linejoin">round</SvgParameter>
+        <SvgParameter name="stroke-linecap">round</SvgParameter>
+        <SvgParameter name="stroke-dasharray">1</SvgParameter>
+      </Stroke>
+    </LineSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Geluidzonering</Name>
+    <Description>
+      <Title>Geluidzonering</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+          <ogc:Literal>IMRO2006</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsPoint">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+          <ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+          <ogc:Literal>*zonering; milieuzonering; geluidzonering*</ogc:Literal>
+        </ogc:PropertyIsLike>
+      </ogc:And>
+    </ogc:Filter>
+    <MinScaleDenominator>0.0</MinScaleDenominator>
+    <MaxScaleDenominator>15000000</MaxScaleDenominator>
+    <PointSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Graphic>
+        <Mark>
+          <WellKnownName>square</WellKnownName>
+          <Fill>
+            <SvgParameter name="fill">#ff9b00</SvgParameter>
+            <SvgParameter name="fill-opacity">1.0</SvgParameter>
+          </Fill>
+        </Mark>
+        <Size>5</Size>
+        <Rotation>0</Rotation>
+      </Graphic>
+    </PointSymbolizer>
+  </Rule>
+
+  <Rule>
+    <Name>Luchtvaartverkeer</Name>
+    <Description>
+      <Title>Luchtvaartverkeer</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+          <ogc:Literal>IMRO2006</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsSurface">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+          <ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+          <ogc:Literal>*zonering; milieuzonering; luchtzonering*</ogc:Literal>
+        </ogc:PropertyIsLike>
+      </ogc:And>
+    </ogc:Filter>
+    <PolygonSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Fill>
+        <SvgParameter name="fill">#9b32cd</SvgParameter>
+        <SvgParameter name="fill-opacity">0.4</SvgParameter>
+      </Fill>
+      <Stroke>
+        <SvgParameter name="stroke">#9b32cd</SvgParameter>
+        <SvgParameter name="stroke-opacity">1</SvgParameter>
+        <SvgParameter name="stroke-width">1.5</SvgParameter>
+        <SvgParameter name="stroke-linejoin">round</SvgParameter>
+        <SvgParameter name="stroke-linecap">round</SvgParameter>
+        <SvgParameter name="stroke-dasharray">1</SvgParameter>
+      </Stroke>
+    </PolygonSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Luchtvaartverkeer</Name>
+    <Description>
+      <Title>Luchtvaartverkeer</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+          <ogc:Literal>IMRO2006</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsCurve">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+          <ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+          <ogc:Literal>*zonering; milieuzonering; luchtzonering*</ogc:Literal>
+        </ogc:PropertyIsLike>
+      </ogc:And>
+    </ogc:Filter>
+    <LineSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Stroke>
+        <SvgParameter name="stroke">#9b32cd</SvgParameter>
+        <SvgParameter name="stroke-opacity">1</SvgParameter>
+        <SvgParameter name="stroke-width">1.5</SvgParameter>
+        <SvgParameter name="stroke-linejoin">round</SvgParameter>
+        <SvgParameter name="stroke-linecap">round</SvgParameter>
+        <SvgParameter name="stroke-dasharray">1</SvgParameter>
+      </Stroke>
+    </LineSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Luchtvaartverkeer</Name>
+    <Description>
+      <Title>Luchtvaartverkeer</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+          <ogc:Literal>IMRO2006</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsPoint">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+          <ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+          <ogc:Literal>*zonering; milieuzonering; luchtzonering*</ogc:Literal>
+        </ogc:PropertyIsLike>
+      </ogc:And>
+    </ogc:Filter>
+    <MinScaleDenominator>0.0</MinScaleDenominator>
+    <MaxScaleDenominator>15000000</MaxScaleDenominator>
+    <PointSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Graphic>
+        <Mark>
+          <WellKnownName>square</WellKnownName>
+          <Fill>
+            <SvgParameter name="fill">#9b32cd</SvgParameter>
+            <SvgParameter name="fill-opacity">1.0</SvgParameter>
+          </Fill>
+        </Mark>
+        <Size>5</Size>
+        <Rotation>0</Rotation>
+      </Graphic>
+    </PointSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Veiligheidszone</Name>
+    <Description>
+      <Title>Veiligheidszone</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+          <ogc:Literal>IMRO2006</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsSurface">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+          <ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+          <ogc:Literal>*zonering; milieuzonering; veiligheidszonering*</ogc:Literal>
+        </ogc:PropertyIsLike>
+      </ogc:And>
+    </ogc:Filter>
+    <PolygonSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Fill>
+        <SvgParameter name="fill">#0000ff</SvgParameter>
+        <SvgParameter name="fill-opacity">0.4</SvgParameter>
+      </Fill>
+      <Stroke>
+        <SvgParameter name="stroke">#0000ff</SvgParameter>
+        <SvgParameter name="stroke-opacity">1</SvgParameter>
+        <SvgParameter name="stroke-width">1.5</SvgParameter>
+        <SvgParameter name="stroke-linejoin">round</SvgParameter>
+        <SvgParameter name="stroke-linecap">round</SvgParameter>
+        <SvgParameter name="stroke-dasharray">1</SvgParameter>
+      </Stroke>
+    </PolygonSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Veiligheidszone</Name>
+    <Description>
+      <Title>Veiligheidszone</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+          <ogc:Literal>IMRO2006</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsCurve">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+          <ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+          <ogc:Literal>*zonering; milieuzonering; veiligheidszonering*</ogc:Literal>
+        </ogc:PropertyIsLike>
+      </ogc:And>
+    </ogc:Filter>
+    <LineSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Stroke>
+        <SvgParameter name="stroke">#0000ff</SvgParameter>
+        <SvgParameter name="stroke-opacity">1</SvgParameter>
+        <SvgParameter name="stroke-width">1.5</SvgParameter>
+        <SvgParameter name="stroke-linejoin">round</SvgParameter>
+        <SvgParameter name="stroke-linecap">round</SvgParameter>
+        <SvgParameter name="stroke-dasharray">1</SvgParameter>
+      </Stroke>
+    </LineSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Veiligheidszone</Name>
+    <Description>
+      <Title>Veiligheidszone</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+          <ogc:Literal>IMRO2006</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsPoint">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+          <ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+          <ogc:Literal>zonering; milieuzonering; veiligheidszonering</ogc:Literal>
+        </ogc:PropertyIsLike>
+      </ogc:And>
+    </ogc:Filter>
+    <MinScaleDenominator>0.0</MinScaleDenominator>
+    <MaxScaleDenominator>15000000</MaxScaleDenominator>
+    <PointSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Graphic>
+        <Mark>
+          <WellKnownName>square</WellKnownName>
+          <Fill>
+            <SvgParameter name="fill">#0000ff</SvgParameter>
+            <SvgParameter name="fill-opacity">1.0</SvgParameter>
+          </Fill>
+        </Mark>
+        <Size>5</Size>
+        <Rotation>0</Rotation>
+      </Graphic>
+    </PointSymbolizer>
+  </Rule>
+
+  <Rule>
+    <Name>Milieuzonering</Name>
+    <Description>
+      <Title>Milieuzonering</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+          <ogc:Literal>IMRO2006</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsSurface">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+          <ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+          <ogc:Literal>*zonering; milieuzonering*</ogc:Literal>
+        </ogc:PropertyIsLike>
+      </ogc:And>
+    </ogc:Filter>
+    <PolygonSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Fill>
+        <SvgParameter name="fill">#009b00</SvgParameter>
+        <SvgParameter name="fill-opacity">0.4</SvgParameter>
+      </Fill>
+      <Stroke>
+        <SvgParameter name="stroke">#009b00</SvgParameter>
+        <SvgParameter name="stroke-opacity">1</SvgParameter>
+        <SvgParameter name="stroke-width">1.5</SvgParameter>
+        <SvgParameter name="stroke-linejoin">round</SvgParameter>
+        <SvgParameter name="stroke-linecap">round</SvgParameter>
+        <SvgParameter name="stroke-dasharray">1</SvgParameter>
+      </Stroke>
+    </PolygonSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Milieuzonering</Name>
+    <Description>
+      <Title>Milieuzonering</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+          <ogc:Literal>IMRO2006</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsCurve">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+          <ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+          <ogc:Literal>*zonering; milieuzonering*</ogc:Literal>
+        </ogc:PropertyIsLike>
+      </ogc:And>
+    </ogc:Filter>
+    <LineSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Stroke>
+        <SvgParameter name="stroke">#009b00</SvgParameter>
+        <SvgParameter name="stroke-opacity">1</SvgParameter>
+        <SvgParameter name="stroke-width">1.5</SvgParameter>
+        <SvgParameter name="stroke-linejoin">round</SvgParameter>
+        <SvgParameter name="stroke-linecap">round</SvgParameter>
+        <SvgParameter name="stroke-dasharray">1</SvgParameter>
+      </Stroke>
+    </LineSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Milieuzonering</Name>
+    <Description>
+      <Title>Milieuzonering</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+          <ogc:Literal>IMRO2006</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsPoint">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+          <ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+          <ogc:Literal>zonering; milieuzonering</ogc:Literal>
+        </ogc:PropertyIsLike>
+      </ogc:And>
+    </ogc:Filter>
+    <MinScaleDenominator>0.0</MinScaleDenominator>
+    <MaxScaleDenominator>15000000</MaxScaleDenominator>
+    <PointSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Graphic>
+        <Mark>
+          <WellKnownName>square</WellKnownName>
+          <Fill>
+            <SvgParameter name="fill">#009b00</SvgParameter>
+            <SvgParameter name="fill-opacity">1.0</SvgParameter>
+          </Fill>
+        </Mark>
+        <Size>5</Size>
+        <Rotation>0</Rotation>
+      </Graphic>
+    </PointSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Overig</Name>
+    <Description>
+      <Title>Overig</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+          <ogc:Literal>IMRO2006</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsSurface">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:Or>
+          <ogc:PropertyIsNull>
+            <ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+          </ogc:PropertyIsNull>
+          <ogc:And>
+            <ogc:Not>
+              <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+                <ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+                <ogc:Literal>*zonering; milieuzonering; geluidzonering*</ogc:Literal>
+              </ogc:PropertyIsLike>
+            </ogc:Not>
+            <ogc:Not>
+              <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+                <ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+                <ogc:Literal>*zonering; milieuzonering; luchtzonering*</ogc:Literal>
+              </ogc:PropertyIsLike>
+            </ogc:Not>
+            <ogc:Not>
+              <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+                <ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+                <ogc:Literal>*zonering; milieuzonering*</ogc:Literal>
+              </ogc:PropertyIsLike>
+            </ogc:Not>
+            <ogc:Not>
+              <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+                <ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+                <ogc:Literal>*zonering; milieuzonering; veiligheidszonering*</ogc:Literal>
+              </ogc:PropertyIsLike>
+            </ogc:Not>
+          </ogc:And>
+        </ogc:Or>
+      </ogc:And>
+    </ogc:Filter>
+    <PolygonSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Fill>
+        <SvgParameter name="fill">#646464</SvgParameter>
+        <SvgParameter name="fill-opacity">0.4</SvgParameter>
+      </Fill>
+      <Stroke>
+        <SvgParameter name="stroke">#646464</SvgParameter>
+        <SvgParameter name="stroke-opacity">1</SvgParameter>
+        <SvgParameter name="stroke-width">1.5</SvgParameter>
+        <SvgParameter name="stroke-linejoin">round</SvgParameter>
+        <SvgParameter name="stroke-linecap">round</SvgParameter>
+        <SvgParameter name="stroke-dasharray">1</SvgParameter>
+      </Stroke>
+    </PolygonSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Overig</Name>
+    <Description>
+      <Title>Overig</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+          <ogc:Literal>IMRO2006</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsCurve">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:Or>
+          <ogc:PropertyIsNull>
+            <ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+          </ogc:PropertyIsNull>
+          <ogc:And>
+            <ogc:Not>
+              <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+                <ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+                <ogc:Literal>*zonering; milieuzonering; geluidzonering*</ogc:Literal>
+              </ogc:PropertyIsLike>
+            </ogc:Not>
+            <ogc:Not>
+              <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+                <ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+                <ogc:Literal>*zonering; milieuzonering; luchtzonering*</ogc:Literal>
+              </ogc:PropertyIsLike>
+            </ogc:Not>
+            <ogc:Not>
+              <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+                <ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+                <ogc:Literal>*zonering; milieuzonering*</ogc:Literal>
+              </ogc:PropertyIsLike>
+            </ogc:Not>
+            <ogc:Not>
+              <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+                <ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+                <ogc:Literal>*zonering; milieuzonering; veiligheidszonering*</ogc:Literal>
+              </ogc:PropertyIsLike>
+            </ogc:Not>
+          </ogc:And>
+        </ogc:Or>
+      </ogc:And>
+    </ogc:Filter>
+    <MinScaleDenominator>0.0</MinScaleDenominator>
+    <MaxScaleDenominator>15000000</MaxScaleDenominator>
+    <LineSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Stroke>
+        <SvgParameter name="stroke">#646464</SvgParameter>
+        <SvgParameter name="stroke-opacity">1</SvgParameter>
+        <SvgParameter name="stroke-width">1.5</SvgParameter>
+        <SvgParameter name="stroke-linejoin">round</SvgParameter>
+        <SvgParameter name="stroke-linecap">round</SvgParameter>
+        <SvgParameter name="stroke-dasharray">1</SvgParameter>
+      </Stroke>
+    </LineSymbolizer>
+  </Rule>
+  <Rule>
+    <Name>Overig</Name>
+    <Description>
+      <Title>Overig</Title>
+    </Description>
+    <ogc:Filter>
+      <ogc:And>
+        <ogc:PropertyIsEqualTo>
+          <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+          <ogc:Literal>IMRO2006</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:PropertyIsEqualTo>
+          <ogc:Function name="IsPoint">
+            <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+          </ogc:Function>
+          <ogc:Literal>true</ogc:Literal>
+        </ogc:PropertyIsEqualTo>
+        <ogc:Or>
+          <ogc:PropertyIsNull>
+            <ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+          </ogc:PropertyIsNull>
+          <ogc:And>
+            <ogc:Not>
+              <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+                <ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+                <ogc:Literal>*zonering; milieuzonering; geluidzonering*</ogc:Literal>
+              </ogc:PropertyIsLike>
+            </ogc:Not>
+            <ogc:Not>
+              <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+                <ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+                <ogc:Literal>*zonering; milieuzonering; luchtzonering*</ogc:Literal>
+              </ogc:PropertyIsLike>
+            </ogc:Not>
+            <ogc:Not>
+              <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+                <ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+                <ogc:Literal>*zonering; milieuzonering*</ogc:Literal>
+              </ogc:PropertyIsLike>
+            </ogc:Not>
+            <ogc:Not>
+              <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+                <ogc:PropertyName>app:hoofdfuncties</ogc:PropertyName>
+                <ogc:Literal>*zonering; milieuzonering; veiligheidszonering*</ogc:Literal>
+              </ogc:PropertyIsLike>
+            </ogc:Not>
+          </ogc:And>
+        </ogc:Or>
+      </ogc:And>
+    </ogc:Filter>
+    <MinScaleDenominator>0.0</MinScaleDenominator>
+    <MaxScaleDenominator>15000000</MaxScaleDenominator>
+    <PointSymbolizer>
+      <Geometry>
+        <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+      </Geometry>
+      <Graphic>
+        <Mark>
+          <WellKnownName>square</WellKnownName>
+          <Fill>
+            <SvgParameter name="fill">#646464</SvgParameter>
+            <SvgParameter name="fill-opacity">1.0</SvgParameter>
+          </Fill>
+        </Mark>
+        <Size>5</Size>
+        <Rotation>0</Rotation>
+      </Graphic>
+    </PointSymbolizer>
+  </Rule>
+</FeatureTypeStyle>

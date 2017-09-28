@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FeatureTypeStyle xmlns="http://www.opengis.net/se"
+	xmlns:app="http://www.deegree.org/app" xmlns:deegreeogc="http://www.deegree.org/ogc"
+	xmlns:ogc="http://www.opengis.net/ogc" xmlns:sed="http://www.deegree.org/se"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.opengis.net/se http://schemas.opengis.net/se/1.1.0/FeatureStyle.xsd http://www.deegree.org/se http://schemas.deegree.org/se/1.1.0/Symbolizer-deegree.xsd">
+	<Name>BP:Bestemmingsplangebied</Name>
+	<Description>
+		<Title>default:BP:Bestemmingsplangebied</Title>
+	</Description>
+	<FeatureTypeName>app:Bestemmingsplangebied</FeatureTypeName>
+
+	<!-- scale range (60.000-250.000) with reduced geometry resolution -->
+	<Rule>
+		<Name>Bestemmingsplangebied</Name>
+		<Description>
+			<Title>Bestemmingsplangebied</Title>
+		</Description>
+		<ogc:Filter>
+			<ogc:And>
+				<ogc:Or>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>app:typePlan</ogc:PropertyName>
+						<ogc:Literal>bestemmingsplan</ogc:Literal>
+					</ogc:PropertyIsEqualTo>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>app:typePlan</ogc:PropertyName>
+						<ogc:Literal>gemeentelijk plan; bestemmingsplan artikel 10</ogc:Literal>
+					</ogc:PropertyIsEqualTo>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>app:typePlan</ogc:PropertyName>
+						<ogc:Literal>gemeentelijk plan; wijzigingsplan artikel 11</ogc:Literal>
+					</ogc:PropertyIsEqualTo>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>app:typePlan</ogc:PropertyName>
+						<ogc:Literal>gemeentelijk plan; uitwerkingsplan artikel 11</ogc:Literal>
+					</ogc:PropertyIsEqualTo>
+				</ogc:Or>
+				<ogc:PropertyIsEqualTo>
+					<ogc:Function name="IsSurface">
+						<ogc:PropertyName>app:simpelgeometrie2</ogc:PropertyName>
+					</ogc:Function>
+					<ogc:Literal>true</ogc:Literal>
+				</ogc:PropertyIsEqualTo>
+			</ogc:And>
+		</ogc:Filter>
+		<LineSymbolizer>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1</SvgParameter>
+				<SvgParameter name="stroke-width">1</SvgParameter>
+			</Stroke>
+		</LineSymbolizer>
+		<PolygonSymbolizer>
+			<Fill>
+				<SvgParameter name="fill">#ffffff</SvgParameter>
+				<SvgParameter name="fill-opacity">0.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<GraphicStroke>
+					<Graphic>
+						<Mark>
+							<WellKnownName>circle</WellKnownName>
+							<Fill>
+								<SvgParameter name="fill">#000000</SvgParameter>
+								<SvgParameter name="fill-opacity">1.0</SvgParameter>
+							</Fill>
+							<Stroke>
+								<SvgParameter name="stroke">#000000</SvgParameter>
+								<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+								<SvgParameter name="stroke-width">0</SvgParameter>
+							</Stroke>
+						</Mark>
+						<Size>3</Size>
+					</Graphic>
+					<Gap>4</Gap>
+				</GraphicStroke>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>Bestemmingsplangebied</Name>
+		<Description>
+			<Title>Bestemmingsplangebied</Title>
+		</Description>
+		<ogc:Filter>
+			<ogc:And>
+				<ogc:Or>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>app:typePlan</ogc:PropertyName>
+						<ogc:Literal>bestemmingsplan</ogc:Literal>
+					</ogc:PropertyIsEqualTo>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>app:typePlan</ogc:PropertyName>
+						<ogc:Literal>gemeentelijk plan; bestemmingsplan artikel 10</ogc:Literal>
+					</ogc:PropertyIsEqualTo>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>app:typePlan</ogc:PropertyName>
+						<ogc:Literal>gemeentelijk plan; wijzigingsplan artikel 11</ogc:Literal>
+					</ogc:PropertyIsEqualTo>
+					<ogc:PropertyIsEqualTo>
+						<ogc:PropertyName>app:typePlan</ogc:PropertyName>
+						<ogc:Literal>gemeentelijk plan; uitwerkingsplan artikel 11</ogc:Literal>
+					</ogc:PropertyIsEqualTo>
+				</ogc:Or>
+				<ogc:PropertyIsEqualTo>
+					<ogc:Function name="IsPoint">
+						<ogc:PropertyName>app:simpelgeometrie2</ogc:PropertyName>
+					</ogc:Function>
+					<ogc:Literal>true</ogc:Literal>
+				</ogc:PropertyIsEqualTo>
+			</ogc:And>
+		</ogc:Filter>
+		<PointSymbolizer>
+			<Graphic>
+				<Mark>
+					<WellKnownName>circle</WellKnownName>
+					<Fill>
+						<SvgParameter name="fill">#0000FF</SvgParameter>
+						<SvgParameter name="fill-opacity">1.0</SvgParameter>
+					</Fill>
+					<Stroke>
+						<SvgParameter name="stroke-opacity">1</SvgParameter>
+						<SvgParameter name="stroke">#000000</SvgParameter>
+					</Stroke>
+				</Mark>
+				<Size>8</Size>
+				<Rotation>0</Rotation>
+			</Graphic>
+		</PointSymbolizer>
+	</Rule>
+</FeatureTypeStyle>

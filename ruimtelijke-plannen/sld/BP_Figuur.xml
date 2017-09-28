@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FeatureTypeStyle xmlns="http://www.opengis.net/se"
+	xmlns:app="http://www.deegree.org/app" xmlns:deegreeogc="http://www.deegree.org/ogc"
+	xmlns:ogc="http://www.opengis.net/ogc" xmlns:sed="http://www.deegree.org/se"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.opengis.net/se http://schemas.opengis.net/se/1.1.0/FeatureStyle.xsd http://www.deegree.org/se http://schemas.deegree.org/se/1.1.0/Symbolizer-deegree.xsd">
+	<Name>BP:Figuur</Name>
+    <Description>
+        <Title>default:BP:Figuur</Title>
+    </Description>
+	<FeatureTypeName>app:Figuur</FeatureTypeName>
+	
+        <!-- +++++++++++++++++++++++++++++++++++++ -->
+        <!-- + IMRO2008/IMRO2012 plan type rules + -->
+        <!-- +++++++++++++++++++++++++++++++++++++ -->
+        <!-- Only geometry type  line should be in datasource; in case of polygon
+          type this rule will draw it in simple gray -->
+        <Rule>
+          <Name>Figuur</Name>
+          <ogc:Filter>
+            <ogc:And>
+              <ogc:Or>
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+                  <ogc:Literal>IMRO2008</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+                  <ogc:Literal>IMRO2012</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+              </ogc:Or>
+              <ogc:PropertyIsEqualTo>
+                <ogc:Function name="IsSurface">
+                  <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+                </ogc:Function>
+                <ogc:Literal>true</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+            </ogc:And>
+          </ogc:Filter>
+          <PolygonSymbolizer>
+            <Geometry>
+              <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+            </Geometry>
+            <Fill>
+              <SvgParameter name="fill">#ffffff</SvgParameter>
+              <SvgParameter name="fill-opacity">0.0</SvgParameter>
+            </Fill>
+            <Stroke>
+              <SvgParameter name="stroke">#cccccc</SvgParameter>
+              <SvgParameter name="stroke-opacity">1.0</SvgParameter>
+              <SvgParameter name="stroke-width">1.0</SvgParameter>
+              <SvgParameter name="stroke-dasharray">1</SvgParameter>
+              <SvgParameter name="stroke-linecap">butt</SvgParameter>
+            </Stroke>
+          </PolygonSymbolizer>
+          <PolygonSymbolizer>
+            <Geometry>
+              <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+            </Geometry>
+            <Fill>
+              <SvgParameter name="fill">#000000</SvgParameter>
+              <SvgParameter name="fill-opacity">0.0</SvgParameter>
+            </Fill>
+            <Stroke>
+              <SvgParameter name="stroke">#cccccc</SvgParameter>
+              <SvgParameter name="stroke-opacity">1.0</SvgParameter>
+              <SvgParameter name="stroke-width">1</SvgParameter>
+              <SvgParameter name="stroke-dasharray">1</SvgParameter>
+              <SvgParameter name="stroke-linecap">butt</SvgParameter>
+            </Stroke>
+          </PolygonSymbolizer>
+        </Rule>
+        <!-- Only geometry type  line should be in datasource -->
+        <!-- filter: 'as van de weg'  -->
+        <Rule>
+          <Name>as van de weg</Name>
+          <ogc:Filter>
+            <ogc:And>
+              <ogc:Or>
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+                  <ogc:Literal>IMRO2008</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+                  <ogc:Literal>IMRO2012</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+              </ogc:Or>
+              <ogc:PropertyIsEqualTo>
+                <ogc:Function name="IsCurve">
+                  <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+                </ogc:Function>
+                <ogc:Literal>true</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+                <ogc:PropertyName>app:naam</ogc:PropertyName>
+                <ogc:Literal>as van de weg</ogc:Literal>
+              </ogc:PropertyIsLike>
+            </ogc:And>
+          </ogc:Filter>
+          <LineSymbolizer>
+            <Geometry>
+              <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+            </Geometry>
+            <Stroke>
+              <SvgParameter name="stroke">#999999</SvgParameter>
+              <SvgParameter name="stroke-opacity">1</SvgParameter>
+              <SvgParameter name="stroke-width">1</SvgParameter>
+              <SvgParameter name="stroke-dasharray">6 2</SvgParameter>
+              <SvgParameter name="stroke-linecap">butt</SvgParameter>
+            </Stroke>
+          </LineSymbolizer>
+        </Rule>
+        <!-- filter: 'dwarsprofiel'  -->
+        <!-- how about the arrow specified in SVBP2008 -->
+        <Rule>
+          <Name>dwarsprofiel</Name>
+          <ogc:Filter>
+            <ogc:And>
+              <ogc:Or>
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+                  <ogc:Literal>IMRO2008</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+                  <ogc:Literal>IMRO2012</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+              </ogc:Or>
+              <ogc:PropertyIsEqualTo>
+                <ogc:Function name="IsCurve">
+                  <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+                </ogc:Function>
+                <ogc:Literal>true</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+                <ogc:PropertyName>app:naam</ogc:PropertyName>
+                <ogc:Literal>dwarsprofiel</ogc:Literal>
+              </ogc:PropertyIsLike>
+            </ogc:And>
+          </ogc:Filter>
+          <LineSymbolizer>
+            <Geometry>
+              <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+            </Geometry>
+            <Stroke>
+              <SvgParameter name="stroke">#ff0000</SvgParameter>
+              <SvgParameter name="stroke-opacity">1</SvgParameter>
+              <SvgParameter name="stroke-width">2</SvgParameter>
+              <SvgParameter name="stroke-dasharray">1</SvgParameter>
+              <SvgParameter name="stroke-linecap">butt</SvgParameter>
+            </Stroke>
+          </LineSymbolizer>
+        </Rule>
+        <!-- filter: 'gevellijn'  -->
+        <Rule>
+          <Name>gevellijn</Name>
+          <ogc:Filter>
+            <ogc:And>
+              <ogc:Or>
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+                  <ogc:Literal>IMRO2008</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+                  <ogc:Literal>IMRO2012</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+              </ogc:Or>
+              <ogc:PropertyIsEqualTo>
+                <ogc:Function name="IsCurve">
+                  <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+                </ogc:Function>
+                <ogc:Literal>true</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+                <ogc:PropertyName>app:naam</ogc:PropertyName>
+                <ogc:Literal>gevellijn</ogc:Literal>
+              </ogc:PropertyIsLike>
+            </ogc:And>
+          </ogc:Filter>
+          <LineSymbolizer>
+            <Geometry>
+              <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+            </Geometry>
+            <Stroke>
+              <SvgParameter name="stroke">#ff0000</SvgParameter>
+              <SvgParameter name="stroke-opacity">1</SvgParameter>
+              <SvgParameter name="stroke-width">2</SvgParameter>
+              <SvgParameter name="stroke-dasharray">6 2</SvgParameter>
+              <SvgParameter name="stroke-linecap">butt</SvgParameter>
+            </Stroke>
+          </LineSymbolizer>
+        </Rule>
+        <!-- filter: 'hartlijn leiding*'  -->
+        <Rule>
+          <Name>hartlijn leiding</Name>
+          <ogc:Filter>
+            <ogc:And>
+              <ogc:Or>
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+                  <ogc:Literal>IMRO2008</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+                  <ogc:Literal>IMRO2012</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+              </ogc:Or>
+              <ogc:PropertyIsEqualTo>
+                <ogc:Function name="IsCurve">
+                  <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+                </ogc:Function>
+                <ogc:Literal>true</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+                <ogc:PropertyName>app:naam</ogc:PropertyName>
+                <ogc:Literal>hartlijn leiding*</ogc:Literal>
+              </ogc:PropertyIsLike>
+            </ogc:And>
+          </ogc:Filter>
+          <LineSymbolizer>
+            <Geometry>
+              <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+            </Geometry>
+            <Stroke>
+              <SvgParameter name="stroke">#000000</SvgParameter>
+              <SvgParameter name="stroke-opacity">1</SvgParameter>
+              <SvgParameter name="stroke-width">2</SvgParameter>
+              <SvgParameter name="stroke-dasharray">1</SvgParameter>
+              <SvgParameter name="stroke-linecap">butt</SvgParameter>
+            </Stroke>
+          </LineSymbolizer>
+        </Rule>
+        <!-- filter: 'relatie'  -->
+        <!-- how to cope with line end styles; not possible to realise with sld as not
+          specified  -->
+        <Rule>
+          <Name>relatie</Name>
+          <ogc:Filter>
+            <ogc:And>
+              <ogc:Or>
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+                  <ogc:Literal>IMRO2008</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+                  <ogc:Literal>IMRO2012</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+              </ogc:Or>
+              <ogc:PropertyIsEqualTo>
+                <ogc:Function name="IsCurve">
+                  <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+                </ogc:Function>
+                <ogc:Literal>true</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+                <ogc:PropertyName>app:naam</ogc:PropertyName>
+                <ogc:Literal>relatie</ogc:Literal>
+              </ogc:PropertyIsLike>
+            </ogc:And>
+          </ogc:Filter>
+          <LineSymbolizer>
+            <Geometry>
+              <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+            </Geometry>
+            <Stroke>
+              <SvgParameter name="stroke">#000000</SvgParameter>
+              <SvgParameter name="stroke-opacity">1</SvgParameter>
+              <SvgParameter name="stroke-width">3</SvgParameter>
+              <SvgParameter name="stroke-dasharray">1</SvgParameter>
+              <SvgParameter name="stroke-linecap">butt</SvgParameter>
+            </Stroke>
+          </LineSymbolizer>
+        </Rule>
+
+        <!-- Only geometry type  line should be in datasource; in case of point
+          type this rule will draw it in simple gray -->
+        <Rule>
+          <Name>Figuur</Name>
+          <ogc:Filter>
+            <ogc:And>
+              <ogc:Or>
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+                  <ogc:Literal>IMRO2008</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+                  <ogc:Literal>IMRO2012</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+              </ogc:Or>
+              <ogc:PropertyIsEqualTo>
+                <ogc:Function name="IsPoint">
+                  <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+                </ogc:Function>
+                <ogc:Literal>true</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+            </ogc:And>
+          </ogc:Filter>
+          <PointSymbolizer>
+            <Geometry>
+              <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+            </Geometry>
+            <Graphic>
+              <Mark>
+                <WellKnownName>square</WellKnownName>
+                <Fill>
+                  <SvgParameter name="fill">#cccccc</SvgParameter>
+                  <SvgParameter name="fill-opacity">1.0</SvgParameter>
+                </Fill>
+              </Mark>
+              <Size>5</Size>
+              <Rotation>0</Rotation>
+            </Graphic>
+          </PointSymbolizer>
+        </Rule>
+
+
+        <!-- +++++++++++++++++++++++++++++++++++ -->
+        <!-- ++++ IMRO2006 plan type rules +++++ -->
+        <!-- +++++++++++++++++++++++++++++++++++ -->
+        <Rule>
+          <Name>Figuur</Name>
+          <ogc:Filter>
+            <ogc:And>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+                <ogc:Literal>IMRO2006</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsEqualTo>
+                <ogc:Function name="IsSurface">
+                  <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+                </ogc:Function>
+                <ogc:Literal>true</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+            </ogc:And>
+          </ogc:Filter>
+          <PolygonSymbolizer>
+            <Geometry>
+              <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+            </Geometry>
+            <Fill>
+              <SvgParameter name="fill">#ffffff</SvgParameter>
+              <SvgParameter name="fill-opacity">0.0</SvgParameter>
+            </Fill>
+            <Stroke>
+              <SvgParameter name="stroke">#cccccc</SvgParameter>
+              <SvgParameter name="stroke-opacity">1.0</SvgParameter>
+              <SvgParameter name="stroke-width">1.0</SvgParameter>
+              <SvgParameter name="stroke-dasharray">1</SvgParameter>
+            </Stroke>
+          </PolygonSymbolizer>
+          <PolygonSymbolizer>
+            <Geometry>
+              <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+            </Geometry>
+            <Fill>
+              <SvgParameter name="fill">#000000</SvgParameter>
+              <SvgParameter name="fill-opacity">0.0</SvgParameter>
+            </Fill>
+            <Stroke>
+              <SvgParameter name="stroke">#cccccc</SvgParameter>
+              <SvgParameter name="stroke-opacity">1.0</SvgParameter>
+              <SvgParameter name="stroke-width">1</SvgParameter>
+              <SvgParameter name="stroke-dasharray">1</SvgParameter>
+            </Stroke>
+          </PolygonSymbolizer>
+        </Rule>
+        <!-- Only geometry type  line should be in datasource -->
+        <!-- filter: 'as van de weg'  -->
+        <Rule>
+          <Name>as van de weg</Name>
+          <ogc:Filter>
+            <ogc:And>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+                <ogc:Literal>IMRO2006</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsEqualTo>
+                <ogc:Function name="IsCurve">
+                  <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+                </ogc:Function>
+                <ogc:Literal>true</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+                <ogc:PropertyName>app:naam</ogc:PropertyName>
+                <ogc:Literal>as van de weg</ogc:Literal>
+              </ogc:PropertyIsLike>
+            </ogc:And>
+          </ogc:Filter>
+          <LineSymbolizer>
+            <Geometry>
+              <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+            </Geometry>
+            <Stroke>
+              <SvgParameter name="stroke">#999999</SvgParameter>
+              <SvgParameter name="stroke-opacity">1</SvgParameter>
+              <SvgParameter name="stroke-width">1</SvgParameter>
+              <SvgParameter name="stroke-dasharray">6 2</SvgParameter>
+            </Stroke>
+          </LineSymbolizer>
+        </Rule>
+        <!-- filter: 'dwarsprofiel'  -->
+        <!-- how about the arrow specified in SVBP2008 -->
+        <Rule>
+          <Name>dwarsprofiel</Name>
+          <ogc:Filter>
+            <ogc:And>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+                <ogc:Literal>IMRO2006</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsEqualTo>
+                <ogc:Function name="IsCurve">
+                  <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+                </ogc:Function>
+                <ogc:Literal>true</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+                <ogc:PropertyName>app:naam</ogc:PropertyName>
+                <ogc:Literal>dwarsprofiel</ogc:Literal>
+              </ogc:PropertyIsLike>
+            </ogc:And>
+          </ogc:Filter>
+          <LineSymbolizer>
+            <Geometry>
+              <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+            </Geometry>
+            <Stroke>
+              <SvgParameter name="stroke">#ff0000</SvgParameter>
+              <SvgParameter name="stroke-opacity">1</SvgParameter>
+              <SvgParameter name="stroke-width">2</SvgParameter>
+              <SvgParameter name="stroke-dasharray">1</SvgParameter>
+            </Stroke>
+          </LineSymbolizer>
+        </Rule>
+        <!-- filter: 'gevellijn'  -->
+        <Rule>
+          <Name>gevellijn</Name>
+          <ogc:Filter>
+            <ogc:And>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+                <ogc:Literal>IMRO2006</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsEqualTo>
+                <ogc:Function name="IsCurve">
+                  <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+                </ogc:Function>
+                <ogc:Literal>true</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+                <ogc:PropertyName>app:naam</ogc:PropertyName>
+                <ogc:Literal>gevellijn</ogc:Literal>
+              </ogc:PropertyIsLike>
+            </ogc:And>
+          </ogc:Filter>
+          <LineSymbolizer>
+            <Geometry>
+              <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+            </Geometry>
+            <Stroke>
+              <SvgParameter name="stroke">#ff0000</SvgParameter>
+              <SvgParameter name="stroke-opacity">1</SvgParameter>
+              <SvgParameter name="stroke-width">2</SvgParameter>
+              <SvgParameter name="stroke-dasharray">6 2</SvgParameter>
+            </Stroke>
+          </LineSymbolizer>
+        </Rule>
+        <!-- filter: 'hartlijn leiding*'  -->
+        <Rule>
+          <Name>hartlijn leiding</Name>
+          <ogc:Filter>
+            <ogc:And>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+                <ogc:Literal>IMRO2006</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsEqualTo>
+                <ogc:Function name="IsCurve">
+                  <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+                </ogc:Function>
+                <ogc:Literal>true</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+                <ogc:PropertyName>app:naam</ogc:PropertyName>
+                <ogc:Literal>hartlijn leiding*</ogc:Literal>
+              </ogc:PropertyIsLike>
+            </ogc:And>
+          </ogc:Filter>
+          <LineSymbolizer>
+            <Geometry>
+              <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+            </Geometry>
+            <Stroke>
+              <SvgParameter name="stroke">#000000</SvgParameter>
+              <SvgParameter name="stroke-opacity">1</SvgParameter>
+              <SvgParameter name="stroke-width">2</SvgParameter>
+              <SvgParameter name="stroke-dasharray">1</SvgParameter>
+            </Stroke>
+          </LineSymbolizer>
+        </Rule>
+        <!-- filter: 'relatie'  -->
+        <!-- how to cope with line end styles; not possible to realise with sld as not
+          specified  -->
+        <Rule>
+          <Name>relatie</Name>
+          <ogc:Filter>
+            <ogc:And>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+                <ogc:Literal>IMRO2006</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsEqualTo>
+                <ogc:Function name="IsCurve">
+                  <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+                </ogc:Function>
+                <ogc:Literal>true</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+                <ogc:PropertyName>app:naam</ogc:PropertyName>
+                <ogc:Literal>relatie</ogc:Literal>
+              </ogc:PropertyIsLike>
+            </ogc:And>
+          </ogc:Filter>
+          <LineSymbolizer>
+            <Geometry>
+              <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+            </Geometry>
+            <Stroke>
+              <SvgParameter name="stroke">#000000</SvgParameter>
+              <SvgParameter name="stroke-opacity">1</SvgParameter>
+              <SvgParameter name="stroke-width">3</SvgParameter>
+              <SvgParameter name="stroke-dasharray">1</SvgParameter>
+            </Stroke>
+          </LineSymbolizer>
+        </Rule>
+
+        <!-- Only geometry type  line should be in datasource; in case of point
+          type this rule will draw it in simple gray -->
+        <Rule>
+          <Name>Figuur</Name>
+          <ogc:Filter>
+            <ogc:And>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+                <ogc:Literal>IMRO2006</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsEqualTo>
+                <ogc:Function name="IsPoint">
+                  <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+                </ogc:Function>
+                <ogc:Literal>true</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+            </ogc:And>
+          </ogc:Filter>
+          <PointSymbolizer>
+            <Geometry>
+              <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+            </Geometry>
+            <Graphic>
+              <Mark>
+                <WellKnownName>square</WellKnownName>
+                <Fill>
+                  <SvgParameter name="fill">#cccccc</SvgParameter>
+                  <SvgParameter name="fill-opacity">1.0</SvgParameter>
+                </Fill>
+              </Mark>
+              <Size>5</Size>
+              <Rotation>0</Rotation>
+            </Graphic>
+          </PointSymbolizer>
+        </Rule>
+
+        <!-- the original style for 2006-figuurs, here at the end because of the ElseFilter -->
+        <Rule>
+          <Name>Figuur</Name>
+          <ogc:Filter>
+            <ogc:And>
+              <ogc:PropertyIsEqualTo>
+                <ogc:PropertyName>app:versieIMRO</ogc:PropertyName>
+                <ogc:Literal>IMRO2006</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+              <ogc:PropertyIsEqualTo>
+                <ogc:Function name="IsCurve">
+                  <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+                </ogc:Function>
+                <ogc:Literal>true</ogc:Literal>
+              </ogc:PropertyIsEqualTo>
+              <ogc:Not>
+                  <ogc:Or>
+                      <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+                        <ogc:PropertyName>app:naam</ogc:PropertyName>
+                        <ogc:Literal>as van de weg</ogc:Literal>
+                      </ogc:PropertyIsLike>
+                      <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+                        <ogc:PropertyName>app:naam</ogc:PropertyName>
+                        <ogc:Literal>dwarsprofiel</ogc:Literal>
+                      </ogc:PropertyIsLike>
+                      <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+                        <ogc:PropertyName>app:naam</ogc:PropertyName>
+                        <ogc:Literal>gevellijn</ogc:Literal>
+                      </ogc:PropertyIsLike>
+                      <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+                        <ogc:PropertyName>app:naam</ogc:PropertyName>
+                        <ogc:Literal>hartlijn leiding*</ogc:Literal>
+                      </ogc:PropertyIsLike>
+                      <ogc:PropertyIsLike wildCard="*" singleChar="?" escapeChar="\">
+                        <ogc:PropertyName>app:naam</ogc:PropertyName>
+                        <ogc:Literal>relatie</ogc:Literal>
+                      </ogc:PropertyIsLike>
+                  </ogc:Or>
+              </ogc:Not>
+            </ogc:And>
+          </ogc:Filter>
+          <LineSymbolizer>
+            <Geometry>
+              <ogc:PropertyName>app:geometrie</ogc:PropertyName>
+            </Geometry>
+            <Stroke>
+              <SvgParameter name="stroke">#cccccc</SvgParameter>
+              <SvgParameter name="stroke-opacity">1</SvgParameter>
+              <SvgParameter name="stroke-width">3</SvgParameter>
+              <SvgParameter name="stroke-dasharray">1</SvgParameter>
+            </Stroke>
+          </LineSymbolizer>
+        </Rule>
+</FeatureTypeStyle>

@@ -1,0 +1,714 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FeatureTypeStyle xmlns="http://www.opengis.net/se"
+	xmlns:app="http://www.deegree.org/app" xmlns:deegreeogc="http://www.deegree.org/ogc"
+	xmlns:ogc="http://www.opengis.net/ogc" xmlns:sed="http://www.deegree.org/se"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.opengis.net/se http://schemas.opengis.net/se/1.1.0/FeatureStyle.xsd http://www.deegree.org/se http://schemas.deegree.org/se/1.1.0/Symbolizer-deegree.xsd">
+	<Name>BP:Enkelbestemming</Name>
+	<Description>
+		<Title>default:BP:Enkelbestemming</Title>
+	</Description>
+	<FeatureTypeName>app:Enkelbestemming</FeatureTypeName>
+	<Rule>
+		<Name>agrarisch</Name>
+		<Description>
+			<Title>agrarisch</Title>
+		</Description>
+		<ogc:Filter>
+			<ogc:PropertyIsLike wildCard="*" singleChar="?"
+				escapeChar="\">
+				<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+				<ogc:Literal>agrarisch</ogc:Literal>
+			</ogc:PropertyIsLike>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Fill>
+				<SvgParameter name="fill">#EBF0D2</SvgParameter>
+				<SvgParameter name="fill-opacity">1.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">0.6</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>agrarisch met waarden</Name>
+        <Description>
+            <Title>agrarisch met waarden</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:PropertyIsLike wildCard="*" singleChar="?"
+				escapeChar="\">
+				<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+				<ogc:Literal>agrarisch met waarden</ogc:Literal>
+			</ogc:PropertyIsLike>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Fill>
+				<SvgParameter name="fill">#D2E1A5</SvgParameter>
+				<SvgParameter name="fill-opacity">1.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">0.6</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>bedrijf</Name>
+        <Description>
+            <Title>abedrijf</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:PropertyIsLike wildCard="*" singleChar="?"
+				escapeChar="\">
+				<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+				<ogc:Literal>bedrijf</ogc:Literal>
+			</ogc:PropertyIsLike>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Fill>
+				<SvgParameter name="fill">#b45fd2</SvgParameter>
+				<SvgParameter name="fill-opacity">1.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">0.6</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>bedrijventerrein</Name>
+        <Description>
+            <Title>bedrijventerrein</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:PropertyIsLike wildCard="*" singleChar="?"
+				escapeChar="\">
+				<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+				<ogc:Literal>bedrijventerrein</ogc:Literal>
+			</ogc:PropertyIsLike>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Fill>
+				<SvgParameter name="fill">#C8A0D7</SvgParameter>
+				<SvgParameter name="fill-opacity">1.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">0.6</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>bos</Name>
+        <Description>
+            <Title>bos</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:PropertyIsLike wildCard="*" singleChar="?"
+				escapeChar="\">
+				<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+				<ogc:Literal>bos</ogc:Literal>
+			</ogc:PropertyIsLike>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Fill>
+				<SvgParameter name="fill">#64AA2D</SvgParameter>
+				<SvgParameter name="fill-opacity">1.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">0.6</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>centrum</Name>
+        <Description>
+            <Title>centrum</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:PropertyIsLike wildCard="*" singleChar="?"
+				escapeChar="\">
+				<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+				<ogc:Literal>centrum</ogc:Literal>
+			</ogc:PropertyIsLike>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Fill>
+				<SvgParameter name="fill">#FFC8BE</SvgParameter>
+				<SvgParameter name="fill-opacity">1.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">0.6</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>cultuur en ontspanning</Name>
+        <Description>
+            <Title>cultuur en ontspanning</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:PropertyIsLike wildCard="*" singleChar="?"
+				escapeChar="\">
+				<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+				<ogc:Literal>cultuur en ontspanning</ogc:Literal>
+			</ogc:PropertyIsLike>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Fill>
+				<SvgParameter name="fill">#FF3C82</SvgParameter>
+				<SvgParameter name="fill-opacity">1.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">0.6</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>detailhandel</Name>
+        <Description>
+            <Title>detailhandel</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:PropertyIsLike wildCard="*" singleChar="?"
+				escapeChar="\">
+				<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+				<ogc:Literal>detailhandel</ogc:Literal>
+			</ogc:PropertyIsLike>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Fill>
+				<SvgParameter name="fill">#ffa096</SvgParameter>
+				<SvgParameter name="fill-opacity">1.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">0.6</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>dienstverlening</Name>
+        <Description>
+            <Title>dienstverlening</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:PropertyIsLike wildCard="*" singleChar="?"
+				escapeChar="\">
+				<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+				<ogc:Literal>dienstverlening</ogc:Literal>
+			</ogc:PropertyIsLike>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Fill>
+				<SvgParameter name="fill">#F091BE</SvgParameter>
+				<SvgParameter name="fill-opacity">1.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">0.6</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>gemengd</Name>
+        <Description>
+            <Title>gemengd</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:PropertyIsLike wildCard="*" singleChar="?"
+				escapeChar="\">
+				<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+				<ogc:Literal>gemengd</ogc:Literal>
+			</ogc:PropertyIsLike>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Fill>
+				<SvgParameter name="fill">#FFBE87</SvgParameter>
+				<SvgParameter name="fill-opacity">1.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">0.6</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>groen</Name>
+        <Description>
+            <Title>groen</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:PropertyIsLike wildCard="*" singleChar="?"
+				escapeChar="\">
+				<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+				<ogc:Literal>groen</ogc:Literal>
+			</ogc:PropertyIsLike>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Fill>
+				<SvgParameter name="fill">#28c846</SvgParameter>
+				<SvgParameter name="fill-opacity">1.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">0.6</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>horeca</Name>
+        <Description>
+            <Title>horeca</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:PropertyIsLike wildCard="*" singleChar="?"
+				escapeChar="\">
+				<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+				<ogc:Literal>horeca</ogc:Literal>
+			</ogc:PropertyIsLike>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Fill>
+				<SvgParameter name="fill">#ff6923</SvgParameter>
+				<SvgParameter name="fill-opacity">1.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">0.6</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<!-- seems not to exist in IMRO2008 !? -->
+	<Rule>
+		<Name>infrastructuur</Name>
+        <Description>
+            <Title>infrastructuur</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:PropertyIsLike wildCard="*" singleChar="?"
+				escapeChar="\">
+				<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+				<ogc:Literal>infrastructuur</ogc:Literal>
+			</ogc:PropertyIsLike>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Fill>
+				<SvgParameter name="fill">#cdcdcd</SvgParameter>
+				<SvgParameter name="fill-opacity">1.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">0.6</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>kantoor</Name>
+        <Description>
+            <Title>kantoor</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:PropertyIsLike wildCard="*" singleChar="?"
+				escapeChar="\">
+				<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+				<ogc:Literal>kantoor</ogc:Literal>
+			</ogc:PropertyIsLike>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Fill>
+				<SvgParameter name="fill">#ebc3d7</SvgParameter>
+				<SvgParameter name="fill-opacity">1.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">0.6</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>maatschappelijk</Name>
+        <Description>
+            <Title>maatschappelijk</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:PropertyIsLike wildCard="*" singleChar="?"
+				escapeChar="\">
+				<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+				<ogc:Literal>maatschappelijk</ogc:Literal>
+			</ogc:PropertyIsLike>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Fill>
+				<SvgParameter name="fill">#dc9b78</SvgParameter>
+				<SvgParameter name="fill-opacity">1.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">0.6</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>natuur</Name>
+        <Description>
+            <Title>natuur</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:PropertyIsLike wildCard="*" singleChar="?"
+				escapeChar="\">
+				<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+				<ogc:Literal>natuur</ogc:Literal>
+			</ogc:PropertyIsLike>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Fill>
+				<SvgParameter name="fill">#82A591</SvgParameter>
+				<SvgParameter name="fill-opacity">1.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">0.6</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>recreatie</Name>
+        <Description>
+            <Title>recreatie</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:PropertyIsLike wildCard="*" singleChar="?"
+				escapeChar="\">
+				<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+				<ogc:Literal>recreatie</ogc:Literal>
+			</ogc:PropertyIsLike>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Fill>
+				<SvgParameter name="fill">#B9D746</SvgParameter>
+				<SvgParameter name="fill-opacity">1.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">0.6</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>sport</Name>
+        <Description>
+            <Title>sport</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:PropertyIsLike wildCard="*" singleChar="?"
+				escapeChar="\">
+				<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+				<ogc:Literal>sport</ogc:Literal>
+			</ogc:PropertyIsLike>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Fill>
+				<SvgParameter name="fill">#82C846</SvgParameter>
+				<SvgParameter name="fill-opacity">1.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">0.6</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>tuin</Name>
+        <Description>
+            <Title>tuin</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:PropertyIsLike wildCard="*" singleChar="?"
+				escapeChar="\">
+				<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+				<ogc:Literal>tuin</ogc:Literal>
+			</ogc:PropertyIsLike>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Fill>
+				<SvgParameter name="fill">#c8d76e</SvgParameter>
+				<SvgParameter name="fill-opacity">1.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">0.6</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>verkeer</Name>
+        <Description>
+            <Title>verkeer</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:PropertyIsLike wildCard="*" singleChar="?"
+				escapeChar="\">
+				<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+				<ogc:Literal>verkeer</ogc:Literal>
+			</ogc:PropertyIsLike>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Fill>
+				<SvgParameter name="fill">#cdcdcd</SvgParameter>
+				<SvgParameter name="fill-opacity">1.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">0.6</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<!-- seems not to exist in IMRO2008 anymore -->
+	<Rule>
+		<Name>ontspanning en vermaak</Name>
+        <Description>
+            <Title>ontspanning en vermaak</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:PropertyIsLike wildCard="*" singleChar="?"
+				escapeChar="\">
+				<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+				<ogc:Literal>ontspanning en vermaak</ogc:Literal>
+			</ogc:PropertyIsLike>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Fill>
+				<SvgParameter name="fill">#FF3C82</SvgParameter>
+				<SvgParameter name="fill-opacity">1.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">0.6</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>water</Name>
+        <Description>
+            <Title>water</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:PropertyIsLike wildCard="*" singleChar="?"
+				escapeChar="\">
+				<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+				<ogc:Literal>water</ogc:Literal>
+			</ogc:PropertyIsLike>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Fill>
+				<SvgParameter name="fill">#afcde1</SvgParameter>
+				<SvgParameter name="fill-opacity">1.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">0.6</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>wonen</Name>
+        <Description>
+            <Title>wonen</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:PropertyIsLike wildCard="*" singleChar="?"
+				escapeChar="\">
+				<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+				<ogc:Literal>wonen</ogc:Literal>
+			</ogc:PropertyIsLike>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Fill>
+				<SvgParameter name="fill">#FFFF00</SvgParameter>
+				<SvgParameter name="fill-opacity">1.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">0.6</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>woongebied</Name>
+        <Description>
+            <Title>woongebied</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:PropertyIsLike wildCard="*" singleChar="?"
+				escapeChar="\">
+				<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+				<ogc:Literal>woongebied</ogc:Literal>
+			</ogc:PropertyIsLike>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Fill>
+				<SvgParameter name="fill">#ffffb4</SvgParameter>
+				<SvgParameter name="fill-opacity">1.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">0.6</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>overig</Name>
+        <Description>
+            <Title>overig</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:PropertyIsLike wildCard="*" singleChar="?"
+				escapeChar="\">
+				<ogc:PropertyName>app:bestemmingshoofdgroep</ogc:PropertyName>
+				<ogc:Literal>overig</ogc:Literal>
+			</ogc:PropertyIsLike>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Fill>
+				<SvgParameter name="fill">#ebe1eb</SvgParameter>
+				<SvgParameter name="fill-opacity">1.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">0.6</SvgParameter>
+				<SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+</FeatureTypeStyle>

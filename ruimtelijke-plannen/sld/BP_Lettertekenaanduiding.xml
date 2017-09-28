@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FeatureTypeStyle xmlns="http://www.opengis.net/se"
+	xmlns:app="http://www.deegree.org/app" xmlns:deegreeogc="http://www.deegree.org/ogc"
+	xmlns:ogc="http://www.opengis.net/ogc" xmlns:sed="http://www.deegree.org/se"
+	xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.opengis.net/se http://schemas.opengis.net/se/1.1.0/FeatureStyle.xsd http://www.deegree.org/se http://schemas.deegree.org/se/1.1.0/Symbolizer-deegree.xsd">
+	<Name>BP:Lettertekenaanduiding</Name>
+    <Description>
+        <Title>default:BP:Lettertekenaanduiding</Title>
+    </Description>
+	<FeatureTypeName>app:Lettertekenaanduiding</FeatureTypeName>
+
+	<Rule>
+		<Name>Lettertekenaanduiding</Name>
+        <Description>
+            <Title>Lettertekenaanduiding</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:PropertyIsEqualTo>
+				<ogc:Function name="IsSurface">
+					<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+				</ogc:Function>
+				<ogc:Literal>true</ogc:Literal>
+			</ogc:PropertyIsEqualTo>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Fill>
+				<SvgParameter name="fill">#000000</SvgParameter>
+				<SvgParameter name="fill-opacity">0.0</SvgParameter>
+			</Fill>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1.0</SvgParameter>
+				<SvgParameter name="stroke-width">1.5</SvgParameter>
+                <SvgParameter name="stroke-linejoin">round</SvgParameter>
+                <SvgParameter name="stroke-linecap">round</SvgParameter>
+                <SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>Lettertekenaanduiding</Name>
+        <Description>
+            <Title>Lettertekenaanduiding</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:PropertyIsEqualTo>
+				<ogc:Function name="IsCurve">
+					<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+				</ogc:Function>
+				<ogc:Literal>true</ogc:Literal>
+			</ogc:PropertyIsEqualTo>
+		</ogc:Filter>
+		<LineSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Stroke>
+				<SvgParameter name="stroke">#000000</SvgParameter>
+				<SvgParameter name="stroke-opacity">1</SvgParameter>
+				<SvgParameter name="stroke-width">1.5</SvgParameter>
+                <SvgParameter name="stroke-linejoin">round</SvgParameter>
+                <SvgParameter name="stroke-linecap">round</SvgParameter>
+                <SvgParameter name="stroke-dasharray">1</SvgParameter>
+			</Stroke>
+		</LineSymbolizer>
+	</Rule>
+	<Rule>
+		<Name>Lettertekenaanduiding</Name>
+        <Description>
+            <Title>Lettertekenaanduiding</Title>
+        </Description>
+		<ogc:Filter>
+			<ogc:PropertyIsEqualTo>
+				<ogc:Function name="IsPoint">
+					<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+				</ogc:Function>
+				<ogc:Literal>true</ogc:Literal>
+			</ogc:PropertyIsEqualTo>
+		</ogc:Filter>
+		<PointSymbolizer>
+			<Geometry>
+				<ogc:PropertyName>app:geometrie</ogc:PropertyName>
+			</Geometry>
+			<Graphic>
+				<Mark>
+					<WellKnownName>square</WellKnownName>
+					<Fill>
+						<SvgParameter name="fill">#000000</SvgParameter>
+						<SvgParameter name="fill-opacity">1.0</SvgParameter>
+					</Fill>
+				</Mark>
+				<Size>5</Size>
+				<Rotation>0</Rotation>
+			</Graphic>
+		</PointSymbolizer>
+	</Rule>
+</FeatureTypeStyle>
