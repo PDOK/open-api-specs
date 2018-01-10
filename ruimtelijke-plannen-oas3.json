@@ -9,17 +9,8 @@
     "version": "1.0.0",
     "title": "Ruimtelijke Plannen API"
   },
-  "x-ldpath-namespaces": {
-    "nen3610": "http://data.informatiehuisruimte.nl/def/nen3610#",
-    "skos": "http://www.w3.org/2004/02/skos/core#",
-    "dcterms": "http://purl.org/dc/terms/",
-    "ro": "http://data.informatiehuisruimte.nl/def/ro#",
-    "pdok": "http://data.pdok.nl/def/pdok#",
-    "geo": "http://www.opengis.net/ont/geosparql#"
-  },
   "paths": {
     "/_zoek": {
-      "x-product": "zoek",
       "post": {
         "tags": [
           "Globale zoekfunctie"
@@ -31,6 +22,12 @@
           },
           {
             "$ref": "#/components/parameters/acceptCrs"
+          },
+          {
+            "$ref": "#/components/parameters/page"
+          },
+          {
+            "$ref": "#/components/parameters/optionalPlanId"
           }
         ],
         "responses": {
@@ -38,9 +35,32 @@
             "description": "Status 200",
             "headers": {
               "Content-Crs": {
-                "description": "CRS van de teruggegeven geometrieën",
+                "description": "CRS van de geometrie in de response body",
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "enum": [
+                    "epsg:4326",
+                    "epsg:28992"
+                  ],
+                  "default": "epsg:4326"
+                }
+              },
+              "X-Pagination-Page": {
+                "description": "Current page numer (pages are numbered, starting at 1)",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-Pagination-Limit": {
+                "description": "Number of object per page",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-Total-Count": {
+                "description": "Total number of results",
+                "schema": {
+                  "type": "integer"
                 }
               }
             },
@@ -60,7 +80,6 @@
                       "properties": {
                         "resultaten": {
                           "type": "array",
-                          "x-result-ref": "collection",
                           "items": {
                             "$ref": "#/components/schemas/SearchResult"
                           }
@@ -68,41 +87,12 @@
                       }
                     },
                     "_links": {
-                      "required": [
-                        "self"
-                      ],
                       "type": "object",
-                      "properties": {
-                        "self": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar huidige pagina",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "x-relative-link": {
-                                "pattern": "/_zoek"
-                              },
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/_zoek"
-                            }
-                          }
-                        },
-                        "next": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar volgende pagina (niet aanwezig als er geen volgende pagina is)",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/_zoek?page=2"
-                            }
-                          }
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/CollectionLinks"
                         }
-                      }
+                      ]
                     }
                   }
                 }
@@ -122,7 +112,6 @@
                       "properties": {
                         "resultaten": {
                           "type": "array",
-                          "x-result-ref": "collection",
                           "items": {
                             "$ref": "#/components/schemas/SearchResult"
                           }
@@ -130,41 +119,12 @@
                       }
                     },
                     "_links": {
-                      "required": [
-                        "self"
-                      ],
                       "type": "object",
-                      "properties": {
-                        "self": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar huidige pagina",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "x-relative-link": {
-                                "pattern": "/_zoek"
-                              },
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/_zoek"
-                            }
-                          }
-                        },
-                        "next": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar volgende pagina (niet aanwezig als er geen volgende pagina is)",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/_zoek?page=2"
-                            }
-                          }
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/CollectionLinks"
                         }
-                      }
+                      ]
                     }
                   }
                 }
@@ -236,7 +196,6 @@
             "headers": {
               "Retry-After": {
                 "description": "Tijdstip waarop verwacht is dat de service weer beschikbaar zal zijn.",
-                "x-example": "Sun, 28 Nov 2017 16:41:41 GMT",
                 "schema": {
                   "type": "string",
                   "format": "date-time"
@@ -280,7 +239,6 @@
       }
     },
     "/bestemmingsplangebieden": {
-      "x-product": "bestemmingsplangebied",
       "get": {
         "tags": [
           "Bestemmingsplangebieden"
@@ -291,25 +249,7 @@
             "$ref": "#/components/parameters/acceptCrs"
           },
           {
-            "$ref": "#/components/parameters/bestemmingsvlak"
-          },
-          {
-            "$ref": "#/components/parameters/functieaanduiding"
-          },
-          {
-            "$ref": "#/components/parameters/gebiedsaanduiding"
-          },
-          {
-            "$ref": "#/components/parameters/maatvoering"
-          },
-          {
-            "$ref": "#/components/parameters/bouwaanduiding"
-          },
-          {
-            "$ref": "#/components/parameters/figuur"
-          },
-          {
-            "$ref": "#/components/parameters/bouwvlak"
+            "$ref": "#/components/parameters/page"
           },
           {
             "$ref": "#/components/parameters/tekst"
@@ -364,9 +304,32 @@
             "description": "Status 200",
             "headers": {
               "Content-Crs": {
-                "description": "CRS van de teruggegeven geometrieën",
+                "description": "CRS van de geometrie in de response body",
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "enum": [
+                    "epsg:4326",
+                    "epsg:28992"
+                  ],
+                  "default": "epsg:4326"
+                }
+              },
+              "X-Pagination-Page": {
+                "description": "Current page numer (pages are numbered, starting at 1)",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-Pagination-Limit": {
+                "description": "Number of object per page",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-Total-Count": {
+                "description": "Total number of results",
+                "schema": {
+                  "type": "integer"
                 }
               }
             },
@@ -387,7 +350,6 @@
                       "properties": {
                         "bestemmingsplangebieden": {
                           "type": "array",
-                          "x-result-ref": "collection",
                           "items": {
                             "$ref": "#/components/schemas/Bestemmingsplangebied"
                           }
@@ -395,28 +357,12 @@
                       }
                     },
                     "_links": {
-                      "required": [
-                        "self"
-                      ],
                       "type": "object",
-                      "properties": {
-                        "self": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar huidige pagina",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden",
-                              "x-relative-link": {
-                                "pattern": "/bestemmingsplangebieden"
-                              }
-                            }
-                          }
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/CollectionLinks"
                         }
-                      }
+                      ]
                     }
                   }
                 }
@@ -437,7 +383,6 @@
                       "properties": {
                         "bestemmingsplangebieden": {
                           "type": "array",
-                          "x-result-ref": "collection",
                           "items": {
                             "$ref": "#/components/schemas/Bestemmingsplangebied"
                           }
@@ -445,28 +390,12 @@
                       }
                     },
                     "_links": {
-                      "required": [
-                        "self"
-                      ],
                       "type": "object",
-                      "properties": {
-                        "self": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar huidige pagina",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden",
-                              "x-relative-link": {
-                                "pattern": "/bestemmingsplangebieden"
-                              }
-                            }
-                          }
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/CollectionLinks"
                         }
-                      }
+                      ]
                     }
                   }
                 }
@@ -523,7 +452,6 @@
             "headers": {
               "Retry-After": {
                 "description": "Tijdstip waarop verwacht is dat de service weer beschikbaar zal zijn.",
-                "x-example": "Sun, 28 Nov 2017 16:41:41 GMT",
                 "schema": {
                   "type": "string",
                   "format": "date-time"
@@ -555,6 +483,12 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/acceptCrs"
+          },
+          {
+            "$ref": "#/components/parameters/contentCrs"
+          },
+          {
+            "$ref": "#/components/parameters/page"
           },
           {
             "name": "type",
@@ -606,9 +540,32 @@
             "description": "Status 200",
             "headers": {
               "Content-Crs": {
-                "description": "CRS van de teruggegeven geometrieën",
+                "description": "CRS van de geometrie in de response body",
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "enum": [
+                    "epsg:4326",
+                    "epsg:28992"
+                  ],
+                  "default": "epsg:4326"
+                }
+              },
+              "X-Pagination-Page": {
+                "description": "Current page numer (pages are numbered, starting at 1)",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-Pagination-Limit": {
+                "description": "Number of object per page",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-Total-Count": {
+                "description": "Total number of results",
+                "schema": {
+                  "type": "integer"
                 }
               }
             },
@@ -629,7 +586,6 @@
                       "properties": {
                         "bestemmingsplangebieden": {
                           "type": "array",
-                          "x-result-ref": "collection",
                           "items": {
                             "$ref": "#/components/schemas/Bestemmingsplangebied"
                           }
@@ -637,38 +593,12 @@
                       }
                     },
                     "_links": {
-                      "required": [
-                        "self"
-                      ],
                       "type": "object",
-                      "properties": {
-                        "self": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar huidige pagina",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden"
-                            }
-                          }
-                        },
-                        "next": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar volgende pagina (niet aanwezig als er geen volgende pagina is)",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden?page=2"
-                            }
-                          }
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/CollectionLinks"
                         }
-                      }
+                      ]
                     }
                   }
                 }
@@ -689,7 +619,6 @@
                       "properties": {
                         "bestemmingsplangebieden": {
                           "type": "array",
-                          "x-result-ref": "collection",
                           "items": {
                             "$ref": "#/components/schemas/Bestemmingsplangebied"
                           }
@@ -697,38 +626,12 @@
                       }
                     },
                     "_links": {
-                      "required": [
-                        "self"
-                      ],
                       "type": "object",
-                      "properties": {
-                        "self": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar huidige pagina",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden"
-                            }
-                          }
-                        },
-                        "next": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar volgende pagina (niet aanwezig als er geen volgende pagina is)",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden?page=2"
-                            }
-                          }
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/CollectionLinks"
                         }
-                      }
+                      ]
                     }
                   }
                 }
@@ -785,7 +688,6 @@
             "headers": {
               "Retry-After": {
                 "description": "Tijdstip waarop verwacht is dat de service weer beschikbaar zal zijn.",
-                "x-example": "Sun, 28 Nov 2017 16:41:41 GMT",
                 "schema": {
                   "type": "string",
                   "format": "date-time"
@@ -828,7 +730,6 @@
       }
     },
     "/bestemmingsplangebieden/{id}": {
-      "x-product": "bestemmingsplangebied",
       "get": {
         "tags": [
           "Bestemmingsplangebieden"
@@ -845,6 +746,19 @@
         "responses": {
           "200": {
             "description": "Status 200",
+            "headers": {
+              "Content-Crs": {
+                "description": "CRS van de geometrie in de response body",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "epsg:4326",
+                    "epsg:28992"
+                  ],
+                  "default": "epsg:4326"
+                }
+              }
+            },
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -908,7 +822,6 @@
             "headers": {
               "Retry-After": {
                 "description": "Tijdstip waarop verwacht is dat de service weer beschikbaar zal zijn.",
-                "x-example": "Sun, 28 Nov 2017 16:41:41 GMT",
                 "schema": {
                   "type": "string",
                   "format": "date-time"
@@ -932,7 +845,6 @@
       }
     },
     "/teksten": {
-      "x-product": "tekst",
       "get": {
         "tags": [
           "Teksten"
@@ -940,33 +852,35 @@
         "summary": "teksten collectie",
         "parameters": [
           {
+            "$ref": "#/components/parameters/page"
+          },
+          {
             "$ref": "#/components/parameters/bestemmingsplangebied"
-          },
-          {
-            "$ref": "#/components/parameters/bestemmingsvlak"
-          },
-          {
-            "$ref": "#/components/parameters/functieaanduiding"
-          },
-          {
-            "$ref": "#/components/parameters/gebiedsaanduiding"
-          },
-          {
-            "$ref": "#/components/parameters/maatvoering"
-          },
-          {
-            "$ref": "#/components/parameters/bouwaanduiding"
-          },
-          {
-            "$ref": "#/components/parameters/figuur"
-          },
-          {
-            "$ref": "#/components/parameters/bouwvlak"
           }
         ],
         "responses": {
           "200": {
             "description": "Status 200",
+            "headers": {
+              "X-Pagination-Page": {
+                "description": "Current page numer (pages are numbered, starting at 1)",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-Pagination-Limit": {
+                "description": "Number of object per page",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-Total-Count": {
+                "description": "Total number of results",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -984,7 +898,6 @@
                       "properties": {
                         "teksten": {
                           "type": "array",
-                          "x-result-ref": "collection",
                           "items": {
                             "$ref": "#/components/schemas/Tekst"
                           }
@@ -992,28 +905,12 @@
                       }
                     },
                     "_links": {
-                      "required": [
-                        "self"
-                      ],
                       "type": "object",
-                      "properties": {
-                        "self": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar huidige pagina",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten",
-                              "x-relative-link": {
-                                "pattern": "/teksten"
-                              }
-                            }
-                          }
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/CollectionLinks"
                         }
-                      }
+                      ]
                     }
                   }
                 }
@@ -1034,7 +931,6 @@
                       "properties": {
                         "teksten": {
                           "type": "array",
-                          "x-result-ref": "collection",
                           "items": {
                             "$ref": "#/components/schemas/Tekst"
                           }
@@ -1042,28 +938,12 @@
                       }
                     },
                     "_links": {
-                      "required": [
-                        "self"
-                      ],
                       "type": "object",
-                      "properties": {
-                        "self": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar huidige pagina",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten",
-                              "x-relative-link": {
-                                "pattern": "/teksten"
-                              }
-                            }
-                          }
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/CollectionLinks"
                         }
-                      }
+                      ]
                     }
                   }
                 }
@@ -1120,7 +1000,6 @@
             "headers": {
               "Retry-After": {
                 "description": "Tijdstip waarop verwacht is dat de service weer beschikbaar zal zijn.",
-                "x-example": "Sun, 28 Nov 2017 16:41:41 GMT",
                 "schema": {
                   "type": "string",
                   "format": "date-time"
@@ -1220,7 +1099,6 @@
             "headers": {
               "Retry-After": {
                 "description": "Tijdstip waarop verwacht is dat de service weer beschikbaar zal zijn.",
-                "x-example": "Sun, 28 Nov 2017 16:41:41 GMT",
                 "schema": {
                   "type": "string",
                   "format": "date-time"
@@ -1244,7 +1122,6 @@
       }
     },
     "/bestemmingsvlakken": {
-      "x-product": "bestemmingsvlak",
       "get": {
         "tags": [
           "Bestemmingsvlakken"
@@ -1255,7 +1132,10 @@
             "$ref": "#/components/parameters/acceptCrs"
           },
           {
-            "$ref": "#/components/parameters/bestemmingsplangebied"
+            "$ref": "#/components/parameters/page"
+          },
+          {
+            "$ref": "#/components/parameters/tekst"
           }
         ],
         "responses": {
@@ -1263,9 +1143,32 @@
             "description": "Status 200",
             "headers": {
               "Content-Crs": {
-                "description": "CRS van de teruggegeven geometrieën",
+                "description": "CRS van de geometrie in de response body",
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "enum": [
+                    "epsg:4326",
+                    "epsg:28992"
+                  ],
+                  "default": "epsg:4326"
+                }
+              },
+              "X-Pagination-Page": {
+                "description": "Current page numer (pages are numbered, starting at 1)",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-Pagination-Limit": {
+                "description": "Number of object per page",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-Total-Count": {
+                "description": "Total number of results",
+                "schema": {
+                  "type": "integer"
                 }
               }
             },
@@ -1286,7 +1189,6 @@
                       "properties": {
                         "bestemmingsvlakken": {
                           "type": "array",
-                          "x-result-ref": "collection",
                           "items": {
                             "$ref": "#/components/schemas/Bestemmingsvlak"
                           }
@@ -1294,38 +1196,12 @@
                       }
                     },
                     "_links": {
-                      "required": [
-                        "self"
-                      ],
                       "type": "object",
-                      "properties": {
-                        "self": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar huidige pagina",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken"
-                            }
-                          }
-                        },
-                        "next": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar volgende pagina (niet aanwezig als er geen volgende pagina is)",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken?page=2"
-                            }
-                          }
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/CollectionLinks"
                         }
-                      }
+                      ]
                     }
                   }
                 }
@@ -1346,7 +1222,6 @@
                       "properties": {
                         "bestemmingsvlakken": {
                           "type": "array",
-                          "x-result-ref": "collection",
                           "items": {
                             "$ref": "#/components/schemas/Bestemmingsvlak"
                           }
@@ -1354,38 +1229,12 @@
                       }
                     },
                     "_links": {
-                      "required": [
-                        "self"
-                      ],
                       "type": "object",
-                      "properties": {
-                        "self": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar huidige pagina",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken"
-                            }
-                          }
-                        },
-                        "next": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar volgende pagina (niet aanwezig als er geen volgende pagina is)",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken?page=2"
-                            }
-                          }
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/CollectionLinks"
                         }
-                      }
+                      ]
                     }
                   }
                 }
@@ -1442,7 +1291,6 @@
             "headers": {
               "Retry-After": {
                 "description": "Tijdstip waarop verwacht is dat de service weer beschikbaar zal zijn.",
-                "x-example": "Sun, 28 Nov 2017 16:41:41 GMT",
                 "schema": {
                   "type": "string",
                   "format": "date-time"
@@ -1466,7 +1314,6 @@
       }
     },
     "/bestemmingsvlakken/{id}": {
-      "x-product": "bestemmingsvlak",
       "get": {
         "tags": [
           "Bestemmingsvlakken"
@@ -1478,11 +1325,27 @@
           },
           {
             "$ref": "#/components/parameters/id"
+          },
+          {
+            "$ref": "#/components/parameters/mandatoryPlanId"
           }
         ],
         "responses": {
           "200": {
             "description": "Status 200",
+            "headers": {
+              "Content-Crs": {
+                "description": "CRS van de geometrie in de response body",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "epsg:4326",
+                    "epsg:28992"
+                  ],
+                  "default": "epsg:4326"
+                }
+              }
+            },
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -1561,7 +1424,6 @@
             "headers": {
               "Retry-After": {
                 "description": "Tijdstip waarop verwacht is dat de service weer beschikbaar zal zijn.",
-                "x-example": "Sun, 28 Nov 2017 16:41:41 GMT",
                 "schema": {
                   "type": "string",
                   "format": "date-time"
@@ -1595,12 +1457,49 @@
             "$ref": "#/components/parameters/acceptCrs"
           },
           {
-            "$ref": "#/components/parameters/bestemmingsplangebied"
+            "$ref": "#/components/parameters/page"
+          },
+          {
+            "$ref": "#/components/parameters/bestemmingsvlak"
+          },
+          {
+            "$ref": "#/components/parameters/tekst"
           }
         ],
         "responses": {
           "200": {
             "description": "Status 200",
+            "headers": {
+              "Content-Crs": {
+                "description": "CRS van de geometrie in de response body",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "epsg:4326",
+                    "epsg:28992"
+                  ],
+                  "default": "epsg:4326"
+                }
+              },
+              "X-Pagination-Page": {
+                "description": "Current page numer (pages are numbered, starting at 1)",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-Pagination-Limit": {
+                "description": "Number of object per page",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-Total-Count": {
+                "description": "Total number of results",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -1617,7 +1516,6 @@
                       "properties": {
                         "functieaanduidingen": {
                           "type": "array",
-                          "x-result-ref": "collection",
                           "items": {
                             "$ref": "#/components/schemas/Functieaanduiding"
                           }
@@ -1625,38 +1523,12 @@
                       }
                     },
                     "_links": {
-                      "required": [
-                        "self"
-                      ],
                       "type": "object",
-                      "properties": {
-                        "self": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar huidige pagina",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/functieaanduidingen"
-                            }
-                          }
-                        },
-                        "next": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar volgende pagina (niet aanwezig als er geen volgende pagina is)",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/functieaanduidingen?page=2"
-                            }
-                          }
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/CollectionLinks"
                         }
-                      }
+                      ]
                     }
                   }
                 }
@@ -1676,7 +1548,6 @@
                       "properties": {
                         "functieaanduidingen": {
                           "type": "array",
-                          "x-result-ref": "collection",
                           "items": {
                             "$ref": "#/components/schemas/Functieaanduiding"
                           }
@@ -1684,38 +1555,12 @@
                       }
                     },
                     "_links": {
-                      "required": [
-                        "self"
-                      ],
                       "type": "object",
-                      "properties": {
-                        "self": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar huidige pagina",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/functieaanduidingen"
-                            }
-                          }
-                        },
-                        "next": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar volgende pagina (niet aanwezig als er geen volgende pagina is)",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/functieaanduidingen?page=2"
-                            }
-                          }
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/CollectionLinks"
                         }
-                      }
+                      ]
                     }
                   }
                 }
@@ -1787,7 +1632,6 @@
             "headers": {
               "Retry-After": {
                 "description": "Tijdstip waarop verwacht is dat de service weer beschikbaar zal zijn.",
-                "x-example": "Sun, 28 Nov 2017 16:41:41 GMT",
                 "schema": {
                   "type": "string",
                   "format": "date-time"
@@ -1822,11 +1666,27 @@
           },
           {
             "$ref": "#/components/parameters/acceptCrs"
+          },
+          {
+            "$ref": "#/components/parameters/mandatoryPlanId"
           }
         ],
         "responses": {
           "200": {
             "description": "Status 200",
+            "headers": {
+              "Content-Crs": {
+                "description": "CRS van de geometrie in de response body",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "epsg:4326",
+                    "epsg:28992"
+                  ],
+                  "default": "epsg:4326"
+                }
+              }
+            },
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -1905,7 +1765,6 @@
             "headers": {
               "Retry-After": {
                 "description": "Tijdstip waarop verwacht is dat de service weer beschikbaar zal zijn.",
-                "x-example": "Sun, 28 Nov 2017 16:41:41 GMT",
                 "schema": {
                   "type": "string",
                   "format": "date-time"
@@ -1939,12 +1798,49 @@
             "$ref": "#/components/parameters/acceptCrs"
           },
           {
-            "$ref": "#/components/parameters/bestemmingsplangebied"
+            "$ref": "#/components/parameters/page"
+          },
+          {
+            "$ref": "#/components/parameters/bestemmingsvlak"
+          },
+          {
+            "$ref": "#/components/parameters/tekst"
           }
         ],
         "responses": {
           "200": {
             "description": "Status 200",
+            "headers": {
+              "Content-Crs": {
+                "description": "CRS van de geometrie in de response body",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "epsg:4326",
+                    "epsg:28992"
+                  ],
+                  "default": "epsg:4326"
+                }
+              },
+              "X-Pagination-Page": {
+                "description": "Current page numer (pages are numbered, starting at 1)",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-Pagination-Limit": {
+                "description": "Number of object per page",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-Total-Count": {
+                "description": "Total number of results",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -1961,7 +1857,6 @@
                       "properties": {
                         "gebiedsaanduidingen": {
                           "type": "array",
-                          "x-result-ref": "collection",
                           "items": {
                             "$ref": "#/components/schemas/Gebiedsaanduiding"
                           }
@@ -1969,38 +1864,12 @@
                       }
                     },
                     "_links": {
-                      "required": [
-                        "self"
-                      ],
                       "type": "object",
-                      "properties": {
-                        "self": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar huidige pagina",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/gebiedsaanduidingen"
-                            }
-                          }
-                        },
-                        "next": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar volgende pagina (niet aanwezig als er geen volgende pagina is)",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/gebiedsaanduidingen?page=2"
-                            }
-                          }
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/CollectionLinks"
                         }
-                      }
+                      ]
                     }
                   }
                 }
@@ -2020,7 +1889,6 @@
                       "properties": {
                         "gebiedsaanduidingen": {
                           "type": "array",
-                          "x-result-ref": "collection",
                           "items": {
                             "$ref": "#/components/schemas/Gebiedsaanduiding"
                           }
@@ -2028,38 +1896,12 @@
                       }
                     },
                     "_links": {
-                      "required": [
-                        "self"
-                      ],
                       "type": "object",
-                      "properties": {
-                        "self": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar huidige pagina",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/gebiedsaanduidingen"
-                            }
-                          }
-                        },
-                        "next": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar volgende pagina (niet aanwezig als er geen volgende pagina is)",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/gebiedsaanduidingen?page=2"
-                            }
-                          }
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/CollectionLinks"
                         }
-                      }
+                      ]
                     }
                   }
                 }
@@ -2131,7 +1973,6 @@
             "headers": {
               "Retry-After": {
                 "description": "Tijdstip waarop verwacht is dat de service weer beschikbaar zal zijn.",
-                "x-example": "Sun, 28 Nov 2017 16:41:41 GMT",
                 "schema": {
                   "type": "string",
                   "format": "date-time"
@@ -2166,11 +2007,27 @@
           },
           {
             "$ref": "#/components/parameters/acceptCrs"
+          },
+          {
+            "$ref": "#/components/parameters/mandatoryPlanId"
           }
         ],
         "responses": {
           "200": {
             "description": "Status 200",
+            "headers": {
+              "Content-Crs": {
+                "description": "CRS van de geometrie in de response body",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "epsg:4326",
+                    "epsg:28992"
+                  ],
+                  "default": "epsg:4326"
+                }
+              }
+            },
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -2249,7 +2106,6 @@
             "headers": {
               "Retry-After": {
                 "description": "Tijdstip waarop verwacht is dat de service weer beschikbaar zal zijn.",
-                "x-example": "Sun, 28 Nov 2017 16:41:41 GMT",
                 "schema": {
                   "type": "string",
                   "format": "date-time"
@@ -2283,12 +2139,49 @@
             "$ref": "#/components/parameters/acceptCrs"
           },
           {
-            "$ref": "#/components/parameters/bestemmingsplangebied"
+            "$ref": "#/components/parameters/page"
+          },
+          {
+            "$ref": "#/components/parameters/bestemmingsvlak"
+          },
+          {
+            "$ref": "#/components/parameters/tekst"
           }
         ],
         "responses": {
           "200": {
             "description": "Status 200",
+            "headers": {
+              "Content-Crs": {
+                "description": "CRS van de geometrie in de response body",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "epsg:4326",
+                    "epsg:28992"
+                  ],
+                  "default": "epsg:4326"
+                }
+              },
+              "X-Pagination-Page": {
+                "description": "Current page numer (pages are numbered, starting at 1)",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-Pagination-Limit": {
+                "description": "Number of object per page",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-Total-Count": {
+                "description": "Total number of results",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -2305,7 +2198,6 @@
                       "properties": {
                         "maatvoeringen": {
                           "type": "array",
-                          "x-result-ref": "collection",
                           "items": {
                             "$ref": "#/components/schemas/Maatvoering"
                           }
@@ -2313,38 +2205,12 @@
                       }
                     },
                     "_links": {
-                      "required": [
-                        "self"
-                      ],
                       "type": "object",
-                      "properties": {
-                        "self": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar huidige pagina",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/maatvoeringen"
-                            }
-                          }
-                        },
-                        "next": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar volgende pagina (niet aanwezig als er geen volgende pagina is)",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/maatvoeringen?page=2"
-                            }
-                          }
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/CollectionLinks"
                         }
-                      }
+                      ]
                     }
                   }
                 }
@@ -2364,7 +2230,6 @@
                       "properties": {
                         "maatvoeringen": {
                           "type": "array",
-                          "x-result-ref": "collection",
                           "items": {
                             "$ref": "#/components/schemas/Maatvoering"
                           }
@@ -2372,38 +2237,12 @@
                       }
                     },
                     "_links": {
-                      "required": [
-                        "self"
-                      ],
                       "type": "object",
-                      "properties": {
-                        "self": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar huidige pagina",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/maatvoeringen"
-                            }
-                          }
-                        },
-                        "next": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar volgende pagina (niet aanwezig als er geen volgende pagina is)",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/maatvoeringen?page=2"
-                            }
-                          }
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/CollectionLinks"
                         }
-                      }
+                      ]
                     }
                   }
                 }
@@ -2475,7 +2314,6 @@
             "headers": {
               "Retry-After": {
                 "description": "Tijdstip waarop verwacht is dat de service weer beschikbaar zal zijn.",
-                "x-example": "Sun, 28 Nov 2017 16:41:41 GMT",
                 "schema": {
                   "type": "string",
                   "format": "date-time"
@@ -2510,11 +2348,27 @@
           },
           {
             "$ref": "#/components/parameters/acceptCrs"
+          },
+          {
+            "$ref": "#/components/parameters/mandatoryPlanId"
           }
         ],
         "responses": {
           "200": {
             "description": "Status 200",
+            "headers": {
+              "Content-Crs": {
+                "description": "CRS van de geometrie in de response body",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "epsg:4326",
+                    "epsg:28992"
+                  ],
+                  "default": "epsg:4326"
+                }
+              }
+            },
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -2593,7 +2447,6 @@
             "headers": {
               "Retry-After": {
                 "description": "Tijdstip waarop verwacht is dat de service weer beschikbaar zal zijn.",
-                "x-example": "Sun, 28 Nov 2017 16:41:41 GMT",
                 "schema": {
                   "type": "string",
                   "format": "date-time"
@@ -2627,12 +2480,49 @@
             "$ref": "#/components/parameters/acceptCrs"
           },
           {
-            "$ref": "#/components/parameters/bestemmingsplangebied"
+            "$ref": "#/components/parameters/page"
+          },
+          {
+            "$ref": "#/components/parameters/bestemmingsvlak"
+          },
+          {
+            "$ref": "#/components/parameters/tekst"
           }
         ],
         "responses": {
           "200": {
             "description": "Status 200",
+            "headers": {
+              "Content-Crs": {
+                "description": "CRS van de geometrie in de response body",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "epsg:4326",
+                    "epsg:28992"
+                  ],
+                  "default": "epsg:4326"
+                }
+              },
+              "X-Pagination-Page": {
+                "description": "Current page numer (pages are numbered, starting at 1)",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-Pagination-Limit": {
+                "description": "Number of object per page",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-Total-Count": {
+                "description": "Total number of results",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -2649,7 +2539,6 @@
                       "properties": {
                         "bouwaanduidingen": {
                           "type": "array",
-                          "x-result-ref": "collection",
                           "items": {
                             "$ref": "#/components/schemas/Bouwaanduiding"
                           }
@@ -2657,38 +2546,12 @@
                       }
                     },
                     "_links": {
-                      "required": [
-                        "self"
-                      ],
                       "type": "object",
-                      "properties": {
-                        "self": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar huidige pagina",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwaanduidingen"
-                            }
-                          }
-                        },
-                        "next": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar volgende pagina (niet aanwezig als er geen volgende pagina is)",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwaanduidingen?page=2"
-                            }
-                          }
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/CollectionLinks"
                         }
-                      }
+                      ]
                     }
                   }
                 }
@@ -2708,7 +2571,6 @@
                       "properties": {
                         "bouwaanduidingen": {
                           "type": "array",
-                          "x-result-ref": "collection",
                           "items": {
                             "$ref": "#/components/schemas/Bouwaanduiding"
                           }
@@ -2716,38 +2578,12 @@
                       }
                     },
                     "_links": {
-                      "required": [
-                        "self"
-                      ],
                       "type": "object",
-                      "properties": {
-                        "self": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar huidige pagina",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwaanduidingen"
-                            }
-                          }
-                        },
-                        "next": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar volgende pagina (niet aanwezig als er geen volgende pagina is)",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwaanduidingen?page=2"
-                            }
-                          }
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/CollectionLinks"
                         }
-                      }
+                      ]
                     }
                   }
                 }
@@ -2819,7 +2655,6 @@
             "headers": {
               "Retry-After": {
                 "description": "Tijdstip waarop verwacht is dat de service weer beschikbaar zal zijn.",
-                "x-example": "Sun, 28 Nov 2017 16:41:41 GMT",
                 "schema": {
                   "type": "string",
                   "format": "date-time"
@@ -2854,6 +2689,9 @@
           },
           {
             "$ref": "#/components/parameters/acceptCrs"
+          },
+          {
+            "$ref": "#/components/parameters/mandatoryPlanId"
           }
         ],
         "responses": {
@@ -2937,7 +2775,6 @@
             "headers": {
               "Retry-After": {
                 "description": "Tijdstip waarop verwacht is dat de service weer beschikbaar zal zijn.",
-                "x-example": "Sun, 28 Nov 2017 16:41:41 GMT",
                 "schema": {
                   "type": "string",
                   "format": "date-time"
@@ -2968,12 +2805,49 @@
         "summary": "figuren collectie",
         "parameters": [
           {
-            "$ref": "#/components/parameters/bestemmingsplangebied"
+            "$ref": "#/components/parameters/page"
+          },
+          {
+            "$ref": "#/components/parameters/bestemmingsvlak"
+          },
+          {
+            "$ref": "#/components/parameters/tekst"
           }
         ],
         "responses": {
           "200": {
             "description": "Status 200",
+            "headers": {
+              "Content-Crs": {
+                "description": "CRS van de geometrie in de response body",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "epsg:4326",
+                    "epsg:28992"
+                  ],
+                  "default": "epsg:4326"
+                }
+              },
+              "X-Pagination-Page": {
+                "description": "Current page numer (pages are numbered, starting at 1)",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-Pagination-Limit": {
+                "description": "Number of object per page",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-Total-Count": {
+                "description": "Total number of results",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -2990,7 +2864,6 @@
                       "properties": {
                         "figuren": {
                           "type": "array",
-                          "x-result-ref": "collection",
                           "items": {
                             "$ref": "#/components/schemas/Figuur"
                           }
@@ -2998,38 +2871,12 @@
                       }
                     },
                     "_links": {
-                      "required": [
-                        "self"
-                      ],
                       "type": "object",
-                      "properties": {
-                        "self": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar huidige pagina",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren"
-                            }
-                          }
-                        },
-                        "next": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar volgende pagina (niet aanwezig als er geen volgende pagina is)",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren?page=2"
-                            }
-                          }
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/CollectionLinks"
                         }
-                      }
+                      ]
                     }
                   }
                 }
@@ -3049,7 +2896,6 @@
                       "properties": {
                         "figuren": {
                           "type": "array",
-                          "x-result-ref": "collection",
                           "items": {
                             "$ref": "#/components/schemas/Figuur"
                           }
@@ -3057,38 +2903,12 @@
                       }
                     },
                     "_links": {
-                      "required": [
-                        "self"
-                      ],
                       "type": "object",
-                      "properties": {
-                        "self": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar huidige pagina",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren"
-                            }
-                          }
-                        },
-                        "next": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar volgende pagina (niet aanwezig als er geen volgende pagina is)",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren?page=2"
-                            }
-                          }
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/CollectionLinks"
                         }
-                      }
+                      ]
                     }
                   }
                 }
@@ -3160,7 +2980,6 @@
             "headers": {
               "Retry-After": {
                 "description": "Tijdstip waarop verwacht is dat de service weer beschikbaar zal zijn.",
-                "x-example": "Sun, 28 Nov 2017 16:41:41 GMT",
                 "schema": {
                   "type": "string",
                   "format": "date-time"
@@ -3195,11 +3014,27 @@
           },
           {
             "$ref": "#/components/parameters/acceptCrs"
+          },
+          {
+            "$ref": "#/components/parameters/mandatoryPlanId"
           }
         ],
         "responses": {
           "200": {
             "description": "Status 200",
+            "headers": {
+              "Content-Crs": {
+                "description": "CRS van de geometrie in de response body",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "epsg:4326",
+                    "epsg:28992"
+                  ],
+                  "default": "epsg:4326"
+                }
+              }
+            },
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -3278,7 +3113,6 @@
             "headers": {
               "Retry-After": {
                 "description": "Tijdstip waarop verwacht is dat de service weer beschikbaar zal zijn.",
-                "x-example": "Sun, 28 Nov 2017 16:41:41 GMT",
                 "schema": {
                   "type": "string",
                   "format": "date-time"
@@ -3312,27 +3146,49 @@
             "$ref": "#/components/parameters/acceptCrs"
           },
           {
-            "$ref": "#/components/parameters/bestemmingsplangebied"
+            "$ref": "#/components/parameters/page"
           },
           {
             "$ref": "#/components/parameters/bestemmingsvlak"
           },
           {
             "$ref": "#/components/parameters/tekst"
-          },
-          {
-            "$ref": "#/components/parameters/maatvoering"
-          },
-          {
-            "$ref": "#/components/parameters/bouwaanduiding"
-          },
-          {
-            "$ref": "#/components/parameters/figuur"
           }
         ],
         "responses": {
           "200": {
             "description": "Status 200",
+            "headers": {
+              "Content-Crs": {
+                "description": "CRS van de geometrie in de response body",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "epsg:4326",
+                    "epsg:28992"
+                  ],
+                  "default": "epsg:4326"
+                }
+              },
+              "X-Pagination-Page": {
+                "description": "Current page numer (pages are numbered, starting at 1)",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-Pagination-Limit": {
+                "description": "Number of object per page",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-Total-Count": {
+                "description": "Total number of results",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -3349,7 +3205,6 @@
                       "properties": {
                         "bouwvlakken": {
                           "type": "array",
-                          "x-result-ref": "collection",
                           "items": {
                             "$ref": "#/components/schemas/Bouwvlak"
                           }
@@ -3357,38 +3212,12 @@
                       }
                     },
                     "_links": {
-                      "required": [
-                        "self"
-                      ],
                       "type": "object",
-                      "properties": {
-                        "self": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar huidige pagina",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwvlakken"
-                            }
-                          }
-                        },
-                        "next": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar volgende pagina (niet aanwezig als er geen volgende pagina is)",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwvlakken?page=2"
-                            }
-                          }
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/CollectionLinks"
                         }
-                      }
+                      ]
                     }
                   }
                 }
@@ -3408,7 +3237,6 @@
                       "properties": {
                         "bouwvlakken": {
                           "type": "array",
-                          "x-result-ref": "collection",
                           "items": {
                             "$ref": "#/components/schemas/Bouwvlak"
                           }
@@ -3416,38 +3244,12 @@
                       }
                     },
                     "_links": {
-                      "required": [
-                        "self"
-                      ],
                       "type": "object",
-                      "properties": {
-                        "self": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar huidige pagina",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwvlakken"
-                            }
-                          }
-                        },
-                        "next": {
-                          "required": [
-                            "href"
-                          ],
-                          "type": "object",
-                          "description": "Absolute link naar volgende pagina (niet aanwezig als er geen volgende pagina is)",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwvlakken?page=2"
-                            }
-                          }
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/CollectionLinks"
                         }
-                      }
+                      ]
                     }
                   }
                 }
@@ -3519,7 +3321,6 @@
             "headers": {
               "Retry-After": {
                 "description": "Tijdstip waarop verwacht is dat de service weer beschikbaar zal zijn.",
-                "x-example": "Sun, 28 Nov 2017 16:41:41 GMT",
                 "schema": {
                   "type": "string",
                   "format": "date-time"
@@ -3554,11 +3355,27 @@
           },
           {
             "$ref": "#/components/parameters/acceptCrs"
+          },
+          {
+            "$ref": "#/components/parameters/mandatoryPlanId"
           }
         ],
         "responses": {
           "200": {
             "description": "Status 200",
+            "headers": {
+              "Content-Crs": {
+                "description": "CRS van de geometrie in de response body",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "epsg:4326",
+                    "epsg:28992"
+                  ],
+                  "default": "epsg:4326"
+                }
+              }
+            },
             "content": {
               "application/hal+json": {
                 "schema": {
@@ -3637,7 +3454,6 @@
             "headers": {
               "Retry-After": {
                 "description": "Tijdstip waarop verwacht is dat de service weer beschikbaar zal zijn.",
-                "x-example": "Sun, 28 Nov 2017 16:41:41 GMT",
                 "schema": {
                   "type": "string",
                   "format": "date-time"
@@ -3663,15 +3479,6 @@
   },
   "components": {
     "parameters": {
-      "id": {
-        "name": "id",
-        "in": "path",
-        "description": "Identifier",
-        "required": true,
-        "schema": {
-          "type": "string"
-        }
-      },
       "contentCrs": {
         "name": "Content-Crs",
         "in": "header",
@@ -3690,7 +3497,7 @@
         "name": "Accept-Crs",
         "in": "header",
         "required": false,
-        "description": "Gewenste CRS van de coördinaten in de response",
+        "description": "Gewenste CRS van de coÃ¶rdinaten in de response",
         "schema": {
           "type": "string",
           "enum": [
@@ -3698,6 +3505,71 @@
             "epsg:28992"
           ],
           "default": "epsg:4326"
+        }
+      },
+      "xPaginationPage": {
+        "name": "X-Pagination-Page",
+        "in": "header",
+        "required": false,
+        "description": "Page number (starts with 1)",
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "xPaginationLimit": {
+        "name": "X-Pagination-Limit",
+        "in": "header",
+        "required": false,
+        "description": "Page size",
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "xTotalCount": {
+        "name": "X-Total-Count",
+        "in": "header",
+        "required": false,
+        "description": "Total number of results",
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "id": {
+        "name": "id",
+        "in": "path",
+        "description": "Identifier",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "optionalPlanId": {
+        "name": "planId",
+        "in": "query",
+        "description": "Identifier",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "mandatoryPlanId": {
+        "name": "planId",
+        "in": "query",
+        "description": "Identifier",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "page": {
+        "name": "page",
+        "in": "query",
+        "description": "Page number",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 1
         }
       },
       "bestemmingsplangebied": {
@@ -3783,6 +3655,21 @@
       }
     },
     "schemas": {
+      "externplanreferentie": {
+        "type": "object",
+        "required": [
+          "href"
+        ],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string",
+            "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden/758"
+          }
+        }
+      },
       "Bestemmingsplangebied": {
         "type": "object",
         "required": [
@@ -3796,59 +3683,68 @@
               "self"
             ],
             "type": "object",
-            "x-exclude-empty-and-null-value-properties": true,
             "properties": {
               "self": {
                 "type": "object",
+                "required": [
+                  "href"
+                ],
                 "properties": {
                   "href": {
                     "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden/759",
-                    "x-relative-link": {
-                      "pattern": "/bestemmingsplangebieden/$1",
-                      "x-ldpath": "fn:concat(nen3610:identificatie / nen3610:namespace, \".\", nen3610:identificatie / nen3610:lokaalID, \"-\", nen3610:identificatie / nen3610:versie) :: xsd:string"
-                    }
+                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden/759"
+                  },
+                  "title": {
+                    "type": "string",
+                    "example": "Buitengebied; Elderinkweg 9 Hengelo (vastgesteld, 2016-10-27)"
                   }
                 }
               },
-              "externPlan": {
-                "type": "object",
-                "x-ldpath": "(ro:vervangt|ro:muteert|ro:tenGevolgeVan)",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden/758",
-                    "x-relative-link": {
-                      "pattern": "/bestemmingsplangebieden/$1",
-                      "x-ldpath": "ro:identificatieExternPlan :: xsd:string",
-                      "x-href-required": false
-                    }
-                  }
+              "vervangt": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/externplanreferentie"
+                }
+              },
+              "tenGevolgeVan": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/externplanreferentie"
+                }
+              },
+              "muteert": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/externplanreferentie"
                 }
               },
               "bestemmingsvlakken": {
                 "type": "object",
+                "required": [
+                  "href"
+                ],
                 "properties": {
                   "href": {
                     "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken?bestemmingsplangebied=759",
-                    "x-relative-link": {
-                      "pattern": "/bestemmingsvlakken?bestemmingsplangebied=$1",
-                      "x-ldpath": "fn:concat(nen3610:identificatie / nen3610:namespace, \".\", nen3610:identificatie / nen3610:lokaalID, \"-\", nen3610:identificatie / nen3610:versie) :: xsd:string"
-                    }
+                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken?bestemmingsplangebied=759"
+                  },
+                  "title": {
+                    "type": "string"
                   }
                 }
               },
               "teksten": {
                 "type": "object",
+                "required": [
+                  "href"
+                ],
                 "properties": {
                   "href": {
                     "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?bestemmingsplangebied=759",
-                    "x-relative-link": {
-                      "pattern": "/teksten?bestemmingsplangebied=$1",
-                      "x-ldpath": "fn:concat(nen3610:identificatie / nen3610:namespace, \".\", nen3610:identificatie / nen3610:lokaalID, \"-\", nen3610:identificatie / nen3610:versie) :: xsd:string"
-                    }
+                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?bestemmingsplangebied=759"
+                  },
+                  "title": {
+                    "type": "string"
                   }
                 }
               }
@@ -3856,8 +3752,7 @@
           },
           "id": {
             "type": "string",
-            "example": "NL.IMRO.0268.BPa10500-VG01",
-            "x-ldpath": "fn:concat(nen3610:identificatie / nen3610:namespace, \".\", nen3610:identificatie / nen3610:lokaalID, \"-\", nen3610:identificatie / nen3610:versie) :: xsd:string"
+            "example": "NL.IMRO.0268.BPa10500-VG01"
           },
           "type": {
             "type": "string",
@@ -3868,8 +3763,7 @@
               "uitwerkingsplan",
               "wijzigingsplan"
             ],
-            "example": "bestemmingsplan",
-            "x-ldpath": "rdf:type / dcterms:subject / skos:notation :: xsd:string"
+            "example": "bestemmingsplan"
           },
           "beleidsmatigVerantwoordelijkeOverheid": {
             "type": "object",
@@ -3882,18 +3776,15 @@
                   "provinciale overheid",
                   "nationale overheid"
                 ],
-                "example": "gemeentelijke overheid",
-                "x-ldpath": "ro:beleidsmatigVerantwoordelijkeOverheid / rdf:type / rdfs:label :: xsd:string"
+                "example": "gemeentelijke overheid"
               },
               "code": {
                 "type": "string",
                 "description": "CBS-code van de beleidsmatig verantwoordelijke overheid. Altijd 4 cijfers, indien nodig aangevuld met voorloopnullen.",
-                "example": "0000",
-                "x-ldpath": "ro:beleidsmatigVerantwoordelijkeOverheid / ro:code :: xsd:string"
+                "example": "0000"
               },
               "naam": {
                 "type": "array",
-                "x-ldpath": "ro:beleidsmatigVerantwoordelijkeOverheid / ro:naamOverheid",
                 "items": {
                   "type": "string",
                   "example": "gemeente Nijmegen"
@@ -3903,13 +3794,11 @@
           },
           "naam": {
             "type": "string",
-            "example": "Nijmegen Westkanaaldijk 2016",
-            "x-ldpath": "ro:naam :: xsd:string"
+            "example": "Nijmegen Westkanaaldijk 2016"
           },
           "locatieNaam": {
             "type": "string",
-            "example": "TODO",
-            "x-ldpath": "ro:locatienaam"
+            "example": "TODO"
           },
           "planstatusInfo": {
             "type": "object",
@@ -3923,29 +3812,24 @@
                   "vastgesteld",
                   "geconsolideerd"
                 ],
-                "example": "vastgesteld",
-                "x-ldpath": "ro:planstatus / ro:status :: xsd:string"
+                "example": "vastgesteld"
               },
               "datum": {
                 "type": "string",
-                "example": "TODO: xsd:date wordt nog niet ondersteund door grid-api?",
-                "x-ldpath": "ro:planstatus / ro:datum :: xsd:date"
+                "example": "TODO: xsd:date wordt nog niet ondersteund door grid-api?"
               }
             }
           },
           "verwijzingNaarVaststellingsbesluit": {
             "type": "string",
-            "example": "TODO: URL onderdeel van `vaststellingsbesluit`? Is dit een link naar een API resource of naar een extern document (bijv. pdf)`?",
-            "x-ldpath": "ro:vaststellingsbesluit"
+            "example": "TODO: URL onderdeel van `vaststellingsbesluit`? Is dit een link naar een API resource of naar een extern document (bijv. pdf)`?"
           },
           "besluitnummer": {
             "type": "string",
-            "example": "TODO: besluitnummer is onderdeel van `vaststellingsbesluit`?",
-            "x-ldpath": "ro:vaststellingsbesluit / ro:besluitnummer :: xsd:string"
+            "example": "TODO: besluitnummer is onderdeel van `vaststellingsbesluit`?"
           },
           "verwijzingNorm": {
             "type": "array",
-            "x-ldpath": "ro:norm / skos:notation",
             "items": {
               "type": "string",
               "example": "IMRO2012"
@@ -3953,8 +3837,11 @@
           },
           "geometrie": {
             "type": "object",
-            "x-type": "geometry",
-            "x-ldpath": "geo:hasGeometry / geo:asWKT :: geo:wktLiteral"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GeoJSON"
+              }
+            ]
           }
         }
       },
@@ -3968,26 +3855,22 @@
         "properties": {
           "titel": {
             "type": "string",
-            "example": "1.0: Hoofdstuk 1",
-            "x-ldpath": "ro:titel / ro:titelnaam :: xsd:string"
+            "example": "1.0: Hoofdstuk 1"
           },
           "inhoud": {
             "type": "string",
             "description": "Inhoud van van het tekstblok. Voor de Ruimtelijke Plannen is dit XHTML, voor LVBB wellicht XML en voor andere informatiehuizen wellicht plain text. Hoe een client dit moet behandelen wordt in de verbeelding afgehandeld.",
-            "example": "Dit is een paragraaf met een Linkje naar Google.",
-            "x-ldpath": "ro:tekst :: xsd:string"
+            "example": "Dit is een paragraaf met een Linkje naar Google."
           },
           "volgnummer": {
             "type": "integer",
-            "example": "42",
-            "x-ldpath": "ro:volgnummer :: xsd:string"
+            "example": "42"
           },
           "_links": {
             "required": [
               "self"
             ],
             "type": "object",
-            "x-exclude-empty-and-null-value-properties": true,
             "properties": {
               "self": {
                 "required": [
@@ -3997,38 +3880,167 @@
                 "properties": {
                   "href": {
                     "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten/429",
-                    "x-relative-link": {
-                      "pattern": "/teksten/$1",
-                      "x-ldpath": "fn:keepAfterLast(., \"/\") :: xsd:string"
-                    }
+                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten/429"
+                  },
+                  "title": {
+                    "type": "string",
+                    "example": "1.0: Hoofdstuk 1"
                   }
                 }
               },
               "parent": {
                 "type": "object",
-                "x-ldpath": "ro:ouder",
                 "properties": {
                   "href": {
                     "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten/428",
-                    "x-relative-link": {
-                      "pattern": "/teksten/$1",
-                      "x-ldpath": "fn:keepAfterLast(., \"/\") :: xsd:string"
+                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten/428"
+                  },
+                  "title": {
+                    "type": "string",
+                    "example": "1.0: Hoofdstuk 1"
+                  }
+                }
+              },
+              "children": {
+                "type": "array",
+                "items": {
+                  "required": [
+                    "href"
+                  ],
+                  "type": "object",
+                  "properties": {
+                    "href": {
+                      "type": "string",
+                      "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten/430"
+                    },
+                    "title": {
+                      "type": "string",
+                      "example": "1.0 Hoofdstuk 1"
+                    },
+                    "volgnummer": {
+                      "type": "integer",
+                      "example": "the answer to life, the universe and everything"
                     }
                   }
                 }
               },
               "bestemmingsplangebieden": {
                 "type": "object",
+                "required": [
+                  "href"
+                ],
                 "properties": {
                   "href": {
                     "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden?tekst=429",
-                    "x-relative-link": {
-                      "pattern": "/bestemmingsplangebieden?tekst=$1",
-                      "x-ldpath": "fn:keepAfterLast(., \"/\") :: xsd:string"
-                    }
+                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden?tekst=429"
+                  },
+                  "title": {
+                    "type": "string"
+                  }
+                }
+              },
+              "bestemmingsvlakken": {
+                "type": "object",
+                "required": [
+                  "href"
+                ],
+                "properties": {
+                  "href": {
+                    "type": "string",
+                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken?tekst=429"
+                  },
+                  "title": {
+                    "type": "string"
+                  }
+                }
+              },
+              "functieaanduidingen": {
+                "type": "object",
+                "required": [
+                  "href"
+                ],
+                "properties": {
+                  "href": {
+                    "type": "string",
+                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/functieaanduidingen?tekst=429"
+                  },
+                  "title": {
+                    "type": "string"
+                  }
+                }
+              },
+              "gebiedsaanduidingen": {
+                "type": "object",
+                "required": [
+                  "href"
+                ],
+                "properties": {
+                  "href": {
+                    "type": "string",
+                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/gebiedsaanduidingen?tekst=429"
+                  },
+                  "title": {
+                    "type": "string"
+                  }
+                }
+              },
+              "maatvoeringen": {
+                "type": "object",
+                "required": [
+                  "href"
+                ],
+                "properties": {
+                  "href": {
+                    "type": "string",
+                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/maatvoeringen?tekst=429"
+                  },
+                  "title": {
+                    "type": "string"
+                  }
+                }
+              },
+              "bouwaanduidingen": {
+                "type": "object",
+                "required": [
+                  "href"
+                ],
+                "properties": {
+                  "href": {
+                    "type": "string",
+                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwaanduidingen?tekst=429"
+                  },
+                  "title": {
+                    "type": "string"
+                  }
+                }
+              },
+              "figuren": {
+                "type": "object",
+                "required": [
+                  "href"
+                ],
+                "properties": {
+                  "href": {
+                    "type": "string",
+                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren?tekst=429"
+                  },
+                  "title": {
+                    "type": "string"
+                  }
+                }
+              },
+              "bouwvlakken": {
+                "type": "object",
+                "required": [
+                  "href"
+                ],
+                "properties": {
+                  "href": {
+                    "type": "string",
+                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwvlakken?tekst=429"
+                  },
+                  "title": {
+                    "type": "string"
                   }
                 }
               }
@@ -4051,14 +4063,107 @@
             "properties": {
               "self": {
                 "type": "object",
+                "required": [
+                  "href"
+                ],
                 "properties": {
                   "href": {
                     "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken/NL.IMRO.423d9f5d924c4f76a001a94f8ca284b4",
-                    "x-grid-link": {
-                      "pattern": "/bestemmingsvlakken/$1",
-                      "x-ldpath": "fn:concat(nen3610:identificatie / nen3610:namespace, \".\", nen3610:identificatie / nen3610:lokaalID) :: xsd:string"
-                    }
+                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken/NL.IMRO.423d9f5d924c4f76a001a94f8ca284b4"
+                  },
+                  "title": {
+                    "type": "string",
+                    "example": "Enkelbestemming Bedrijventerrein"
+                  }
+                }
+              },
+              "functieaanduidingen": {
+                "type": "object",
+                "required": [
+                  "href"
+                ],
+                "properties": {
+                  "href": {
+                    "type": "string",
+                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/functieaanduidingen?bestemmingsvlak=94"
+                  },
+                  "title": {
+                    "type": "string"
+                  }
+                }
+              },
+              "gebiedsaanduidingen": {
+                "type": "object",
+                "required": [
+                  "href"
+                ],
+                "properties": {
+                  "href": {
+                    "type": "string",
+                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/gebiedsaanduidingen?bestemmingsvlak=94"
+                  },
+                  "title": {
+                    "type": "string"
+                  }
+                }
+              },
+              "maatvoeringen": {
+                "type": "object",
+                "required": [
+                  "href"
+                ],
+                "properties": {
+                  "href": {
+                    "type": "string",
+                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/maatvoeringen?bestemmingsvlak=94"
+                  },
+                  "title": {
+                    "type": "string"
+                  }
+                }
+              },
+              "bouwaanduidingen": {
+                "type": "object",
+                "required": [
+                  "href"
+                ],
+                "properties": {
+                  "href": {
+                    "type": "string",
+                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwaanduidingen?bestemmingsvlak=94"
+                  },
+                  "title": {
+                    "type": "string"
+                  }
+                }
+              },
+              "figuren": {
+                "type": "object",
+                "required": [
+                  "href"
+                ],
+                "properties": {
+                  "href": {
+                    "type": "string",
+                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren?bestemmingsvlak=94"
+                  },
+                  "title": {
+                    "type": "string"
+                  }
+                }
+              },
+              "bouwvlakken": {
+                "type": "object",
+                "required": [
+                  "href"
+                ],
+                "properties": {
+                  "href": {
+                    "type": "string",
+                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwvlakken?bestemmingsvlak=94"
+                  },
+                  "title": {
+                    "type": "string"
                   }
                 }
               }
@@ -4066,8 +4171,7 @@
           },
           "id": {
             "type": "string",
-            "example": "NL.IMRO.423d9f5d924c4f76a001a94f8ca284b4",
-            "x-ldpath": "fn:concat(nen3610:identificatie / nen3610:namespace, \".\", nen3610:identificatie / nen3610:lokaalID) :: xsd:string"
+            "example": "NL.IMRO.423d9f5d924c4f76a001a94f8ca284b4"
           },
           "type": {
             "type": "string",
@@ -4075,28 +4179,27 @@
               "enkelbestemming",
               "dubbelbestemming"
             ],
-            "example": "enkelbestemming",
-            "x-ldpath": "rdf:type[rdfs:subClassOf is ro:Bestemmingsvlak] :: xsd:string"
+            "example": "enkelbestemming"
           },
           "naam": {
             "type": "string",
-            "example": "Enkelbestemming Bedrijventerrein",
-            "x-ldpath": "ro:naam :: xsd:string"
+            "example": "Enkelbestemming Bedrijventerrein"
           },
           "bestemmingshoofdgroep": {
             "type": "string",
-            "example": "Natuur",
-            "x-ldpath": "ro:bestemmingshoofdgroep :: xsd:string"
+            "example": "Natuur"
           },
           "artikelnummer": {
             "type": "string",
-            "example": "43",
-            "x-ldpath": "ro:artikelnummer :: xsd:string"
+            "example": "43"
           },
           "geometrie": {
             "type": "object",
-            "x-type": "geometry",
-            "x-ldpath": "geo:hasGeometry / geo:asWKT :: geo:wktLiteral"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GeoJSON"
+              }
+            ]
           }
         }
       },
@@ -4114,55 +4217,16 @@
             "properties": {
               "self": {
                 "type": "object",
+                "required": [
+                  "href"
+                ],
                 "properties": {
                   "href": {
                     "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/functieaanduidingen/94"
-                  }
-                }
-              },
-              "teksten": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?functieaanduiding=94"
-                  }
-                }
-              },
-              "bestemmingsplangebieden": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden?functieaanduiding=94"
-                  }
-                }
-              },
-              "bestemmingsvlakken": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken?functieaanduiding=94"
-                  }
-                }
-              },
-              "gebiedsaanduidingen": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/gebiedsaanduidingen?functieaanduiding=94"
-                  }
-                }
-              },
-              "figuren": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren?functieaanduiding=94"
+                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/functieaanduidingen/NL.IMRO.3e542fd876e84c3db419b4e2d3f11089"
+                  },
+                  "title": {
+                    "type": "string"
                   }
                 }
               }
@@ -4170,15 +4234,19 @@
           },
           "id": {
             "type": "string",
-            "example": "NL.IMRO.3e542fd876e84c3db419b4e2d3f11089",
-            "x-ldpath": "fn:concat(nen3610:identificatie / nen3610:namespace, \".\", nen3610:identificatie / nen3610:lokaalID) :: xsd:string"
+            "example": "NL.IMRO.3e542fd876e84c3db419b4e2d3f11089"
           },
           "naam": {
             "type": "string",
-            "x-ldpath": "ro:naam"
+            "example": "specifieke vorm van wonen - wonen a"
           },
           "geometrie": {
-            "$ref": "#/components/schemas/GeoJSON"
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GeoJSON"
+              }
+            ]
           }
         }
       },
@@ -4190,7 +4258,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "example": "TODO"
+            "example": "NL.IMRO.11c351f362064942bfde49445ca4f95b"
           },
           "gebiedsaanduidinggroep": {
             "type": "string",
@@ -4202,10 +4270,15 @@
           },
           "labelInfo": {
             "type": "string",
-            "example": "Gebiedsaanduiding overige zone - .geluidgezoneerd industrieterrein"
+            "example": "naam"
           },
           "geometrie": {
-            "$ref": "#/components/schemas/GeoJSON"
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GeoJSON"
+              }
+            ]
           },
           "_links": {
             "required": [
@@ -4215,73 +4288,16 @@
             "properties": {
               "self": {
                 "type": "object",
+                "required": [
+                  "href"
+                ],
                 "properties": {
                   "href": {
                     "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/gebiedsaanduidingen/94"
-                  }
-                }
-              },
-              "bestemmingsplangebieden": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden?gebiedsaanduiding=94"
-                  }
-                }
-              },
-              "bestemmingsvlakken": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken?gebiedsaanduiding=94"
-                  }
-                }
-              },
-              "teksten": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?gebiedsaanduiding=94"
-                  }
-                }
-              },
-              "functieaanduidingen": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/functieaanduidingen?gebiedsaanduiding=94"
-                  }
-                }
-              },
-              "maatvoeringen": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/maatvoeringen?gebiedsaanduiding=94"
-                  }
-                }
-              },
-              "bouwaanduidingen": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwaanduidingen?gebiedsaanduiding=94"
-                  }
-                }
-              },
-              "figuren": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren?gebiedsaanduiding=94"
+                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/gebiedsaanduidingen/NL.IMRO.11c351f362064942bfde49445ca4f95b"
+                  },
+                  "title": {
+                    "type": "string"
                   }
                 }
               }
@@ -4292,21 +4308,6 @@
       "Maatvoering": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string",
-            "example": "NL.IMRO.c233eb4c242c4d01bb41f41b983b1e95"
-          },
-          "symboolInfo": {
-            "type": "string",
-            "example": "s130h"
-          },
-          "maatvoeringInfo": {
-            "type": "string",
-            "example": "Maximum bouwhoogte (m): 18"
-          },
-          "geometrie": {
-            "$ref": "#/components/schemas/GeoJSON"
-          },
           "_links": {
             "required": [
               "self"
@@ -4315,59 +4316,47 @@
             "properties": {
               "self": {
                 "type": "object",
+                "required": [
+                  "href"
+                ],
                 "properties": {
                   "href": {
                     "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/maatvoeringen/94"
-                  }
-                }
-              },
-              "bestemmingsplangebieden": {
-                "type": "object",
-                "properties": {
-                  "href": {
+                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/maatvoeringen/NL.IMRO.ddf6f96c97ed4042b8acec676c4c840a"
+                  },
+                  "title": {
                     "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden?maatvoering=94"
-                  }
-                }
-              },
-              "bestemmingsvlakken": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken?maatvoering=94"
-                  }
-                }
-              },
-              "teksten": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?maatvoering=94"
-                  }
-                }
-              },
-              "gebiedsaanduidingen": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/gebiedsaanduidingen?maatvoering=94"
-                  }
-                }
-              },
-              "bouwvlakken": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwvlakken?maatvoering=94"
+                    "example": "Example Maatvoering"
                   }
                 }
               }
             }
+          },
+          "id": {
+            "type": "string",
+            "example": "NL.IMRO.ddf6f96c97ed4042b8acec676c4c840a"
+          },
+          "omvang": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "naam": {
+                  "type": "string"
+                },
+                "waarde": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "geometrie": {
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GeoJSON"
+              }
+            ]
           }
         }
       },
@@ -4376,15 +4365,19 @@
         "properties": {
           "id": {
             "type": "string",
-            "example": "TODO"
+            "example": "NL.IMRO.BA105502"
           },
-          "labelInfo": {
+          "naam": {
             "type": "string",
-            "example": "TODO"
+            "example": "bijgebouwen"
           },
           "geometrie": {
-            "$ref": "#/components/schemas/GeoJSON",
-            "x-ldpath": "rdf:type / dcterms:subject / skos:notation :: xsd:string"
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GeoJSON"
+              }
+            ]
           },
           "_links": {
             "required": [
@@ -4397,62 +4390,12 @@
                 "properties": {
                   "href": {
                     "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwaanduidingen/94",
-                    "x-relative-link": {
-                      "pattern": "/bestemmingsplangebieden/$1",
-                      "x-ldpath": "fn:concat(nen3610:identificatie / nen3610:lokaalID, \"-\", nen3610:identificatie / nen3610:versie) :: xsd:string"
-                    }
+                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwaanduidingen/NL.IMRO.1d2295c177cd4ce793943d2c68b37c0a"
                   },
                   "title": {
                     "type": "string",
                     "description": "Human-readable titel van de link",
-                    "x-ldpath": "ro:naam :: xsd:string",
-                    "example": "Kamergewverh VSG1"
-                  }
-                }
-              },
-              "bestemmingsplangebieden": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden?bouwaanduiding=94"
-                  }
-                }
-              },
-              "bestemmingsvlakken": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken?bouwaanduiding=94"
-                  }
-                }
-              },
-              "teksten": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?bouwaanduiding=94"
-                  }
-                }
-              },
-              "gebiedsaanduidingen": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/gebiedsaanduidingen?bouwaanduiding=94"
-                  }
-                }
-              },
-              "bouwvlakken": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwvlakken?bouwaanduiding=94"
+                    "example": "bijgebouwen"
                   }
                 }
               }
@@ -4468,14 +4411,19 @@
         "properties": {
           "id": {
             "type": "string",
-            "example": "NL.IMRO.6ba21d351eda49a9808e79b3617f4dcf"
+            "example": "NL.IMRO.1d2295c177cd4ce793943d2c68b37c0a"
           },
-          "labelInfo": {
+          "naam": {
             "type": "string",
-            "example": "TODO"
+            "example": "gevellijn"
           },
           "geometrie": {
-            "$ref": "#/components/schemas/GeoJSON"
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GeoJSON"
+              }
+            ]
           },
           "_links": {
             "required": [
@@ -4488,52 +4436,12 @@
                 "properties": {
                   "href": {
                     "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren/94"
-                  }
-                }
-              },
-              "bestemmingsplangebieden": {
-                "type": "object",
-                "properties": {
-                  "href": {
+                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren/NL.IMRO.1d2295c177cd4ce793943d2c68b37c0a"
+                  },
+                  "title": {
                     "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden?figuur=94"
-                  }
-                }
-              },
-              "bestemmingsvlakken": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken?figuur=94"
-                  }
-                }
-              },
-              "teksten": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?figuur=94"
-                  }
-                }
-              },
-              "gebiedsaanduidingen": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/gebiedsaanduidingen?figuur=94"
-                  }
-                }
-              },
-              "bouwvlakken": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwvlakken?figuur=94"
+                    "description": "Human-readable titel van de link",
+                    "example": "gevellijn"
                   }
                 }
               }
@@ -4546,10 +4454,19 @@
         "properties": {
           "id": {
             "type": "string",
-            "example": "TODO"
+            "example": "NL.IMRO.143d082f29fb484e894985577e2786ec"
+          },
+          "naam": {
+            "type": "string",
+            "example": "bouwvlak"
           },
           "geometrie": {
-            "$ref": "#/components/schemas/GeoJSON"
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GeoJSON"
+              }
+            ]
           },
           "_links": {
             "required": [
@@ -4559,64 +4476,18 @@
             "properties": {
               "self": {
                 "type": "object",
+                "required": [
+                  "href"
+                ],
                 "properties": {
                   "href": {
                     "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwvlakken/94"
-                  }
-                }
-              },
-              "bestemmingsplangebieden": {
-                "type": "object",
-                "properties": {
-                  "href": {
+                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwvlakken/NL.IMRO.143d082f29fb484e894985577e2786ec"
+                  },
+                  "title": {
                     "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsplangebieden?bouwvlak=94"
-                  }
-                }
-              },
-              "bestemmingsvlakken": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bestemmingsvlakken?bouwvlak=94"
-                  }
-                }
-              },
-              "teksten": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/teksten?bouwvlak=94"
-                  }
-                }
-              },
-              "maatvoeringen": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/maatvoeringen?bouwvlak=94"
-                  }
-                }
-              },
-              "bouwaanduidingen": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/bouwaanduidingen?bouwvlak=94"
-                  }
-                }
-              },
-              "figuren": {
-                "type": "object",
-                "properties": {
-                  "href": {
-                    "type": "string",
-                    "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/figuren?bouwvlak=94"
+                    "description": "Human-readable titel van de link",
+                    "example": "bouwvlak"
                   }
                 }
               }
@@ -4632,14 +4503,7 @@
         ],
         "properties": {
           "type": {
-            "type": "string",
-            "enum": [
-              "bestemmingsplangebied",
-              "bestemmingsvlak",
-              "dossier",
-              "tekst"
-            ],
-            "x-ldpath": "rdf:type / dcterms:subject / skos:notation :: xsd:string"
+            "type": "string"
           },
           "_links": {
             "required": [
@@ -4655,15 +4519,10 @@
                 "type": "object",
                 "properties": {
                   "href": {
-                    "type": "string",
-                    "x-relative-link": {
-                      "pattern": "/bestemmingsplangebieden/$1",
-                      "x-ldpath": "fn:concat(nen3610:identificatie / nen3610:lokaalID, \"-\", nen3610:identificatie / nen3610:versie) :: xsd:string"
-                    }
+                    "type": "string"
                   },
                   "title": {
                     "type": "string",
-                    "x-ldpath": "ro:naam :: xsd:string",
                     "description": "Human-readable titel van de link",
                     "example": "Kamergewverh VSG1"
                   }
@@ -4694,7 +4553,7 @@
           },
           "coordinates": {
             "type": "array",
-            "description": "Array met coördinaten behorende bij dit GeoJSON object. De structuur van de array hangt af van het `type`.",
+            "description": "Array met coÃ¶rdinaten behorende bij dit GeoJSON object. De structuur van de array hangt af van het `type`.",
             "example": [
               [
                 [
@@ -4747,6 +4606,37 @@
           },
           "instance": {
             "type": "string"
+          }
+        }
+      },
+      "CollectionLinks": {
+        "type": "object",
+        "properties": {
+          "self": {
+            "required": [
+              "href"
+            ],
+            "type": "object",
+            "description": "Absolute link naar huidige pagina",
+            "properties": {
+              "href": {
+                "type": "string",
+                "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/_zoek"
+              }
+            }
+          },
+          "next": {
+            "required": [
+              "href"
+            ],
+            "type": "object",
+            "description": "Absolute link naar volgende pagina (niet aanwezig als er geen volgende pagina is)",
+            "properties": {
+              "href": {
+                "type": "string",
+                "example": "https://data.pdok.nl/ruimtelijke-plannen/api/v1/_zoek?page=2"
+              }
+            }
           }
         }
       }
