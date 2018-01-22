@@ -1914,7 +1914,7 @@
                     },
                     "beleidsmatigVerantwoordelijkeOverheid": {
                         "type": "object",
-                        "description": "Dit is de overheid die over dit ding gaat.",
+                        "description": "CBS-code van de beleidsmatig verantwoordelijke overheid. Altijd 4 cijfers, indien nodig aangevuld met voorloopnullen.",
                         "properties": {
                             "type": {
                                 "type": "string",
