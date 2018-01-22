@@ -1914,6 +1914,7 @@
                     },
                     "beleidsmatigVerantwoordelijkeOverheid": {
                         "type": "object",
+                        "description": "Dit is de overheid die over dit ding gaat."
                         "properties": {
                             "type": {
                                 "type": "string",
