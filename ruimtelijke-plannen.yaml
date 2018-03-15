@@ -279,7 +279,7 @@ paths:
     get:
       tags:
       - "Bestemmingsplangebieden"
-      summary: "bestemmingsplangebieden collectie"
+      summary: "Zoeken op een of meer instanties van bestemmingsplangebied"
       parameters:
       - $ref: '#/parameters/acceptCrs'
       - $ref: '#/parameters/page'
@@ -520,7 +520,7 @@ paths:
     get:
       tags:
       - "Bestemmingsplangebieden"
-      summary: "bestemmingsplangebied resource"
+      summary: "Een enkele instantie van bestemmingsplangebied opvragen"
       parameters:
       - $ref: '#/parameters/id'
       - $ref: '#/parameters/acceptCrs'
@@ -574,7 +574,7 @@ paths:
     get:
       tags:
       - "Teksten"
-      summary: "teksten collectie"
+      summary: Zoeken op een of meer instanties van tekstblok.
       parameters:
       - $ref: '#/parameters/page'
       - $ref: '#/parameters/limit'
@@ -652,7 +652,7 @@ paths:
     get:
       tags:
       - "Teksten"
-      summary: "tekst"
+      summary: "Een enkele instantie van tekstblok opvragen"
       parameters:
       - $ref: '#/parameters/id'
       responses:
@@ -694,7 +694,7 @@ paths:
     get:
       tags:
       - "Bestemmingsvlakken"
-      summary: "bestemmingsvlakken collectie"
+      summary: "Zoeken op een of meer instanties van bestemmingsvlak"
       parameters:
       - $ref: '#/parameters/acceptCrs'
       - $ref: '#/parameters/page'
@@ -783,7 +783,7 @@ paths:
    get:
       tags:
       - "Bestemmingsvlakken"
-      summary: "bestemmingsvlakken resource"
+      summary: "Een enkele instantie van bestemmingsvlak opvragen"
       parameters:
       - $ref: '#/parameters/acceptCrs'
       - $ref: '#/parameters/id'
@@ -838,7 +838,7 @@ paths:
     get:
       tags:
       - "Functieaanduidingen"
-      summary: "functieaanduidingen collectie"
+      summary: "Zoeken op een of meer instanties van functieaanduiding"
       parameters:
       - $ref: '#/parameters/acceptCrs'
       - $ref: '#/parameters/page'
@@ -927,7 +927,7 @@ paths:
     get:
       tags:
       - "Functieaanduidingen"
-      summary: "functieaanduidingen resource"
+      summary: "Een enkele instantie van functieaanduiding opvragen"
       parameters:
       - $ref: '#/parameters/id'
       - $ref: '#/parameters/acceptCrs'
@@ -982,7 +982,7 @@ paths:
     get:
       tags:
       - "Gebiedsaanduidingen"
-      summary: "gebiedsaanduidingen collectie"
+      summary: "Zoeken op een of meer instanties van gebiedsaanduiding"
       parameters:
       - $ref: '#/parameters/acceptCrs'
       - $ref: '#/parameters/page'
@@ -1071,7 +1071,7 @@ paths:
     get:
       tags:
       - "Gebiedsaanduidingen"
-      summary: "gebiedsaanduidingen resource"
+      summary: "Een enkele instantie van gebiedsaanduiding opvragen"
       parameters:
       - $ref: '#/parameters/id'
       - $ref: '#/parameters/acceptCrs'
@@ -1126,7 +1126,7 @@ paths:
     get:
       tags:
       - "Maatvoeringen"
-      summary: "maatvoeringen collectie"
+      summary: "Zoeken op een of meer instanties van maatvoering"
       parameters:
       - $ref: '#/parameters/acceptCrs'
       - $ref: '#/parameters/page'
@@ -1216,7 +1216,7 @@ paths:
     get:
       tags:
       - "Maatvoeringen"
-      summary: "maatvoeringen resource"
+      summary: "Een enkele instantie van maatvoering opvragen"
       parameters:
       - $ref: '#/parameters/id'
       - $ref: '#/parameters/acceptCrs'
@@ -1271,7 +1271,7 @@ paths:
     get:
       tags:
       - "Bouwaanduidingen"
-      summary: "bouwaanduidingen collectie"
+      summary: "Zoeken op een of meer instanties van bouwaanduiding"
       parameters:
       - $ref: '#/parameters/acceptCrs'
       - $ref: '#/parameters/page'
@@ -1360,7 +1360,7 @@ paths:
     get:
       tags:
       - "Bouwaanduidingen"
-      summary: "bouwaanduidingen resource"
+      summary: "Een enkele instantie van bouwaanduiding opvragen"
       parameters:
       - $ref: '#/parameters/id'
       - $ref: '#/parameters/acceptCrs'
@@ -1415,7 +1415,7 @@ paths:
     get:
       tags:
       - "Figuren"
-      summary: "figuren collectie"
+      summary: "Zoeken op een of meer instanties van figuur"
       parameters:
       - $ref: '#/parameters/page'
       - $ref: '#/parameters/limit'
@@ -1504,7 +1504,7 @@ paths:
     get:
       tags:
       - "Figuren"
-      summary: "figuren resource"
+      summary: "Een enkele instantie van figuur opvragen"
       parameters:
       - $ref: '#/parameters/id'
       - $ref: '#/parameters/acceptCrs'
@@ -1559,7 +1559,7 @@ paths:
     get:
       tags:
       - "Bouwvlakken"
-      summary: "bouwvlakken collectie"
+      summary: "Zoeken op een of meer instanties van bouwvlak"
       parameters:
       - $ref: '#/parameters/acceptCrs'
       - $ref: '#/parameters/page'
@@ -1649,7 +1649,7 @@ paths:
     get:
       tags:
       - "Bouwvlakken"
-      summary: "bouwvlakken resource"
+      summary: "Een enkele instantie van bouwvlak opvragen"
       parameters:
       - $ref: '#/parameters/id'
       - $ref: '#/parameters/acceptCrs'
@@ -1703,7 +1703,6 @@ paths:
 definitions:
   externplanreferentie:
     type: object
-    required:
     properties:
       title:
         type: "string"
