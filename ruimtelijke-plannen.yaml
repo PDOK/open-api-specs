@@ -11,6 +11,11 @@ produces:
 info:
   version: 1.0.0
   title: Ruimtelijke Plannen API
+  description: "Ruimtelijke Plannen API"
+  contact:
+    name: Kadaster
+    email: dimitri.vanhees@kadaster.nl
+    url: https://www.kadaster.nl
 tags:
   - name: Bestemmingsplangebieden
     description: |
@@ -1795,8 +1800,9 @@ definitions:
         type: "string"
         example: "Nijmegen Westkanaaldijk 2016"
       locatieNaam:
-        type: "string"
-        example: "TODO"
+        type: "array"
+        items:
+          type: string
       planstatusInfo:
         type: "object"
         properties:
