@@ -17,6 +17,9 @@ info:
     email: dimitri.vanhees@kadaster.nl
     url: https://www.kadaster.nl
 tags:
+  - name: Globale zoekfunctie
+    description: |
+      Geografisch zoeken op alle objecten met een geometrie (teksten vallen hierbuiten).
   - name: Bestemmingsplangebieden
     description: |
       Gebied, of de gebieden, binnen de grenzen van het bestemmingsplan
@@ -76,23 +79,23 @@ parameters:
   id:
     name: id
     in: path
-    description: Identifier
+    description: "NEN3610ID: Identificatiecode"
     required: true
     type: string
   optionalPlanId:
     name: planId
     in: query
-    description: Identifier
+    description: "NEN3610ID: Identificatiecode"
     required: false
     type: string
   mandatoryPlanId:
     name: planId
     in: query
-    description: Identifier
+    description: "NEN3610ID: Identificatiecode"
     required: true
     type: string
   page:
-    description: Page number
+    description: "Pagina nummer"
     name: page
     in: query
     required: false
@@ -111,61 +114,61 @@ parameters:
     in: "query"
     required: false
     type: "string"
-    description: "Filteren op bestemmingsplangebied"
+    description: "Filteren op bestemmingsplangebied ID"
   bestemmingsvlak:
     name: "bestemmingsvlak"
     in: "query"
     required: false
     type: "string"
-    description: "Filteren op bestemmingsvlak"
+    description: "Filteren op bestemmingsvlak ID"
   functieaanduiding:
     name: "functieaanduiding"
     in: "query"
     required: false
     type: "string"
-    description: "Filteren op functieaanduiding"
+    description: "Filteren op functieaanduiding ID"
   gebiedsaanduiding:
     name: "gebiedsaanduiding"
     in: "query"
     required: false
     type: "string"
-    description: "Filteren op gebiedsaanduiding"
+    description: "Filteren op gebiedsaanduiding ID"
   maatvoering:
     name: "maatvoering"
     in: "query"
     required: false
     type: "string"
-    description: "Filteren op maatvoering"
+    description: "Filteren op maatvoering ID"
   bouwaanduiding:
     name: "bouwaanduiding"
     in: "query"
     required: false
     type: "string"
-    description: "Filteren op bouwaanduiding"
+    description: "Filteren op bouwaanduiding ID"
   figuur:
     name: "figuur"
     in: "query"
     required: false
     type: "string"
-    description: "Filteren op figuur"
+    description: "Filteren op figuur ID"
   bouwvlak:
     name: "bouwvlak"
     in: "query"
     required: false
     type: "string"
-    description: "Filteren op bouwvlak"
+    description: "Filteren op bouwvlak ID"
   tekst:
     name: "tekst"
     in: "query"
     required: false
     type: "string"
-    description: "Filteren op tekst"
+    description: "Filteren op tekst ID"
 paths:
   /_zoek:
     post:
       tags:
       - "Globale zoekfunctie"
-      summary: "Zoeken in alle collecties op hoofdniveau"
+      summary: "Geografisch zoeken"
       parameters:
       - $ref: '#/parameters/contentType'
       - $ref: '#/parameters/contentCrs'
@@ -196,7 +199,7 @@ paths:
                   $ref: "#/definitions/GeoJSON"
       responses:
         200:
-          description: "Status 200"
+          description: "OK."
           schema:
             required:
             - "_embedded"
@@ -260,8 +263,7 @@ paths:
             $ref: "#/definitions/Error"
         406:
           description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
-            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
-            \ kan momenteel alleen `application/hal+json` terugsturen."
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt."
           schema:
             $ref: "#/definitions/Error"
         503:
@@ -308,7 +310,7 @@ paths:
         - "geconsolideerd"
       responses:
         200:
-          description: "Status 200"
+          description: "OK."
           x-pagination: true
           schema:
             required:
@@ -369,8 +371,7 @@ paths:
             $ref: "#/definitions/Error"
         406:
           description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
-            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
-            \ kan momenteel alleen `application/hal+json` terugsturen."
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt."
           schema:
             $ref: "#/definitions/Error"
         503:
@@ -439,7 +440,7 @@ paths:
                   $ref: "#/definitions/GeoJSON"
       responses:
         200:
-          description: "Status 200"
+          description: "OK."
           x-pagination: true
           schema:
             required:
@@ -501,8 +502,7 @@ paths:
             $ref: "#/definitions/Error"
         406:
           description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
-            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
-            \ kan momenteel alleen `application/hal+json` terugsturen."
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt."
           schema:
             $ref: "#/definitions/Error"
         503:
@@ -526,7 +526,7 @@ paths:
       - $ref: '#/parameters/acceptCrs'
       responses:
         200:
-          description: "Status 200"
+          description: "OK."
           schema:
             $ref: "#/definitions/Bestemmingsplangebied"
           headers:
@@ -550,13 +550,12 @@ paths:
           schema:
             $ref: "#/definitions/Error"
         404:
-          description: "Status 404"
+          description: "Not found. De resource kan niet gevonden worden."
           schema:
             $ref: "#/definitions/Error"
         406:
           description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
-            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
-            \ kan momenteel alleen `application/hal+json` terugsturen."
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt."
           schema:
             $ref: "#/definitions/Error"
         503:
@@ -581,7 +580,7 @@ paths:
       - $ref: '#/parameters/bestemmingsplangebied'
       responses:
         200:
-          description: "Status 200"
+          description: "OK."
           x-pagination: true
           schema:
             required:
@@ -633,8 +632,7 @@ paths:
             $ref: "#/definitions/Error"
         406:
           description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
-            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
-            \ kan momenteel alleen `application/hal+json` terugsturen."
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt."
           schema:
             $ref: "#/definitions/Error"
         503:
@@ -657,7 +655,7 @@ paths:
       - $ref: '#/parameters/id'
       responses:
         200:
-          description: "Status 200"
+          description: "OK."
           schema:
             $ref: "#/definitions/Tekst"
         401:
@@ -670,13 +668,12 @@ paths:
           schema:
             $ref: "#/definitions/Error"
         404:
-          description: "Status 404"
+          description: "Not found. De resource kan niet gevonden worden."
           schema:
             $ref: "#/definitions/Error"
         406:
           description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
-            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
-            \ kan momenteel alleen `application/hal+json` terugsturen."
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt."
           schema:
             $ref: "#/definitions/Error"
         503:
@@ -703,7 +700,7 @@ paths:
       - $ref: '#/parameters/tekst'
       responses:
         200:
-          description: "Status 200"
+          description: "OK."
           schema:
             required:
             - "_embedded"
@@ -764,8 +761,7 @@ paths:
             $ref: "#/definitions/Error"
         406:
           description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
-            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
-            \ kan momenteel alleen `application/hal+json` terugsturen."
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt."
           schema:
             $ref: "#/definitions/Error"
         503:
@@ -790,7 +786,7 @@ paths:
       - $ref: '#/parameters/mandatoryPlanId'
       responses:
         200:
-          description: "Status 200"
+          description: "OK."
           schema:
             $ref: "#/definitions/Bestemmingsvlak"
           headers:
@@ -814,13 +810,12 @@ paths:
           schema:
             $ref: "#/definitions/Error"
         404:
-          description: "Status 404"
+          description: "Not found. De resource kan niet gevonden worden."
           schema:
             $ref: "#/definitions/Error"
         406:
           description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
-            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
-            \ kan momenteel alleen `application/hal+json` terugsturen."
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt."
           schema:
             $ref: "#/definitions/Error"
         503:
@@ -847,7 +842,7 @@ paths:
       - $ref: '#/parameters/tekst'
       responses:
         200:
-          description: "Status 200"
+          description: "OK."
           x-pagination: true
           schema:
             required:
@@ -908,8 +903,7 @@ paths:
             $ref: "#/definitions/Error"
         406:
           description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
-            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
-            \ kan momenteel alleen `application/hal+json` terugsturen."
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt."
           schema:
             $ref: "#/definitions/Error"
         503:
@@ -934,7 +928,7 @@ paths:
       - $ref: '#/parameters/mandatoryPlanId'
       responses:
         200:
-          description: "Status 200"
+          description: "OK."
           schema:
             $ref: "#/definitions/Functieaanduiding"
           headers:
@@ -958,13 +952,12 @@ paths:
           schema:
             $ref: "#/definitions/Error"
         404:
-          description: "Status 404"
+          description: "Not found. De resource kan niet gevonden worden."
           schema:
             $ref: "#/definitions/Error"
         406:
           description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
-            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
-            \ kan momenteel alleen `application/hal+json` terugsturen."
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt."
           schema:
             $ref: "#/definitions/Error"
         503:
@@ -991,7 +984,7 @@ paths:
       - $ref: '#/parameters/tekst'
       responses:
         200:
-          description: "Status 200"
+          description: "OK."
           x-pagination: true
           schema:
             required:
@@ -1052,8 +1045,7 @@ paths:
             $ref: "#/definitions/Error"
         406:
           description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
-            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
-            \ kan momenteel alleen `application/hal+json` terugsturen."
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt."
           schema:
             $ref: "#/definitions/Error"
         503:
@@ -1078,7 +1070,7 @@ paths:
       - $ref: '#/parameters/mandatoryPlanId'
       responses:
         200:
-          description: "Status 200"
+          description: "OK."
           schema:
             $ref: "#/definitions/Gebiedsaanduiding"
           headers:
@@ -1102,13 +1094,12 @@ paths:
           schema:
             $ref: "#/definitions/Error"
         404:
-          description: "Status 404"
+          description: "Not found. De resource kan niet gevonden worden."
           schema:
             $ref: "#/definitions/Error"
         406:
           description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
-            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
-            \ kan momenteel alleen `application/hal+json` terugsturen."
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt."
           schema:
             $ref: "#/definitions/Error"
         503:
@@ -1136,7 +1127,7 @@ paths:
       - $ref: '#/parameters/tekst'
       responses:
         200:
-          description: "Status 200"
+          description: "OK."
           x-pagination: true
           schema:
             required:
@@ -1197,8 +1188,7 @@ paths:
             $ref: "#/definitions/Error"
         406:
           description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
-            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
-            \ kan momenteel alleen `application/hal+json` terugsturen."
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt."
           schema:
             $ref: "#/definitions/Error"
         503:
@@ -1223,7 +1213,7 @@ paths:
       - $ref: '#/parameters/mandatoryPlanId'
       responses:
         200:
-          description: "Status 200"
+          description: "OK."
           schema:
             $ref: "#/definitions/Maatvoering"
           headers:
@@ -1247,13 +1237,12 @@ paths:
           schema:
             $ref: "#/definitions/Error"
         404:
-          description: "Status 404"
+          description: "Not found. De resource kan niet gevonden worden."
           schema:
             $ref: "#/definitions/Error"
         406:
           description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
-            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
-            \ kan momenteel alleen `application/hal+json` terugsturen."
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt."
           schema:
             $ref: "#/definitions/Error"
         503:
@@ -1280,7 +1269,7 @@ paths:
       - $ref: '#/parameters/tekst'
       responses:
         200:
-          description: "Status 200"
+          description: "OK."
           x-pagination: true
           schema:
             required:
@@ -1341,8 +1330,7 @@ paths:
             $ref: "#/definitions/Error"
         406:
           description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
-            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
-            \ kan momenteel alleen `application/hal+json` terugsturen."
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt."
           schema:
             $ref: "#/definitions/Error"
         503:
@@ -1367,7 +1355,7 @@ paths:
       - $ref: '#/parameters/mandatoryPlanId'
       responses:
         200:
-          description: "Status 200"
+          description: "OK."
           schema:
             $ref: "#/definitions/Bouwaanduiding"
           headers:
@@ -1391,13 +1379,12 @@ paths:
           schema:
             $ref: "#/definitions/Error"
         404:
-          description: "Status 404"
+          description: "Not found. De resource kan niet gevonden worden."
           schema:
             $ref: "#/definitions/Error"
         406:
           description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
-            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
-            \ kan momenteel alleen `application/hal+json` terugsturen."
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt."
           schema:
             $ref: "#/definitions/Error"
         503:
@@ -1424,7 +1411,7 @@ paths:
       - $ref: '#/parameters/tekst'
       responses:
         200:
-          description: "Status 200"
+          description: "OK."
           x-pagination: true
           schema:
             required:
@@ -1485,8 +1472,7 @@ paths:
             $ref: "#/definitions/Error"
         406:
           description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
-            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
-            \ kan momenteel alleen `application/hal+json` terugsturen."
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt."
           schema:
             $ref: "#/definitions/Error"
         503:
@@ -1511,7 +1497,7 @@ paths:
       - $ref: '#/parameters/mandatoryPlanId'
       responses:
         200:
-          description: "Status 200"
+          description: "OK."
           schema:
             $ref: "#/definitions/Figuur"
           headers:
@@ -1535,13 +1521,12 @@ paths:
           schema:
             $ref: "#/definitions/Error"
         404:
-          description: "Status 404"
+          description: "Not found. De resource kan niet gevonden worden."
           schema:
             $ref: "#/definitions/Error"
         406:
           description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
-            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
-            \ kan momenteel alleen `application/hal+json` terugsturen."
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt."
           schema:
             $ref: "#/definitions/Error"
         503:
@@ -1569,7 +1554,7 @@ paths:
       - $ref: '#/parameters/tekst'
       responses:
         200:
-          description: "Status 200"
+          description: "OK."
           x-pagination: true
           schema:
             required:
@@ -1630,8 +1615,7 @@ paths:
             $ref: "#/definitions/Error"
         406:
           description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
-            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
-            \ kan momenteel alleen `application/hal+json` terugsturen."
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt."
           schema:
             $ref: "#/definitions/Error"
         503:
@@ -1656,7 +1640,7 @@ paths:
       - $ref: '#/parameters/mandatoryPlanId'
       responses:
         200:
-          description: "Status 200"
+          description: "OK."
           schema:
             $ref: "#/definitions/Bouwvlak"
           headers:
@@ -1680,13 +1664,12 @@ paths:
           schema:
             $ref: "#/definitions/Error"
         404:
-          description: "Status 404"
+          description: "Not found. De resource kan niet gevonden worden."
           schema:
             $ref: "#/definitions/Error"
         406:
           description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
-            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
-            \ kan momenteel alleen `application/hal+json` terugsturen."
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt."
           schema:
             $ref: "#/definitions/Error"
         503:
@@ -1709,7 +1692,7 @@ definitions:
       href:
         type: "string"
         description: URL van de link
-        example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsplangebieden/758"
+        example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsplangebieden/NL.IMRO.0000.EZip13HHP-2000"
   Bestemmingsplangebied:
     type: "object"
     required:
@@ -1729,7 +1712,7 @@ definitions:
               href:
                 type: "string"
                 description: URL van de link
-                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsplangebieden/759"
+                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsplangebieden/NL.IMRO.0000.EZip13HHP-2000"
               title:
                 type: "string"
                 example: "Buitengebied; Elderinkweg 9 Hengelo (vastgesteld, 2016-10-27)"
@@ -1768,6 +1751,7 @@ definitions:
         example: "NL.IMRO.0268.BPa10500-VG01"
       type:
         type: "string"
+        description: "Nadere aanduiding van het type ruimtelijk instrument."
         enum:
         - "bestemmingsplan"
         - "inpassingsplan"
@@ -1777,6 +1761,7 @@ definitions:
         example: "bestemmingsplan"
       beleidsmatigVerantwoordelijkeOverheid:
         type: object
+        description: "Overheid die beleidsmatig verantwoordelijk is voor het ruimtelijk instrument."
         properties:
           type:
             type: "string"
@@ -1845,10 +1830,10 @@ definitions:
       inhoud:
         type: "string"
         description: "Inhoud van van het tekstblok. Voor de Ruimtelijke Plannen is dit XHTML, voor LVBB wellicht XML en voor andere informatiehuizen wellicht plain text. Hoe een client dit moet behandelen wordt in de verbeelding afgehandeld."
-        example: "<p>Dit is een paragraaf met een <a href=\"https://www.google.com\">Linkje naar Google</a>.</p>"
+        example: "<p xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:imropt=\"http://www.geonovum.nl/imro/pt/2012/1.0\" xmlns:xl=\"http://www.w3.org/1999/xlink\"/>"
       volgnummer:
         type: "integer"
-        example: "42"
+        example: "2"
       _links:
         required:
         - "self"
@@ -1861,7 +1846,7 @@ definitions:
               href:
                 type: "string"
                 description: URL van de link
-                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/teksten/429"
+                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/teksten/0000_EZip13DW380-3000_s257-REGELS"
               title:
                 type: "string"
                 example: "1.0: Hoofdstuk 1"
@@ -1871,7 +1856,7 @@ definitions:
               href:
                 type: "string"
                 description: URL van de link
-                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/teksten/428"
+                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/teksten/0000_EZip13DW380-3000_0000_EZip13DW380-3000_ROOT"
               title:
                 type: "string"
                 example: "1.0: Hoofdstuk 1"
@@ -1883,7 +1868,7 @@ definitions:
                 href:
                   type: "string"
                   description: URL van de link
-                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/teksten/430"
+                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/teksten/0000_EZip13DW380-3000__1_Inleidenderegels-REGELS"
                 title:
                   type: "string"
                   example: "1.0 Hoofdstuk 1"
@@ -1896,7 +1881,7 @@ definitions:
               href:
                 type: "string"
                 description: URL van de link
-                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsplangebieden?tekst=429"
+                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsplangebieden?tekst=0000_EZip13DW380-3000_s257-REGELS"
               title:
                 type: "string"
           bestemmingsvlakken:
@@ -1905,7 +1890,7 @@ definitions:
               href:
                 type: "string"
                 description: URL van de link
-                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsvlakken?tekst=429"
+                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsvlakken?tekst=0000_EZip13DW380-3000_s257-REGELS"
               title:
                 type: "string"
           functieaanduidingen:
@@ -1914,7 +1899,7 @@ definitions:
               href:
                 type: "string"
                 description: URL van de link
-                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/functieaanduidingen?tekst=429"
+                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/functieaanduidingen?tekst=0000_EZip13DW380-3000_s257-REGELS"
               title:
                 type: "string"
           gebiedsaanduidingen:
@@ -1923,7 +1908,7 @@ definitions:
               href:
                 type: "string"
                 description: URL van de link
-                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/gebiedsaanduidingen?tekst=429"
+                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/gebiedsaanduidingen?tekst=0000_EZip13DW380-3000_s257-REGELS"
               title:
                 type: "string"
           maatvoeringen:
@@ -1932,7 +1917,7 @@ definitions:
               href:
                 type: "string"
                 description: URL van de link
-                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/maatvoeringen?tekst=429"
+                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/maatvoeringen?tekst=0000_EZip13DW380-3000_s257-REGELS"
               title:
                 type: "string"
           bouwaanduidingen:
@@ -1941,7 +1926,7 @@ definitions:
               href:
                 type: "string"
                 description: URL van de link
-                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bouwaanduidingen?tekst=429"
+                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bouwaanduidingen?tekst=0000_EZip13DW380-3000_s257-REGELS"
               title:
                 type: "string"
           figuren:
@@ -1950,7 +1935,7 @@ definitions:
               href:
                 type: "string"
                 description: URL van de link
-                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/figuren?tekst=429"
+                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/figuren?tekst=0000_EZip13DW380-3000_s257-REGELS"
               title:
                 type: "string"
           bouwvlakken:
@@ -1959,7 +1944,7 @@ definitions:
               href:
                 type: "string"
                 description: URL van de link
-                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bouwvlakken?tekst=429"
+                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bouwvlakken?tekst=0000_EZip13DW380-3000_s257-REGELS"
               title:
                 type: "string"
   Bestemmingsvlak:
@@ -1980,7 +1965,7 @@ definitions:
               href:
                 type: "string"
                 description: URL van de link
-                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsvlakken/NL.IMRO.423d9f5d924c4f76a001a94f8ca284b4"
+                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsvlakken/NL.IMRO.0561d6572c724d55a52224e2de780ae2?planId=NL.IMRO.0000.EZip13DW380-3000"
               title:
                 type: "string"
                 example: "Enkelbestemming Bedrijventerrein"
@@ -1990,7 +1975,7 @@ definitions:
               href:
                 type: "string"
                 description: URL van de link
-                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/functieaanduidingen?bestemmingsvlak=94"
+                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/functieaanduidingen?bestemmingsvlak=NL.IMRO.0561d6572c724d55a52224e2de780ae2"
               title:
                 type: "string"
           gebiedsaanduidingen:
@@ -1999,7 +1984,7 @@ definitions:
               href:
                 type: "string"
                 description: URL van de link
-                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/gebiedsaanduidingen?bestemmingsvlak=94"
+                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/gebiedsaanduidingen?bestemmingsvlak=NL.IMRO.0561d6572c724d55a52224e2de780ae2"
               title:
                 type: "string"
           maatvoeringen:
@@ -2008,7 +1993,7 @@ definitions:
               href:
                 type: "string"
                 description: URL van de link
-                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/maatvoeringen?bestemmingsvlak=94"
+                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/maatvoeringen?bestemmingsvlak=NL.IMRO.0561d6572c724d55a52224e2de780ae2"
               title:
                 type: "string"
           bouwaanduidingen:
@@ -2017,7 +2002,7 @@ definitions:
              href:
                type: "string"
                description: URL van de link
-               example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bouwaanduidingen?bestemmingsvlak=94"
+               example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bouwaanduidingen?bestemmingsvlak=NL.IMRO.0561d6572c724d55a52224e2de780ae2"
              title:
                type: "string"
           figuren:
@@ -2026,7 +2011,7 @@ definitions:
               href:
                 type: "string"
                 description: URL van de link
-                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/figuren?bestemmingsvlak=94"
+                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/figuren?bestemmingsvlak=NL.IMRO.0561d6572c724d55a52224e2de780ae2"
               title:
                 type: "string"
           bouwvlakken:
@@ -2035,12 +2020,12 @@ definitions:
               href:
                 type: "string"
                 description: URL van de link
-                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bouwvlakken?bestemmingsvlak=94"
+                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bouwvlakken?bestemmingsvlak=NL.IMRO.0561d6572c724d55a52224e2de780ae2"
               title:
                 type: "string"
       id:
         type: "string"
-        example: "NL.IMRO.423d9f5d924c4f76a001a94f8ca284b4"
+        example: "NL.IMRO.0561d6572c724d55a52224e2de780ae2"
       type:
         type: "string"
         enum:
