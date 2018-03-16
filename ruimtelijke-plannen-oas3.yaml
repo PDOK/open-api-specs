@@ -1,0 +1,3409 @@
+openapi: 3.0.0
+servers:
+  - url: 'https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1'
+info:
+  version: 1.0.0
+  title: Ruimtelijke Plannen API
+  description: Ruimtelijke Plannen API
+  contact:
+    name: Kadaster
+    email: dimitri.vanhees@kadaster.nl
+    url: 'https://www.kadaster.nl'
+tags:
+  - name: Globale zoekfunctie
+    description: >
+      Geografisch zoeken op alle objecten met een geometrie (teksten vallen
+      hierbuiten).
+  - name: Bestemmingsplangebieden
+    description: |
+      Gebied, of de gebieden, binnen de grenzen van het bestemmingsplan
+  - name: Teksten
+    description: >
+      Zelfstandig leesbaar stuk tekst met een titel, dat begint met een
+      hoofdletter en eindigt met een punt. De tekst is samengesteld uit één of
+      meerdere TekstObjecten, een stuk tekst met een titel. Te denken valt aan
+      objectgerichte planteksten, de regels, de toelichting en/of het
+      beleids-/besluitdocument en bijlagen.
+  - name: Bestemmingsvlakken
+    description: >
+      Gebied waar een bestemming aan toegekend is. Een bestemmingsvlak is het
+      belangrijkste planobject in een bestemmingsplan. Aan het bestemmingsvlak
+      is de bestemming gekoppeld. Er moet een keuze gemaakt worden uit twee
+      subklassen van de klasse bestemmingsvlak:
+
+      - Enkelbestemming: Bestemming die van toepassing is op een gebied.
+
+      - Dubbelbestemming: Een bestemming die (een) andere bestemming(en)
+      willekeurig overlapt.
+  - name: Functieaanduidingen
+    description: >
+      Specificatie van de gebruiksmogelijkheden binnen een bestemming of een
+      gedeelte daarvan. Zo kan worden aangegeven dat ter plaatse alleen een
+      bepaalde, met name genoemde functie is toegestaan of juist is uitgesloten.
+      Functieaanduidingen kunnen ook worden gebruikt om op een bepaalde locatie
+      een specifieke, niet bij de bestemming passende, functie toe te laten of
+      om functies binnen een bestemming in boven elkaar gestapelde lagen
+      mogelijk te maken. Aanduidingen verwijzen in bijna alle gevallen naar een
+      ander object waar ze nadere informatie over bevatten. Soms omvat een
+      object Aanduiding hetzelfde gebied als het object waarnaar verwezen wordt
+      en soms een gedeelte van dat gebied. Functieaanduiding kan niet verwijzen
+      naar aanduiding van het type bouwvlak, functieaanduiding, bouwaanduiding,
+      maatvoering, figuur. Functieaanduiding verwijst altijd naar een
+      bestemmingsvlak of een gebiedsaanduiding maar is optioneel bij plantype
+      wijzigingsplan en inpassingsplan of indien het dient ter vervanging van
+      een extern plan.
+  - name: Gebiedsaanduidingen
+    description: >
+      Benoemd gebied waar bijzondere regels, extra regels of nadere afwegingen
+      gelden. Voorbeelden van objecten uit de klasse Gebiedsaanduiding zijn:
+      geluidzones, veiligheidszones, vrijwaringszones. Aanduidingen verwijzen in
+      bijna alle gevallen naar een ander object waar ze nadere informatie over
+      bevatten. Soms omvat een object Aanduiding hetzelfde gebied als het object
+      waarnaar verwezen wordt en soms een gedeelte van dat gebied. Een
+      gebiedsaanduiding maakt daarop een uitzondering; deze kan over meerdere
+      bestemming heen liggen. 
+  - name: Maatvoeringen
+    description: >
+      Gebied waaraan gekoppeld informatie over maatvoering. Aanduidingen
+      verwijzen in bijna alle gevallen naar een ander object waar ze nadere
+      informatie over bevatten. Soms omvat een object Aanduiding hetzelfde
+      gebied als het object waarnaar verwezen wordt en soms een gedeelte van dat
+      gebied. Maatvoering kan niet verwijzen naar aanduiding van het type
+      functieaanduiding, bouwaanduiding, maatvoering, figuur. Maatvoering
+      verwijst altijd naar een bestemmingsvlak , een bouwvlak of een
+      gebiedsaanduiding maar is optioneel bij plantype wijzigingsplan en
+      inpassingsplan of indien het dient ter vervanging van een extern plan. Een
+      object Maatvoering geeft een maatvoering of een aantal maatvoeringen
+      behorend bij een (gedeelte van) een ander object.  De geometrie van het
+      object maatvoering is de ruimtelijke representatie van het gebied waarvoor
+      de maatvoering geldt. In alle gevallen is dit een vlak. Een maatvoering of
+      een set aan maatvoeringen kan op een analoge kaart afgebeeld doormiddel
+      van een matrixfiguur. De symboolcode kan gebruikt worden bij de keuze van
+      het matrixfiguur. Bij een object maatvoering kunnen meerdere verschillende
+      matrixfiguren worden opgenomen. Het totaal aan matrixfiguren verklaart de
+      opgenomen maatvoeringen.
+  - name: Bouwaanduidingen
+    description: >
+      Aanduiding met betrekking tot de wijze van bouwen, dan wel de
+      verschijningsvorm van bouwwerken.  Aanduidingen verwijzen in bijna alle
+      gevallen naar een ander object waar ze nadere informatie over bevatten.
+      Soms omvat een object Aanduiding hetzelfde gebied als het object waarnaar
+      verwezen wordt en soms een gedeelte van dat gebied. Bouwaanduiding kan
+      niet verwijzen naar aanduiding van het type functieaanduiding,
+      bouwaanduiding, maatvoering, figuur. Bouwaanduiding verwijst altijd naar
+      een bestemmingsvlak, bouwvlak of een gebiedsaanduiding maar is optioneel
+      bij plantype wijzigingsplan en inpassingsplan of indien het dient ter
+      vervanging van een extern plan. 
+  - name: Figuren
+    description: >
+      Aanduiding in de vorm van een figuur. Aanduidingen verwijzen in bijna alle
+      gevallen naar een ander object waar ze nadere informatie over bevatten.
+      Soms omvat een object Aanduiding hetzelfde gebied als het object waarnaar
+      verwezen wordt en soms een gedeelte van dat gebied. Figuur kan niet
+      verwijzen naar aanduiding van het type functieaanduiding, bouwaanduiding,
+      maatvoering, figuur. Figuur verwijst altijd naar een bestemmingsvlak of
+      een bouwvlak of een gebiedsaanduiding maar is optioneel bij plantype
+      wijzigingsplan en inpassingsplan of indien het dient ter vervanging van
+      een extern plan. In een bestemmingsplan kunnen 'getekende' figuren
+      voorkomen zoals relatiepijlen, hartlijnen van leidingen, aanduidingen voor
+      dwarsprofielen en dergelijke, die nodig zijn om de planteksten te kunnen
+      hanteren. Deze figuren vallen onder de klasse Figuur. Voor deze figuren is
+      een lijst van te gebruiken figuren opgenomen. Voor de geometrie van de
+      figuren wordt de lijn opgenomen die de locatie van het figuur
+      representeert. Voor de verbeelding van de lijnen zijn in de SVBP2012
+      regels opgenomen. Bij het figuur dwarsprofiel moet het figuur inclusief de
+      pijlpunt gedigitaliseerd en uitgewisseld worden.
+  - name: Bouwvlakken
+    description: >
+      Een gebied binnen een bestemming waarbinnen volgens de voorschriften de
+      mogelijkheden voor bouwen nader worden benoemd.  Bijna ieder
+      bestemmingsplan zal bouwvlakken kennen. Bouwvlakken behoren altijd bij een
+      bestemming, waardoor te allen tijde een directe relatie aanwezig is tussen
+      het object bouwvlak en het object bestemmingsvlak. Bouwvlak verwijst
+      altijd naar een bestemmingsvlak maar is optioneel bij plantype
+      wijzigingsplan, inpassingsplan of indien het dient ter vervanging van een
+      extern plan.  
+paths:
+  /_zoek:
+    post:
+      tags:
+        - Globale zoekfunctie
+      summary: Geografisch zoeken
+      parameters:
+        - $ref: '#/components/parameters/contentType'
+        - $ref: '#/components/parameters/contentCrs'
+        - $ref: '#/components/parameters/acceptCrs'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/optionalPlanId'
+      responses:
+        '200':
+          description: OK.
+          headers:
+            contentCrs:
+              name: Content-Crs
+              in: header
+              required: false
+              description: Coordinaatreferentiesysteem van de meegegeven geometrie
+              schema:
+                type: string
+                enum:
+                  - 'epsg:4258'
+                  - 'epsg:28992'
+                default: 'epsg:4258'
+            xPaginationPage:
+              name: X-Pagination-Page
+              in: header
+              required: false
+              description: Nummer van de huidige pagina (paginanummering start bij 1)
+              schema:
+                type: integer
+            xPaginationLimit:
+              name: X-Pagination-Limit
+              in: header
+              required: false
+              description: Aantal Objecten per pagina
+              schema:
+                type: integer
+            xTotalCount:
+              name: X-Total-Count
+              in: header
+              required: false
+              description: Totaal aantal resultaten (max 10.000)
+              schema:
+                type: integer
+          content:
+            application/hal+json:
+              schema:
+                required:
+                  - _embedded
+                type: object
+                properties:
+                  _embedded:
+                    required:
+                      - resultaten
+                    type: object
+                    properties:
+                      resultaten:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/SearchResult'
+                  _links:
+                    type: object
+                    allOf:
+                      - $ref: '#/components/schemas/CollectionLinks'
+            application/problem+json:
+              schema:
+                required:
+                  - _embedded
+                type: object
+                properties:
+                  _embedded:
+                    required:
+                      - resultaten
+                    type: object
+                    properties:
+                      resultaten:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/SearchResult'
+                  _links:
+                    type: object
+                    allOf:
+                      - $ref: '#/components/schemas/CollectionLinks'
+        '400':
+          description: >-
+            Bad request. Je request body is geen geldige JSON of de query wordt
+            niet ondersteund door de API.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: >-
+            Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden. Je hebt geen rechten om deze URL te benaderen.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: >-
+            Service Unavailable. Er vindt mogelijk (gepland) onderhoud of een
+            storing plaats.
+          headers:
+            Retry-After:
+              description: >-
+                Tijdstip waarop verwacht is dat de service weer beschikbaar zal
+                zijn.
+              x-example: 'Sun, 28 Nov 2017 16:41:41 GMT'
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _geo:
+                  type: object
+                  properties:
+                    intersects:
+                      description: >
+                        De manier van 'samenvallen' van de zoek-geometrie en de
+                        resultaat-geometrie, zie OGC specificaties
+                      $ref: '#/components/schemas/GeoJSON'
+                    contains:
+                      description: >
+                        De manier van 'samenvallen' van de zoek-geometrie en de
+                        resultaat-geometrie, zie OGC specificaties
+                      $ref: '#/components/schemas/GeoJSON'
+                    within:
+                      description: >
+                        De manier van 'samenvallen' van de zoek-geometrie en de
+                        resultaat-geometrie, zie OGC specificaties
+                      $ref: '#/components/schemas/GeoJSON'
+        required: true
+  /bestemmingsplangebieden:
+    get:
+      tags:
+        - Bestemmingsplangebieden
+      summary: Zoeken op een of meer instanties van bestemmingsplangebied
+      parameters:
+        - $ref: '#/components/parameters/acceptCrs'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/tekst'
+        - name: beleidsmatigVerantwoordelijkeOverheid.type
+          in: query
+          required: false
+          description: Filteren op beleidsmatig verantwoordelijke overheid
+          schema:
+            type: string
+            enum:
+              - GemeentelijkeOverheid
+              - Deelgemeente_Stadsdeel
+              - ProvincialeOverheid
+              - NationaleOverheid
+        - name: status
+          in: query
+          required: false
+          description: Filteren op status van een plan
+          schema:
+            type: string
+            enum:
+              - concept
+              - voorontwerp
+              - ontwerp
+              - vastgesteld
+              - geconsolideerd
+      responses:
+        '200':
+          description: OK.
+          x-pagination: true
+          headers:
+            contentCrs:
+              name: Content-Crs
+              in: header
+              required: false
+              description: Coordinaatreferentiesysteem van de meegegeven geometrie
+              schema:
+                type: string
+                enum:
+                  - 'epsg:4258'
+                  - 'epsg:28992'
+                default: 'epsg:4258'
+            xPaginationPage:
+              name: X-Pagination-Page
+              in: header
+              required: false
+              description: Nummer van de huidige pagina (paginanummering start bij 1)
+              schema:
+                type: integer
+            xPaginationLimit:
+              name: X-Pagination-Limit
+              in: header
+              required: false
+              description: Aantal Objecten per pagina
+              schema:
+                type: integer
+            xTotalCount:
+              name: X-Total-Count
+              in: header
+              required: false
+              description: Totaal aantal resultaten (max 10.000)
+              schema:
+                type: integer
+          content:
+            application/hal+json:
+              schema:
+                required:
+                  - _embedded
+                  - _links
+                type: object
+                properties:
+                  _embedded:
+                    required:
+                      - bestemmingsplangebieden
+                    type: object
+                    properties:
+                      bestemmingsplangebieden:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Bestemmingsplangebied'
+                  _links:
+                    type: object
+                    allOf:
+                      - $ref: '#/components/schemas/CollectionLinks'
+            application/problem+json:
+              schema:
+                required:
+                  - _embedded
+                  - _links
+                type: object
+                properties:
+                  _embedded:
+                    required:
+                      - bestemmingsplangebieden
+                    type: object
+                    properties:
+                      bestemmingsplangebieden:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Bestemmingsplangebied'
+                  _links:
+                    type: object
+                    allOf:
+                      - $ref: '#/components/schemas/CollectionLinks'
+        '401':
+          description: >-
+            Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden. Je hebt geen rechten om deze URL te benaderen.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: >-
+            Service Unavailable. Er vindt mogelijk (gepland) onderhoud of een
+            storing plaats.
+          headers:
+            Retry-After:
+              description: >-
+                Tijdstip waarop verwacht is dat de service weer beschikbaar zal
+                zijn.
+              x-example: 'Sun, 28 Nov 2017 16:41:41 GMT'
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /bestemmingsplangebieden/_zoek:
+    post:
+      tags:
+        - Bestemmingsplangebieden
+      summary: Zoeken binnen bestemmingsplangebieden
+      parameters:
+        - $ref: '#/components/parameters/contentType'
+        - $ref: '#/components/parameters/contentCrs'
+        - $ref: '#/components/parameters/acceptCrs'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+        - name: beleidsmatigVerantwoordelijkeOverheid.type
+          in: query
+          required: false
+          description: Filteren op beleidsmatig verantwoordelijke overheid
+          schema:
+            type: string
+            enum:
+              - GemeentelijkeOverheid
+              - Deelgemeente_Stadsdeel
+              - ProvincialeOverheid
+              - NationaleOverheid
+        - name: status
+          in: query
+          required: false
+          description: Filteren op status van een plan
+          schema:
+            type: string
+            enum:
+              - concept
+              - voorontwerp
+              - ontwerp
+              - vastgesteld
+              - geconsolideerd
+      responses:
+        '200':
+          description: OK.
+          x-pagination: true
+          headers:
+            contentCrs:
+              name: Content-Crs
+              in: header
+              required: false
+              description: Coordinaatreferentiesysteem van de meegegeven geometrie
+              schema:
+                type: string
+                enum:
+                  - 'epsg:4258'
+                  - 'epsg:28992'
+                default: 'epsg:4258'
+            xPaginationPage:
+              name: X-Pagination-Page
+              in: header
+              required: false
+              description: Nummer van de huidige pagina (paginanummering start bij 1)
+              schema:
+                type: integer
+            xPaginationLimit:
+              name: X-Pagination-Limit
+              in: header
+              required: false
+              description: Aantal Objecten per pagina
+              schema:
+                type: integer
+            xTotalCount:
+              name: X-Total-Count
+              in: header
+              required: false
+              description: Totaal aantal resultaten (max 10.000)
+              schema:
+                type: integer
+          content:
+            application/hal+json:
+              schema:
+                required:
+                  - _embedded
+                  - _links
+                type: object
+                properties:
+                  _embedded:
+                    required:
+                      - bestemmingsplangebieden
+                    type: object
+                    properties:
+                      bestemmingsplangebieden:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Bestemmingsplangebied'
+                  _links:
+                    type: object
+                    x-type: collection-links
+                    allOf:
+                      - $ref: '#/components/schemas/CollectionLinks'
+            application/problem+json:
+              schema:
+                required:
+                  - _embedded
+                  - _links
+                type: object
+                properties:
+                  _embedded:
+                    required:
+                      - bestemmingsplangebieden
+                    type: object
+                    properties:
+                      bestemmingsplangebieden:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Bestemmingsplangebied'
+                  _links:
+                    type: object
+                    x-type: collection-links
+                    allOf:
+                      - $ref: '#/components/schemas/CollectionLinks'
+        '401':
+          description: >-
+            Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden. Je hebt geen rechten om deze URL te benaderen.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: >-
+            Service Unavailable. Er vindt mogelijk (gepland) onderhoud of een
+            storing plaats.
+          headers:
+            Retry-After:
+              description: >-
+                Tijdstip waarop verwacht is dat de service weer beschikbaar zal
+                zijn.
+              x-example: 'Sun, 28 Nov 2017 16:41:41 GMT'
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _geo:
+                  type: object
+                  properties:
+                    intersects:
+                      description: >
+                        De manier van 'samenvallen' van de zoek-geometrie en de
+                        resultaat-geometrie, zie OGC specificaties
+                      $ref: '#/components/schemas/GeoJSON'
+                    contains:
+                      description: >
+                        De manier van 'samenvallen' van de zoek-geometrie en de
+                        resultaat-geometrie, zie OGC specificaties
+                      $ref: '#/components/schemas/GeoJSON'
+                    within:
+                      description: >
+                        De manier van 'samenvallen' van de zoek-geometrie en de
+                        resultaat-geometrie, zie OGC specificaties
+                      $ref: '#/components/schemas/GeoJSON'
+  '/bestemmingsplangebieden/{id}':
+    get:
+      tags:
+        - Bestemmingsplangebieden
+      summary: Een enkele instantie van bestemmingsplangebied opvragen
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/acceptCrs'
+      responses:
+        '200':
+          description: OK.
+          headers:
+            contentCrs:
+              name: Content-Crs
+              in: header
+              required: false
+              description: Coordinaatreferentiesysteem van de meegegeven geometrie
+              schema:
+                type: string
+                enum:
+                  - 'epsg:4258'
+                  - 'epsg:28992'
+                default: 'epsg:4258'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Bestemmingsplangebied'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Bestemmingsplangebied'
+        '401':
+          description: >-
+            Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden. Je hebt geen rechten om deze URL te benaderen.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not found. De resource kan niet gevonden worden.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: >-
+            Service Unavailable. Er vindt mogelijk (gepland) onderhoud of een
+            storing plaats.
+          headers:
+            Retry-After:
+              description: >-
+                Tijdstip waarop verwacht is dat de service weer beschikbaar zal
+                zijn.
+              x-example: 'Sun, 28 Nov 2017 16:41:41 GMT'
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /teksten:
+    get:
+      tags:
+        - Teksten
+      summary: Zoeken op een of meer instanties van tekstblok.
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/bestemmingsplangebied'
+      responses:
+        '200':
+          description: OK.
+          x-pagination: true
+          headers:
+            xPaginationPage:
+              name: X-Pagination-Page
+              in: header
+              required: false
+              description: Nummer van de huidige pagina (paginanummering start bij 1)
+              schema:
+                type: integer
+            xPaginationLimit:
+              name: X-Pagination-Limit
+              in: header
+              required: false
+              description: Aantal Objecten per pagina
+              schema:
+                type: integer
+            xTotalCount:
+              name: X-Total-Count
+              in: header
+              required: false
+              description: Totaal aantal resultaten (max 10.000)
+              schema:
+                type: integer
+          content:
+            application/hal+json:
+              schema:
+                required:
+                  - _embedded
+                  - _links
+                type: object
+                properties:
+                  _embedded:
+                    required:
+                      - teksten
+                    type: object
+                    properties:
+                      teksten:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Tekst'
+                  _links:
+                    type: object
+                    x-type: collection-links
+                    allOf:
+                      - $ref: '#/components/schemas/CollectionLinks'
+            application/problem+json:
+              schema:
+                required:
+                  - _embedded
+                  - _links
+                type: object
+                properties:
+                  _embedded:
+                    required:
+                      - teksten
+                    type: object
+                    properties:
+                      teksten:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Tekst'
+                  _links:
+                    type: object
+                    x-type: collection-links
+                    allOf:
+                      - $ref: '#/components/schemas/CollectionLinks'
+        '401':
+          description: >-
+            Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden. Je hebt geen rechten om deze URL te benaderen.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: >-
+            Service Unavailable. Er vindt mogelijk (gepland) onderhoud of een
+            storing plaats.
+          headers:
+            Retry-After:
+              description: >-
+                Tijdstip waarop verwacht is dat de service weer beschikbaar zal
+                zijn.
+              x-example: 'Sun, 28 Nov 2017 16:41:41 GMT'
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/teksten/{id}':
+    get:
+      tags:
+        - Teksten
+      summary: Een enkele instantie van tekstblok opvragen
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: OK.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Tekst'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Tekst'
+        '401':
+          description: >-
+            Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden. Je hebt geen rechten om deze URL te benaderen.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not found. De resource kan niet gevonden worden.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: >-
+            Service Unavailable. Er vindt mogelijk (gepland) onderhoud of een
+            storing plaats.
+          headers:
+            Retry-After:
+              description: >-
+                Tijdstip waarop verwacht is dat de service weer beschikbaar zal
+                zijn.
+              x-example: 'Sun, 28 Nov 2017 16:41:41 GMT'
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /bestemmingsvlakken:
+    get:
+      tags:
+        - Bestemmingsvlakken
+      summary: Zoeken op een of meer instanties van bestemmingsvlak
+      parameters:
+        - $ref: '#/components/parameters/acceptCrs'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/bestemmingsplangebied'
+        - $ref: '#/components/parameters/tekst'
+      responses:
+        '200':
+          description: OK.
+          headers:
+            contentCrs:
+              name: Content-Crs
+              in: header
+              required: false
+              description: Coordinaatreferentiesysteem van de meegegeven geometrie
+              schema:
+                type: string
+                enum:
+                  - 'epsg:4258'
+                  - 'epsg:28992'
+                default: 'epsg:4258'
+            xPaginationPage:
+              name: X-Pagination-Page
+              in: header
+              required: false
+              description: Nummer van de huidige pagina (paginanummering start bij 1)
+              schema:
+                type: integer
+            xPaginationLimit:
+              name: X-Pagination-Limit
+              in: header
+              required: false
+              description: Aantal Objecten per pagina
+              schema:
+                type: integer
+            xTotalCount:
+              name: X-Total-Count
+              in: header
+              required: false
+              description: Totaal aantal resultaten (max 10.000)
+              schema:
+                type: integer
+          content:
+            application/hal+json:
+              schema:
+                required:
+                  - _embedded
+                  - _links
+                type: object
+                properties:
+                  _embedded:
+                    required:
+                      - bestemmingsvlakken
+                    type: object
+                    properties:
+                      bestemmingsvlakken:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Bestemmingsvlak'
+                  _links:
+                    type: object
+                    x-type: collection-links
+                    allOf:
+                      - $ref: '#/components/schemas/CollectionLinks'
+            application/problem+json:
+              schema:
+                required:
+                  - _embedded
+                  - _links
+                type: object
+                properties:
+                  _embedded:
+                    required:
+                      - bestemmingsvlakken
+                    type: object
+                    properties:
+                      bestemmingsvlakken:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Bestemmingsvlak'
+                  _links:
+                    type: object
+                    x-type: collection-links
+                    allOf:
+                      - $ref: '#/components/schemas/CollectionLinks'
+        '401':
+          description: >-
+            Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden. Je hebt geen rechten om deze URL te benaderen.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: >-
+            Service Unavailable. Er vindt mogelijk (gepland) onderhoud of een
+            storing plaats.
+          headers:
+            Retry-After:
+              description: >-
+                Tijdstip waarop verwacht is dat de service weer beschikbaar zal
+                zijn.
+              x-example: 'Sun, 28 Nov 2017 16:41:41 GMT'
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/bestemmingsvlakken/{id}':
+    get:
+      tags:
+        - Bestemmingsvlakken
+      summary: Een enkele instantie van bestemmingsvlak opvragen
+      parameters:
+        - $ref: '#/components/parameters/acceptCrs'
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/mandatoryPlanId'
+      responses:
+        '200':
+          description: OK.
+          headers:
+            contentCrs:
+              name: Content-Crs
+              in: header
+              required: false
+              description: Coordinaatreferentiesysteem van de meegegeven geometrie
+              schema:
+                type: string
+                enum:
+                  - 'epsg:4258'
+                  - 'epsg:28992'
+                default: 'epsg:4258'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Bestemmingsvlak'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Bestemmingsvlak'
+        '401':
+          description: >-
+            Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden. Je hebt geen rechten om deze URL te benaderen.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not found. De resource kan niet gevonden worden.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: >-
+            Service Unavailable. Er vindt mogelijk (gepland) onderhoud of een
+            storing plaats.
+          headers:
+            Retry-After:
+              description: >-
+                Tijdstip waarop verwacht is dat de service weer beschikbaar zal
+                zijn.
+              x-example: 'Sun, 28 Nov 2017 16:41:41 GMT'
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /functieaanduidingen:
+    get:
+      tags:
+        - Functieaanduidingen
+      summary: Zoeken op een of meer instanties van functieaanduiding
+      parameters:
+        - $ref: '#/components/parameters/acceptCrs'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/bestemmingsvlak'
+        - $ref: '#/components/parameters/tekst'
+      responses:
+        '200':
+          description: OK.
+          x-pagination: true
+          headers:
+            contentCrs:
+              name: Content-Crs
+              in: header
+              required: false
+              description: Coordinaatreferentiesysteem van de meegegeven geometrie
+              schema:
+                type: string
+                enum:
+                  - 'epsg:4258'
+                  - 'epsg:28992'
+                default: 'epsg:4258'
+            xPaginationPage:
+              name: X-Pagination-Page
+              in: header
+              required: false
+              description: Nummer van de huidige pagina (paginanummering start bij 1)
+              schema:
+                type: integer
+            xPaginationLimit:
+              name: X-Pagination-Limit
+              in: header
+              required: false
+              description: Aantal Objecten per pagina
+              schema:
+                type: integer
+            xTotalCount:
+              name: X-Total-Count
+              in: header
+              required: false
+              description: Totaal aantal resultaten (max 10.000)
+              schema:
+                type: integer
+          content:
+            application/hal+json:
+              schema:
+                required:
+                  - _embedded
+                type: object
+                properties:
+                  _embedded:
+                    required:
+                      - functieaanduidingen
+                    type: object
+                    properties:
+                      functieaanduidingen:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Functieaanduiding'
+                  _links:
+                    type: object
+                    x-type: collection-links
+                    allOf:
+                      - $ref: '#/components/schemas/CollectionLinks'
+            application/problem+json:
+              schema:
+                required:
+                  - _embedded
+                type: object
+                properties:
+                  _embedded:
+                    required:
+                      - functieaanduidingen
+                    type: object
+                    properties:
+                      functieaanduidingen:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Functieaanduiding'
+                  _links:
+                    type: object
+                    x-type: collection-links
+                    allOf:
+                      - $ref: '#/components/schemas/CollectionLinks'
+        '401':
+          description: >-
+            Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden. Je hebt geen rechten om deze URL te benaderen.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: >-
+            Service Unavailable. Er vindt mogelijk (gepland) onderhoud of een
+            storing plaats.
+          headers:
+            Retry-After:
+              description: >-
+                Tijdstip waarop verwacht is dat de service weer beschikbaar zal
+                zijn.
+              x-example: 'Sun, 28 Nov 2017 16:41:41 GMT'
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/functieaanduidingen/{id}':
+    get:
+      tags:
+        - Functieaanduidingen
+      summary: Een enkele instantie van functieaanduiding opvragen
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/acceptCrs'
+        - $ref: '#/components/parameters/mandatoryPlanId'
+      responses:
+        '200':
+          description: OK.
+          headers:
+            contentCrs:
+              name: Content-Crs
+              in: header
+              required: false
+              description: Coordinaatreferentiesysteem van de meegegeven geometrie
+              schema:
+                type: string
+                enum:
+                  - 'epsg:4258'
+                  - 'epsg:28992'
+                default: 'epsg:4258'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Functieaanduiding'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Functieaanduiding'
+        '401':
+          description: >-
+            Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden. Je hebt geen rechten om deze URL te benaderen.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not found. De resource kan niet gevonden worden.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: >-
+            Service Unavailable. Er vindt mogelijk (gepland) onderhoud of een
+            storing plaats.
+          headers:
+            Retry-After:
+              description: >-
+                Tijdstip waarop verwacht is dat de service weer beschikbaar zal
+                zijn.
+              x-example: 'Sun, 28 Nov 2017 16:41:41 GMT'
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /gebiedsaanduidingen:
+    get:
+      tags:
+        - Gebiedsaanduidingen
+      summary: Zoeken op een of meer instanties van gebiedsaanduiding
+      parameters:
+        - $ref: '#/components/parameters/acceptCrs'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/bestemmingsvlak'
+        - $ref: '#/components/parameters/tekst'
+      responses:
+        '200':
+          description: OK.
+          x-pagination: true
+          headers:
+            contentCrs:
+              name: Content-Crs
+              in: header
+              required: false
+              description: Coordinaatreferentiesysteem van de meegegeven geometrie
+              schema:
+                type: string
+                enum:
+                  - 'epsg:4258'
+                  - 'epsg:28992'
+                default: 'epsg:4258'
+            xPaginationPage:
+              name: X-Pagination-Page
+              in: header
+              required: false
+              description: Nummer van de huidige pagina (paginanummering start bij 1)
+              schema:
+                type: integer
+            xPaginationLimit:
+              name: X-Pagination-Limit
+              in: header
+              required: false
+              description: Aantal Objecten per pagina
+              schema:
+                type: integer
+            xTotalCount:
+              name: X-Total-Count
+              in: header
+              required: false
+              description: Totaal aantal resultaten (max 10.000)
+              schema:
+                type: integer
+          content:
+            application/hal+json:
+              schema:
+                required:
+                  - _embedded
+                type: object
+                properties:
+                  _embedded:
+                    required:
+                      - gebiedsaanduidingen
+                    type: object
+                    properties:
+                      gebiedsaanduidingen:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Gebiedsaanduiding'
+                  _links:
+                    type: object
+                    x-type: collection-links
+                    allOf:
+                      - $ref: '#/components/schemas/CollectionLinks'
+            application/problem+json:
+              schema:
+                required:
+                  - _embedded
+                type: object
+                properties:
+                  _embedded:
+                    required:
+                      - gebiedsaanduidingen
+                    type: object
+                    properties:
+                      gebiedsaanduidingen:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Gebiedsaanduiding'
+                  _links:
+                    type: object
+                    x-type: collection-links
+                    allOf:
+                      - $ref: '#/components/schemas/CollectionLinks'
+        '401':
+          description: >-
+            Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden. Je hebt geen rechten om deze URL te benaderen.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: >-
+            Service Unavailable. Er vindt mogelijk (gepland) onderhoud of een
+            storing plaats.
+          headers:
+            Retry-After:
+              description: >-
+                Tijdstip waarop verwacht is dat de service weer beschikbaar zal
+                zijn.
+              x-example: 'Sun, 28 Nov 2017 16:41:41 GMT'
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/gebiedsaanduidingen/{id}':
+    get:
+      tags:
+        - Gebiedsaanduidingen
+      summary: Een enkele instantie van gebiedsaanduiding opvragen
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/acceptCrs'
+        - $ref: '#/components/parameters/mandatoryPlanId'
+      responses:
+        '200':
+          description: OK.
+          headers:
+            contentCrs:
+              name: Content-Crs
+              in: header
+              required: false
+              description: Coordinaatreferentiesysteem van de meegegeven geometrie
+              schema:
+                type: string
+                enum:
+                  - 'epsg:4258'
+                  - 'epsg:28992'
+                default: 'epsg:4258'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Gebiedsaanduiding'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Gebiedsaanduiding'
+        '401':
+          description: >-
+            Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden. Je hebt geen rechten om deze URL te benaderen.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not found. De resource kan niet gevonden worden.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: >-
+            Service Unavailable. Er vindt mogelijk (gepland) onderhoud of een
+            storing plaats.
+          headers:
+            Retry-After:
+              description: >-
+                Tijdstip waarop verwacht is dat de service weer beschikbaar zal
+                zijn.
+              x-example: 'Sun, 28 Nov 2017 16:41:41 GMT'
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /maatvoeringen:
+    get:
+      tags:
+        - Maatvoeringen
+      summary: Zoeken op een of meer instanties van maatvoering
+      parameters:
+        - $ref: '#/components/parameters/acceptCrs'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/bestemmingsplangebied'
+        - $ref: '#/components/parameters/bestemmingsvlak'
+        - $ref: '#/components/parameters/tekst'
+      responses:
+        '200':
+          description: OK.
+          x-pagination: true
+          headers:
+            contentCrs:
+              name: Content-Crs
+              in: header
+              required: false
+              description: Coordinaatreferentiesysteem van de meegegeven geometrie
+              schema:
+                type: string
+                enum:
+                  - 'epsg:4258'
+                  - 'epsg:28992'
+                default: 'epsg:4258'
+            xPaginationPage:
+              name: X-Pagination-Page
+              in: header
+              required: false
+              description: Nummer van de huidige pagina (paginanummering start bij 1)
+              schema:
+                type: integer
+            xPaginationLimit:
+              name: X-Pagination-Limit
+              in: header
+              required: false
+              description: Aantal Objecten per pagina
+              schema:
+                type: integer
+            xTotalCount:
+              name: X-Total-Count
+              in: header
+              required: false
+              description: Totaal aantal resultaten (max 10.000)
+              schema:
+                type: integer
+          content:
+            application/hal+json:
+              schema:
+                required:
+                  - _embedded
+                type: object
+                properties:
+                  _embedded:
+                    required:
+                      - maatvoeringen
+                    type: object
+                    properties:
+                      maatvoeringen:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Maatvoering'
+                  _links:
+                    type: object
+                    x-type: collection-links
+                    allOf:
+                      - $ref: '#/components/schemas/CollectionLinks'
+            application/problem+json:
+              schema:
+                required:
+                  - _embedded
+                type: object
+                properties:
+                  _embedded:
+                    required:
+                      - maatvoeringen
+                    type: object
+                    properties:
+                      maatvoeringen:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Maatvoering'
+                  _links:
+                    type: object
+                    x-type: collection-links
+                    allOf:
+                      - $ref: '#/components/schemas/CollectionLinks'
+        '401':
+          description: >-
+            Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden. Je hebt geen rechten om deze URL te benaderen.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: >-
+            Service Unavailable. Er vindt mogelijk (gepland) onderhoud of een
+            storing plaats.
+          headers:
+            Retry-After:
+              description: >-
+                Tijdstip waarop verwacht is dat de service weer beschikbaar zal
+                zijn.
+              x-example: 'Sun, 28 Nov 2017 16:41:41 GMT'
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/maatvoeringen/{id}':
+    get:
+      tags:
+        - Maatvoeringen
+      summary: Een enkele instantie van maatvoering opvragen
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/acceptCrs'
+        - $ref: '#/components/parameters/mandatoryPlanId'
+      responses:
+        '200':
+          description: OK.
+          headers:
+            contentCrs:
+              name: Content-Crs
+              in: header
+              required: false
+              description: Coordinaatreferentiesysteem van de meegegeven geometrie
+              schema:
+                type: string
+                enum:
+                  - 'epsg:4258'
+                  - 'epsg:28992'
+                default: 'epsg:4258'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Maatvoering'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Maatvoering'
+        '401':
+          description: >-
+            Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden. Je hebt geen rechten om deze URL te benaderen.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not found. De resource kan niet gevonden worden.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: >-
+            Service Unavailable. Er vindt mogelijk (gepland) onderhoud of een
+            storing plaats.
+          headers:
+            Retry-After:
+              description: >-
+                Tijdstip waarop verwacht is dat de service weer beschikbaar zal
+                zijn.
+              x-example: 'Sun, 28 Nov 2017 16:41:41 GMT'
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /bouwaanduidingen:
+    get:
+      tags:
+        - Bouwaanduidingen
+      summary: Zoeken op een of meer instanties van bouwaanduiding
+      parameters:
+        - $ref: '#/components/parameters/acceptCrs'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/bestemmingsvlak'
+        - $ref: '#/components/parameters/tekst'
+      responses:
+        '200':
+          description: OK.
+          x-pagination: true
+          headers:
+            contentCrs:
+              name: Content-Crs
+              in: header
+              required: false
+              description: Coordinaatreferentiesysteem van de meegegeven geometrie
+              schema:
+                type: string
+                enum:
+                  - 'epsg:4258'
+                  - 'epsg:28992'
+                default: 'epsg:4258'
+            xPaginationPage:
+              name: X-Pagination-Page
+              in: header
+              required: false
+              description: Nummer van de huidige pagina (paginanummering start bij 1)
+              schema:
+                type: integer
+            xPaginationLimit:
+              name: X-Pagination-Limit
+              in: header
+              required: false
+              description: Aantal Objecten per pagina
+              schema:
+                type: integer
+            xTotalCount:
+              name: X-Total-Count
+              in: header
+              required: false
+              description: Totaal aantal resultaten (max 10.000)
+              schema:
+                type: integer
+          content:
+            application/hal+json:
+              schema:
+                required:
+                  - _embedded
+                type: object
+                properties:
+                  _embedded:
+                    required:
+                      - bouwaanduidingen
+                    type: object
+                    properties:
+                      bouwaanduidingen:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Bouwaanduiding'
+                  _links:
+                    type: object
+                    x-type: collection-links
+                    allOf:
+                      - $ref: '#/components/schemas/CollectionLinks'
+            application/problem+json:
+              schema:
+                required:
+                  - _embedded
+                type: object
+                properties:
+                  _embedded:
+                    required:
+                      - bouwaanduidingen
+                    type: object
+                    properties:
+                      bouwaanduidingen:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Bouwaanduiding'
+                  _links:
+                    type: object
+                    x-type: collection-links
+                    allOf:
+                      - $ref: '#/components/schemas/CollectionLinks'
+        '401':
+          description: >-
+            Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden. Je hebt geen rechten om deze URL te benaderen.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: >-
+            Service Unavailable. Er vindt mogelijk (gepland) onderhoud of een
+            storing plaats.
+          headers:
+            Retry-After:
+              description: >-
+                Tijdstip waarop verwacht is dat de service weer beschikbaar zal
+                zijn.
+              x-example: 'Sun, 28 Nov 2017 16:41:41 GMT'
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/bouwaanduidingen/{id}':
+    get:
+      tags:
+        - Bouwaanduidingen
+      summary: Een enkele instantie van bouwaanduiding opvragen
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/acceptCrs'
+        - $ref: '#/components/parameters/mandatoryPlanId'
+      responses:
+        '200':
+          description: OK.
+          headers:
+            contentCrs:
+              name: Content-Crs
+              in: header
+              required: false
+              description: Coordinaatreferentiesysteem van de meegegeven geometrie
+              schema:
+                type: string
+                enum:
+                  - 'epsg:4258'
+                  - 'epsg:28992'
+                default: 'epsg:4258'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Bouwaanduiding'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Bouwaanduiding'
+        '401':
+          description: >-
+            Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden. Je hebt geen rechten om deze URL te benaderen.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not found. De resource kan niet gevonden worden.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: >-
+            Service Unavailable. Er vindt mogelijk (gepland) onderhoud of een
+            storing plaats.
+          headers:
+            Retry-After:
+              description: >-
+                Tijdstip waarop verwacht is dat de service weer beschikbaar zal
+                zijn.
+              x-example: 'Sun, 28 Nov 2017 16:41:41 GMT'
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /figuren:
+    get:
+      tags:
+        - Figuren
+      summary: Zoeken op een of meer instanties van figuur
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/bestemmingsplangebied'
+        - $ref: '#/components/parameters/bestemmingsvlak'
+        - $ref: '#/components/parameters/tekst'
+      responses:
+        '200':
+          description: OK.
+          x-pagination: true
+          headers:
+            contentCrs:
+              name: Content-Crs
+              in: header
+              required: false
+              description: Coordinaatreferentiesysteem van de meegegeven geometrie
+              schema:
+                type: string
+                enum:
+                  - 'epsg:4258'
+                  - 'epsg:28992'
+                default: 'epsg:4258'
+            xPaginationPage:
+              name: X-Pagination-Page
+              in: header
+              required: false
+              description: Nummer van de huidige pagina (paginanummering start bij 1)
+              schema:
+                type: integer
+            xPaginationLimit:
+              name: X-Pagination-Limit
+              in: header
+              required: false
+              description: Aantal Objecten per pagina
+              schema:
+                type: integer
+            xTotalCount:
+              name: X-Total-Count
+              in: header
+              required: false
+              description: Totaal aantal resultaten (max 10.000)
+              schema:
+                type: integer
+          content:
+            application/hal+json:
+              schema:
+                required:
+                  - _embedded
+                type: object
+                properties:
+                  _embedded:
+                    required:
+                      - figuren
+                    type: object
+                    properties:
+                      figuren:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Figuur'
+                  _links:
+                    type: object
+                    x-type: collection-links
+                    allOf:
+                      - $ref: '#/components/schemas/CollectionLinks'
+            application/problem+json:
+              schema:
+                required:
+                  - _embedded
+                type: object
+                properties:
+                  _embedded:
+                    required:
+                      - figuren
+                    type: object
+                    properties:
+                      figuren:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Figuur'
+                  _links:
+                    type: object
+                    x-type: collection-links
+                    allOf:
+                      - $ref: '#/components/schemas/CollectionLinks'
+        '401':
+          description: >-
+            Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden. Je hebt geen rechten om deze URL te benaderen.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: >-
+            Service Unavailable. Er vindt mogelijk (gepland) onderhoud of een
+            storing plaats.
+          headers:
+            Retry-After:
+              description: >-
+                Tijdstip waarop verwacht is dat de service weer beschikbaar zal
+                zijn.
+              x-example: 'Sun, 28 Nov 2017 16:41:41 GMT'
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/figuren/{id}':
+    get:
+      tags:
+        - Figuren
+      summary: Een enkele instantie van figuur opvragen
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/acceptCrs'
+        - $ref: '#/components/parameters/mandatoryPlanId'
+      responses:
+        '200':
+          description: OK.
+          headers:
+            contentCrs:
+              name: Content-Crs
+              in: header
+              required: false
+              description: Coordinaatreferentiesysteem van de meegegeven geometrie
+              schema:
+                type: string
+                enum:
+                  - 'epsg:4258'
+                  - 'epsg:28992'
+                default: 'epsg:4258'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Figuur'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Figuur'
+        '401':
+          description: >-
+            Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden. Je hebt geen rechten om deze URL te benaderen.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not found. De resource kan niet gevonden worden.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: >-
+            Service Unavailable. Er vindt mogelijk (gepland) onderhoud of een
+            storing plaats.
+          headers:
+            Retry-After:
+              description: >-
+                Tijdstip waarop verwacht is dat de service weer beschikbaar zal
+                zijn.
+              x-example: 'Sun, 28 Nov 2017 16:41:41 GMT'
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /bouwvlakken:
+    get:
+      tags:
+        - Bouwvlakken
+      summary: Zoeken op een of meer instanties van bouwvlak
+      parameters:
+        - $ref: '#/components/parameters/acceptCrs'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/bestemmingsplangebied'
+        - $ref: '#/components/parameters/bestemmingsvlak'
+        - $ref: '#/components/parameters/tekst'
+      responses:
+        '200':
+          description: OK.
+          x-pagination: true
+          headers:
+            contentCrs:
+              name: Content-Crs
+              in: header
+              required: false
+              description: Coordinaatreferentiesysteem van de meegegeven geometrie
+              schema:
+                type: string
+                enum:
+                  - 'epsg:4258'
+                  - 'epsg:28992'
+                default: 'epsg:4258'
+            xPaginationPage:
+              name: X-Pagination-Page
+              in: header
+              required: false
+              description: Nummer van de huidige pagina (paginanummering start bij 1)
+              schema:
+                type: integer
+            xPaginationLimit:
+              name: X-Pagination-Limit
+              in: header
+              required: false
+              description: Aantal Objecten per pagina
+              schema:
+                type: integer
+            xTotalCount:
+              name: X-Total-Count
+              in: header
+              required: false
+              description: Totaal aantal resultaten (max 10.000)
+              schema:
+                type: integer
+          content:
+            application/hal+json:
+              schema:
+                required:
+                  - _embedded
+                type: object
+                properties:
+                  _embedded:
+                    required:
+                      - bouwvlakken
+                    type: object
+                    properties:
+                      bouwvlakken:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Bouwvlak'
+                  _links:
+                    type: object
+                    x-type: collection-links
+                    allOf:
+                      - $ref: '#/components/schemas/CollectionLinks'
+            application/problem+json:
+              schema:
+                required:
+                  - _embedded
+                type: object
+                properties:
+                  _embedded:
+                    required:
+                      - bouwvlakken
+                    type: object
+                    properties:
+                      bouwvlakken:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Bouwvlak'
+                  _links:
+                    type: object
+                    x-type: collection-links
+                    allOf:
+                      - $ref: '#/components/schemas/CollectionLinks'
+        '401':
+          description: >-
+            Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden. Je hebt geen rechten om deze URL te benaderen.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: >-
+            Service Unavailable. Er vindt mogelijk (gepland) onderhoud of een
+            storing plaats.
+          headers:
+            Retry-After:
+              description: >-
+                Tijdstip waarop verwacht is dat de service weer beschikbaar zal
+                zijn.
+              x-example: 'Sun, 28 Nov 2017 16:41:41 GMT'
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/bouwvlakken/{id}':
+    get:
+      tags:
+        - Bouwvlakken
+      summary: Een enkele instantie van bouwvlak opvragen
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/acceptCrs'
+        - $ref: '#/components/parameters/mandatoryPlanId'
+      responses:
+        '200':
+          description: OK.
+          headers:
+            contentCrs:
+              name: Content-Crs
+              in: header
+              required: false
+              description: Coordinaatreferentiesysteem van de meegegeven geometrie
+              schema:
+                type: string
+                enum:
+                  - 'epsg:4258'
+                  - 'epsg:28992'
+                default: 'epsg:4258'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Bouwvlak'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Bouwvlak'
+        '401':
+          description: >-
+            Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden. Je hebt geen rechten om deze URL te benaderen.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not found. De resource kan niet gevonden worden.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: >-
+            Service Unavailable. Er vindt mogelijk (gepland) onderhoud of een
+            storing plaats.
+          headers:
+            Retry-After:
+              description: >-
+                Tijdstip waarop verwacht is dat de service weer beschikbaar zal
+                zijn.
+              x-example: 'Sun, 28 Nov 2017 16:41:41 GMT'
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  parameters:
+    contentType:
+      name: Content-Type
+      in: header
+      required: false
+      description: Media type van het request
+      schema:
+        type: string
+    contentCrs:
+      name: Content-Crs
+      in: header
+      required: false
+      description: Coordinaatreferentiesysteem van de meegegeven geometrie
+      schema:
+        type: string
+        enum:
+          - 'epsg:4258'
+          - 'epsg:28992'
+        default: 'epsg:4258'
+    acceptCrs:
+      name: Accept-Crs
+      in: header
+      required: false
+      description: Gewenste CRS van de coördinaten in de response
+      schema:
+        type: string
+        enum:
+          - 'epsg:4258'
+          - 'epsg:28992'
+        default: 'epsg:4258'
+    id:
+      name: id
+      in: path
+      description: 'NEN3610ID: Identificatiecode'
+      required: true
+      schema:
+        type: string
+    optionalPlanId:
+      name: planId
+      in: query
+      description: 'NEN3610ID: Identificatiecode'
+      required: false
+      schema:
+        type: string
+    mandatoryPlanId:
+      name: planId
+      in: query
+      description: 'NEN3610ID: Identificatiecode'
+      required: true
+      schema:
+        type: string
+    page:
+      description: Pagina nummer
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    limit:
+      name: pageSize
+      in: query
+      required: false
+      schema:
+        type: integer
+        enum:
+          - 10
+          - 20
+          - 50
+          - 100
+        default: 20
+    bestemmingsplangebied:
+      name: bestemmingsplangebied
+      in: query
+      required: false
+      description: Filteren op bestemmingsplangebied ID
+      schema:
+        type: string
+    bestemmingsvlak:
+      name: bestemmingsvlak
+      in: query
+      required: false
+      description: Filteren op bestemmingsvlak ID
+      schema:
+        type: string
+    functieaanduiding:
+      name: functieaanduiding
+      in: query
+      required: false
+      description: Filteren op functieaanduiding ID
+      schema:
+        type: string
+    gebiedsaanduiding:
+      name: gebiedsaanduiding
+      in: query
+      required: false
+      description: Filteren op gebiedsaanduiding ID
+      schema:
+        type: string
+    maatvoering:
+      name: maatvoering
+      in: query
+      required: false
+      description: Filteren op maatvoering ID
+      schema:
+        type: string
+    bouwaanduiding:
+      name: bouwaanduiding
+      in: query
+      required: false
+      description: Filteren op bouwaanduiding ID
+      schema:
+        type: string
+    figuur:
+      name: figuur
+      in: query
+      required: false
+      description: Filteren op figuur ID
+      schema:
+        type: string
+    bouwvlak:
+      name: bouwvlak
+      in: query
+      required: false
+      description: Filteren op bouwvlak ID
+      schema:
+        type: string
+    tekst:
+      name: tekst
+      in: query
+      required: false
+      description: Filteren op tekst ID
+      schema:
+        type: string
+  schemas:
+    externplanreferentie:
+      type: object
+      properties:
+        title:
+          type: string
+        href:
+          type: string
+          description: URL van de link
+          example: >-
+            https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsplangebieden/NL.IMRO.0000.EZip13HHP-2000
+    Bestemmingsplangebied:
+      type: object
+      required:
+        - _links
+        - id
+        - type
+      properties:
+        _links:
+          required:
+            - self
+          type: object
+          properties:
+            self:
+              description: Absolute link naar huidige pagina
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: URL van de link
+                  example: >-
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsplangebieden/NL.IMRO.0000.EZip13HHP-2000
+                title:
+                  type: string
+                  example: >-
+                    Buitengebied; Elderinkweg 9 Hengelo (vastgesteld,
+                    2016-10-27)
+            vervangt:
+              type: array
+              items:
+                $ref: '#/components/schemas/externplanreferentie'
+            tenGevolgeVan:
+              type: array
+              items:
+                $ref: '#/components/schemas/externplanreferentie'
+            muteert:
+              type: array
+              items:
+                $ref: '#/components/schemas/externplanreferentie'
+            bestemmingsvlakken:
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: URL van de link
+                  example: >-
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsvlakken?bestemmingsplangebied=759
+                title:
+                  type: string
+            teksten:
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: URL van de link
+                  example: >-
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/teksten?bestemmingsplangebied=759
+                title:
+                  type: string
+        id:
+          type: string
+          example: NL.IMRO.0268.BPa10500-VG01
+        type:
+          type: string
+          description: Nadere aanduiding van het type ruimtelijk instrument.
+          enum:
+            - bestemmingsplan
+            - inpassingsplan
+            - rijksbestemmingsplan
+            - uitwerkingsplan
+            - wijzigingsplan
+          example: bestemmingsplan
+        beleidsmatigVerantwoordelijkeOverheid:
+          type: object
+          description: >-
+            Overheid die beleidsmatig verantwoordelijk is voor het ruimtelijk
+            instrument.
+          properties:
+            type:
+              type: string
+              enum:
+                - gemeentelijke overheid
+                - deelgemeente/stadsdeel
+                - provinciale overheid
+                - nationale overheid
+              example: gemeentelijke overheid
+            code:
+              type: string
+              description: >-
+                CBS-code van de beleidsmatig verantwoordelijke overheid. Altijd
+                4 cijfers, indien nodig aangevuld met voorloopnullen.
+              example: '0000'
+            naam:
+              type: array
+              items:
+                type: string
+                example: gemeente Nijmegen
+        naam:
+          type: string
+          example: Nijmegen Westkanaaldijk 2016
+        locatieNaam:
+          type: array
+          items:
+            type: string
+        planstatusInfo:
+          type: object
+          properties:
+            planstatus:
+              type: string
+              enum:
+                - concept
+                - voorontwerp
+                - ontwerp
+                - vastgesteld
+                - geconsolideerd
+              example: vastgesteld
+            datum:
+              type: string
+              example: 'TODO: xsd:date wordt nog niet ondersteund door grid-api?'
+        verwijzingNaarVaststellingsbesluit:
+          type: string
+          example: >-
+            TODO: URL onderdeel van `vaststellingsbesluit`? Is dit een link naar
+            een API resource of naar een extern document (bijv. pdf)`?
+        besluitnummer:
+          type: string
+          example: 'TODO: besluitnummer is onderdeel van `vaststellingsbesluit`?'
+        verwijzingNorm:
+          type: array
+          items:
+            type: string
+            example: IMRO2012
+        geometrie:
+          type: object
+          allOf:
+            - $ref: '#/components/schemas/GeoJSON'
+    Tekst:
+      type: object
+      required:
+        - titel
+        - volgnummer
+        - _links
+      properties:
+        titel:
+          type: string
+          example: '1.0: Hoofdstuk 1'
+        inhoud:
+          type: string
+          description: >-
+            Inhoud van van het tekstblok. Voor de Ruimtelijke Plannen is dit
+            XHTML, voor LVBB wellicht XML en voor andere informatiehuizen
+            wellicht plain text. Hoe een client dit moet behandelen wordt in de
+            verbeelding afgehandeld.
+          example: >-
+            
+
+        volgnummer:
+          type: integer
+          example: '2'
+        _links:
+          required:
+            - self
+          type: object
+          properties:
+            self:
+              description: Absolute link naar huidige pagina
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: URL van de link
+                  example: >-
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/teksten/0000_EZip13DW380-3000_s257-REGELS
+                title:
+                  type: string
+                  example: '1.0: Hoofdstuk 1'
+            parent:
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: URL van de link
+                  example: >-
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/teksten/0000_EZip13DW380-3000_0000_EZip13DW380-3000_ROOT
+                title:
+                  type: string
+                  example: '1.0: Hoofdstuk 1'
+            children:
+              type: array
+              items:
+                type: object
+                properties:
+                  href:
+                    type: string
+                    description: URL van de link
+                  example: >-
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/teksten/0000_EZip13DW380-3000__1_Inleidenderegels-REGELS
+                  title:
+                    type: string
+                    example: 1.0 Hoofdstuk 1
+                  volgnummer:
+                    type: integer
+                    example: 'the answer to life, the universe and everything'
+            bestemmingsplangebieden:
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: URL van de link
+                  example: >-
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsplangebieden?tekst=0000_EZip13DW380-3000_s257-REGELS
+                title:
+                  type: string
+            bestemmingsvlakken:
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: URL van de link
+                  example: >-
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsvlakken?tekst=0000_EZip13DW380-3000_s257-REGELS
+                title:
+                  type: string
+            functieaanduidingen:
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: URL van de link
+                  example: >-
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/functieaanduidingen?tekst=0000_EZip13DW380-3000_s257-REGELS
+                title:
+                  type: string
+            gebiedsaanduidingen:
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: URL van de link
+                  example: >-
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/gebiedsaanduidingen?tekst=0000_EZip13DW380-3000_s257-REGELS
+                title:
+                  type: string
+            maatvoeringen:
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: URL van de link
+                  example: >-
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/maatvoeringen?tekst=0000_EZip13DW380-3000_s257-REGELS
+                title:
+                  type: string
+            bouwaanduidingen:
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: URL van de link
+                  example: >-
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bouwaanduidingen?tekst=0000_EZip13DW380-3000_s257-REGELS
+                title:
+                  type: string
+            figuren:
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: URL van de link
+                  example: >-
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/figuren?tekst=0000_EZip13DW380-3000_s257-REGELS
+                title:
+                  type: string
+            bouwvlakken:
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: URL van de link
+                  example: >-
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bouwvlakken?tekst=0000_EZip13DW380-3000_s257-REGELS
+                title:
+                  type: string
+    Bestemmingsvlak:
+      type: object
+      required:
+        - _links
+        - type
+      properties:
+        _links:
+          required:
+            - self
+          type: object
+          properties:
+            self:
+              description: Absolute link naar huidige pagina
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: URL van de link
+                  example: >-
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsvlakken/NL.IMRO.0561d6572c724d55a52224e2de780ae2?planId=NL.IMRO.0000.EZip13DW380-3000
+                title:
+                  type: string
+                  example: Enkelbestemming Bedrijventerrein
+            functieaanduidingen:
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: URL van de link
+                  example: >-
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/functieaanduidingen?bestemmingsvlak=NL.IMRO.0561d6572c724d55a52224e2de780ae2
+                title:
+                  type: string
+            gebiedsaanduidingen:
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: URL van de link
+                  example: >-
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/gebiedsaanduidingen?bestemmingsvlak=NL.IMRO.0561d6572c724d55a52224e2de780ae2
+                title:
+                  type: string
+            maatvoeringen:
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: URL van de link
+                  example: >-
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/maatvoeringen?bestemmingsvlak=NL.IMRO.0561d6572c724d55a52224e2de780ae2
+                title:
+                  type: string
+            bouwaanduidingen:
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: URL van de link
+                  example: >-
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bouwaanduidingen?bestemmingsvlak=NL.IMRO.0561d6572c724d55a52224e2de780ae2
+                title:
+                  type: string
+            figuren:
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: URL van de link
+                  example: >-
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/figuren?bestemmingsvlak=NL.IMRO.0561d6572c724d55a52224e2de780ae2
+                title:
+                  type: string
+            bouwvlakken:
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: URL van de link
+                  example: >-
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bouwvlakken?bestemmingsvlak=NL.IMRO.0561d6572c724d55a52224e2de780ae2
+                title:
+                  type: string
+        id:
+          type: string
+          example: NL.IMRO.0561d6572c724d55a52224e2de780ae2
+        type:
+          type: string
+          enum:
+            - enkelbestemming
+            - dubbelbestemming
+          example: enkelbestemming
+        naam:
+          type: string
+          example: Enkelbestemming Bedrijventerrein
+        bestemmingshoofdgroep:
+          type: string
+          example: Natuur
+        artikelnummer:
+          type: string
+          example: '43'
+        geometrie:
+          type: object
+          allOf:
+            - $ref: '#/components/schemas/GeoJSON'
+    Functieaanduiding:
+      type: object
+      required:
+        - _links
+      properties:
+        _links:
+          required:
+            - self
+          type: object
+          properties:
+            self:
+              description: Absolute link naar huidige pagina
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: URL van de link
+                  example: >-
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/functieaanduidingen/NL.IMRO.3e542fd876e84c3db419b4e2d3f11089
+                title:
+                  type: string
+                  description: Voor mens leesbare titel van de link
+        id:
+          type: string
+          example: NL.IMRO.3e542fd876e84c3db419b4e2d3f11089
+        naam:
+          type: string
+          example: specifieke vorm van wonen - wonen a
+        geometrie:
+          type: object
+          allOf:
+            - $ref: '#/components/schemas/GeoJSON'
+    Gebiedsaanduiding:
+      type: object
+      required:
+        - _links
+      properties:
+        id:
+          type: string
+          example: NL.IMRO.11c351f362064942bfde49445ca4f95b
+        gebiedsaanduidinggroep:
+          type: string
+          example: overige zone
+        artikelnummer:
+          type: string
+          example: '18.1'
+        labelInfo:
+          type: string
+          example: naam
+        geometrie:
+          type: object
+          allOf:
+            - $ref: '#/components/schemas/GeoJSON'
+        _links:
+          required:
+            - self
+          type: object
+          properties:
+            self:
+              description: Absolute link naar huidige pagina
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: URL van de link
+                  example: >-
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/gebiedsaanduidingen/NL.IMRO.11c351f362064942bfde49445ca4f95b
+                title:
+                  type: string
+    Maatvoering:
+      type: object
+      properties:
+        _links:
+          required:
+            - self
+          type: object
+          properties:
+            self:
+              description: Absolute link naar huidige pagina
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: URL van de link
+                  example: >-
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/maatvoeringen/NL.IMRO.ddf6f96c97ed4042b8acec676c4c840a
+                title:
+                  type: string
+                  example: Example Maatvoering
+        id:
+          type: string
+          example: NL.IMRO.ddf6f96c97ed4042b8acec676c4c840a
+        omvang:
+          type: array
+          items:
+            type: object
+            properties:
+              naam:
+                type: string
+              waarde:
+                type: string
+        geometrie:
+          type: object
+          allOf:
+            - $ref: '#/components/schemas/GeoJSON'
+    Bouwaanduiding:
+      type: object
+      properties:
+        id:
+          type: string
+          example: NL.IMRO.BA105502
+        naam:
+          type: string
+          example: bijgebouwen
+        geometrie:
+          type: object
+          allOf:
+            - $ref: '#/components/schemas/GeoJSON'
+        _links:
+          required:
+            - self
+          type: object
+          properties:
+            self:
+              description: Absolute link naar huidige pagina
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: URL van de link
+                  example: >-
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bouwaanduidingen/NL.IMRO.1d2295c177cd4ce793943d2c68b37c0a
+                title:
+                  type: string
+                  description: Voor mens leesbare titel van de link
+                  example: bijgebouwen
+    Figuur:
+      type: object
+      required:
+        - _links
+      properties:
+        id:
+          type: string
+          example: NL.IMRO.1d2295c177cd4ce793943d2c68b37c0a
+        naam:
+          type: string
+          example: gevellijn
+        geometrie:
+          type: object
+          allOf:
+            - $ref: '#/components/schemas/GeoJSON'
+        _links:
+          required:
+            - self
+          type: object
+          properties:
+            self:
+              description: Absolute link naar huidige pagina
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: URL van de link
+                  example: >-
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/figuren/NL.IMRO.1d2295c177cd4ce793943d2c68b37c0a
+                title:
+                  type: string
+                  description: Voor mens leesbare titel van de link
+                  example: gevellijn
+    Bouwvlak:
+      type: object
+      properties:
+        id:
+          type: string
+          example: NL.IMRO.143d082f29fb484e894985577e2786ec
+        naam:
+          type: string
+          example: bouwvlak
+        geometrie:
+          type: object
+          allOf:
+            - $ref: '#/components/schemas/GeoJSON'
+        _links:
+          required:
+            - self
+          type: object
+          properties:
+            self:
+              description: Absolute link naar huidige pagina
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: URL van de link
+                  example: >-
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bouwvlakken/NL.IMRO.143d082f29fb484e894985577e2786ec
+                title:
+                  type: string
+                  description: Voor mens leesbare titel van de link
+                  example: bouwvlak
+    SearchResult:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+        _links:
+          required:
+            - self
+          type: object
+          properties:
+            self:
+              description: Absolute link naar huidige pagina
+              required:
+                - href
+                - title
+              type: object
+              properties:
+                href:
+                  type: string
+                title:
+                  type: string
+                  description: Voor mens leesbare titel van de link
+                  example: Kamergewverh VSG1
+    GeoJSON:
+      type: object
+      required:
+        - coordinates
+        - type
+      properties:
+        type:
+          type: string
+          enum:
+            - Point
+            - Polygon
+            - LineString
+            - MultiPoint
+            - MultiLineString
+            - MultiPolygon
+          example: Polygon
+        coordinates:
+          type: array
+          description: >-
+            Array met coördinaten behorende bij dit GeoJSON object. De structuur
+            van de array hangt af van het `type`.
+          example:
+            - - - 5.858910083770752
+                - 51.84376540294041
+              - - 5.85968255996704
+                - 51.84259879644993
+              - - 5.860852003097533
+                - 51.84413658957469
+              - - 5.858910083770752
+                - 51.84376540294041
+          items: {}
+    Error:
+      type: object
+      required:
+        - detail
+        - instance
+        - status
+        - title
+        - type
+      properties:
+        type:
+          type: string
+          description: >-
+            URI naar een pagina met meer informatie over deze foutmelding voor
+            de ontwikkelaar.
+          default: 'about:blank'
+          example: 'about:blank'
+        title:
+          type: string
+        status:
+          type: integer
+          example: 404
+        detail:
+          type: string
+        instance:
+          type: string
+    CollectionLinks:
+      type: object
+      properties:
+        self:
+          required:
+            - href
+          type: object
+          description: Absolute link naar huidige pagina
+          properties:
+            href:
+              type: string
+              description: URL van de link
+              example: >-
+                https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/_zoek
+        next:
+          required:
+            - href
+          type: object
+          description: >-
+            Absolute link naar volgende pagina (niet aanwezig als er geen
+            volgende pagina is)
+          properties:
+            href:
+              type: string
+              description: URL van de link
+              example: >-
+                https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/_zoek?page=2
