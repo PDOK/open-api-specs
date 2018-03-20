@@ -1,0 +1,605 @@
+swagger: "2.0"
+host: brk.basisregistraties.overheid.nl
+basePath: /api/v1
+schemes:
+- https
+consumes:
+- "application/json"
+produces:
+- "application/hal+json"
+- "application/problem+json"
+info:
+  version: 2.0.0
+  title: BRK API
+  contact:
+    name: Kadaster
+    email: dimitri.vanhees@kadaster.nl
+    url: https://www.kadaster.nl
+tags:
+  - name: Percelen
+    description: |
+      Percelen.
+  - name: Appartementsrechten
+    description: |
+      Appartementsrechten.
+parameters:
+  contentType:
+    name: "Content-Type"
+    in: header
+    required: false
+    type: string
+    description: "Media type van het request"
+  contentCrs:
+    name: "Content-Crs"
+    in: header
+    required: false
+    type: string
+    description: "Coordinaatreferentiesysteem van de meegegeven geometrie"
+    default: "epsg:4258"
+    enum:
+    - "epsg:4258"
+    - "epsg:28992"
+  acceptCrs:
+    name: "Accept-Crs"
+    in: "header"
+    required: false
+    type: "string"
+    description: "Gewenste CRS van de coördinaten in de response"
+    default: "epsg:4258"
+    enum:
+    - "epsg:4258"
+    - "epsg:28992"
+  id:
+    name: id
+    in: path
+    description: "Identificatiecode"
+    required: true
+    type: string
+  page:
+    description: "Pagina nummer"
+    name: page
+    in: query
+    required: false
+    type: integer
+    minimum: 1
+    default: 1
+  limit:
+    name: pageSize
+    in: query
+    required: false
+    type: integer
+    enum: [10, 20, 50, 100]
+    default: 20
+  kadastraleGemeente:
+    name: kadastraleAanduiding.kadastraleGemeente
+    in: "query"
+    required: false
+    type: "string"
+    description: "Filteren op kadastrale gemeente"
+    x-example: "AMSTERDAM G"
+paths:
+  /percelen:
+    get:
+      tags:
+      - "Percelen"
+      summary: Zoeken op een of meer instanties van perceel.
+      parameters:
+      - $ref: '#/parameters/page'
+      - $ref: '#/parameters/limit'
+      - $ref: '#/parameters/kadastraleGemeente'
+      responses:
+        200:
+          description: "OK."
+          schema:
+            required:
+            - "_embedded"
+            - "_links"
+            type: "object"
+            properties:
+              _embedded:
+                required:
+                - "percelen"
+                type: "object"
+                properties:
+                  percelen:
+                    type: "array"
+                    items:
+                      $ref: "#/definitions/Perceel"
+              _links:
+                type: object
+                x-type: collection-links
+                allOf:
+                - $ref: "#/definitions/CollectionLinks"
+          headers:
+            Content-Crs:
+              type: string
+              description: "Coordinaatreferentiesysteem van de meegegeven geometrie"
+              default: "epsg:4258"
+              enum:
+              - "epsg:4258"
+              - "epsg:28992"
+            X-Pagination-Page:
+              type: integer
+              description: "Nummer van de huidige pagina (paginanummering start bij 1)"
+            X-Pagination-Limit:
+              type: integer
+              description: "Aantal Objecten per pagina"
+            X-Total-Count:
+              type: integer
+              description: "Totaal aantal resultaten (max 10.000)"
+        401:
+          description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
+            \ header meegestuurd."
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
+          schema:
+            $ref: "#/definitions/Error"
+        406:
+          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt."
+          schema:
+            $ref: "#/definitions/Error"
+        503:
+          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
+            \ of een storing plaats."
+          schema:
+            $ref: "#/definitions/Error"
+          headers:
+            Retry-After:
+              type: "string"
+              format: "date-time"
+              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar zal zijn."
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
+  /percelen/_zoek:
+    post:
+      tags:
+      - "Percelen"
+      summary: "Zoeken binnen percelen"
+      parameters:
+      - $ref: '#/parameters/contentType'
+      - $ref: '#/parameters/contentCrs'
+      - $ref: '#/parameters/acceptCrs'
+      - $ref: '#/parameters/page'
+      - $ref: '#/parameters/limit'
+      - $ref: '#/parameters/kadastraleGemeente'
+      - name: "body"
+        in: "body"
+        required: false
+        schema:
+          type: "object"
+          properties:
+            middelpunt:
+              type: "object"
+              properties:
+                intersects:
+                  description: |
+                    De manier van 'samenvallen' van de zoek-geometrie en de resultaat-geometrie, zie OGC specificaties
+                  $ref: "#/definitions/GeoJSON"
+                contains:
+                  description: |
+                    De manier van 'samenvallen' van de zoek-geometrie en de resultaat-geometrie, zie OGC specificaties
+                  $ref: "#/definitions/GeoJSON"
+                within:
+                  description: |
+                    De manier van 'samenvallen' van de zoek-geometrie en de resultaat-geometrie, zie OGC specificaties
+                  $ref: "#/definitions/GeoJSON"
+      responses:
+        200:
+          description: "OK."
+          x-pagination: true
+          schema:
+            required:
+            - "_embedded"
+            - "_links"
+            type: "object"
+            properties:
+              _embedded:
+                required:
+                - "percelen"
+                type: "object"
+                properties:
+                  percelen:
+                    type: "array"
+                    items:
+                      $ref: "#/definitions/Perceel"
+              _links:
+                type: object
+                x-type: collection-links
+                allOf:
+                - $ref: "#/definitions/CollectionLinks"
+          headers:
+            Content-Crs:
+              type: string
+              description: "Coordinaatreferentiesysteem van de meegegeven geometrie"
+              default: "epsg:4258"
+              enum:
+              - "epsg:4258"
+              - "epsg:28992"
+            X-Pagination-Page:
+              type: integer
+              description: "Nummer van de huidige pagina (paginanummering start bij 1)"
+            X-Pagination-Limit:
+              type: integer
+              description: "Aantal Objecten per pagina"
+            X-Total-Count:
+              type: integer
+              description: "Totaal aantal resultaten (max 10.000)"
+        401:
+          description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
+            \ header meegestuurd."
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
+          schema:
+            $ref: "#/definitions/Error"
+        406:
+          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt."
+          schema:
+            $ref: "#/definitions/Error"
+        503:
+          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
+            \ of een storing plaats."
+          schema:
+            $ref: "#/definitions/Error"
+          headers:
+            Retry-After:
+              type: "string"
+              format: "date-time"
+              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar zal zijn."
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
+  /percelen/{id}:
+    get:
+      tags:
+      - "Percelen"
+      summary: "Een enkele instantie van perceel opvragen"
+      parameters:
+      - $ref: '#/parameters/id'
+      responses:
+        200:
+          description: "OK."
+          schema:
+            $ref: "#/definitions/Perceel"
+        401:
+          description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
+            \ header meegestuurd."
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not found. De resource kan niet gevonden worden."
+          schema:
+            $ref: "#/definitions/Error"
+        406:
+          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt."
+          schema:
+            $ref: "#/definitions/Error"
+        503:
+          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
+            \ of een storing plaats."
+          schema:
+            $ref: "#/definitions/Error"
+          headers:
+            Retry-After:
+              type: "string"
+              format: "date-time"
+              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar zal zijn."
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
+  /appartementsrechten:
+    get:
+      tags:
+      - "Appartementsrechten"
+      summary: Zoeken op een of meer instanties van appartementsrecht.
+      parameters:
+      - $ref: '#/parameters/page'
+      - $ref: '#/parameters/limit'
+      - $ref: '#/parameters/kadastraleGemeente'
+      responses:
+        200:
+          description: "OK."
+          schema:
+            required:
+            - "_embedded"
+            - "_links"
+            type: "object"
+            properties:
+              _embedded:
+                required:
+                - "percelen"
+                type: "object"
+                properties:
+                  percelen:
+                    type: "array"
+                    items:
+                      $ref: "#/definitions/Appartementsrecht"
+              _links:
+                type: object
+                x-type: collection-links
+                allOf:
+                - $ref: "#/definitions/CollectionLinks"
+          headers:
+            X-Pagination-Page:
+              type: integer
+              description: "Nummer van de huidige pagina (paginanummering start bij 1)"
+            X-Pagination-Limit:
+              type: integer
+              description: "Aantal Objecten per pagina"
+            X-Total-Count:
+              type: integer
+              description: "Totaal aantal resultaten (max 10.000)"
+        401:
+          description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
+            \ header meegestuurd."
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
+          schema:
+            $ref: "#/definitions/Error"
+        406:
+          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt."
+          schema:
+            $ref: "#/definitions/Error"
+        503:
+          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
+            \ of een storing plaats."
+          schema:
+            $ref: "#/definitions/Error"
+          headers:
+            Retry-After:
+              type: "string"
+              format: "date-time"
+              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar zal zijn."
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
+  /appartementsrechten/{id}:
+    get:
+      tags:
+      - "Appartementsrechten"
+      summary: "Een enkele instantie van appartementsrecht opvragen"
+      parameters:
+      - $ref: '#/parameters/id'
+      responses:
+        200:
+          description: "OK."
+          schema:
+            $ref: "#/definitions/Appartementsrecht"
+        401:
+          description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
+            \ header meegestuurd."
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
+          schema:
+            $ref: "#/definitions/Error"
+        404:
+          description: "Not found. De resource kan niet gevonden worden."
+          schema:
+            $ref: "#/definitions/Error"
+        406:
+          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt."
+          schema:
+            $ref: "#/definitions/Error"
+        503:
+          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
+            \ of een storing plaats."
+          schema:
+            $ref: "#/definitions/Error"
+          headers:
+            Retry-After:
+              type: "string"
+              format: "date-time"
+              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar zal zijn."
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
+definitions:
+  KadastraleAanduiding:
+    type: "object"
+    properties:
+      appartementsrechtVolgnummer:
+        type: integer
+      perceelnummer:
+        type: "string"
+        example: "7671"
+      kadastraleGemeente:
+        type: "string"
+        example: "AMSTERDAM G"
+      sectie:
+        type: "string"
+        example: "G"
+  OnroerendeZaak:
+    type: "object"
+    required:
+    - "_links"
+    properties:
+      aardCultuurBebouwd:
+        type: "string"
+      aardCultuurOnbebouwd:
+        type: "string"
+      toelichtingBewaarder:
+        type: "string"
+      omschrijvingKadastraalObject:
+        type: "string"
+      erfsdienstbaarhedenonderzoek:
+        type: array
+        items:
+          type: "object"
+          properties:
+            omschrijving:
+              type: string
+            toestandsdatum:
+              type: date
+              format: YYYY
+      kadastraleAanduiding:
+        type: object
+        allOf:
+          - $ref: "#/definitions/KadastraleAanduiding"
+      koopsom:
+        type: object
+        properties:
+          currency:
+            type: string
+            example: EUR
+            default: EUR
+          koopjaar:
+            type: integer
+          meerObjecten:
+            type: boolean
+          value:
+            type: number
+            format: float
+      belastMet:
+        type: array
+        items:
+          type: object
+          properties:
+            bedrag:
+              format: number
+              type: decimal
+            eindjaar:
+              format: integer
+  Appartementsrecht:
+    type: "object"
+    allOf:
+    - $ref: "#/definitions/OnroerendeZaak"
+    - properties:
+        _links:
+          required:
+          - "self"
+          type: "object"
+          properties:
+            self:
+              description: Absolute link naar huidige pagina
+              required:
+              - "href"
+              - "title"
+              type: "object"
+              properties:
+                href:
+                  type: "string"
+                  description: URL van de link
+                  example: "https://brk.basisregistraties.overheid.nl/api/v2/appartementsrechten/1"
+                title:
+                  type: "string"
+                  description: "Voor mens leesbare titel van de link"
+                  example: "Appartementsrecht 1"
+  Perceel:
+    type: "object"
+    allOf:
+    - $ref: "#/definitions/OnroerendeZaak"
+    - properties:
+        middelpunt:
+          type: object
+          allOf:
+            - $ref: "#/definitions/GeoJSON"
+        kadastraleGrootte:
+          type: object
+          properties:
+            numericValue:
+              type: number
+              format: float
+            quantityKind:
+              type: string
+              example: "Area"
+            soortGrootte:
+              type: string
+            unit:
+              type: string
+              example: "SquareMeter"
+        _links:
+          required:
+          - "self"
+          type: "object"
+          properties:
+            self:
+              description: Absolute link naar huidige pagina
+              required:
+              - "href"
+              - "title"
+              type: "object"
+              properties:
+                href:
+                  type: "string"
+                  description: URL van de link
+                  example: "https://brk.basisregistraties.overheid.nl/api/v2/percelen/1"
+                title:
+                  type: "string"
+                  description: "Voor mens leesbare titel van de link"
+                  example: "Perceel 1"
+  GeoJSON:
+    type: "object"
+    required:
+    - "coordinates"
+    - "type"
+    properties:
+      type:
+        type: "string"
+        enum:
+        - "Point"
+        - "Polygon"
+        - "LineString"
+        - "MultiPoint"
+        - "MultiLineString"
+        - "MultiPolygon"
+        example: "Polygon"
+      coordinates:
+        type: "array"
+        items:
+            type: string
+        description: "Array met coördinaten behorende bij dit GeoJSON object. De structuur van de array hangt af van het `type`."
+        example: [[[5.858910083770752,51.84376540294041],[5.85968255996704,51.84259879644993],[5.860852003097533,51.84413658957469],[5.858910083770752,51.84376540294041]]]
+  Error:
+    type: "object"
+    required:
+    - "detail"
+    - "instance"
+    - "status"
+    - "title"
+    - "type"
+    properties:
+      type:
+        type: "string"
+        description: "URI naar een pagina met meer informatie over deze foutmelding\
+          \ voor de ontwikkelaar."
+        default: "about:blank"
+        example: "about:blank"
+      title:
+        type: "string"
+      status:
+        type: "integer"
+        example: 404
+      detail:
+        type: "string"
+      instance:
+        type: "string"
+  CollectionLinks:
+    type: object
+    properties:
+      self:
+        required:
+        - href
+        type: object
+        description: "Absolute link naar huidige pagina"
+        properties:
+          href:
+            type: string
+            description: URL van de link
+            example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/_zoek"
+      next:
+        required:
+        - href
+        type: object
+        description: "Absolute link naar volgende pagina (niet aanwezig als er geen volgende pagina is)"
+        properties:
+          href:
+            type: string
+            description: URL van de link
+            example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/_zoek?page=2"

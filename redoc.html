@@ -11,7 +11,9 @@
     </style>
   </head>
   <body>
-     <redoc spec-url="https://rawgit.com/PDOK/open-api-specs/master/ruimtelijke-plannen-oas3.yaml"></redoc>
+     <script>
+      document.write('<redoc spec-url="./' + String(window.location).match(/\?\w+/g)[0].replace('?','') + '/oas.yaml"></redoc>');
+     </script>
      <script src="https://unpkg.com/redoc@2.0.0-alpha.9/bundles/redoc.standalone.js"></script> 
   </body>
 </html>
