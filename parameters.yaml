@@ -1,0 +1,7 @@
+optionalPlanId:
+  name: planId
+  in: query
+  description: Identifier
+  required: false
+  schema:
+    type: string

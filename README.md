@@ -1,2 +1,3 @@
-# Open API Specs (Work in progress)
-- [Ruimtelijke plannen](https://rawgit.com/PDOK/open-api-specs/master/redoc.html?ruimtelijke-plannen.yaml)
+# Open API Specs
+- [Ruimtelijke plannen](https://rawgit.com/PDOK/open-api-specs/master/redoc.html?ruimtelijke-plannen)
+- [BRK](https://rawgit.com/PDOK/open-api-specs/master/redoc.html?brk)
