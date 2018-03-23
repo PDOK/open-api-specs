@@ -13,7 +13,7 @@ info:
   title: BRK API
   contact:
     name: Kadaster
-    email: dimitri.vanhees@kadaster.nl
+    email: dataplatform@kadaster.nl
     url: https://www.kadaster.nl
 tags:
   - name: Percelen
@@ -592,7 +592,7 @@ definitions:
           href:
             type: string
             description: URL van de link
-            example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/_zoek"
+            example: "https://brk.basisregistraties.overheid.nl/api/v2/appartementsrechten"
       next:
         required:
         - href
@@ -602,4 +602,4 @@ definitions:
           href:
             type: string
             description: URL van de link
-            example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/_zoek?page=2"
+            example: "https://brk.basisregistraties.overheid.nl/api/v2/appartementsrechten?page=2"

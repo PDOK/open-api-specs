@@ -7,7 +7,7 @@ info:
   description: Ruimtelijke Plannen API
   contact:
     name: Kadaster
-    email: dimitri.vanhees@kadaster.nl
+    email: dataplatform@kadaster.nl
     url: 'https://www.kadaster.nl'
 tags:
   - name: Globale zoekfunctie
