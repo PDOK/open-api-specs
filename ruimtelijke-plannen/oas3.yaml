@@ -868,6 +868,161 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /teksten/_zoek:
+    post:
+      tags:
+        - Teksten
+      summary: Zoeken binnen tekstblokken.
+      parameters:
+        - $ref: '#/components/parameters/contentType'
+        - $ref: '#/components/parameters/contentCrs'
+        - $ref: '#/components/parameters/acceptCrs'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          description: OK.
+          x-pagination: true
+          headers:
+            xPaginationPage:
+              name: X-Pagination-Page
+              in: header
+              required: false
+              description: Nummer van de huidige pagina (paginanummering start bij 1)
+              schema:
+                type: integer
+            xPaginationLimit:
+              name: X-Pagination-Limit
+              in: header
+              required: false
+              description: Aantal Objecten per pagina
+              schema:
+                type: integer
+            xTotalCount:
+              name: X-Total-Count
+              in: header
+              required: false
+              description: Totaal aantal resultaten (max 10.000)
+              schema:
+                type: integer
+          content:
+            application/hal+json:
+              schema:
+                required:
+                  - _embedded
+                  - _links
+                type: object
+                properties:
+                  _embedded:
+                    required:
+                      - teksten
+                    type: object
+                    properties:
+                      teksten:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Tekst'
+                  _links:
+                    type: object
+                    x-type: collection-links
+                    allOf:
+                      - $ref: '#/components/schemas/CollectionLinks'
+            application/problem+json:
+              schema:
+                required:
+                  - _embedded
+                  - _links
+                type: object
+                properties:
+                  _embedded:
+                    required:
+                      - teksten
+                    type: object
+                    properties:
+                      teksten:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Tekst'
+                  _links:
+                    type: object
+                    x-type: collection-links
+                    allOf:
+                      - $ref: '#/components/schemas/CollectionLinks'
+        '401':
+          description: >-
+            Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden. Je hebt geen rechten om deze URL te benaderen.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt.
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: >-
+            Service Unavailable. Er vindt mogelijk (gepland) onderhoud of een
+            storing plaats.
+          headers:
+            Retry-After:
+              description: >-
+                Tijdstip waarop verwacht is dat de service weer beschikbaar zal
+                zijn.
+              x-example: 'Sun, 28 Nov 2017 16:41:41 GMT'
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                bestemmingsvlak.geometrie:
+                  type: object
+                  properties:
+                    intersects:
+                      description: >
+                        De manier van 'samenvallen' van de zoek-geometrie en de
+                        resultaat-geometrie, zie OGC specificaties
+                      $ref: '#/components/schemas/GeoJSON'
+                    contains:
+                      description: >
+                        De manier van 'samenvallen' van de zoek-geometrie en de
+                        resultaat-geometrie, zie OGC specificaties
+                      $ref: '#/components/schemas/GeoJSON'
+                    within:
+                      description: >
+                        De manier van 'samenvallen' van de zoek-geometrie en de
+                        resultaat-geometrie, zie OGC specificaties
+                      $ref: '#/components/schemas/GeoJSON'
   '/teksten/{id}':
     get:
       tags:

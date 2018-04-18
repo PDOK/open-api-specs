@@ -646,6 +646,106 @@ paths:
               format: "date-time"
               description: "Tijdstip waarop verwacht is dat de service weer beschikbaar zal zijn."
               x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
+  /teksten/_zoek:
+    post:
+      tags:
+      - "Teksten"
+      summary: Zoeken binnen tekstblokken.
+      parameters:
+      - $ref: '#/parameters/contentType'
+      - $ref: '#/parameters/contentCrs'
+      - $ref: '#/parameters/acceptCrs'
+      - $ref: '#/parameters/page'
+      - $ref: '#/parameters/limit'
+      - name: "body"
+        in: "body"
+        required: false
+        schema:
+          type: "object"
+          properties:
+            bestemmingsvlak.geometrie:
+              type: "object"
+              properties:
+                intersects:
+                  description: |
+                    De manier van 'samenvallen' van de zoek-geometrie en de resultaat-geometrie, zie OGC specificaties
+                  $ref: "#/definitions/GeoJSON"
+                contains:
+                  description: |
+                    De manier van 'samenvallen' van de zoek-geometrie en de resultaat-geometrie, zie OGC specificaties
+                  $ref: "#/definitions/GeoJSON"
+                within:
+                  description: |
+                    De manier van 'samenvallen' van de zoek-geometrie en de resultaat-geometrie, zie OGC specificaties
+                  $ref: "#/definitions/GeoJSON"
+      responses:
+        200:
+          description: "OK."
+          x-pagination: true
+          schema:
+            required:
+            - "_embedded"
+            - "_links"
+            type: "object"
+            properties:
+              _embedded:
+                required:
+                - "teksten"
+                type: "object"
+                properties:
+                  teksten:
+                    type: "array"
+                    items:
+                      $ref: "#/definitions/Tekst"
+              _links:
+                type: object
+                x-type: collection-links
+                allOf:
+                - $ref: "#/definitions/CollectionLinks"
+          headers:
+            xPaginationPage:
+              name: "X-Pagination-Page"
+              in: header
+              required: false
+              type: integer
+              description: "Nummer van de huidige pagina (paginanummering start bij 1)"
+            xPaginationLimit:
+              name: "X-Pagination-Limit"
+              in: header
+              required: false
+              type: integer
+              description: "Aantal Objecten per pagina"
+            xTotalCount:
+              name: "X-Total-Count"
+              in: header
+              required: false
+              type: integer
+              description: "Totaal aantal resultaten (max 10.000)"
+        401:
+          description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
+            \ header meegestuurd."
+          schema:
+            $ref: "#/definitions/Error"
+        403:
+          description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
+          schema:
+            $ref: "#/definitions/Error"
+        406:
+          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt."
+          schema:
+            $ref: "#/definitions/Error"
+        503:
+          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
+            \ of een storing plaats."
+          schema:
+            $ref: "#/definitions/Error"
+          headers:
+            Retry-After:
+              type: "string"
+              format: "date-time"
+              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar zal zijn."
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"        
   /teksten/{id}:
     get:
       tags:
