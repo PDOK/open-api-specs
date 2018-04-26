@@ -3069,7 +3069,7 @@ components:
                   volgnummer:
                     type: integer
                     example: 'the answer to life, the universe and everything'
-            bestemmingsplangebieden:
+            bestemmingsplangebied:
               type: object
               properties:
                 href:
@@ -3086,9 +3086,12 @@ components:
                   type: string
                   description: URL van de link
                   example: >-
-                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsvlakken?tekst=0000_EZip13DW380-3000_s257-REGELS
+                    https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsplangebieden/NL.IMRO.0000.EZip13HHP-2000
                 title:
                   type: string
+                  example: >-
+                    Buitengebied; Elderinkweg 9 Hengelo (vastgesteld,
+                    2016-10-27)
             functieaanduidingen:
               type: object
               properties:
