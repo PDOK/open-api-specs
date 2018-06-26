@@ -1,0 +1,253 @@
+openapi: 3.0.0
+servers:
+  - url: 'https://brk.basisregistraties.overheid.nl/api/v1/'
+info:
+  version: 1.0.0
+  title: Basisregistratie Kadaster (BRK)
+  description: >
+    De Digitale Kadastrale Kaart toont de ligging van kadastrale percelen ten
+    opzichte van de omgeving. De Digitale Kadastrale Kaart is onderdeel van de
+    Basisregistratie Kadaster, en bevat de kadastrale perceelsgrenzen en de
+    perceelnummers.
+tags:
+  - name: Perceel
+    description: >-
+      Een perceel is een begrensd deel van het Nederlands grondgebied dat
+      kadastraal geïdentificeerd is en met kadastrale grenzen begrensd is.
+paths:
+  /perceel:
+    get:
+      tags:
+        - Perceel
+      summary: Zoeken op percelen
+      parameters:
+        - $ref: '#/components/parameters/page'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/PerceelCollection'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PerceelCollection'
+    put:
+      tags:
+        - Perceel
+      summary: Geografisch zoeken op percelen
+      parameters:
+        - $ref: '#/components/parameters/page'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/PerceelCollection'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PerceelCollection'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                geometry:
+                  type: object
+                  properties:
+                    contains:
+                      type: object
+                      properties:
+                        point:
+                          type: array
+                          example:
+                            - 4.3132
+                            - 52.6231
+                          items:
+                            type: number
+        description: >-
+          JSON object met een geoquery. Ondersteund worden `within`, `contains`,
+          `disjoint` en `intersects` queries in combinatie met `point`,
+          `polygon` of `bbox` coordinaten volgens het standaard GeoJSON formaat.
+        required: true
+  '/perceel/{id}':
+    get:
+      tags:
+        - Perceel
+      summary: Enkel perceel
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Perceel'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Perceel'
+        '404':
+          description: Not found
+components:
+  parameters:
+    id:
+      name: id
+      in: path
+      description: Identifier
+      required: true
+      schema:
+        type: string
+    page:
+      name: page
+      in: query
+      required: false
+      description: >-
+        Paginanummer voor paginering. Gebruik het `_links.next.href` object om
+        te navigeren.
+      schema:
+        type: integer
+        default: 1
+  schemas:
+    Perceel:
+      properties:
+        kadastraleGemeentecode:
+          type: string
+          description: De code van de kadastrale gemeente.
+        kadastraleGemeentenaam:
+          type: string
+          description: De naam van de kadastrale gemeente.
+        kadastraleGrootte:
+          type: number
+          format: float
+          description: >-
+            Een door de Dienst op grond van de kadastrale grenzen van een
+            perceel berekende indicatieve grootte van een perceel ten tijde van
+            vorming van dat perceel . Uitgedrukt in centi-ares. De grootte van
+            een perceel geeft de waarde van de oppervlakte aan en is dus per
+            definitie positief. Door afrondingen is de grootte altijd groter dan
+            of gelijk aan 0,5 ca.
+        perceelnummer:
+          type: integer
+          description: >-
+            Het perceelnummer dat een geheel perceel of een complex uniek
+            identificeert binnen de sectie.
+        perceelnummerRotatie:
+          type: number
+          format: float
+          description: >-
+            Rotatie van het perceelnummer ten behoeve van afbeelding op de
+            kaart. Perceelnummers worden bijvoorbeeld gekanteld om in een smal
+            perceel te passen.
+        sectie:
+          type: string
+          description: >-
+            De sectie die de sectie binnen de kadastrale gemeente uniek
+            identificeert.
+        soortGrootte:
+          type: string
+          description: >-
+            Geeft aan van welke soort de grootte van een perceel is (Geschat,
+            Niet geschat, Niet vastgesteld, Vastgesteld).
+        geometry:
+          type: object
+          description: >-
+            Het geheel van lijnketens waarmee de vlakomtrek van een perceel
+            wordt gevormd in GeoJSON. Een Perceel is een (2D) vlakvormig
+            ruimtelijk object dat "opdelend" van structuur is. Dit betekent dat
+            Nederland altijd naadloos en volledig is bedekt met perceelsvlakken,
+            die elkaar niet mogen overlappen. De begrenzing van een perceel
+            bestaat uit één of meer Kaartbegrenzingen (gesloten polylijnen). De
+            buitenomtrek wordt altijd door één Kaartbegrenzing gevormd. Indien
+            er enclaves zijn (gebied dat niet tot het perceelsvlak behoort) zijn
+            ook de binnenomtrekken als kaartbegrenzing opgenomen. Elk Perceel
+            wordt begrensd door andere percelen, uitgezonderd diegenen die aan
+            buitenland (Belgie, Duitsland en Noordzee) grenzen. Een
+            Kaartbegrenzing is opgebouwd uit één of meer Kaartlijnen
+            (lijnketens). Elke niet onderbroken begrenzing tussen precies 2
+            percelen noemen we een Kaartlijn. De topologische relatie tussen 2
+            vlakbegrenzingen van aangrenzende percelen wordt afgedwongen doordat
+            hun gemeenschappelijke begrenzing door dezelfde Kaartlijn wordt
+            gevormd. Een Kaartlijn ofwel lijnketen is opgebouwd uit opeenvolgend
+            aansluitende kaartlijndelen, bestaande uit rechte en
+            cirkelboogvormige lijnstukken. Hoewel momenteel in de kadastrale
+            percelenstructuur geen exclaves (buitenliggende vlakken) voorkomen,
+            doet dit aan de definitie van Begrenzing perceel niets af.
+          properties:
+            type:
+              type: string
+              example: Point
+            coordinates:
+              type: array
+              items:
+                oneOf:
+                  - type: array
+                    items: {}
+                  - type: number
+              example:
+                - 6.861053257304809
+                - 53.32271304611565
+        _links:
+          type: object
+          required:
+            - self
+          properties:
+            self:
+              type: object
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  example: 'https://brk.basisregistraties.overheid.nl/api/v1/perceel/1'
+                  description: Link naar huidige pagina.
+            source:
+              type: object
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  example: 'https://brk.basisregistraties.overheid.nl/id/perceel/1'
+                  description: Link naar de officiele bron in de Linked Data Viewer.
+    PerceelCollection:
+      type: object
+      required:
+        - _embedded
+        - _links
+      properties:
+        _embedded:
+          type: object
+          required:
+            - results
+          properties:
+            results:
+              type: array
+              items:
+                $ref: '#/components/schemas/Perceel'
+        _links:
+          type: object
+          required:
+            - self
+          properties:
+            self:
+              type: object
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  example: 'https://brk.basisregistraties.overheid.nl/api/v1/perceel'
+                  description: Link naar huidige pagina.
+            next:
+              type: object
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  example: >-
+                    https://brk.basisregistraties.overheid.nl/api/v1/perceel?page=2
+                  description: Link naar volgende pagina.
