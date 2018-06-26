@@ -1,1712 +1,2152 @@
-swagger: '2.0'
+openapi: 3.0.0
+servers:
+  - url: 'https://bag.basisregistraties.overheid.nl/api/v1'
 info:
   version: 1.0.0
-  title: 'BAG API'
-  description: |
-    Om ervoor te zorgen dat het Kadaster haar dienstverlening zo goed mogelijk aan kan bieden is de BAG API momenteel alleen bruikbaar met behulp van een gratis basisregistraties API-key.
-    Deze key wordt enkel gebruikt om inzicht te krijgen in het gebruik van de API (bijvoorbeeld welke coördinatenstelsels en filtermogelijkheden het populairst zijn) en om gebruikers
-    bij incidenten (veroorzaakte piekbelasting, storingen, etc.) en backwards incompatible wijzigingen (versie updates, deprecation periods, etc.) tijdig adequate feedback te kunnen geven.
+  title: Basisregistratie Adressen en Gebouwen (BAG)
+  description: >
+    Om ervoor te zorgen dat het Kadaster haar dienstverlening zo goed mogelijk
+    aan kan bieden is de BAG API momenteel alleen bruikbaar met behulp van een
+    gratis basisregistraties API-key.
 
-    Een basisregistraties API-key kan verkregen worden door een e-mail te sturen naar dataplatform@kadaster.nl en kan gebruikt worden voor zowel de BAG API als de BRT API. Om onze dienstverlening in de toekomst te kunnen
-    verbeteren en aan te laten sluiten bij onze gebruikers stellen wij het op prijs als je ook laat weten wie je bent en wat je motivatie is om deze API te gebruiken, maar dat is uiteraard niet verplicht.
+    Deze key wordt enkel gebruikt om inzicht te krijgen in het gebruik van de
+    API (bijvoorbeeld welke coördinatenstelsels en filtermogelijkheden het
+    populairst zijn) en om gebruikers
 
-    Het proces om een API-key aan te vragen wordt binnenkort geautomatiseerd, waardoor een e-mail niet meer nodig is. Dit en andere features op de roadmap van de BAG API vind je op het PDOK forum: https://forum.pdok.nl/c/datasets/bag. Dit is tevens de plek voor feature requests, bug reports, inhoudelijke vragen over de data, technische vragen over het gebruik van de API, of andere zaken/discussies rondom de BAG.
+    bij incidenten (veroorzaakte piekbelasting, storingen, etc.) en backwards
+    incompatible wijzigingen (versie updates, deprecation periods, etc.) tijdig
+    adequate feedback te kunnen geven.
 
-    __De daadwerkelijk opgevraagde data wordt niet gelogd, de manier waarop wel. Denk hierbij aan request headers zoals `Accept` en logging van bad requests om de gebruiksvriendelijkheid van onze API te kunnen toetsen. Voor vragen/opmerkingen hierover kun je terecht op https://forum.pdok.nl/c/datasets/bag.__
-host: bag.basisregistraties.overheid.nl
-basePath: /api/v1
-schemes:
-  - https
-consumes:
-  - application/json
-produces:
-  - application/hal+json
-securityDefinitions:
-  apiKey:
-    type: apiKey
-    name: 'X-Api-Key'
-    in: header
-    description: |
-      De API-key die je hebt gekregen dient bij elke request naar de BAG API via de `X-Api-Key` request header meegestuurd te worden. Indien deze niet juist wordt meegestuurd, of het een ongeldige key betreft, zul je de foutmelding `403 Forbidden` terugkrijgen.
+
+    Een basisregistraties API-key kan verkregen worden door een e-mail te sturen
+    naar dataplatform@kadaster.nl en kan gebruikt worden voor zowel de BAG API
+    als de BRT API. Om onze dienstverlening in de toekomst te kunnen
+
+    verbeteren en aan te laten sluiten bij onze gebruikers stellen wij het op
+    prijs als je ook laat weten wie je bent en wat je motivatie is om deze API
+    te gebruiken, maar dat is uiteraard niet verplicht.
+
+
+    Het proces om een API-key aan te vragen wordt binnenkort geautomatiseerd,
+    waardoor een e-mail niet meer nodig is. Dit en andere features op de roadmap
+    van de BAG API vind je op het PDOK forum:
+    https://forum.pdok.nl/c/datasets/bag. Dit is tevens de plek voor feature
+    requests, bug reports, inhoudelijke vragen over de data, technische vragen
+    over het gebruik van de API, of andere zaken/discussies rondom de BAG.
+
+
+    __De daadwerkelijk opgevraagde data wordt niet gelogd, de manier waarop wel.
+    Denk hierbij aan request headers zoals `Accept` en logging van bad requests
+    om de gebruiksvriendelijkheid van onze API te kunnen toetsen. Voor
+    vragen/opmerkingen hierover kun je terecht op
+    https://forum.pdok.nl/c/datasets/bag.__
 security:
   - apiKey: []
 tags:
   - name: Pand
-    description: 'Het Pand API endpoint levert informatie aangaande één of meer instanties van een Pand: Een pand is een gebouw waar je in kunt en dat je af kan sluiten. Het gebouw staat altijd op de grond.'
+    description: >-
+      Het Pand API endpoint levert informatie aangaande één of meer instanties
+      van een Pand: Een pand is een gebouw waar je in kunt en dat je af kan
+      sluiten. Het gebouw staat altijd op de grond.
   - name: Ligplaats
-    description: 'Het Ligplaats API endpoint levert informatie aangaande één of meer instanties van een Ligplaats: Een ligplaats is een vaste plaats in het water waar een vaartuig langdurig mag liggen. Soms hoort er ook een oever bij deze ligplaats. De gemeente heeft de ligplaats aangewezen.'
+    description: >-
+      Het Ligplaats API endpoint levert informatie aangaande één of meer
+      instanties van een Ligplaats: Een ligplaats is een vaste plaats in het
+      water waar een vaartuig langdurig mag liggen. Soms hoort er ook een oever
+      bij deze ligplaats. De gemeente heeft de ligplaats aangewezen.
   - name: Standplaats
-    description: 'Het Standplaats API endpoint levert informatie aangaande één of meer instanties van een Standplaats: Een standplaats is een door de gemeente aangewezen plek voor verplaatsbare woon-, werk- of recreatieve doeleinden.'
+    description: >-
+      Het Standplaats API endpoint levert informatie aangaande één of meer
+      instanties van een Standplaats: Een standplaats is een door de gemeente
+      aangewezen plek voor verplaatsbare woon-, werk- of recreatieve doeleinden.
   - name: Verblijfsobject
-    description: 'Het Verblijfsobject API endpoint levert informatie aangaande één of meer instanties van een Verblijfsobject: Een verblijfsobject is zelfstandige ruimte in een pand.'
-  - name: 'Openbare ruimte'
-    description: 'Het Openbare ruimte API endpoint levert informatie aangaande één of meer instanties van een Openbare ruimte: Een openbare ruimte is een verzamelnaam voor alle buitenruimten die een naam hebben gekregen van de gemeente.'
+    description: >-
+      Het Verblijfsobject API endpoint levert informatie aangaande één of meer
+      instanties van een Verblijfsobject: Een verblijfsobject is zelfstandige
+      ruimte in een pand.
+  - name: Openbare ruimte
+    description: >-
+      Het Openbare ruimte API endpoint levert informatie aangaande één of meer
+      instanties van een Openbare ruimte: Een openbare ruimte is een
+      verzamelnaam voor alle buitenruimten die een naam hebben gekregen van de
+      gemeente.
   - name: Nummeraanduiding
-    description: 'Het Nummeraanduiding API endpoint levert informatie aangaande één of meer instanties van een Nummeraanduiding: Een nummeraanduiding is het nummer dat de gemeente heeft gegeven aan een verblijfsobject, standplaats of ligplaats. Het nummer bestaat uit een huisnummer, huisletter en huisnummertoevoeging.'
+    description: >-
+      Het Nummeraanduiding API endpoint levert informatie aangaande één of meer
+      instanties van een Nummeraanduiding: Een nummeraanduiding is het nummer
+      dat de gemeente heeft gegeven aan een verblijfsobject, standplaats of
+      ligplaats. Het nummer bestaat uit een huisnummer, huisletter en
+      huisnummertoevoeging.
   - name: Woonplaats
-    description: 'Het Woonplaats API endpoint levert informatie aangaande één of meer instanties van een Woonplaats: Een woonplaats is een gedeelte van het grondgebied van een gemeente.'
-parameters:
-  id:
-    name: id
-    in: path
-    description: Identifier
-    required: true
-    type: string
-  geldigOp:
-    name: geldigOp
-    in: query
-    type: string
-    format: date
-    required: false
-    description: 'Filtert op objecten die geldig zijn op de opgegeven datum `JJJJ-MM-DD`'
-  page:
-    name: page
-    in: query
-    type: integer
-    required: false
-    default: 1
-    description: 'Paginanummer voor paginering. Gebruik het `_links.next.href` object om te navigeren.'
-  apiKey:
-    name: 'X-Api-Key'
-    in: header
-    type: string
-    required: true
-    description: Geldige API Key om deze request uit te kunnen voeren.
-  accept:
-    name: Accept
-    in: header
-    type: string
-    required: false
-    default: application/hal+json
-    description: Accept header voor Content-Negotiation. Op dit moment wordt alleen `application/hal+json` ondersteund welke ook de standaard is.
-  geobody:
-    in: body
-    name: body
-    description: JSON (`application/json`) object met een geoquery. Ondersteund worden `within`, `contains`, `disjoint` en `intersects` queries in combinatie met een `Point` of `Polygon` GeoJSON object.
-    required: true
-    schema:
-      type: object
-      properties:
-        geometrie:
-          type: object
-          description: Het veld waarop geografisch gezocht moet worden. In dit geval is dit het veld `geometrie`.
-          properties:
-            contains:
-              description: Deze property bepaalt het type query. In dit geval `contains`, maar het kan ook `within`, `disjoint` of `intersects` zijn. Het moet een valide GeoJSON `Point` of `Polygon` object bevatten.
-              type: object
-              properties:
-                type:
-                  type: string
-                  description: 'Het type geometrie. De BAG API ondersteunt momenteel GeoJSON `Point` en `Polygon` objecten.'
-                  example: 'Point'
-                coordinates:
-                  type: array
-                  description: 'De coördinaten behorende bij dit GeoJSON object.'
-                  example: [5.9623762, 52.2118093]
-                  items:
-                    type: number
-                    description: 'De lengte- en breedtegraad in WGS84, [EPSG:4326](http://spatialreference.org/ref/epsg/4326/). Deze is nagenoeg gelijk aan ETRS89 [EPSG:4258](http://spatialreference.org/ref/epsg/4258/) en kan als standaard lengte- en breedtegraden worden gebruikt.'
-  geobody-standplaats:
-    in: body
-    name: body
-    description: JSON (`application/json`) object met een geoquery. Ondersteund worden `within`, `contains`, `disjoint` en `intersects` queries in combinatie met een `Point` of `Polygon` GeoJSON object.
-    required: true
-    schema:
-      type: object
-      properties:
-        geometrie:
-          type: object
-          description: Het veld waarop geografisch gezocht moet worden. In dit geval is dit het veld `geometrie`.
-          properties:
-            contains:
-              description: Deze property bepaalt het type query. In dit geval `contains`, maar het kan ook `within`, `disjoint` of `intersects` zijn. Het moet een valide GeoJSON `Point` of `Polygon` object bevatten.
-              type: object
-              properties:
-                type:
-                  type: string
-                  description: 'Het type geometrie. De BAG API ondersteunt momenteel GeoJSON `Point` en `Polygon` objecten.'
-                  example: 'Polygon'
-                coordinates:
-                  type: array
-                  description: 'De coördinaten behorende bij dit GeoJSON object.'
-                  example: [[[6.5733316,53.2005679],[6.5732289,53.2005217],[6.5733493,53.200429],[6.5734503,53.2004765],[6.5733316,53.2005679]]]
-                  items:
-                    type: number
-                    description: 'De lengte- en breedtegraad in WGS84, [EPSG:4326](http://spatialreference.org/ref/epsg/4326/). Deze is nagenoeg gelijk aan ETRS89 [EPSG:4258](http://spatialreference.org/ref/epsg/4258/) en kan als standaard lengte- en breedtegraden worden gebruikt.'
-  geobody-ligplaats:
-    in: body
-    name: body
-    description: JSON (`application/json`) object met een geoquery. Ondersteund worden `within`, `contains`, `disjoint` en `intersects` queries in combinatie met een `Point` of `Polygon` GeoJSON object.
-    required: true
-    schema:
-      type: object
-      properties:
-        geometrie:
-          type: object
-          description: Het veld waarop geografisch gezocht moet worden. In dit geval is dit het veld `geometrie`.
-          properties:
-            contains:
-              description: Deze property bepaalt het type query. In dit geval `contains`, maar het kan ook `within`, `disjoint` of `intersects` zijn. Het moet een valide GeoJSON `Point` of `Polygon` object bevatten.
-              type: object
-              properties:
-                type:
-                  type: string
-                  description: 'Het type geometrie. De BAG API ondersteunt momenteel GeoJSON `Point` en `Polygon` objecten.'
-                  example: 'Polygon'
-                coordinates:
-                  type: array
-                  description: 'De coördinaten behorende bij dit GeoJSON object.'
-                  example: [[[6.8479817, 53.3207315], [6.8477285, 53.3206442], [6.8477907,53.3205755], [6.848053,53.3206628], [6.8479817,53.3207315]]]
-                  items:
-                    type: number
-                    description: 'De lengte- en breedtegraad in WGS84, [EPSG:4326](http://spatialreference.org/ref/epsg/4326/). Deze is nagenoeg gelijk aan ETRS89 [EPSG:4258](http://spatialreference.org/ref/epsg/4258/) en kan als standaard lengte- en breedtegraden worden gebruikt.'
-  geobody-verblijfsobject:
-    in: body
-    name: body
-    description: JSON (`application/json`) object met een geoquery. Ondersteund worden `within`, `contains`, `disjoint` en `intersects` queries in combinatie met een `Point` of `Polygon` GeoJSON object.
-    required: true
-    schema:
-      type: object
-      properties:
-        geometrie:
-          type: object
-          description: Het veld waarop geografisch gezocht moet worden. In dit geval is dit het veld `geometrie`.
-          properties:
-            contains:
-              description: Deze property bepaalt het type query. In dit geval `contains`, maar het kan ook `within`, `disjoint` of `intersects` zijn. Het moet een valide GeoJSON `Point` of `Polygon` object bevatten.
-              type: object
-              properties:
-                type:
-                  type: string
-                  description: 'Het type geometrie. De BAG API ondersteunt momenteel GeoJSON `Point` en `Polygon` objecten.'
-                  example: 'Point'
-                coordinates:
-                  type: array
-                  description: 'De coördinaten behorende bij dit GeoJSON object.'
-                  example: [ 5.9624425, 52.211734 ]
-                  items:
-                    type: number
-                    description: 'De lengte- en breedtegraad in WGS84, [EPSG:4326](http://spatialreference.org/ref/epsg/4326/). Deze is nagenoeg gelijk aan ETRS89 [EPSG:4258](http://spatialreference.org/ref/epsg/4258/) en kan als standaard lengte- en breedtegraden worden gebruikt.'
-  geobody-woonplaats:
-    in: body
-    name: body
-    description: JSON (`application/json`) object met een geoquery. Ondersteund worden `within`, `contains`, `disjoint` en `intersects` queries in combinatie met een `Point` of `Polygon` GeoJSON object.
-    required: true
-    schema:
-      type: object
-      properties:
-        geometrie:
-          type: object
-          description: Het veld waarop geografisch gezocht moet worden. In dit geval is dit het veld `geometrie`.
-          properties:
-            contains:
-              description: Deze property bepaalt het type query. In dit geval `contains`, maar het kan ook `within`, `disjoint` of `intersects` zijn. Het moet een valide GeoJSON `Point` of `Polygon` object bevatten.
-              type: object
-              properties:
-                type:
-                  type: string
-                  description: 'Het type geometrie. De BAG API ondersteunt momenteel GeoJSON `Point` en `Polygon` objecten.'
-                  example: 'Point'
-                coordinates:
-                  type: array
-                  description: 'De coördinaten behorende bij dit GeoJSON object.'
-                  example: [[[6.5733316,53.2005679],[6.5732289,53.2005217],[6.5733493,53.200429],[6.5734503,53.2004765],[6.5733316,53.2005679]]]
-                  items:
-                    type: number
-                    description: 'De lengte- en breedtegraad in WGS84, [EPSG:4326](http://spatialreference.org/ref/epsg/4326/). Deze is nagenoeg gelijk aan ETRS89 [EPSG:4258](http://spatialreference.org/ref/epsg/4258/) en kan als standaard lengte- en breedtegraden worden gebruikt.'
-  geobody-pand:
-    in: body
-    name: body
-    description: JSON (`application/json`) object met een geoquery. Ondersteund worden `within`, `contains`, `disjoint` en `intersects` queries in combinatie met een `Point` of `Polygon` GeoJSON object.
-    required: true
-    schema:
-      type: object
-      properties:
-        geometrie:
-          type: object
-          description: Het veld waarop geografisch gezocht moet worden. In dit geval is dit het veld `geometrie`.
-          properties:
-            contains:
-              description: Deze property bepaalt het type query. In dit geval `contains`, maar het kan ook `within`, `disjoint` of `intersects` zijn. Het moet een valide GeoJSON `Point` of `Polygon` object bevatten.
-              type: object
-              properties:
-                type:
-                  type: string
-                  description: 'Het type geometrie. De BAG API ondersteunt momenteel GeoJSON `Point` en `Polygon` objecten.'
-                  example: 'Polygon'
-                coordinates:
-                  type: array
-                  description: 'De coördinaten behorende bij dit GeoJSON object.'
-                  example: [[[5.962619,52.2117585],[5.9625107, 52.211849],[5.9623266,52.2120018],[ 5.9622966,52.2120262],[ 5.9621242,52.2119482],[ 5.962341,52.2116086],[ 5.9624274,52.2116293],[ 5.9624014,52.2116703],[ 5.9625066,52.2116959],[ 5.9625415,52.211667],[ 5.9626627,52.2117222],[ 5.962619,52.2117585]]]
-                  items:
-                    type: number
-                    description: 'De lengte- en breedtegraad in WGS84, [EPSG:4326](http://spatialreference.org/ref/epsg/4326/). Deze is nagenoeg gelijk aan ETRS89 [EPSG:4258](http://spatialreference.org/ref/epsg/4258/) en kan als standaard lengte- en breedtegraden worden gebruikt.'
-
-
-
+    description: >-
+      Het Woonplaats API endpoint levert informatie aangaande één of meer
+      instanties van een Woonplaats: Een woonplaats is een gedeelte van het
+      grondgebied van een gemeente.
 paths:
   /panden:
     get:
       tags:
         - Pand
-      summary: 'Zoeken op één of meer instanties van een pand'
+      summary: Zoeken op één of meer instanties van een pand
       parameters:
-        - $ref: '#/parameters/geldigOp'
-        - $ref: '#/parameters/page'
-        - $ref: '#/parameters/apiKey'
-        - $ref: '#/parameters/accept'
+        - $ref: '#/components/parameters/geldigOp'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/pandCollection'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/pandCollection'
         '403':
-          description: 'Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header meegestuurd.'
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
     post:
       tags:
         - Pand
-      summary: 'Geografisch zoeken op één of meer instanties van een pand'
+      summary: Geografisch zoeken op één of meer instanties van een pand
       parameters:
-        - $ref: '#/parameters/geldigOp'
-        - $ref: '#/parameters/page'
-        - $ref: '#/parameters/geobody-pand'
-        - $ref: '#/parameters/apiKey'
-        - $ref: '#/parameters/accept'
+        - $ref: '#/components/parameters/geldigOp'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/pandCollection'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/pandCollection'
         '400':
-          description: 'Bad request. Je request body is geen geldige JSON of de query wordt niet ondersteund door de BAG API.'
+          description: >-
+            Bad request. Je request body is geen geldige JSON of de query wordt
+            niet ondersteund door de BAG API.
         '403':
-          description: 'Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header meegestuurd.'
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                geometrie:
+                  type: object
+                  description: >-
+                    Het veld waarop geografisch gezocht moet worden. In dit
+                    geval is dit het veld `geometrie`.
+                  properties:
+                    contains:
+                      description: >-
+                        Deze property bepaalt het type query. In dit geval
+                        `contains`, maar het kan ook `within`, `disjoint` of
+                        `intersects` zijn. Het moet een valide GeoJSON `Point`
+                        of `Polygon` object bevatten.
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          description: >-
+                            Het type geometrie. De BAG API ondersteunt momenteel
+                            GeoJSON `Point` en `Polygon` objecten.
+                          example: Polygon
+                        coordinates:
+                          type: array
+                          description: De coördinaten behorende bij dit GeoJSON object.
+                          example:
+                            - - - 5.962619
+                                - 52.2117585
+                              - - 5.9625107
+                                - 52.211849
+                              - - 5.9623266
+                                - 52.2120018
+                              - - 5.9622966
+                                - 52.2120262
+                              - - 5.9621242
+                                - 52.2119482
+                              - - 5.962341
+                                - 52.2116086
+                              - - 5.9624274
+                                - 52.2116293
+                              - - 5.9624014
+                                - 52.2116703
+                              - - 5.9625066
+                                - 52.2116959
+                              - - 5.9625415
+                                - 52.211667
+                              - - 5.9626627
+                                - 52.2117222
+                              - - 5.962619
+                                - 52.2117585
+                          items:
+                            type: number
+                            description: >-
+                              De lengte- en breedtegraad in WGS84,
+                              [EPSG:4326](http://spatialreference.org/ref/epsg/4326/).
+                              Deze is nagenoeg gelijk aan ETRS89
+                              [EPSG:4258](http://spatialreference.org/ref/epsg/4258/)
+                              en kan als standaard lengte- en breedtegraden
+                              worden gebruikt.
+        description: >-
+          JSON (`application/json`) object met een geoquery. Ondersteund worden
+          `within`, `contains`, `disjoint` en `intersects` queries in combinatie
+          met een `Point` of `Polygon` GeoJSON object.
+        required: true
   '/panden/{id}':
     get:
       tags:
         - Pand
-      summary: 'Een enkele instantie van een pand opvragen'
+      summary: Een enkele instantie van een pand opvragen
       parameters:
-        - $ref: '#/parameters/geldigOp'
-        - $ref: '#/parameters/id'
-        - $ref: '#/parameters/apiKey'
-        - $ref: '#/parameters/accept'
+        - $ref: '#/components/parameters/geldigOp'
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/pand'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/pand'
         '403':
-          description: 'Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header meegestuurd.'
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
         '404':
-          description: 'Not found'
+          description: Not found
   '/panden/{id}/voorkomens':
     get:
       tags:
         - Pand
-      summary: 'Alle voorkomens van een instantie van een pand opvragen'
+      summary: Alle voorkomens van een instantie van een pand opvragen
       parameters:
-        - $ref: '#/parameters/id'
-        - $ref: '#/parameters/apiKey'
-        - $ref: '#/parameters/accept'
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/pandVoorkomensCollection'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/pandVoorkomensCollection'
         '403':
-          description: 'Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header meegestuurd.'
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
         '404':
-          description: 'Not found'
+          description: Not found
   /ligplaatsen:
     get:
       tags:
         - Ligplaats
-      summary: 'Zoeken op één of meer instanties van een ligplaats'
+      summary: Zoeken op één of meer instanties van een ligplaats
       parameters:
-        - $ref: '#/parameters/geldigOp'
-        - $ref: '#/parameters/page'
-        - $ref: '#/parameters/apiKey'
-        - $ref: '#/parameters/accept'
+        - $ref: '#/components/parameters/geldigOp'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/ligplaatsCollection'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ligplaatsCollection'
         '403':
-          description: 'Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header meegestuurd.'
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
     post:
       tags:
         - Ligplaats
-      summary: 'Geografisch zoeken op één of meer instanties van een ligplaats'
+      summary: Geografisch zoeken op één of meer instanties van een ligplaats
       parameters:
-        - $ref: '#/parameters/geldigOp'
-        - $ref: '#/parameters/page'
-        - $ref: '#/parameters/geobody-ligplaats'
-        - $ref: '#/parameters/apiKey'
-        - $ref: '#/parameters/accept'
+        - $ref: '#/components/parameters/geldigOp'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/ligplaatsCollection'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ligplaatsCollection'
         '400':
-          description: 'Bad request. Je request body is geen geldige JSON of de query wordt niet ondersteund door de BAG API.'
+          description: >-
+            Bad request. Je request body is geen geldige JSON of de query wordt
+            niet ondersteund door de BAG API.
         '403':
-          description: 'Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header meegestuurd.'
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                geometrie:
+                  type: object
+                  description: >-
+                    Het veld waarop geografisch gezocht moet worden. In dit
+                    geval is dit het veld `geometrie`.
+                  properties:
+                    contains:
+                      description: >-
+                        Deze property bepaalt het type query. In dit geval
+                        `contains`, maar het kan ook `within`, `disjoint` of
+                        `intersects` zijn. Het moet een valide GeoJSON `Point`
+                        of `Polygon` object bevatten.
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          description: >-
+                            Het type geometrie. De BAG API ondersteunt momenteel
+                            GeoJSON `Point` en `Polygon` objecten.
+                          example: Polygon
+                        coordinates:
+                          type: array
+                          description: De coördinaten behorende bij dit GeoJSON object.
+                          example:
+                            - - - 6.8479817
+                                - 53.3207315
+                              - - 6.8477285
+                                - 53.3206442
+                              - - 6.8477907
+                                - 53.3205755
+                              - - 6.848053
+                                - 53.3206628
+                              - - 6.8479817
+                                - 53.3207315
+                          items:
+                            type: number
+                            description: >-
+                              De lengte- en breedtegraad in WGS84,
+                              [EPSG:4326](http://spatialreference.org/ref/epsg/4326/).
+                              Deze is nagenoeg gelijk aan ETRS89
+                              [EPSG:4258](http://spatialreference.org/ref/epsg/4258/)
+                              en kan als standaard lengte- en breedtegraden
+                              worden gebruikt.
+        description: >-
+          JSON (`application/json`) object met een geoquery. Ondersteund worden
+          `within`, `contains`, `disjoint` en `intersects` queries in combinatie
+          met een `Point` of `Polygon` GeoJSON object.
+        required: true
   '/ligplaatsen/{id}':
     get:
       tags:
         - Ligplaats
-      summary: 'Een enkele instantie van een ligplaats opvragen'
+      summary: Een enkele instantie van een ligplaats opvragen
       parameters:
-        - $ref: '#/parameters/geldigOp'
-        - $ref: '#/parameters/id'
-        - $ref: '#/parameters/apiKey'
-        - $ref: '#/parameters/accept'
+        - $ref: '#/components/parameters/geldigOp'
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/ligplaats'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ligplaats'
         '403':
-          description: 'Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header meegestuurd.'
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
         '404':
-          description: 'Not found'
+          description: Not found
   '/ligplaatsen/{id}/voorkomens':
     get:
       tags:
         - Ligplaats
-      summary: 'Alle voorkomens van een instantie van een ligplaats opvragen'
+      summary: Alle voorkomens van een instantie van een ligplaats opvragen
       parameters:
-        - $ref: '#/parameters/id'
-        - $ref: '#/parameters/apiKey'
-        - $ref: '#/parameters/accept'
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/ligplaatsVoorkomensCollection'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ligplaatsVoorkomensCollection'
         '403':
-          description: 'Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header meegestuurd.'
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
         '404':
-          description: 'Not found'
+          description: Not found
   /standplaatsen:
     get:
       tags:
         - Standplaats
-      summary: 'Zoeken op één of meer instanties van een standplaats'
+      summary: Zoeken op één of meer instanties van een standplaats
       parameters:
-        - $ref: '#/parameters/geldigOp'
-        - $ref: '#/parameters/page'
-        - $ref: '#/parameters/apiKey'
-        - $ref: '#/parameters/accept'
+        - $ref: '#/components/parameters/geldigOp'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/standplaatsCollection'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/standplaatsCollection'
         '403':
-          description: 'Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header meegestuurd.'
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
     post:
       tags:
         - Standplaats
-      summary: 'Geografisch zoeken op één of meer instanties van een standplaats'
+      summary: Geografisch zoeken op één of meer instanties van een standplaats
       parameters:
-        - $ref: '#/parameters/geldigOp'
-        - $ref: '#/parameters/page'
-        - $ref: '#/parameters/geobody-standplaats'
-        - $ref: '#/parameters/apiKey'
-        - $ref: '#/parameters/accept'
+        - $ref: '#/components/parameters/geldigOp'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/standplaatsCollection'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/standplaatsCollection'
         '400':
-          description: 'Bad request. Je request body is geen geldige JSON of de query wordt niet ondersteund door de BAG API.'
+          description: >-
+            Bad request. Je request body is geen geldige JSON of de query wordt
+            niet ondersteund door de BAG API.
         '403':
-          description: 'Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header meegestuurd.'
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                geometrie:
+                  type: object
+                  description: >-
+                    Het veld waarop geografisch gezocht moet worden. In dit
+                    geval is dit het veld `geometrie`.
+                  properties:
+                    contains:
+                      description: >-
+                        Deze property bepaalt het type query. In dit geval
+                        `contains`, maar het kan ook `within`, `disjoint` of
+                        `intersects` zijn. Het moet een valide GeoJSON `Point`
+                        of `Polygon` object bevatten.
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          description: >-
+                            Het type geometrie. De BAG API ondersteunt momenteel
+                            GeoJSON `Point` en `Polygon` objecten.
+                          example: Polygon
+                        coordinates:
+                          type: array
+                          description: De coördinaten behorende bij dit GeoJSON object.
+                          example:
+                            - - - 6.5733316
+                                - 53.2005679
+                              - - 6.5732289
+                                - 53.2005217
+                              - - 6.5733493
+                                - 53.200429
+                              - - 6.5734503
+                                - 53.2004765
+                              - - 6.5733316
+                                - 53.2005679
+                          items:
+                            type: number
+                            description: >-
+                              De lengte- en breedtegraad in WGS84,
+                              [EPSG:4326](http://spatialreference.org/ref/epsg/4326/).
+                              Deze is nagenoeg gelijk aan ETRS89
+                              [EPSG:4258](http://spatialreference.org/ref/epsg/4258/)
+                              en kan als standaard lengte- en breedtegraden
+                              worden gebruikt.
+        description: >-
+          JSON (`application/json`) object met een geoquery. Ondersteund worden
+          `within`, `contains`, `disjoint` en `intersects` queries in combinatie
+          met een `Point` of `Polygon` GeoJSON object.
+        required: true
   '/standplaatsen/{id}':
     get:
       tags:
         - Standplaats
-      summary: 'Een enkele instantie van een standplaats opvragen'
+      summary: Een enkele instantie van een standplaats opvragen
       parameters:
-        - $ref: '#/parameters/geldigOp'
-        - $ref: '#/parameters/id'
-        - $ref: '#/parameters/apiKey'
-        - $ref: '#/parameters/accept'
+        - $ref: '#/components/parameters/geldigOp'
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/standplaats'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/standplaats'
         '403':
-          description: 'Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header meegestuurd.'
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
         '404':
-          description: 'Not found'
+          description: Not found
   '/standplaatsen/{id}/voorkomens':
     get:
       tags:
         - Standplaats
-      summary: 'Alle voorkomens van een instantie van een standplaats opvragen'
+      summary: Alle voorkomens van een instantie van een standplaats opvragen
       parameters:
-        - $ref: '#/parameters/id'
-        - $ref: '#/parameters/apiKey'
-        - $ref: '#/parameters/accept'
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/standplaatsVoorkomensCollection'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/standplaatsVoorkomensCollection'
         '403':
-          description: 'Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header meegestuurd.'
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
         '404':
-          description: 'Not found'
+          description: Not found
   /verblijfsobjecten:
     get:
       tags:
         - Verblijfsobject
-      summary: 'Zoeken op één of meer instanties van een verblijfsobject'
+      summary: Zoeken op één of meer instanties van een verblijfsobject
       parameters:
         - name: pandrelatering
           in: query
-          type: string
           required: false
-          description: 'Filtert op verblijfsobjecten behorende bij de opgegeven pandrelatering'
-        - $ref: '#/parameters/geldigOp'
-        - $ref: '#/parameters/page'
-        - $ref: '#/parameters/apiKey'
-        - $ref: '#/parameters/accept'
+          description: >-
+            Filtert op verblijfsobjecten behorende bij de opgegeven
+            pandrelatering
+          schema:
+            type: string
+        - $ref: '#/components/parameters/geldigOp'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/verblijfsobjectCollection'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/verblijfsobjectCollection'
         '403':
-          description: 'Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header meegestuurd.'
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
     post:
       tags:
         - Verblijfsobject
-      summary: 'Geografisch zoeken op één of meer instanties van een verblijfsobject'
+      summary: Geografisch zoeken op één of meer instanties van een verblijfsobject
       parameters:
         - name: pandrelatering
           in: query
-          type: string
           required: false
-          description: 'Filtert op verblijfsobjecten behorende bij de opgegeven pandrelatering'
-        - $ref: '#/parameters/geldigOp'
-        - $ref: '#/parameters/page'
-        - $ref: '#/parameters/geobody-verblijfsobject'
-        - $ref: '#/parameters/apiKey'
-        - $ref: '#/parameters/accept'
+          description: >-
+            Filtert op verblijfsobjecten behorende bij de opgegeven
+            pandrelatering
+          schema:
+            type: string
+        - $ref: '#/components/parameters/geldigOp'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/verblijfsobjectCollection'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/verblijfsobjectCollection'
         '400':
-          description: 'Bad request. Je request body is geen geldige JSON of de query wordt niet ondersteund door de BAG API.'
+          description: >-
+            Bad request. Je request body is geen geldige JSON of de query wordt
+            niet ondersteund door de BAG API.
         '403':
-          description: 'Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header meegestuurd.'
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                geometrie:
+                  type: object
+                  description: >-
+                    Het veld waarop geografisch gezocht moet worden. In dit
+                    geval is dit het veld `geometrie`.
+                  properties:
+                    contains:
+                      description: >-
+                        Deze property bepaalt het type query. In dit geval
+                        `contains`, maar het kan ook `within`, `disjoint` of
+                        `intersects` zijn. Het moet een valide GeoJSON `Point`
+                        of `Polygon` object bevatten.
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          description: >-
+                            Het type geometrie. De BAG API ondersteunt momenteel
+                            GeoJSON `Point` en `Polygon` objecten.
+                          example: Point
+                        coordinates:
+                          type: array
+                          description: De coördinaten behorende bij dit GeoJSON object.
+                          example:
+                            - 5.9624425
+                            - 52.211734
+                          items:
+                            type: number
+                            description: >-
+                              De lengte- en breedtegraad in WGS84,
+                              [EPSG:4326](http://spatialreference.org/ref/epsg/4326/).
+                              Deze is nagenoeg gelijk aan ETRS89
+                              [EPSG:4258](http://spatialreference.org/ref/epsg/4258/)
+                              en kan als standaard lengte- en breedtegraden
+                              worden gebruikt.
+        description: >-
+          JSON (`application/json`) object met een geoquery. Ondersteund worden
+          `within`, `contains`, `disjoint` en `intersects` queries in combinatie
+          met een `Point` of `Polygon` GeoJSON object.
+        required: true
   '/verblijfsobjecten/{id}':
     get:
       tags:
         - Verblijfsobject
-      summary: 'Een enkele instantie van een verblijfsobject opvragen'
+      summary: Een enkele instantie van een verblijfsobject opvragen
       parameters:
-        - $ref: '#/parameters/geldigOp'
-        - $ref: '#/parameters/id'
-        - $ref: '#/parameters/apiKey'
-        - $ref: '#/parameters/accept'
+        - $ref: '#/components/parameters/geldigOp'
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/verblijfsobject'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/verblijfsobject'
         '403':
-          description: 'Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header meegestuurd.'
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
         '404':
-          description: 'Not found'
+          description: Not found
   '/verblijfsobjecten/{id}/voorkomens':
     get:
       tags:
         - Verblijfsobject
-      summary: 'Alle voorkomens van een instantie van een verblijfsobject opvragen'
+      summary: Alle voorkomens van een instantie van een verblijfsobject opvragen
       parameters:
-        - $ref: '#/parameters/id'
-        - $ref: '#/parameters/apiKey'
-        - $ref: '#/parameters/accept'
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/verblijfsobjectVoorkomensCollection'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/verblijfsobjectVoorkomensCollection'
         '403':
-          description: 'Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header meegestuurd.'
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
         '404':
-          description: 'Not found'
-  '/openbare-ruimtes':
+          description: Not found
+  /openbare-ruimtes:
     get:
       tags:
-        - 'Openbare ruimte'
-      summary: 'Zoeken op één of meer instanties van een openbare ruimte'
+        - Openbare ruimte
+      summary: Zoeken op één of meer instanties van een openbare ruimte
       parameters:
-        - $ref: '#/parameters/geldigOp'
-        - $ref: '#/parameters/page'
-        - $ref: '#/parameters/apiKey'
-        - $ref: '#/parameters/accept'
+        - $ref: '#/components/parameters/geldigOp'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/openbareruimteCollection'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/openbareruimteCollection'
         '403':
-          description: 'Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header meegestuurd.'
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
   '/openbare-ruimtes/{id}':
     get:
       tags:
-        - 'Openbare ruimte'
-      summary: 'Een enkele instantie van een openbare ruimte opvragen'
+        - Openbare ruimte
+      summary: Een enkele instantie van een openbare ruimte opvragen
       parameters:
-        - $ref: '#/parameters/geldigOp'
-        - $ref: '#/parameters/id'
-        - $ref: '#/parameters/apiKey'
-        - $ref: '#/parameters/accept'
+        - $ref: '#/components/parameters/geldigOp'
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/openbareruimte'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/openbareruimte'
         '403':
-          description: 'Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header meegestuurd.'
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
         '404':
-          description: 'Not found'
+          description: Not found
   '/openbare-ruimtes/{id}/voorkomens':
     get:
       tags:
         - Openbare ruimte
-      summary: 'Alle voorkomens van een instantie van een openbare ruimte opvragen'
+      summary: Alle voorkomens van een instantie van een openbare ruimte opvragen
       parameters:
-        - $ref: '#/parameters/id'
-        - $ref: '#/parameters/apiKey'
-        - $ref: '#/parameters/accept'
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/openbareruimteVoorkomensCollection'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/openbareruimteVoorkomensCollection'
         '403':
-          description: 'Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header meegestuurd.'
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
         '404':
-          description: 'Not found'
+          description: Not found
   /nummeraanduidingen:
     get:
       tags:
         - Nummeraanduiding
-      summary: 'Zoeken op één of meer instanties van een nummeraanduiding'
+      summary: Zoeken op één of meer instanties van een nummeraanduiding
       parameters:
-        - $ref: '#/parameters/geldigOp'
-        - $ref: '#/parameters/page'
-        - $ref: '#/parameters/apiKey'
-        - $ref: '#/parameters/accept'
+        - $ref: '#/components/parameters/geldigOp'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
         - name: postcode
           in: query
-          type: string
           required: false
-          description: 'Filtert op objecten met de opgegeven postcode (in het zogenaamde `P6` formaat: 1234AB)'
+          description: >-
+            Filtert op objecten met de opgegeven postcode (in het zogenaamde
+            `P6` formaat: 1234AB)
+          schema:
+            type: string
         - name: huisnummer
           in: query
-          type: number
           required: false
-          description: 'Filtert op objecten met het opgegeven huisnummer (enkel het numerieke nummer, geen toevoegingen)'
+          description: >-
+            Filtert op objecten met het opgegeven huisnummer (enkel het
+            numerieke nummer, geen toevoegingen)
+          schema:
+            type: number
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/nummeraanduidingCollection'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/nummeraanduidingCollection'
         '403':
-          description: 'Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header meegestuurd.'
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
   '/nummeraanduidingen/{id}':
     get:
       tags:
         - Nummeraanduiding
-      summary: 'Een enkele instantie van een nummeraanduiding opvragen'
+      summary: Een enkele instantie van een nummeraanduiding opvragen
       parameters:
-        - $ref: '#/parameters/geldigOp'
-        - $ref: '#/parameters/id'
-        - $ref: '#/parameters/apiKey'
-        - $ref: '#/parameters/accept'
+        - $ref: '#/components/parameters/geldigOp'
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/nummeraanduiding'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/nummeraanduiding'
         '403':
-          description: 'Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header meegestuurd.'
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
         '404':
-          description: 'Not found'
+          description: Not found
   '/nummeraanduidingen/{id}/voorkomens':
     get:
       tags:
         - Nummeraanduiding
-      summary: 'Alle voorkomens van een instantie van een nummeraanduiding opvragen'
+      summary: Alle voorkomens van een instantie van een nummeraanduiding opvragen
       parameters:
-        - $ref: '#/parameters/id'
-        - $ref: '#/parameters/apiKey'
-        - $ref: '#/parameters/accept'
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/nummeraanduidingVoorkomensCollection'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/nummeraanduidingVoorkomensCollection'
         '403':
-          description: 'Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header meegestuurd.'
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
         '404':
-          description: 'Not found'
+          description: Not found
   /woonplaatsen:
     get:
       tags:
         - Woonplaats
-      summary: 'Zoeken op één of meer instanties van een woonplaats'
+      summary: Zoeken op één of meer instanties van een woonplaats
       parameters:
-        - $ref: '#/parameters/geldigOp'
-        - $ref: '#/parameters/page'
-        - $ref: '#/parameters/apiKey'
-        - $ref: '#/parameters/accept'
+        - $ref: '#/components/parameters/geldigOp'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/woonplaatsCollection'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/woonplaatsCollection'
         '403':
-          description: 'Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header meegestuurd.'
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
     post:
       tags:
         - Woonplaats
-      summary: 'Geografisch zoeken op één of meer instanties van een woonplaats'
+      summary: Geografisch zoeken op één of meer instanties van een woonplaats
       parameters:
-        - $ref: '#/parameters/geldigOp'
-        - $ref: '#/parameters/page'
-        - $ref: '#/parameters/geobody-woonplaats'
-        - $ref: '#/parameters/apiKey'
-        - $ref: '#/parameters/accept'
+        - $ref: '#/components/parameters/geldigOp'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/woonplaatsCollection'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/woonplaatsCollection'
         '400':
-          description: 'Bad request. Je request body is geen geldige JSON of de query wordt niet ondersteund door de BAG API.'
+          description: >-
+            Bad request. Je request body is geen geldige JSON of de query wordt
+            niet ondersteund door de BAG API.
         '403':
-          description: 'Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header meegestuurd.'
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                geometrie:
+                  type: object
+                  description: >-
+                    Het veld waarop geografisch gezocht moet worden. In dit
+                    geval is dit het veld `geometrie`.
+                  properties:
+                    contains:
+                      description: >-
+                        Deze property bepaalt het type query. In dit geval
+                        `contains`, maar het kan ook `within`, `disjoint` of
+                        `intersects` zijn. Het moet een valide GeoJSON `Point`
+                        of `Polygon` object bevatten.
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          description: >-
+                            Het type geometrie. De BAG API ondersteunt momenteel
+                            GeoJSON `Point` en `Polygon` objecten.
+                          example: Point
+                        coordinates:
+                          type: array
+                          description: De coördinaten behorende bij dit GeoJSON object.
+                          example:
+                            - - - 6.5733316
+                                - 53.2005679
+                              - - 6.5732289
+                                - 53.2005217
+                              - - 6.5733493
+                                - 53.200429
+                              - - 6.5734503
+                                - 53.2004765
+                              - - 6.5733316
+                                - 53.2005679
+                          items:
+                            type: number
+                            description: >-
+                              De lengte- en breedtegraad in WGS84,
+                              [EPSG:4326](http://spatialreference.org/ref/epsg/4326/).
+                              Deze is nagenoeg gelijk aan ETRS89
+                              [EPSG:4258](http://spatialreference.org/ref/epsg/4258/)
+                              en kan als standaard lengte- en breedtegraden
+                              worden gebruikt.
+        description: >-
+          JSON (`application/json`) object met een geoquery. Ondersteund worden
+          `within`, `contains`, `disjoint` en `intersects` queries in combinatie
+          met een `Point` of `Polygon` GeoJSON object.
+        required: true
   '/woonplaatsen/{id}':
     get:
       tags:
         - Woonplaats
-      summary: 'Een enkele instantie van een woonplaats opvragen'
+      summary: Een enkele instantie van een woonplaats opvragen
       parameters:
-        - $ref: '#/parameters/geldigOp'
-        - $ref: '#/parameters/id'
-        - $ref: '#/parameters/apiKey'
-        - $ref: '#/parameters/accept'
+        - $ref: '#/components/parameters/geldigOp'
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/woonplaats'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/woonplaats'
         '403':
-          description: 'Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header meegestuurd.'
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
         '404':
-          description: 'Not found'
+          description: Not found
   '/woonplaatsen/{id}/voorkomens':
     get:
       tags:
         - Woonplaats
-      summary: 'Alle voorkomens van een instantie van een woonplaats opvragen'
+      summary: Alle voorkomens van een instantie van een woonplaats opvragen
       parameters:
-        - $ref: '#/parameters/id'
-        - $ref: '#/parameters/apiKey'
-        - $ref: '#/parameters/accept'
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
       responses:
         '200':
           description: OK
-          schema:
-            $ref: '#/definitions/woonplaatsVoorkomensCollection'
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/woonplaatsVoorkomensCollection'
         '403':
-          description: 'Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header meegestuurd.'
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
         '404':
-          description: 'Not found'
-definitions:
-  polygon:
-    type: object
-    description: 'Geometrie is de beschrijving van de vorm van een object in de vorm van coördinaten.'
-    properties:
-      type:
+          description: Not found
+components:
+  parameters:
+    id:
+      name: id
+      in: path
+      description: Identifier
+      required: true
+      schema:
         type: string
-        description: 'Het type geometrie'
-        example: 'Polygon'
-      coordinates:
-        type: array
-        description: 'Een geneste lijst van coördinaten in lengte- en breedtegraden in ETRS89, [EPSG:4258](http://spatialreference.org/ref/epsg/4258/). Deze is nagenoeg gelijk aan WGS84 [EPSG:4326](http://spatialreference.org/ref/epsg/4326/) en kan als standaard lengte- en breedtegraden worden gebruikt.'
-        items:
+    geldigOp:
+      name: geldigOp
+      in: query
+      required: false
+      description: Filtert op objecten die geldig zijn op de opgegeven datum `JJJJ-MM-DD`
+      schema:
+        type: string
+        format: date
+    page:
+      name: page
+      in: query
+      required: false
+      description: >-
+        Paginanummer voor paginering. Gebruik het `_links.next.href` object om
+        te navigeren.
+      schema:
+        type: integer
+        default: 1
+    apiKey:
+      name: X-Api-Key
+      in: header
+      required: true
+      description: Geldige API Key om deze request uit te kunnen voeren.
+      schema:
+        type: string
+    accept:
+      name: Accept
+      in: header
+      required: false
+      description: >-
+        Accept header voor Content-Negotiation. Op dit moment wordt alleen
+        `application/hal+json` ondersteund welke ook de standaard is.
+      schema:
+        type: string
+        default: application/hal+json
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+      description: >
+        De API-key die je hebt gekregen dient bij elke request naar de BAG API
+        via de `X-Api-Key` request header meegestuurd te worden. Indien deze
+        niet juist wordt meegestuurd, of het een ongeldige key betreft, zul je
+        de foutmelding `403 Forbidden` terugkrijgen.
+  schemas:
+    polygon:
+      type: object
+      description: >-
+        Geometrie is de beschrijving van de vorm van een object in de vorm van
+        coördinaten.
+      properties:
+        type:
+          type: string
+          description: Het type geometrie
+          example: Polygon
+        coordinates:
           type: array
-          description: 'Lijst van coördinaten.'
-          example: [[ 5.3329181,52.113041],[5.3512001,52.112830],[5.3510284,52.102340],[5.3329181,52.113041]]
+          description: >-
+            Een geneste lijst van coördinaten in lengte- en breedtegraden in
+            ETRS89, [EPSG:4258](http://spatialreference.org/ref/epsg/4258/).
+            Deze is nagenoeg gelijk aan WGS84
+            [EPSG:4326](http://spatialreference.org/ref/epsg/4326/) en kan als
+            standaard lengte- en breedtegraden worden gebruikt.
           items:
             type: array
-            description: 'De lengte- en breedtegraad.'
+            description: Lijst van coördinaten.
+            example:
+              - - 5.3329181
+                - 52.113041
+              - - 5.3512001
+                - 52.11283
+              - - 5.3510284
+                - 52.10234
+              - - 5.3329181
+                - 52.113041
             items:
-              type: number
-              description: 'Een coördinaat'
-  point:
-    type: object
-    description: 'Geometrie is de beschrijving van de vorm van een object in de vorm van coördinaten.'
-    properties:
-      type:
-        type: string
-        description: 'Het type geometrie'
-        example: 'Point'
-      coordinates:
-        type: array
-        description: 'De lengte- en breedtegraad in ETRS89, [EPSG:4258](http://spatialreference.org/ref/epsg/4258/). Deze is nagenoeg gelijk aan WGS84 [EPSG:4326](http://spatialreference.org/ref/epsg/4326/) en kan als standaard lengte- en breedtegraden worden gebruikt.'
-        example: [5.3329181, 52.113041]
-        items:
-          type: number
-          description: 'Een coördinaat'
-  hoofdadres:
-    type: object
-    required:
-      - href
-    description: 'Een hoofdadres is het primaire adres van een gebouw of plek.'
-    properties:
-      href:
-        type: string
-        description: 'Link naar een bijbehorend hoofdadres.'
-        example: 'http://bag.basisregistraties.overheid.nl/bag/id/nummeraanduiding/0150200000036467'
-  nevenadres:
-    type: array
-    description: 'Een lijst van nevenadressen'
-    items:
+              type: array
+              description: De lengte- en breedtegraad.
+              items:
+                type: number
+                description: Een coördinaat
+    point:
       type: object
-      description: 'Een nevenadres is een aanvullend adres dat aan een verblijfsobject gegeven kan worden als deze meerdere ingangen heeft aan verschillende straten.'
+      description: >-
+        Geometrie is de beschrijving van de vorm van een object in de vorm van
+        coördinaten.
+      properties:
+        type:
+          type: string
+          description: Het type geometrie
+          example: Point
+        coordinates:
+          type: array
+          description: >-
+            De lengte- en breedtegraad in ETRS89,
+            [EPSG:4258](http://spatialreference.org/ref/epsg/4258/). Deze is
+            nagenoeg gelijk aan WGS84
+            [EPSG:4326](http://spatialreference.org/ref/epsg/4326/) en kan als
+            standaard lengte- en breedtegraden worden gebruikt.
+          example:
+            - 5.3329181
+            - 52.113041
+          items:
+            type: number
+            description: Een coördinaat
+    hoofdadres:
+      type: object
+      required:
+        - href
+      description: Een hoofdadres is het primaire adres van een gebouw of plek.
       properties:
         href:
           type: string
-          description: 'Link naar een bijbehorend hoofdadres.'
-          example: 'http://bag.basisregistraties.overheid.nl/bag/id/nummeraanduiding/0150200000036467'
-  geldigVoorkomen:
-    type: object
-    required:
-      - beginGeldigheid
-      - inOnderzoek
-      - aanduidingInactief
-      - aanduidingCorrectie
-      - geconstateerd
-      - _embedded
-    description: Een voorkomen is een combinatie van gegevens die geldig zijn op grond van één adminsitratieve gebeurtenis, totdat één of meerdere gegevens gewijzigd worden.
-    properties:
-      beginGeldigheid:
-        type: string
-        format: date-time
-        description: 'Een ingangsdatum is de begindatum vanaf wanneer een gegeven geldig is.'
-        example: '2016-12-21T00:00:00Z+01:00'
-      eindGeldigheid:
-        type: [ "null", "string"]
-        format: date-time
-        description: 'Een ingangsdatum is de begindatum vanaf wanneer een gegeven geldig is.'
-        example: '2016-12-22T00:00:00Z+01:00'
-      inOnderzoek:
-        type: boolean
-        description: 'In onderzoek betekent dat onderzocht wordt of gegevens kloppen.'
-        example: false
-      aanduidingInactief:
-        type: boolean
-        description: 'Voorkomens van objecten met een begindatum in de toekomst die zijn gemuteerd. Ze maken daarmee geen onderdeel meer uit van de levenscyclus.'
-        example: false
-      aanduidingCorrectie:
-        type: number
-        description: 'Een inactief voorkomen als gevolg van synchronisatie tussen bronhouder en de Landelijke Voorziening BAG.'
-        example: 0
-      geconstateerd:
-        type: boolean
-        example: false
-      _embedded:
+          description: Link naar een bijbehorend hoofdadres.
+          example: >-
+            http://bag.basisregistraties.overheid.nl/bag/id/nummeraanduiding/0150200000036467
+    nevenadres:
+      type: array
+      description: Een lijst van nevenadressen
+      items:
         type: object
-        required:
-          - bron
+        description: >-
+          Een nevenadres is een aanvullend adres dat aan een verblijfsobject
+          gegeven kan worden als deze meerdere ingangen heeft aan verschillende
+          straten.
         properties:
-          bron:
-            type: object
-            required:
-             - documentnummer
-             - documentdatum
-            properties:
-              documentnummer:
-                type: string
-                description: 'De unieke aanduiding van de vindplaats van een document binnen een organisatie.'
-                example: SLM/013164
-              documentdatum:
-                type: string
-                description: 'De datum waarop het brondocument is vastgesteld, op basis waarvan een opname, mutatie of een verwijdering van gegevens ten aanzien van een object heeft plaatsgevonden.'
-                format: date
-                example: "2010-05-19"
-  pand:
-    type: object
-    required:
-      - identificatiecode
-      - oorspronkelijkBouwjaar
-      - status
-      - _links
-      - _embedded
-    description: 'Een pand is een gebouw waar je in kunt en dat je af kan sluiten. Het gebouw staat altijd op de grond.'
-    properties:
-      identificatiecode:
-        type: string
-        description: 'Een identificatiecode van een pand is een authentiek gegeven en een unieke aanduiding van het pand.'
-        example: '0003100000118018'
-      oorspronkelijkBouwjaar:
-        type: integer
-        description: 'Een bouwjaar is een authentiek gegeven met betrekking tot het jaar dat een pand bouwkundig gereed is of wordt opgeleverd.'
-        example: 1965
-      status:
-        type: string
-        description: 'Een codering van de verschillende waarden die de status van een pand kan aannemen.'
-        example: 'PandInGebruik'
-      _links:
-        type: object
-        required:
-          - self
-          - voorkomens
-          - verblijfsobjecten
-        description: 'Links voor dit pand'
-        properties:
-          self:
-            type: object
-            description: 'Link naar de resource van het pand'
-            properties:
-              href:
-                type: string
-                description: 'Link naar de resource van het pand'
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/panden/0003100000118018'
-          voorkomens:
-            type: object
-            description: 'Voorkomens behorende bij dit pand'
-            properties:
-              href:
-                type: string
-                description: 'Link naar een bijbehorend voorkomen'
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/panden/0003100000118018/voorkomens'
-          verblijfsobjecten:
-            type: object
-            required:
-              - href
-            description: 'Verblijfsobjecten gerelateerd aan het pand'
-            properties:
-              href:
-                type: string
-                description: 'Link naar de query op de verblijfsobjecten gerelateerd aan het pand'
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/verblijfsobjecten/?pand=0200100000801760'
-      _embedded:
-        type: object
-        required:
-          - geometrie
-          - geldigVoorkomen
-        properties:
-          geometrie:
-            $ref: '#/definitions/polygon'
-          geldigVoorkomen:
-            $ref: '#/definitions/geldigVoorkomen'
-
-  pandCollection:
-    type: object
-    required:
-      - _embedded
-    properties:
-      _embedded:
-        type: object
-        required:
-          - panden
-        properties:
-          panden:
-            type: array
-            items:
-              $ref: '#/definitions/pand'
-      _links:
-        type: object
-        properties:
-          self:
-            type: object
-            required:
-              - href
-            properties:
-              href:
-                type: string
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/panden/'
-                description: 'Link naar huidige pagina.'
-          next:
-            type: object
-            required:
-              - href
-            properties:
-              href:
-                type: string
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/panden/?page=2'
-                description: 'Link naar de volgende pagina.'
-
-  ligplaats:
-    type: object
-    required:
-      - identificatiecode
-      - status
-      - _links
-      - _embedded
-    properties:
-      identificatiecode:
-        type: string
-        description: 'Een identificatiecode van een ligplaats is een authentiek gegeven en een unieke aanduiding van de ligplaats.'
-        example: '0329020000000153'
-      status:
-        type: string
-        description: 'Een aanduiding van alle waarden die de status van een ligplaats en een standplaats kan aannemen.'
-        example: 'PlaatsAangewezen'
-      _links:
-        type: object
-        required:
-          - self
-          - hoofdadres
-          - voorkomens
-        description: 'Links voor deze ligplaats'
-        properties:
-          self:
-            type: object
-            description: 'Link naar de resource van de ligplaats'
-            properties:
-              href:
-                type: string
-                description: 'Link naar de resource van de ligplaats'
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/ligplaatsen/0329020000000153'
-          hoofdadres:
-            $ref: '#/definitions/hoofdadres'
-          nevenadres:
-            $ref: '#/definitions/nevenadres'
-          voorkomens:
-            type: object
-            required:
-              - href
-            description: 'Voorkomens behorende bij deze ligplaats'
-            properties:
-              href:
-                type: string
-                description: 'Links naar de bijbehorende voorkomens'
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/ligplaatsen/0329020000000153/voorkomens'
-      _embedded:
-        type: object
-        required:
-          - geometrie
-          - geldigVoorkomen
-        properties:
-          geometrie:
-            $ref: '#/definitions/polygon'
-          geldigVoorkomen:
-            $ref: '#/definitions/geldigVoorkomen'
-
-  ligplaatsCollection:
-    type: object
-    required:
-      - _embedded
-    properties:
-      _embedded:
-        type: object
-        required:
-          - ligplaatsen
-        properties:
-          ligplaatsen:
-            type: array
-            items:
-              $ref: '#/definitions/ligplaats'
-      _links:
-        type: object
-        properties:
-          self:
-            type: object
-            required:
-              - href
-            properties:
-              href:
-                type: string
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/ligplaatsen/'
-                description: 'Link naar huidige pagina.'
-          next:
-            type: object
-            required:
-              - href
-            properties:
-              href:
-                type: string
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/ligplaatsen/?page=2'
-                description: 'Link naar de volgende pagina.'
-
-  standplaats:
-    type: object
-    required:
-      - identificatiecode
-      - status
-      - _links
-      - _embedded
-    properties:
-      identificatiecode:
-        type: string
-        description: 'Een identificatiecode van een standplaats is een authentiek gegeven en een unieke aanduiding van de standplaats.'
-        example: '0851030000000014'
-      status:
-        type: string
-        description: 'Een aanduiding van alle waarden die de status van een ligplaats en een standplaats kan aannemen.'
-        example: 'PlaatsAangewezen'
-      _links:
-        type: object
-        description: 'Links voor deze standplaats'
-        properties:
-          self:
-            type: object
-            description: 'Link naar de resource van de standplaats'
-            properties:
-              href:
-                type: string
-                description: 'Link naar de resource van de standplaats'
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/standplaatsen/0851030000000014'
-          hoofdadres:
-            $ref: '#/definitions/hoofdadres'
-          nevenadres:
-            $ref: '#/definitions/nevenadres'
-          voorkomens:
-            type: object
-            required:
-              - href
-            description: 'Voorkomens behorende bij deze standplaats'
-            properties:
-              href:
-                type: string
-                description: 'Link naar een bijbehorend voorkomen'
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/standplaatsen/0851030000000014/voorkomens'
-      _embedded:
-        type: object
-        properties:
-          geometrie:
-            $ref: '#/definitions/polygon'
-          geldigVoorkomen:
-            $ref: '#/definitions/geldigVoorkomen'
-
-  standplaatsCollection:
-    type: object
-    required:
-      - _embedded
-    properties:
-      _embedded:
-        type: object
-        required:
-          - standplaatsen
-        properties:
-          standplaatsen:
-            type: array
-            items:
-              $ref: '#/definitions/standplaats'
-      _links:
-        type: object
-        properties:
-          self:
-            type: object
-            required:
-              - href
-            properties:
-              href:
-                type: string
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/standplaatsen/'
-                description: 'Link naar huidige pagina.'
-          next:
-            type: object
-            required:
-              - href
-            properties:
-              href:
-                type: string
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/standplaatsen/?page=2'
-                description: 'Link naar de volgende pagina.'
-  verblijfsobject:
-    type: object
-    required:
-      - identificatiecode
-      - oppervlakte
-      - status
-      - _links
-      - _embedded
-    properties:
-      identificatiecode:
-        type: string
-        description: 'Een identificatiecode van een verblijfsobject is een authentiek gegeven en een unieke aanduiding van het verblijfsobject.'
-        example: '0003010000128296'
-      oppervlakte:
-        type: integer
-        description: 'Een oppervlakte is de gebruiksoppervlakte van een verblijfsobject en een authentiek gegeven'
-        example: 302
-      status:
-        type: string
-        description: 'Een aanduiding van alle waarden die de status van een verblijfsobject kan aannemen.'
-        example: 'VerblijfsobjectInGebruik'
-      _links:
-        type: object
-        description: 'Links voor dit verblijfsobject'
-        properties:
-          self:
-            type: object
-            description: 'Link naar de resource van het verblijfsobject'
-            properties:
-              href:
-                type: string
-                description: 'Link naar de resource van het verblijfsobject'
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/verblijfsobjecten/0329020000000153'
-          hoofdadres:
-            $ref: '#/definitions/hoofdadres'
-          nevenadres:
-            $ref: '#/definitions/nevenadres'
-          pandrelateringen:
-            type: array
-            description: 'Een lijst van panden behorende bij dit verblijfsobject'
-            items:
+          href:
+            type: string
+            description: Link naar een bijbehorend hoofdadres.
+            example: >-
+              http://bag.basisregistraties.overheid.nl/bag/id/nummeraanduiding/0150200000036467
+    geldigVoorkomen:
+      type: object
+      required:
+        - beginGeldigheid
+        - inOnderzoek
+        - aanduidingInactief
+        - aanduidingCorrectie
+        - geconstateerd
+        - _embedded
+      description: >-
+        Een voorkomen is een combinatie van gegevens die geldig zijn op grond
+        van één adminsitratieve gebeurtenis, totdat één of meerdere gegevens
+        gewijzigd worden.
+      properties:
+        beginGeldigheid:
+          type: string
+          format: date-time
+          description: >-
+            Een ingangsdatum is de begindatum vanaf wanneer een gegeven geldig
+            is.
+          example: '2016-12-21T00:00:00Z+01:00'
+        eindGeldigheid:
+          format: date-time
+          description: >-
+            Een ingangsdatum is de begindatum vanaf wanneer een gegeven geldig
+            is.
+          example: '2016-12-22T00:00:00Z+01:00'
+          nullable: true
+          type: string
+        inOnderzoek:
+          type: boolean
+          description: In onderzoek betekent dat onderzocht wordt of gegevens kloppen.
+          example: false
+        aanduidingInactief:
+          type: boolean
+          description: >-
+            Voorkomens van objecten met een begindatum in de toekomst die zijn
+            gemuteerd. Ze maken daarmee geen onderdeel meer uit van de
+            levenscyclus.
+          example: false
+        aanduidingCorrectie:
+          type: number
+          description: >-
+            Een inactief voorkomen als gevolg van synchronisatie tussen
+            bronhouder en de Landelijke Voorziening BAG.
+          example: 0
+        geconstateerd:
+          type: boolean
+          example: false
+        _embedded:
+          type: object
+          required:
+            - bron
+          properties:
+            bron:
               type: object
+              required:
+                - documentnummer
+                - documentdatum
+              properties:
+                documentnummer:
+                  type: string
+                  description: >-
+                    De unieke aanduiding van de vindplaats van een document
+                    binnen een organisatie.
+                  example: SLM/013164
+                documentdatum:
+                  type: string
+                  description: >-
+                    De datum waarop het brondocument is vastgesteld, op basis
+                    waarvan een opname, mutatie of een verwijdering van gegevens
+                    ten aanzien van een object heeft plaatsgevonden.
+                  format: date
+                  example: '2010-05-19'
+    pand:
+      type: object
+      required:
+        - identificatiecode
+        - oorspronkelijkBouwjaar
+        - status
+        - _links
+        - _embedded
+      description: >-
+        Een pand is een gebouw waar je in kunt en dat je af kan sluiten. Het
+        gebouw staat altijd op de grond.
+      properties:
+        identificatiecode:
+          type: string
+          description: >-
+            Een identificatiecode van een pand is een authentiek gegeven en een
+            unieke aanduiding van het pand.
+          example: 0003100000118018
+        oorspronkelijkBouwjaar:
+          type: integer
+          description: >-
+            Een bouwjaar is een authentiek gegeven met betrekking tot het jaar
+            dat een pand bouwkundig gereed is of wordt opgeleverd.
+          example: 1965
+        status:
+          type: string
+          description: >-
+            Een codering van de verschillende waarden die de status van een pand
+            kan aannemen.
+          example: PandInGebruik
+        _links:
+          type: object
+          required:
+            - self
+            - voorkomens
+            - verblijfsobjecten
+          description: Links voor dit pand
+          properties:
+            self:
+              type: object
+              description: Link naar de resource van het pand
               properties:
                 href:
                   type: string
-                  description: 'Link naar een bijbehorend pand'
-                  example: 'https://bag.basisregistraties.overheid.nl/api/v1/panden/0003100000118018'
-          voorkomens:
-            type: object
-            description: 'Een lijst van voorkomens behorende bij dit verblijfsobject'
-            properties:
-              href:
-                type: string
-                description: 'Link naar de bijbehorende voorkomens'
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/panden/0003100000118018/voorkomens'
-      _embedded:
-        type: object
-        properties:
-          geometrie:
-            $ref: '#/definitions/point'
-          geldigVoorkomen:
-            $ref: '#/definitions/geldigVoorkomen'
-  verblijfsobjectCollection:
-    type: object
-    required:
-      - _embedded
-    properties:
-      _embedded:
-        type: object
-        required:
-          - verblijfsobjecten
-        properties:
-          verblijfsobjecten:
-            type: array
-            items:
-              $ref: '#/definitions/verblijfsobject'
-      _links:
-        type: object
-        required:
-          - self
-        properties:
-          self:
-            type: object
-            required:
-              - href
-            properties:
-              href:
-                type: string
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/verblijfsobjecten/'
-                description: 'Link naar huidige pagina.'
-          next:
-            type: object
-            required:
-              - href
-            properties:
-              href:
-                type: string
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/verblijfsobjecten/?page=2'
-                description: 'Link naar de volgende pagina.'
-  openbareruimte:
-    type: object
-    required:
-      - identificatiecode
-      - naam
-      - status
-      - _links
-      - _embedded
-    properties:
-      identificatiecode:
-        type: string
-        description: 'Een identificatiecode van een openbare ruimte is een authentiek gegeven en een unieke aanduiding van de openbare ruimte.'
-        example: '0074300000330686'
-      type:
-        type: array
-        items:
+                  description: Link naar de resource van het pand
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/panden/0003100000118018
+            voorkomens:
+              type: object
+              description: Voorkomens behorende bij dit pand
+              properties:
+                href:
+                  type: string
+                  description: Link naar een bijbehorend voorkomen
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/panden/0003100000118018/voorkomens
+            verblijfsobjecten:
+              type: object
+              required:
+                - href
+              description: Verblijfsobjecten gerelateerd aan het pand
+              properties:
+                href:
+                  type: string
+                  description: >-
+                    Link naar de query op de verblijfsobjecten gerelateerd aan
+                    het pand
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/verblijfsobjecten/?pand=0200100000801760
+        _embedded:
+          type: object
+          required:
+            - geometrie
+            - geldigVoorkomen
+          properties:
+            geometrie:
+              $ref: '#/components/schemas/polygon'
+            geldigVoorkomen:
+              $ref: '#/components/schemas/geldigVoorkomen'
+    pandCollection:
+      type: object
+      required:
+        - _embedded
+      properties:
+        _embedded:
+          type: object
+          required:
+            - panden
+          properties:
+            panden:
+              type: array
+              items:
+                $ref: '#/components/schemas/pand'
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  example: 'https://bag.basisregistraties.overheid.nl/api/v1/panden/'
+                  description: Link naar huidige pagina.
+            next:
+              type: object
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/panden/?page=2
+                  description: Link naar de volgende pagina.
+    ligplaats:
+      type: object
+      required:
+        - identificatiecode
+        - status
+        - _links
+        - _embedded
+      properties:
+        identificatiecode:
           type: string
-          description: 'Een type openbare ruimte is het soort openbare ruimte.'
-          example: 'Weg'
-      naam:
-        type: string
-        description: 'De naam openbare ruimte is de naam die de gemeente heeft gegeven aan een openbare ruimte.'
-        example: 'IJzerweg'
-      verkorteNaam:
-        type: string
-        description: 'Een verkorte naam van de openbare ruimte als deze langer dan 24 posities is.'
-        example: 'Pastoor M van Beekstraat'
-      status:
-        type: string
-        description: 'Een aanduiding van alle waarden die de status van een openbare ruimte of een nummeraanduiding kan aannemen.'
-        example: 'NaamgevingUitgegeven'
-      _links:
-        type: object
-        description: 'Links voor deze openbare ruimte'
-        properties:
-          self:
-            type: object
-            description: 'Link naar de resource van de openbare ruimte'
-            properties:
-              href:
-                type: string
-                description: 'Link naar de resource van de openbare ruimte'
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/openbare-ruimte/0329020000000153'
-          bijbehorendeWoonplaats:
-            type: object
-            description: 'Link naar de woonplaats bijbehorende bij deze openbare ruimte'
-            properties:
-              href:
-                type: string
-                description: 'Link naar de woonplaats'
-                example: 'http://bag.basisregistraties.overheid.nl/bag/id/woonplaats/2186'
-          voorkomens:
-            type: object
-            description: 'Een lijst van voorkomens behorende bij deze openbare ruimte'
-            properties:
-              href:
-                type: string
-                description: 'Link naar een bijbehorend voorkomen'
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/woonplaatsen/2186/voorkomens'
-      _embedded:
-        type: object
-        properties:
-          geldigVoorkomen:
-            $ref: '#/definitions/geldigVoorkomen'
-  openbareruimteCollection:
-    type: object
-    required:
-      - _embedded
-    properties:
-      _embedded:
-        type: object
-        required:
-          - 'openbareRuimtes'
-        properties:
-          'openbareRuimtes':
-            type: array
-            items:
-              $ref: '#/definitions/openbareruimte'
-      _links:
-        type: object
-        properties:
-          self:
-            type: object
-            required:
-              - href
-            properties:
-              href:
-                type: string
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/openbare-ruimtes/'
-                description: 'Link naar huidige pagina.'
-          next:
-            type: object
-            required:
-              - href
-            properties:
-              href:
-                type: string
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/openbare-ruimtes/?page=2'
-                description: 'Link naar de volgende pagina.'
-  nummeraanduiding:
-    type: object
-    required:
-      - identificatiecode
-      - huisnummer
-      - postcode
-      - status
-      - _links
-      - _embedded
-    properties:
-      identificatiecode:
-        type: string
-        description: 'Een huisletter is een authentiek gegeven met betrekking tot een nummeraanduiding. Het is de lettering van een adresseerbaar object'
-        example: '0005200000035461'
-      huisletter:
-        type: string
-        description: 'Een huisletter is een authentiek gegeven met betrekking tot een nummeraanduiding. Het is de lettering van een adresseerbaar object'
-        example: 'A'
-      huisnummer:
-        type: integer
-        description: 'Een huisnummer is een authentiek gegeven met betrekking tot een nummeraanduiding. Het is de nummering van een adresseerbaar object.'
-        example: 45
-      huisnummertoevoeging:
-        type: string
-        description: 'Een huisnummertoevoeging is een authentiek gegeven met betrekking tot een nummeraanduiding. Het is de toevoeging aan de nummering van een adresseerbaar object.'
-        example: '1'
-      postcode:
-        type: string
-        description: 'De postcode is een coderingssystematiek zoals ontwikkeld en beheerd door PostNL. Een postcode is een niet-authentiek gegeven met betrekking tot een nummeraanduiding'
-        example: '9781NR'
-      status:
-        type: string
-        description: 'Een aanduiding van alle waarden die de status van een openbare ruimte of een nummeraanduiding kan aannemen.'
-        example: 'NaamgevingUitgegeven'
-      _links:
-        type: object
-        description: 'Links voor deze nummeraanduiding'
-        properties:
-          self:
-            type: object
-            description: 'Link naar de resource van de nummeraanduiding'
-            properties:
-              href:
-                type: string
-                description: 'Link naar de resource van de nummeraanduiding'
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/nummeraanduidingen/0005200000035461'
-          bijbehorendeOpenbareRuimte:
-            type: object
-            description: 'Link naar de openbare ruimte bijbehorende bij deze nummeraanduiding'
-            properties:
-              href:
-                type: string
-                description: 'Link naar de openbare ruimte'
-                example: 'http://bag.basisregistraties.overheid.nl/bag/id/openbare-ruimte/0005300000000090'
-          voorkomens:
-            type: object
-            description: 'Een lijst van voorkomens behorende bij deze nummeraanduiding'
-            properties:
-              href:
-                type: string
-                description: 'Link naar een bijbehorend voorkomen'
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/nummeraanduidingen/0005200000035461/voorkomens'
-          adresseerbaarObject:      
-            type: object
-            description: 'Link naar het adresseerbare object, bijvoorbeeld standplaats, ligplaats of verblijfsObject behorende bij deze nummeraanduiding'
-            properties:
-              href:
-                type: string
-                description: 'Link naar het adresseerbare object van de nummeraanduiding'
-                example: 'http://bag.basisregistraties.overheid.nl/bag/id/ligplaats/0003020000000007'
-      _embedded:
-        type: object
-        properties:
-          geldigVoorkomen:
-            $ref: '#/definitions/geldigVoorkomen'
-  nummeraanduidingCollection:
-    type: object
-    required:
-      - _embedded
-    properties:
-      _embedded:
-        type: object
-        required:
-          - nummeraanduidingen
-        properties:
-          nummeraanduidingen:
-            type: array
-            items:
-              $ref: '#/definitions/nummeraanduiding'
-      _links:
-        type: object
-        required:
-          - self
-        properties:
-          self:
-            type: object
-            required:
-              - href
-            properties:
-              href:
-                type: string
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/nummeraanduidingen/'
-                description: 'Link naar huidige pagina.'
-          next:
-            type: object
-            required:
-              - href
-            properties:
-              href:
-                type: string
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/nummeraanduidingen/?page=2'
-                description: 'Link naar de volgende pagina.'
-  woonplaats:
-    type: object
-    required:
-      - identificatiecode
-      - naam
-      - status
-      - _links
-      - _embedded
-    properties:
-      identificatiecode:
-        type: string
-        description: 'Een identificatiecode van een woonplaats is een authentiek gegeven zoals opgenomen in de landelijke woonplaatsentabel'
-        example: '1072'
-      naam:
-        type: string
-        description: 'De naam van een woonplaats is de naam die de gemeente aan een woonplaats heeft gegeven.'
-        example: 'Harmelen'
-      status:
-        type: string
-        description: 'Een aanduiding van alle waarden die de status van een woonplaats kan aannemen.'
-        example: 'WoonplaatsAangewezen'
-      _links:
-        type: object
-        description: 'Links voor deze woonplaats'
-        properties:
-          self:
-            type: object
-            description: 'Link naar de resource van de woonplaats'
-            properties:
-              href:
-                type: string
-                description: 'Link naar de resource van de woonplaats'
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/woonplaats/1072'
-          voorkomens:
-            type: object
-            description: 'Een lijst van voorkomens behorende bij deze woonplaats'
-            properties:
-              href:
-                type: string
-                description: 'Link naar een bijbehorend voorkomen'
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/woonplaats/1072/voorkomens'
-      _embedded:
-        type: object
-        properties:
-          geometrie:
-            $ref: '#/definitions/polygon'
-          geldigVoorkomen:
-            $ref: '#/definitions/geldigVoorkomen'
-  woonplaatsCollection:
-    type: object
-    required:
-      - _embedded
-    properties:
-      _embedded:
-        type: object
-        required:
-          - woonplaatsen
-        properties:
-          woonplaatsen:
-            type: array
-            items:
-              $ref: '#/definitions/woonplaats'
-      _links:
-        type: object
-        required:
-          - self
-        properties:
-          self:
-            type: object
-            required:
-              - href
-            properties:
-              href:
-                type: string
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/woonplaatsen/'
-                description: 'Link naar huidige pagina.'
-          next:
-            type: object
-            required:
-              - href
-            properties:
-              href:
-                type: string
-                example: 'https://bag.basisregistraties.overheid.nl/api/v1/woonplaatsen/?page=2'
-                description: 'Link naar de volgende pagina.'
-  pandVoorkomensCollection:
-    type: object
-    required:
-      - _embedded
-    properties:
-      _embedded:
-        type: object
-        required:
-          - voorkomens
-        properties:
-          voorkomens:
-            type: array
-            items:
+          description: >-
+            Een identificatiecode van een ligplaats is een authentiek gegeven en
+            een unieke aanduiding van de ligplaats.
+          example: 0329020000000153
+        status:
+          type: string
+          description: >-
+            Een aanduiding van alle waarden die de status van een ligplaats en
+            een standplaats kan aannemen.
+          example: PlaatsAangewezen
+        _links:
+          type: object
+          required:
+            - self
+            - hoofdadres
+            - voorkomens
+          description: Links voor deze ligplaats
+          properties:
+            self:
               type: object
-              allOf:
-                - $ref: '#/definitions/geldigVoorkomen'
-                - properties:
-                    _links:
-                      properties:
-                        pand:
-                          type: object
-                          description: 'Link naar het pand zoals dat geldig was op de datum van dit voorkomen'
-                          properties:
-                            href:
-                              type: string
-                              example: 'https://bag.basisregistraties.overheid.nl/api/v1/panden/0200100000001088?geldigOp=2017-01-25'
-  ligplaatsVoorkomensCollection:
-    type: object
-    required:
-      - _embedded
-    properties:
-      _embedded:
-        type: object
-        required:
-          - voorkomens
-        properties:
-          voorkomens:
-            type: array
-            items:
+              description: Link naar de resource van de ligplaats
+              properties:
+                href:
+                  type: string
+                  description: Link naar de resource van de ligplaats
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/ligplaatsen/0329020000000153
+            hoofdadres:
+              $ref: '#/components/schemas/hoofdadres'
+            nevenadres:
+              $ref: '#/components/schemas/nevenadres'
+            voorkomens:
               type: object
-              allOf:
-                - $ref: '#/definitions/geldigVoorkomen'
-                - properties:
-                    _links:
-                      properties:
-                        ligplaats:
-                          type: object
-                          description: 'Link naar de ligplaats zoals dat geldig was op de datum van dit voorkomen'
-                          properties:
-                            href:
-                              type: string
-                              example: 'https://bag.basisregistraties.overheid.nl/api/v1/ligplaatsen/0200100000001088?geldigOp=2017-01-25'
-  standplaatsVoorkomensCollection:
-    type: object
-    required:
-      - _embedded
-    properties:
-      _embedded:
-        type: object
-        required:
-          - voorkomens
-        properties:
-          voorkomens:
-            type: array
-            items:
+              required:
+                - href
+              description: Voorkomens behorende bij deze ligplaats
+              properties:
+                href:
+                  type: string
+                  description: Links naar de bijbehorende voorkomens
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/ligplaatsen/0329020000000153/voorkomens
+        _embedded:
+          type: object
+          required:
+            - geometrie
+            - geldigVoorkomen
+          properties:
+            geometrie:
+              $ref: '#/components/schemas/polygon'
+            geldigVoorkomen:
+              $ref: '#/components/schemas/geldigVoorkomen'
+    ligplaatsCollection:
+      type: object
+      required:
+        - _embedded
+      properties:
+        _embedded:
+          type: object
+          required:
+            - ligplaatsen
+          properties:
+            ligplaatsen:
+              type: array
+              items:
+                $ref: '#/components/schemas/ligplaats'
+        _links:
+          type: object
+          properties:
+            self:
               type: object
-              allOf:
-                - $ref: '#/definitions/geldigVoorkomen'
-                - properties:
-                    _links:
-                      properties:
-                        standplaats:
-                          type: object
-                          description: 'Link naar de standplaats zoals dat geldig was op de datum van dit voorkomen'
-                          properties:
-                            href:
-                              type: string
-                              example: 'https://bag.basisregistraties.overheid.nl/api/v1/standplaatsen/0200100000001088?geldigOp=2017-01-25'
-  verblijfsobjectVoorkomensCollection:
-    type: object
-    required:
-      - _embedded
-    properties:
-      _embedded:
-        type: object
-        required:
-          - voorkomens
-        properties:
-          voorkomens:
-            type: array
-            items:
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/ligplaatsen/
+                  description: Link naar huidige pagina.
+            next:
               type: object
-              allOf:
-                - $ref: '#/definitions/geldigVoorkomen'
-                - properties:
-                    _links:
-                      properties:
-                        verblijfsobject:
-                          type: object
-                          description: 'Link naar het verblijfsobject zoals dat geldig was op de datum van dit voorkomen'
-                          properties:
-                            href:
-                              type: string
-                              example: 'https://bag.basisregistraties.overheid.nl/api/v1/verblijfsobjecten/0200100000001088?geldigOp=2017-01-25'
-  openbareruimteVoorkomensCollection:
-    type: object
-    required:
-      - _embedded
-    properties:
-      _embedded:
-        type: object
-        required:
-          - voorkomens
-        properties:
-          voorkomens:
-            type: array
-            items:
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/ligplaatsen/?page=2
+                  description: Link naar de volgende pagina.
+    standplaats:
+      type: object
+      required:
+        - identificatiecode
+        - status
+        - _links
+        - _embedded
+      properties:
+        identificatiecode:
+          type: string
+          description: >-
+            Een identificatiecode van een standplaats is een authentiek gegeven
+            en een unieke aanduiding van de standplaats.
+          example: 0851030000000014
+        status:
+          type: string
+          description: >-
+            Een aanduiding van alle waarden die de status van een ligplaats en
+            een standplaats kan aannemen.
+          example: PlaatsAangewezen
+        _links:
+          type: object
+          description: Links voor deze standplaats
+          properties:
+            self:
               type: object
-              allOf:
-                - $ref: '#/definitions/geldigVoorkomen'
-                - properties:
-                    _links:
-                      properties:
-                        openbareRuimte:
-                          type: object
-                          description: 'Link naar de openbare ruimte zoals dat geldig was op de datum van dit voorkomen'
-                          properties:
-                            href:
-                              type: string
-                              example: 'https://bag.basisregistraties.overheid.nl/api/v1/openbare-ruimtes/0200100000001088?geldigOp=2017-01-25'
-  nummeraanduidingVoorkomensCollection:
-    type: object
-    required:
-      - _embedded
-    properties:
-      _embedded:
-        type: object
-        required:
-          - voorkomens
-        properties:
-          voorkomens:
-            type: array
-            items:
+              description: Link naar de resource van de standplaats
+              properties:
+                href:
+                  type: string
+                  description: Link naar de resource van de standplaats
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/standplaatsen/0851030000000014
+            hoofdadres:
+              $ref: '#/components/schemas/hoofdadres'
+            nevenadres:
+              $ref: '#/components/schemas/nevenadres'
+            voorkomens:
               type: object
-              allOf:
-                - $ref: '#/definitions/geldigVoorkomen'
-                - properties:
-                    _links:
-                      properties:
-                        nummeraanduiding:
-                          type: object
-                          description: 'Link naar de nummeraanduiding zoals dat geldig was op de datum van dit voorkomen'
-                          properties:
-                            href:
-                              type: string
-                              example: 'https://bag.basisregistraties.overheid.nl/api/v1/nummeraanduidingen/0200100000001088?geldigOp=2017-01-25'
-  woonplaatsVoorkomensCollection:
-    type: object
-    required:
-      - _embedded
-    properties:
-      _embedded:
-        type: object
-        required:
-          - voorkomens
-        properties:
-          voorkomens:
-            type: array
-            items:
+              required:
+                - href
+              description: Voorkomens behorende bij deze standplaats
+              properties:
+                href:
+                  type: string
+                  description: Link naar een bijbehorend voorkomen
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/standplaatsen/0851030000000014/voorkomens
+        _embedded:
+          type: object
+          properties:
+            geometrie:
+              $ref: '#/components/schemas/polygon'
+            geldigVoorkomen:
+              $ref: '#/components/schemas/geldigVoorkomen'
+    standplaatsCollection:
+      type: object
+      required:
+        - _embedded
+      properties:
+        _embedded:
+          type: object
+          required:
+            - standplaatsen
+          properties:
+            standplaatsen:
+              type: array
+              items:
+                $ref: '#/components/schemas/standplaats'
+        _links:
+          type: object
+          properties:
+            self:
               type: object
-              allOf:
-                - $ref: '#/definitions/geldigVoorkomen'
-                - properties:
-                    _links:
-                      properties:
-                        woonplaats:
-                          type: object
-                          description: 'Link naar de woonplaats zoals dat geldig was op de datum van dit voorkomen'
-                          properties:
-                            href:
-                              type: string
-                              example: 'https://bag.basisregistraties.overheid.nl/api/v1/woonplaatsen/0200100000001088?geldigOp=2017-01-25'
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/standplaatsen/
+                  description: Link naar huidige pagina.
+            next:
+              type: object
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/standplaatsen/?page=2
+                  description: Link naar de volgende pagina.
+    verblijfsobject:
+      type: object
+      required:
+        - identificatiecode
+        - oppervlakte
+        - status
+        - _links
+        - _embedded
+      properties:
+        identificatiecode:
+          type: string
+          description: >-
+            Een identificatiecode van een verblijfsobject is een authentiek
+            gegeven en een unieke aanduiding van het verblijfsobject.
+          example: 0003010000128296
+        oppervlakte:
+          type: integer
+          description: >-
+            Een oppervlakte is de gebruiksoppervlakte van een verblijfsobject en
+            een authentiek gegeven
+          example: 302
+        status:
+          type: string
+          description: >-
+            Een aanduiding van alle waarden die de status van een
+            verblijfsobject kan aannemen.
+          example: VerblijfsobjectInGebruik
+        _links:
+          type: object
+          description: Links voor dit verblijfsobject
+          properties:
+            self:
+              type: object
+              description: Link naar de resource van het verblijfsobject
+              properties:
+                href:
+                  type: string
+                  description: Link naar de resource van het verblijfsobject
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/verblijfsobjecten/0329020000000153
+            hoofdadres:
+              $ref: '#/components/schemas/hoofdadres'
+            nevenadres:
+              $ref: '#/components/schemas/nevenadres'
+            pandrelateringen:
+              type: array
+              description: Een lijst van panden behorende bij dit verblijfsobject
+              items:
+                type: object
+                properties:
+                  href:
+                    type: string
+                    description: Link naar een bijbehorend pand
+                    example: >-
+                      https://bag.basisregistraties.overheid.nl/api/v1/panden/0003100000118018
+            voorkomens:
+              type: object
+              description: Een lijst van voorkomens behorende bij dit verblijfsobject
+              properties:
+                href:
+                  type: string
+                  description: Link naar de bijbehorende voorkomens
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/panden/0003100000118018/voorkomens
+        _embedded:
+          type: object
+          properties:
+            geometrie:
+              $ref: '#/components/schemas/point'
+            geldigVoorkomen:
+              $ref: '#/components/schemas/geldigVoorkomen'
+    verblijfsobjectCollection:
+      type: object
+      required:
+        - _embedded
+      properties:
+        _embedded:
+          type: object
+          required:
+            - verblijfsobjecten
+          properties:
+            verblijfsobjecten:
+              type: array
+              items:
+                $ref: '#/components/schemas/verblijfsobject'
+        _links:
+          type: object
+          required:
+            - self
+          properties:
+            self:
+              type: object
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/verblijfsobjecten/
+                  description: Link naar huidige pagina.
+            next:
+              type: object
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/verblijfsobjecten/?page=2
+                  description: Link naar de volgende pagina.
+    openbareruimte:
+      type: object
+      required:
+        - identificatiecode
+        - naam
+        - status
+        - _links
+        - _embedded
+      properties:
+        identificatiecode:
+          type: string
+          description: >-
+            Een identificatiecode van een openbare ruimte is een authentiek
+            gegeven en een unieke aanduiding van de openbare ruimte.
+          example: 0074300000330686
+        type:
+          type: array
+          items:
+            type: string
+            description: Een type openbare ruimte is het soort openbare ruimte.
+            example: Weg
+        naam:
+          type: string
+          description: >-
+            De naam openbare ruimte is de naam die de gemeente heeft gegeven aan
+            een openbare ruimte.
+          example: IJzerweg
+        verkorteNaam:
+          type: string
+          description: >-
+            Een verkorte naam van de openbare ruimte als deze langer dan 24
+            posities is.
+          example: Pastoor M van Beekstraat
+        status:
+          type: string
+          description: >-
+            Een aanduiding van alle waarden die de status van een openbare
+            ruimte of een nummeraanduiding kan aannemen.
+          example: NaamgevingUitgegeven
+        _links:
+          type: object
+          description: Links voor deze openbare ruimte
+          properties:
+            self:
+              type: object
+              description: Link naar de resource van de openbare ruimte
+              properties:
+                href:
+                  type: string
+                  description: Link naar de resource van de openbare ruimte
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/openbare-ruimte/0329020000000153
+            bijbehorendeWoonplaats:
+              type: object
+              description: Link naar de woonplaats bijbehorende bij deze openbare ruimte
+              properties:
+                href:
+                  type: string
+                  description: Link naar de woonplaats
+                  example: >-
+                    http://bag.basisregistraties.overheid.nl/bag/id/woonplaats/2186
+            voorkomens:
+              type: object
+              description: Een lijst van voorkomens behorende bij deze openbare ruimte
+              properties:
+                href:
+                  type: string
+                  description: Link naar een bijbehorend voorkomen
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/woonplaatsen/2186/voorkomens
+        _embedded:
+          type: object
+          properties:
+            geldigVoorkomen:
+              $ref: '#/components/schemas/geldigVoorkomen'
+    openbareruimteCollection:
+      type: object
+      required:
+        - _embedded
+      properties:
+        _embedded:
+          type: object
+          required:
+            - openbareRuimtes
+          properties:
+            openbareRuimtes:
+              type: array
+              items:
+                $ref: '#/components/schemas/openbareruimte'
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/openbare-ruimtes/
+                  description: Link naar huidige pagina.
+            next:
+              type: object
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/openbare-ruimtes/?page=2
+                  description: Link naar de volgende pagina.
+    nummeraanduiding:
+      type: object
+      required:
+        - identificatiecode
+        - huisnummer
+        - postcode
+        - status
+        - _links
+        - _embedded
+      properties:
+        identificatiecode:
+          type: string
+          description: >-
+            Een huisletter is een authentiek gegeven met betrekking tot een
+            nummeraanduiding. Het is de lettering van een adresseerbaar object
+          example: '0005200000035461'
+        huisletter:
+          type: string
+          description: >-
+            Een huisletter is een authentiek gegeven met betrekking tot een
+            nummeraanduiding. Het is de lettering van een adresseerbaar object
+          example: A
+        huisnummer:
+          type: integer
+          description: >-
+            Een huisnummer is een authentiek gegeven met betrekking tot een
+            nummeraanduiding. Het is de nummering van een adresseerbaar object.
+          example: 45
+        huisnummertoevoeging:
+          type: string
+          description: >-
+            Een huisnummertoevoeging is een authentiek gegeven met betrekking
+            tot een nummeraanduiding. Het is de toevoeging aan de nummering van
+            een adresseerbaar object.
+          example: '1'
+        postcode:
+          type: string
+          description: >-
+            De postcode is een coderingssystematiek zoals ontwikkeld en beheerd
+            door PostNL. Een postcode is een niet-authentiek gegeven met
+            betrekking tot een nummeraanduiding
+          example: 9781NR
+        status:
+          type: string
+          description: >-
+            Een aanduiding van alle waarden die de status van een openbare
+            ruimte of een nummeraanduiding kan aannemen.
+          example: NaamgevingUitgegeven
+        _links:
+          type: object
+          description: Links voor deze nummeraanduiding
+          properties:
+            self:
+              type: object
+              description: Link naar de resource van de nummeraanduiding
+              properties:
+                href:
+                  type: string
+                  description: Link naar de resource van de nummeraanduiding
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/nummeraanduidingen/0005200000035461
+            bijbehorendeOpenbareRuimte:
+              type: object
+              description: >-
+                Link naar de openbare ruimte bijbehorende bij deze
+                nummeraanduiding
+              properties:
+                href:
+                  type: string
+                  description: Link naar de openbare ruimte
+                  example: >-
+                    http://bag.basisregistraties.overheid.nl/bag/id/openbare-ruimte/0005300000000090
+            voorkomens:
+              type: object
+              description: Een lijst van voorkomens behorende bij deze nummeraanduiding
+              properties:
+                href:
+                  type: string
+                  description: Link naar een bijbehorend voorkomen
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/nummeraanduidingen/0005200000035461/voorkomens
+            adresseerbaarObject:
+              type: object
+              description: >-
+                Link naar het adresseerbare object, bijvoorbeeld standplaats,
+                ligplaats of verblijfsObject behorende bij deze nummeraanduiding
+              properties:
+                href:
+                  type: string
+                  description: Link naar het adresseerbare object van de nummeraanduiding
+                  example: >-
+                    http://bag.basisregistraties.overheid.nl/bag/id/ligplaats/0003020000000007
+        _embedded:
+          type: object
+          properties:
+            geldigVoorkomen:
+              $ref: '#/components/schemas/geldigVoorkomen'
+    nummeraanduidingCollection:
+      type: object
+      required:
+        - _embedded
+      properties:
+        _embedded:
+          type: object
+          required:
+            - nummeraanduidingen
+          properties:
+            nummeraanduidingen:
+              type: array
+              items:
+                $ref: '#/components/schemas/nummeraanduiding'
+        _links:
+          type: object
+          required:
+            - self
+          properties:
+            self:
+              type: object
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/nummeraanduidingen/
+                  description: Link naar huidige pagina.
+            next:
+              type: object
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/nummeraanduidingen/?page=2
+                  description: Link naar de volgende pagina.
+    woonplaats:
+      type: object
+      required:
+        - identificatiecode
+        - naam
+        - status
+        - _links
+        - _embedded
+      properties:
+        identificatiecode:
+          type: string
+          description: >-
+            Een identificatiecode van een woonplaats is een authentiek gegeven
+            zoals opgenomen in de landelijke woonplaatsentabel
+          example: '1072'
+        naam:
+          type: string
+          description: >-
+            De naam van een woonplaats is de naam die de gemeente aan een
+            woonplaats heeft gegeven.
+          example: Harmelen
+        status:
+          type: string
+          description: >-
+            Een aanduiding van alle waarden die de status van een woonplaats kan
+            aannemen.
+          example: WoonplaatsAangewezen
+        _links:
+          type: object
+          description: Links voor deze woonplaats
+          properties:
+            self:
+              type: object
+              description: Link naar de resource van de woonplaats
+              properties:
+                href:
+                  type: string
+                  description: Link naar de resource van de woonplaats
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/woonplaats/1072
+            voorkomens:
+              type: object
+              description: Een lijst van voorkomens behorende bij deze woonplaats
+              properties:
+                href:
+                  type: string
+                  description: Link naar een bijbehorend voorkomen
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/woonplaats/1072/voorkomens
+        _embedded:
+          type: object
+          properties:
+            geometrie:
+              $ref: '#/components/schemas/polygon'
+            geldigVoorkomen:
+              $ref: '#/components/schemas/geldigVoorkomen'
+    woonplaatsCollection:
+      type: object
+      required:
+        - _embedded
+      properties:
+        _embedded:
+          type: object
+          required:
+            - woonplaatsen
+          properties:
+            woonplaatsen:
+              type: array
+              items:
+                $ref: '#/components/schemas/woonplaats'
+        _links:
+          type: object
+          required:
+            - self
+          properties:
+            self:
+              type: object
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/woonplaatsen/
+                  description: Link naar huidige pagina.
+            next:
+              type: object
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  example: >-
+                    https://bag.basisregistraties.overheid.nl/api/v1/woonplaatsen/?page=2
+                  description: Link naar de volgende pagina.
+    pandVoorkomensCollection:
+      type: object
+      required:
+        - _embedded
+      properties:
+        _embedded:
+          type: object
+          required:
+            - voorkomens
+          properties:
+            voorkomens:
+              type: array
+              items:
+                type: object
+                allOf:
+                  - $ref: '#/components/schemas/geldigVoorkomen'
+                  - properties:
+                      _links:
+                        properties:
+                          pand:
+                            type: object
+                            description: >-
+                              Link naar het pand zoals dat geldig was op de
+                              datum van dit voorkomen
+                            properties:
+                              href:
+                                type: string
+                                example: >-
+                                  https://bag.basisregistraties.overheid.nl/api/v1/panden/0200100000001088?geldigOp=2017-01-25
+    ligplaatsVoorkomensCollection:
+      type: object
+      required:
+        - _embedded
+      properties:
+        _embedded:
+          type: object
+          required:
+            - voorkomens
+          properties:
+            voorkomens:
+              type: array
+              items:
+                type: object
+                allOf:
+                  - $ref: '#/components/schemas/geldigVoorkomen'
+                  - properties:
+                      _links:
+                        properties:
+                          ligplaats:
+                            type: object
+                            description: >-
+                              Link naar de ligplaats zoals dat geldig was op de
+                              datum van dit voorkomen
+                            properties:
+                              href:
+                                type: string
+                                example: >-
+                                  https://bag.basisregistraties.overheid.nl/api/v1/ligplaatsen/0200100000001088?geldigOp=2017-01-25
+    standplaatsVoorkomensCollection:
+      type: object
+      required:
+        - _embedded
+      properties:
+        _embedded:
+          type: object
+          required:
+            - voorkomens
+          properties:
+            voorkomens:
+              type: array
+              items:
+                type: object
+                allOf:
+                  - $ref: '#/components/schemas/geldigVoorkomen'
+                  - properties:
+                      _links:
+                        properties:
+                          standplaats:
+                            type: object
+                            description: >-
+                              Link naar de standplaats zoals dat geldig was op
+                              de datum van dit voorkomen
+                            properties:
+                              href:
+                                type: string
+                                example: >-
+                                  https://bag.basisregistraties.overheid.nl/api/v1/standplaatsen/0200100000001088?geldigOp=2017-01-25
+    verblijfsobjectVoorkomensCollection:
+      type: object
+      required:
+        - _embedded
+      properties:
+        _embedded:
+          type: object
+          required:
+            - voorkomens
+          properties:
+            voorkomens:
+              type: array
+              items:
+                type: object
+                allOf:
+                  - $ref: '#/components/schemas/geldigVoorkomen'
+                  - properties:
+                      _links:
+                        properties:
+                          verblijfsobject:
+                            type: object
+                            description: >-
+                              Link naar het verblijfsobject zoals dat geldig was
+                              op de datum van dit voorkomen
+                            properties:
+                              href:
+                                type: string
+                                example: >-
+                                  https://bag.basisregistraties.overheid.nl/api/v1/verblijfsobjecten/0200100000001088?geldigOp=2017-01-25
+    openbareruimteVoorkomensCollection:
+      type: object
+      required:
+        - _embedded
+      properties:
+        _embedded:
+          type: object
+          required:
+            - voorkomens
+          properties:
+            voorkomens:
+              type: array
+              items:
+                type: object
+                allOf:
+                  - $ref: '#/components/schemas/geldigVoorkomen'
+                  - properties:
+                      _links:
+                        properties:
+                          openbareRuimte:
+                            type: object
+                            description: >-
+                              Link naar de openbare ruimte zoals dat geldig was
+                              op de datum van dit voorkomen
+                            properties:
+                              href:
+                                type: string
+                                example: >-
+                                  https://bag.basisregistraties.overheid.nl/api/v1/openbare-ruimtes/0200100000001088?geldigOp=2017-01-25
+    nummeraanduidingVoorkomensCollection:
+      type: object
+      required:
+        - _embedded
+      properties:
+        _embedded:
+          type: object
+          required:
+            - voorkomens
+          properties:
+            voorkomens:
+              type: array
+              items:
+                type: object
+                allOf:
+                  - $ref: '#/components/schemas/geldigVoorkomen'
+                  - properties:
+                      _links:
+                        properties:
+                          nummeraanduiding:
+                            type: object
+                            description: >-
+                              Link naar de nummeraanduiding zoals dat geldig was
+                              op de datum van dit voorkomen
+                            properties:
+                              href:
+                                type: string
+                                example: >-
+                                  https://bag.basisregistraties.overheid.nl/api/v1/nummeraanduidingen/0200100000001088?geldigOp=2017-01-25
+    woonplaatsVoorkomensCollection:
+      type: object
+      required:
+        - _embedded
+      properties:
+        _embedded:
+          type: object
+          required:
+            - voorkomens
+          properties:
+            voorkomens:
+              type: array
+              items:
+                type: object
+                allOf:
+                  - $ref: '#/components/schemas/geldigVoorkomen'
+                  - properties:
+                      _links:
+                        properties:
+                          woonplaats:
+                            type: object
+                            description: >-
+                              Link naar de woonplaats zoals dat geldig was op de
+                              datum van dit voorkomen
+                            properties:
+                              href:
+                                type: string
+                                example: >-
+                                  https://bag.basisregistraties.overheid.nl/api/v1/woonplaatsen/0200100000001088?geldigOp=2017-01-25
