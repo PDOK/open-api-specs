@@ -1,20 +1,7 @@
 swagger: '2.0'
 info:
   version: 1.0.0
-  title: 'Basisregistratie Adressen en Gebouwen (BAG)'
-  description: |
-    Om ervoor te zorgen dat het Kadaster haar dienstverlening zo goed mogelijk aan kan bieden is de BAG API momenteel alleen bruikbaar met behulp van een gratis basisregistraties API-key.
-    Deze key wordt enkel gebruikt om inzicht te krijgen in het gebruik van de API (bijvoorbeeld welke coördinatenstelsels en filtermogelijkheden het populairst zijn) en om gebruikers
-    bij incidenten (veroorzaakte piekbelasting, storingen, etc.) en backwards incompatible wijzigingen (versie updates, deprecation periods, etc.) tijdig adequate feedback te kunnen geven.
-
-    Een basisregistraties API-key kan verkregen worden door een e-mail te sturen naar dataplatform@kadaster.nl en kan gebruikt worden voor zowel de BAG API als de BRT API. Om onze dienstverlening in de toekomst te kunnen
-    verbeteren en aan te laten sluiten bij onze gebruikers stellen wij het op prijs als je ook laat weten wie je bent en wat je motivatie is om deze API te gebruiken, maar dat is uiteraard niet verplicht.
-
-    Het proces om een API-key aan te vragen wordt binnenkort geautomatiseerd, waardoor een e-mail niet meer nodig is. Dit en andere features op de roadmap van de BAG API vind je op het PDOK forum: https://forum.pdok.nl/c/datasets/bag. Dit is tevens de plek voor feature requests, bug reports, inhoudelijke vragen over de data, technische vragen over het gebruik van de API, of andere zaken/discussies rondom de BAG.
-
-    __De daadwerkelijk opgevraagde data wordt niet gelogd, de manier waarop wel. Denk hierbij aan request headers zoals `Accept` en logging van bad requests om de gebruiksvriendelijkheid van onze API te kunnen toetsen. Voor vragen/opmerkingen hierover kun je terecht op https://forum.pdok.nl/c/datasets/bag.__
-
-    [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/83b03ea0cf19e5c1edb0)
+  title: 'BAG API'
 host: bag.basisregistraties.overheid.nl
 basePath: /api/v1
 schemes:
