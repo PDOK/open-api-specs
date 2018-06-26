@@ -1,0 +1,2236 @@
+openapi: 3.0.0
+servers:
+  - url: 'https://brt.basisregistraties.overheid.nl/api/v2'
+info:
+  version: 2.0.0
+  title: Basisregistratie Topografie (BRT)
+  description: >
+    Om ervoor te zorgen dat het Kadaster haar dienstverlening zo goed mogelijk
+    aan kan bieden is de BRT API momenteel alleen bruikbaar met behulp van een
+    gratis basisregistraties API-key.
+
+    Deze key wordt enkel gebruikt om inzicht te krijgen in het gebruik van de
+    API (bijvoorbeeld welke coördinatenstelsels en filtermogelijkheden het
+    populairst zijn) en om gebruikers
+
+    bij incidenten (veroorzaakte piekbelasting, storingen, etc.) en backwards
+    incompatible wijzigingen (versie updates, deprecation periods, etc.) tijdig
+    adequate feedback te kunnen geven.
+
+
+    Een basisregistraties API-key kan verkregen worden door een e-mail te sturen
+    naar dataplatform@kadaster.nl en kan gebruikt worden voor zowel de BAG API
+    als de BRT API. Om onze dienstverlening in de toekomst te kunnen
+
+    verbeteren en aan te laten sluiten bij onze gebruikers stellen wij het op
+    prijs als je ook laat weten wie je bent en wat je motivatie is om deze API
+    te gebruiken, maar dat is uiteraard niet verplicht.
+
+
+    Het proces om een API-key aan te vragen wordt binnenkort geautomatiseerd,
+    waardoor een e-mail niet meer nodig is. Dit en andere features op de roadmap
+    van de BRT API vind je op het PDOK forum:
+    https://forum.pdok.nl/c/datasets/brt. Dit is tevens de plek voor feature
+    requests, bug reports, inhoudelijke vragen over de data, technische vragen
+    over het gebruik van de API, of andere zaken/discussies rondom de BRT.
+
+
+    __De daadwerkelijk opgevraagde data wordt niet gelogd, de manier waarop wel.
+    Denk hierbij aan request headers zoals `Accept` en logging van bad requests
+    om de gebruiksvriendelijkheid van onze API te kunnen toetsen. Voor
+    vragen/opmerkingen hierover kun je terecht op
+    https://forum.pdok.nl/c/datasets/brt.__
+security:
+  - apiKey: []
+tags:
+  - name: Gebouw
+    description: >-
+      Vrijstaande, overdekte en geheel of gedeeltelijk met wanden omsloten
+      toegankelijke ruimte, die direct of indirect met de grond is verbonden.
+  - name: Registratief gebied
+    description: >-
+      Op basis van wet- en regelgeving afgebakend gebied dat als eenheid geldt
+      van politieke/bestuurlijke verantwoordelijkheid of voor bedrijfsvoering.
+  - name: Functioneel gebied
+    description: >-
+      Begrensd en benoemd gebied dat door een geografische eenheid beschreven
+      wordt.
+  - name: Geografisch gebied
+    description: >-
+      Begrensd en benoemd gebied dat door een functionele eenheid beschreven
+      wordt.
+  - name: Hoogte
+    description: >-
+      Virtuele objecten met informatie over de hoogte van het terrein of de
+      diepte van het water.
+  - name: Plaats
+    description: >-
+      Geografische gebied gekenmerkt door een concentratie van gebouwen gebruikt
+      voor wonen een werken.
+  - name: Plan topografie
+    description: >-
+      Ruimtelijk object dat wel gepland is, maar nog niet in uitvoering is;
+      meestal een groot infrastructureel object.
+  - name: Spoorbaandeel
+    description: >-
+      Kleinste onafhankelijk stukje spoorbaan met gelijkblijvende homogene
+      eigenschappen en relaties dat er binnen een spoorwegnet wordt
+      onderscheiden.
+  - name: Wegdeel
+    description: >-
+      Kleinste functioneel onafhankelijk stukje weg met gelijkblijvende,
+      homogene eigenschappen en relaties voor wegverkeer en vliegverkeer te
+      land.
+  - name: Waterdeel
+    description: Grondoppervlak in principe bedekt met water.
+  - name: Terrein
+    description: >-
+      Zichtbaar begrensd stuk grond, niet zijnde een van de andere opdelende
+      ruimtelijke objecten (wegdeel of waterdeel).
+  - name: Reliëf
+    description: >-
+      Object dat tot doel heeft hoogteverschillen in het landschap te
+      representeren.
+  - name: Inrichtingselement
+    description: >-
+      Ruimtelijk object, punt- of lijnvormig, al dan niet ter detaillering dan
+      wel ter inrichting van de overige benoemde ruimtelijke objecten of andere
+      inrichtingselementen.
+paths:
+  /inrichtingselementen:
+    get:
+      tags:
+        - Inrichtingselement
+      summary: Zoeken op één of meer instanties van een inrichtingselement
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/InrichtingselementCollection'
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+    post:
+      tags:
+        - Inrichtingselement
+      summary: Geografisch zoeken op één of meer instanties van een inrichtingselement
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/InrichtingselementCollection'
+        '400':
+          description: >-
+            Bad request. Je request body is geen geldige JSON of de query wordt
+            niet ondersteund door de BRT API.
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+      requestBody:
+        $ref: '#/components/requestBodies/Body'
+  '/inrichtingselementen/{id}':
+    get:
+      tags:
+        - Inrichtingselement
+      summary: Een enkele instantie van een inrichtingselement opvragen
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Inrichtingselement'
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '404':
+          description: Not found
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+  /reliefs:
+    get:
+      tags:
+        - Reliëf
+      summary: Zoeken op één of meer instanties van een relief
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ReliefCollection'
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+    post:
+      tags:
+        - Reliëf
+      summary: Geografisch zoeken op één of meer instanties van een relief
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/ReliefCollection'
+        '400':
+          description: >-
+            Bad request. Je request body is geen geldige JSON of de query wordt
+            niet ondersteund door de BRT API.
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+      requestBody:
+        $ref: '#/components/requestBodies/Body'
+  '/reliefs/{id}':
+    get:
+      tags:
+        - Reliëf
+      summary: Een enkele instantie van een relief opvragen
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Relief'
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '404':
+          description: Not found
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+  /plan-topografieen:
+    get:
+      tags:
+        - Plan topografie
+      summary: Zoeken op één of meer instanties van een plan topografie
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/PlanTopografieCollection'
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+    post:
+      tags:
+        - Plan topografie
+      summary: Geografisch zoeken op één of meer instanties van een plan topografie
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/PlanTopografieCollection'
+        '400':
+          description: >-
+            Bad request. Je request body is geen geldige JSON of de query wordt
+            niet ondersteund door de BRT API.
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+      requestBody:
+        $ref: '#/components/requestBodies/Body'
+  '/plan-topografieen/{id}':
+    get:
+      tags:
+        - Plan topografie
+      summary: Een enkele instantie van een plan topografie opvragen
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Relief'
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '404':
+          description: Not found
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+  /functionele-gebieden:
+    get:
+      tags:
+        - Functioneel gebied
+      summary: Zoeken op één of meer instanties van een functioneel gebied
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/FunctioneelGebiedCollection'
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+    post:
+      tags:
+        - Functioneel gebied
+      summary: Geografisch zoeken op één of meer instanties van een functioneel gebied
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/FunctioneelGebiedCollection'
+        '400':
+          description: >-
+            Bad request. Je request body is geen geldige JSON of de query wordt
+            niet ondersteund door de BRT API.
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+      requestBody:
+        $ref: '#/components/requestBodies/Body'
+  '/functionele-gebieden/{id}':
+    get:
+      tags:
+        - Functioneel gebied
+      summary: Een enkele instantie van een functioneel gebied opvragen
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/FunctioneelGebied'
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '404':
+          description: Not found
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+  /geografische-gebieden:
+    get:
+      tags:
+        - Geografisch gebied
+      summary: Zoeken op één of meer instanties van een geografisch gebied
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/GeografischGebiedCollection'
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+    post:
+      tags:
+        - Geografisch gebied
+      summary: Geografisch zoeken op één of meer instanties van een geografisch gebied
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/GeografischGebiedCollection'
+        '400':
+          description: >-
+            Bad request. Je request body is geen geldige JSON of de query wordt
+            niet ondersteund door de BRT API.
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+      requestBody:
+        $ref: '#/components/requestBodies/Body'
+  '/geografische-gebieden/{id}':
+    get:
+      tags:
+        - Geografisch gebied
+      summary: Een enkele instantie van een geografisch gebied opvragen
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/GeografischGebied'
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '404':
+          description: Not found
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+  /registratieve-gebieden:
+    get:
+      tags:
+        - Registratief gebied
+      summary: Zoeken op één of meer instanties van een registratief gebied
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RegistratiefGebiedCollection'
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+    post:
+      tags:
+        - Registratief gebied
+      summary: Geografisch zoeken op één of meer instanties van een registratief gebied
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RegistratiefGebiedCollection'
+        '400':
+          description: >-
+            Bad request. Je request body is geen geldige JSON of de query wordt
+            niet ondersteund door de BRT API.
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+      requestBody:
+        $ref: '#/components/requestBodies/Body'
+  '/registratieve-gebieden/{id}':
+    get:
+      tags:
+        - Registratief gebied
+      summary: Een enkele instantie van een registratief gebied opvragen
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RegistratiefGebied'
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '404':
+          description: Not found
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+  /hoogtes:
+    get:
+      tags:
+        - Hoogte
+      summary: Zoeken op één of meer instanties van een hoogte
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/HoogteCollection'
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+    post:
+      tags:
+        - Hoogte
+      summary: Geografisch zoeken op één of meer instanties van een hoogte
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/HoogteCollection'
+        '400':
+          description: >-
+            Bad request. Je request body is geen geldige JSON of de query wordt
+            niet ondersteund door de BRT API.
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+      requestBody:
+        $ref: '#/components/requestBodies/Body'
+  '/hoogtes/{id}':
+    get:
+      tags:
+        - Hoogte
+      summary: Een enkele instantie van een hoogte opvragen
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Hoogte'
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '404':
+          description: Not found
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+  /plaatsen:
+    get:
+      tags:
+        - Plaats
+      summary: Zoeken op één of meer instanties van een plaats
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/PlaatsCollection'
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+    post:
+      tags:
+        - Plaats
+      summary: Geografisch zoeken op één of meer instanties van een plaats
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/PlaatsCollection'
+        '400':
+          description: >-
+            Bad request. Je request body is geen geldige JSON of de query wordt
+            niet ondersteund door de BRT API.
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+      requestBody:
+        $ref: '#/components/requestBodies/Body'
+  '/plaatsen/{id}':
+    get:
+      tags:
+        - Plaats
+      summary: Een enkele instantie van een plaats opvragen
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Plaats'
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '404':
+          description: Not found
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+  /terreinen:
+    get:
+      tags:
+        - Terrein
+      summary: Zoeken op één of meer instanties van een terrein
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/TerreinCollection'
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+    post:
+      tags:
+        - Terrein
+      summary: Geografisch zoeken op één of meer instanties van een terrein
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/TerreinCollection'
+        '400':
+          description: >-
+            Bad request. Je request body is geen geldige JSON of de query wordt
+            niet ondersteund door de BRT API.
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+      requestBody:
+        $ref: '#/components/requestBodies/Body'
+  '/terreinen/{id}':
+    get:
+      tags:
+        - Terrein
+      summary: Een enkele instantie van een terrein opvragen
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Terrein'
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '404':
+          description: Not found
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+  /gebouwen:
+    get:
+      tags:
+        - Gebouw
+      summary: Zoeken op één of meer instanties van een gebouw
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/GebouwCollection'
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+    post:
+      tags:
+        - Gebouw
+      summary: Geografisch zoeken op één of meer instanties van een gebouw
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/GebouwCollection'
+        '400':
+          description: >-
+            Bad request. Je request body is geen geldige JSON of de query wordt
+            niet ondersteund door de BRT API.
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+      requestBody:
+        $ref: '#/components/requestBodies/Body'
+  '/gebouwen/{id}':
+    get:
+      tags:
+        - Gebouw
+      summary: Een enkele instantie van een gebouw opvragen
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Gebouw'
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '404':
+          description: Not found
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+  /waterdelen:
+    get:
+      tags:
+        - Waterdeel
+      summary: Zoeken op één of meer instanties van een waterdeel
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/WaterdeelCollection'
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+    post:
+      tags:
+        - Waterdeel
+      summary: Geografisch zoeken op één of meer instanties van een waterdeel
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/WaterdeelCollection'
+        '400':
+          description: >-
+            Bad request. Je request body is geen geldige JSON of de query wordt
+            niet ondersteund door de BRT API.
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+      requestBody:
+        $ref: '#/components/requestBodies/Body'
+  '/waterdelen/{id}':
+    get:
+      tags:
+        - Waterdeel
+      summary: Een enkele instantie van een waterdeel opvragen
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Waterdeel'
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '404':
+          description: Not found
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+  /wegdelen:
+    get:
+      tags:
+        - Wegdeel
+      summary: Zoeken op één of meer instanties van een wegdeel
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/WegdeelCollection'
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+    post:
+      tags:
+        - Wegdeel
+      summary: Geografisch zoeken op één of meer instanties van een wegdeel
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/WegdeelCollection'
+        '400':
+          description: >-
+            Bad request. Je request body is geen geldige JSON of de query wordt
+            niet ondersteund door de BRT API.
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+      requestBody:
+        $ref: '#/components/requestBodies/Body'
+  '/wegdelen/{id}':
+    get:
+      tags:
+        - Wegdeel
+      summary: Een enkele instantie van een wegdeel opvragen
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Wegdeel'
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '404':
+          description: Not found
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+  /spoorbaandelen:
+    get:
+      tags:
+        - Spoorbaandeel
+      summary: Zoeken op één of meer instanties van een spoorbaandeel
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/SpoorbaandeelCollection'
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+    post:
+      tags:
+        - Spoorbaandeel
+      summary: Geografisch zoeken op één of meer instanties van een spoorbaandeel
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/SpoorbaandeelCollection'
+        '400':
+          description: >-
+            Bad request. Je request body is geen geldige JSON of de query wordt
+            niet ondersteund door de BRT API.
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+      requestBody:
+        $ref: '#/components/requestBodies/Body'
+  '/spoorbaandelen/{id}':
+    get:
+      tags:
+        - Spoorbaandeel
+      summary: Een enkele instantie van een spoorbaandeel opvragen
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/apiKey'
+        - $ref: '#/components/parameters/accept'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Spoorbaandeel'
+        '403':
+          description: >-
+            Forbidden. Je hebt waarschijnlijk geen geldige `X-Api-Key` header
+            meegestuurd.
+        '404':
+          description: Not found
+        '406':
+          description: >-
+            Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met de
+            `Accept` header verstuurd welke niet ondersteund wordt. De API kan
+            momenteel alleen `application/hal+json` terugsturen.
+components:
+  parameters:
+    id:
+      name: id
+      in: path
+      description: Identifier
+      required: true
+      schema:
+        type: string
+    page:
+      name: page
+      in: query
+      required: false
+      description: >-
+        Paginanummer voor paginering. Gebruik het `_links.next.href` object om
+        te navigeren.
+      schema:
+        type: integer
+        default: 1
+    apiKey:
+      name: X-Api-Key
+      in: header
+      required: true
+      description: Geldige API Key om deze request uit te kunnen voeren.
+      schema:
+        type: string
+    accept:
+      name: Accept
+      in: header
+      required: false
+      description: >-
+        Accept header voor Content-Negotiation. Op dit moment wordt alleen
+        `application/hal+json` ondersteund welke ook de standaard is.
+      schema:
+        type: string
+        default: application/hal+json
+  requestBodies:
+    Body:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              geometrie:
+                type: object
+                description: >-
+                  Het veld waarop geografisch gezocht moet worden. In dit geval
+                  is dit het veld `geometrie`.
+                properties:
+                  contains:
+                    description: >-
+                      Deze property bepaalt het type query. In dit geval
+                      `contains`, maar het kan ook `within`, `disjoint` of
+                      `intersects` zijn. Het moet een valide GeoJSON `Point` of
+                      `Polygon` object bevatten.
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        description: >-
+                          Het type geometrie. De BAG API ondersteunt momenteel
+                          GeoJSON `Point` en `Polygon` objecten.
+                        example: Point
+                      coordinates:
+                        type: array
+                        description: De coördinaten behorende bij dit GeoJSON object.
+                        example:
+                          - 5.9623762
+                          - 52.2118093
+                        items:
+                          type: number
+                          description: >-
+                            De lengte- en breedtegraad in WGS84,
+                            [EPSG:4326](http://spatialreference.org/ref/epsg/4326/).
+                            Deze is nagenoeg gelijk aan ETRS89
+                            [EPSG:4258](http://spatialreference.org/ref/epsg/4258/)
+                            en kan als standaard lengte- en breedtegraden worden
+                            gebruikt.
+      description: >-
+        JSON (`application/json`) object met een geoquery. Ondersteund worden
+        `within`, `contains`, `disjoint` en `intersects` queries in combinatie
+        met een `Point` of `Polygon` GeoJSON object.
+      required: true
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+      description: >
+        De API-key die je hebt gekregen dient bij elke request naar de BRT API
+        via de `X-Api-Key` request header meegestuurd te worden. Indien deze
+        niet juist wordt meegestuurd, of het een ongeldige key betreft, zul je
+        de foutmelding `403 Forbidden` terugkrijgen.
+  schemas:
+    top10nl:
+      type: object
+      properties:
+        eindRegistratie:
+          type: string
+          description: >-
+            Tijdstip waarop de versie van het object niet meer geldig is in de
+            registratie.
+        bronbeschrijving:
+          type: string
+          description: Beschrijving van de gebruikte bron.
+        bronactualiteit:
+          type: string
+          description: Datum van de gebruikte bron.
+        visualisatieCode:
+          type: number
+          description: Code op basis waarvan een gebruiker het object kan visualiseren.
+        objectBeginTijd:
+          type: string
+          description: Tijdstip waarop het object in de registratie is ontstaan.
+        bronnauwkeurigheid:
+          type: number
+          description: Nauwkeurigheid van de gebruikte bron in meters.
+        tdnCode:
+          type: number
+          description: Code die het object in TOP10vector had.
+        tijdstipRegistratie:
+          type: string
+          description: >-
+            Tijdstip waarop de versie van het object is opgenomen in de
+            registratie.
+        identificatie:
+          type: string
+          description: Unieke identificatie van het object binnen het domein van NEN 3610.
+        objectEindTijd:
+          type: string
+          description: Tijdstip waarop het object in de registratie niet meer geldig is.
+        brontype:
+          type: string
+          description: Waardelijst voor het type van de gebruikte brongegevens.
+        status:
+          type: string
+        _links:
+          type: object
+          required:
+            - self
+          properties:
+            self:
+              type: object
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  example: >-
+                    https://brt.basisregistraties.overheid.nl/api/v2/object-klasse/1
+                  description: Link naar resource pagina van het object.
+    Inrichtingselement:
+      allOf:
+        - $ref: '#/components/schemas/top10nl'
+        - properties:
+            naam:
+              type: array
+              items:
+                type: string
+              description: De naam.
+            nummer:
+              type: array
+              items:
+                type: string
+              description: Het nummer van het inrichtingselement.
+            hoogte:
+              type: number
+              format: float
+              description: De hoogte van het inrichtingselement.
+            breedte:
+              type: integer
+              description: De breedte van het inrichtingselement.
+            hoogteniveau:
+              type: integer
+              description: >-
+                De relatieve hoogteligging van het geo-object ten opzichte van
+                een ander geo-object. Op basis van het hoogteniveau kan worden
+                bepaald op welke wijze geo-objecten elkaar kruisen, waarbij het
+                hoogste object op niveau 0 ligt.
+            _embedded:
+              type: object
+              properties:
+                geometrie:
+                  type: object
+                  description: De geometrie van het inrichtingselement in GeoJSON formaat.
+                  properties:
+                    type:
+                      type: string
+                      example: Point
+                    coordinates:
+                      type: array
+                      items:
+                        oneOf:
+                          - type: array
+                            items: {}
+                          - type: number
+                      example:
+                        - 6.861053257304809
+                        - 53.32271304611565
+    Relief:
+      allOf:
+        - $ref: '#/components/schemas/top10nl'
+        - properties:
+            hoogteniveau:
+              type: integer
+              description: >-
+                De relatieve hoogteligging van het geo-object ten opzichte van
+                een ander geo-object. Op basis van het hoogteniveau kan worden
+                bepaald op welke wijze geo-objecten elkaar kruisen, waarbij het
+                hoogste object op niveau 0 ligt.
+            naam:
+              type: string
+              description: De naam.
+            functie:
+              type: string
+              description: >-
+                Aanduiding of het object een geluidswerende of scheidende
+                functie heeft.
+            hoogteklasse:
+              type: string
+              description: >-
+                Klasse van de hoogte van een object ten opzichte van het
+                maaiveld.
+            _embedded:
+              type: object
+              properties:
+                hogeZijdeTaludGeometrie:
+                  type: object
+                  description: >-
+                    De hogeZijdeTaludGeometrie van het relief in GeoJSON
+                    formaat.
+                  properties:
+                    type:
+                      type: string
+                      example: Point
+                    coordinates:
+                      type: array
+                      items:
+                        oneOf:
+                          - type: array
+                            items: {}
+                          - type: number
+                      example:
+                        - 6.861053257304809
+                        - 53.32271304611565
+                lageZijdeTaludGeometrie:
+                  type: object
+                  description: >-
+                    De lageZijdeTaludGeometrie van het relief in GeoJSON
+                    formaat.
+                  properties:
+                    type:
+                      type: string
+                      example: Point
+                    coordinates:
+                      type: array
+                      items:
+                        oneOf:
+                          - type: array
+                            items: {}
+                          - type: number
+                      example:
+                        - 6.861053257304809
+                        - 53.32271304611565
+                lijnGeometrie:
+                  type: object
+                  description: De lijnGeometrie van het relief in GeoJSON formaat.
+                  properties:
+                    type:
+                      type: string
+                      example: Point
+                    coordinates:
+                      type: array
+                      items:
+                        oneOf:
+                          - type: array
+                            items: {}
+                          - type: number
+                      example:
+                        - 6.861053257304809
+                        - 53.32271304611565
+    RegistratiefGebied:
+      allOf:
+        - $ref: '#/components/schemas/top10nl'
+        - properties:
+            naamNL:
+              type: array
+              items:
+                type: string
+              description: De Nederlandse naam.
+            naamFries:
+              type: array
+              items:
+                type: string
+              description: De Friese naam.
+            naamOfficieel:
+              type: string
+              description: De officiële naam.
+            _embedded:
+              type: object
+              properties:
+                geometrie:
+                  type: object
+                  description: De geometrie van het registratief gebied in GeoJSON formaat.
+                  properties:
+                    type:
+                      type: string
+                      example: Point
+                    coordinates:
+                      type: array
+                      items:
+                        oneOf:
+                          - type: array
+                            items: {}
+                          - type: number
+                      example:
+                        - 6.861053257304809
+                        - 53.32271304611565
+    FunctioneelGebied:
+      allOf:
+        - $ref: '#/components/schemas/top10nl'
+        - properties:
+            naamNL:
+              type: array
+              items:
+                type: string
+              description: De Nederlandse naam.
+            naamFries:
+              type: array
+              items:
+                type: string
+              description: De Friese naam.
+            _embedded:
+              type: object
+              properties:
+                geometrie:
+                  type: object
+                  description: De geometrie van het functioneel gebied in GeoJSON formaat.
+                  properties:
+                    type:
+                      type: string
+                      example: Point
+                    coordinates:
+                      type: array
+                      items:
+                        oneOf:
+                          - type: array
+                            items: {}
+                          - type: number
+                      example:
+                        - 6.861053257304809
+                        - 53.32271304611565
+    GeografischGebied:
+      allOf:
+        - $ref: '#/components/schemas/top10nl'
+        - properties:
+            naamNL:
+              type: array
+              items:
+                type: string
+              description: De Nederlandse naam.
+            naamFries:
+              type: array
+              items:
+                type: string
+              description: De Friese naam.
+            _embedded:
+              type: object
+              properties:
+                geometrie:
+                  type: object
+                  description: De geometrie van het geografisch gebied in GeoJSON formaat.
+                  properties:
+                    type:
+                      type: string
+                      example: Point
+                    coordinates:
+                      type: array
+                      items:
+                        oneOf:
+                          - type: array
+                            items: {}
+                          - type: number
+                      example:
+                        - 6.861053257304809
+                        - 53.32271304611565
+    Hoogte:
+      allOf:
+        - $ref: '#/components/schemas/top10nl'
+        - properties:
+            hoogte:
+              type: number
+              format: float
+              description: >-
+                Hoogte van het object t.o.v. NAP in meters met een
+                nauwkeurigheid van 1 decimeter. / De diepte van het water.
+            referentievlak:
+              type: string
+              description: >-
+                Referentievlak ten opzichte waarvan de hoogten gedefinieerd
+                zijn.
+            _embedded:
+              type: object
+              properties:
+                geometrie:
+                  type: object
+                  description: De geometrie van de hoogte in GeoJSON formaat.
+                  properties:
+                    type:
+                      type: string
+                      example: Point
+                    coordinates:
+                      type: array
+                      items:
+                        oneOf:
+                          - type: array
+                            items: {}
+                          - type: number
+                      example:
+                        - 6.861053257304809
+                        - 53.32271304611565
+    Plaats:
+      allOf:
+        - $ref: '#/components/schemas/top10nl'
+        - properties:
+            bebouwdeKom:
+              type: boolean
+              description: >-
+                Aanduiding of de plaats tot een bebouwde kom behoort of niet.
+                Bebouwde kommen worden omsloten door blauwe plaatsnaam borden.
+            isBagwoonplaats:
+              type: boolean
+              description: Aanduiding of de naam afkomstig is uit de BAG.
+            naamNL:
+              type: string
+              description: De Nederlandse naam.
+            naamFries:
+              type: string
+              description: De Friese naam.
+            naamOfficieel:
+              type: string
+              description: De officiële naam.
+            aantalinwoners:
+              type: string
+              description: Aantal inwoners van de plaats.
+            _embedded:
+              type: object
+              properties:
+                geometrie:
+                  type: object
+                  description: De geometrie van de plaats in GeoJSON formaat.
+                  properties:
+                    type:
+                      type: string
+                      example: Point
+                    coordinates:
+                      type: array
+                      items:
+                        oneOf:
+                          - type: array
+                            items: {}
+                          - type: number
+                      example:
+                        - 6.861053257304809
+                        - 53.32271304611565
+    Terrein:
+      allOf:
+        - $ref: '#/components/schemas/top10nl'
+        - properties:
+            naam:
+              type: string
+              description: De naam.
+            hoogteniveau:
+              type: integer
+              description: >-
+                De relatieve hoogteligging van het geo-object ten opzichte van
+                een ander geo-object. Op basis van het hoogteniveau kan worden
+                bepaald op welke wijze geo-objecten elkaar kruisen, waarbij het
+                hoogste object op niveau 0 ligt.
+            voorkomen:
+              type: array
+              items:
+                type: string
+              description: >-
+                Aanduiding dat er riet op het terrein voorkomt of dat het
+                drassig/moerassig is.
+            fysiekVoorkomen:
+              type: array
+              items:
+                type: string
+              description: >-
+                De plaats waar het object zich bevindt t.o.v. andere
+                constructies.
+            _embedded:
+              type: object
+              properties:
+                geometrie:
+                  type: object
+                  description: De geometrie van een terrein in GeoJSON formaat.
+                  properties:
+                    type:
+                      type: string
+                      example: Point
+                    coordinates:
+                      type: array
+                      items:
+                        oneOf:
+                          - type: array
+                            items: {}
+                          - type: number
+                      example:
+                        - 6.861053257304809
+                        - 53.32271304611565
+    Gebouw:
+      allOf:
+        - $ref: '#/components/schemas/top10nl'
+        - properties:
+            naam:
+              type: array
+              items:
+                type: string
+              description: De naam.
+            soortnaam:
+              type: string
+              description: Nadere specificatie van het type gebouw.
+            hoogte:
+              type: number
+              format: float
+              description: De hoogte van het object (t.o.v. het maaiveld of t.o.v. NAP).
+            hoogteniveau:
+              type: integer
+              description: >-
+                De relatieve hoogteligging van het geo-object ten opzichte van
+                een ander geo-object. Op basis van het hoogteniveau kan worden
+                bepaald op welke wijze geo-objecten elkaar kruisen, waarbij het
+                hoogste object op niveau 0 ligt.
+            voorkomen:
+              type: string
+              description: >-
+                Aanduiding dat er riet op het terrein voorkomt of dat het
+                drassig/moerassig is.
+            fysiekVoorkomen:
+              type: string
+              description: >-
+                De plaats waar het object zich bevindt t.o.v. andere
+                constructies.
+            status:
+              type: string
+              description: De gebruiksstatus van het object.
+            hoogteklasse:
+              type: string
+              description: De klasse van hoogte waar de bebouwing toe behoort.
+            gebruiksdoel:
+              type: array
+              items:
+                type: string
+              description: >-
+                Huidig gebruiksdoel van een gebouw, conform de BAG classificatie
+                voor panden.
+            hoofdadres:
+              type: string
+            _embedded:
+              type: object
+              properties:
+                geometrie:
+                  type: object
+                  description: De geometrie van een gebouw in GeoJSON formaat.
+                  properties:
+                    type:
+                      type: string
+                      example: Point
+                    coordinates:
+                      type: array
+                      items:
+                        oneOf:
+                          - type: array
+                            items: {}
+                          - type: number
+                      example:
+                        - 6.861053257304809
+                        - 53.32271304611565
+    Waterdeel:
+      allOf:
+        - $ref: '#/components/schemas/top10nl'
+        - properties:
+            naamNL:
+              type: array
+              items:
+                type: string
+              description: De Nederlandse naam.
+            naamFries:
+              type: array
+              items:
+                type: string
+              description: De Friese naam.
+            naamOfficieel:
+              type: string
+              description: De officiële naam.
+            brugnaam:
+              type: string
+              description: De naam van een brug.
+            sluisnaam:
+              type: string
+              description: De naam van de sluis.
+            hoogteniveau:
+              type: integer
+              description: >-
+                De relatieve hoogteligging van het geo-object ten opzichte van
+                een ander geo-object. Op basis van het hoogteniveau kan worden
+                bepaald op welke wijze geo-objecten elkaar kruisen, waarbij het
+                hoogste object op niveau 0 ligt.
+            hoofdafwatering:
+              type: boolean
+              description: >-
+                Aanduiding of het water deel uitmaakt van het
+                hoofdafwateringspatroon (het stelsel van waterlopen in gebruik
+                als primaire afvoermogelijkheid van overtollig oppervlaktewater
+                c.q. aanvoermogelijkheid bij een tekort aan oppervlaktewater,
+                plus bijhorende kunstwerken).
+            getijdeinvloed:
+              type: boolean
+              description: >-
+                Aanduiding voor het geven van de stroomrichting(en) van
+                (natuurlijke) waterlopen.
+            voorkomen:
+              type: string
+              description: Aanduiding dat er riet op het waterdeel voorkomt.
+            fysiekVoorkomen:
+              type: array
+              items:
+                type: string
+              description: >-
+                De plaats waar het object zich bevindt t.o.v. andere
+                constructies.
+            functie:
+              type: string
+              description: De functie van het water.
+            vaarwegklasse:
+              type: string
+              description: >-
+                CEMT klasses van vaarwegen, welke gebaseerd zijn op de
+                afmetingen en laadvermogen van standaardschepen en duwstellen
+                voor de binnen- en riviervaart in West-Europa. De klasses I t/m
+                VII zijn in 1992 bepaald door de Conferentie van Europese
+                Ministers van Verkeer (C.E.M.T.). Naderhand is klasse 0
+                (vaarwegen kleiner dan die van klasse I) daaraan toegevoegd.
+                Klasse VII komt in Nederland niet voor.
+            breedteklasse:
+              type: string
+              description: De breedte van het water ingedeeld in klassen.
+            _embedded:
+              type: object
+              properties:
+                geometrie:
+                  type: object
+                  description: De geometrie van een waterdeel in GeoJSON formaat.
+                  properties:
+                    type:
+                      type: string
+                      example: Point
+                    coordinates:
+                      type: array
+                      items:
+                        oneOf:
+                          - type: array
+                            items: {}
+                          - type: number
+                      example:
+                        - 6.861053257304809
+                        - 53.32271304611565
+    Wegdeel:
+      allOf:
+        - $ref: '#/components/schemas/top10nl'
+        - properties:
+            naam:
+              type: array
+              items:
+                type: string
+              description: De naam.
+            aWegnummer:
+              type: array
+              items:
+                type: string
+              description: >-
+                Nummering van de rijkswegen (autosnelwegen) behorende tot het
+                nationale wegenstelsel.
+            nWegnummer:
+              type: array
+              items:
+                type: string
+              description: >-
+                Nummering van de provinciale wegen behorende tot het nationale
+                wegenstelsel en nummering van rijkswegen die nog niet de status
+                van autosnelweg hebben.
+            eWegnummer:
+              type: array
+              items:
+                type: string
+              description: >-
+                Nummering van de rijkswegen, die een Europese aansluiting op
+                buitenlandse doorgaande wegen vormen.
+            sWegnummer:
+              type: array
+              items:
+                type: string
+              description: >-
+                Nummering van lokale doorgaande wegen binnen / rond de gemeente
+                Amsterdam.
+            tunnelnaam:
+              type: string
+              description: Naam van een tunnel.
+            aantalRijstroken:
+              type: integer
+              description: >-
+                Het aantal onderverdelingen van een wegdeel d.m.v. strepen,
+                verschil in verharding of kleur.
+            gescheidenRijbaan:
+              type: boolean
+              description: >-
+                Aanduiding of het object onderdeel uitmaakt van een weg met
+                gescheiden rijbanen.
+            knooppuntnaam:
+              type: string
+              description: Naam van een knooppunt.
+            afritnaam:
+              type: string
+              description: 'Afritbenaming op autosnelweg, vastgesteld door Rijkswaterstaat.'
+            afritnummer:
+              type: string
+              description: 'Afritnummering op autosnelweg, vastgesteld door Rijkswaterstaat.'
+            brugnaam:
+              type: string
+              description: De naam van een brug.
+            hoogteniveau:
+              type: integer
+              description: >-
+                De relatieve hoogteligging van het geo-object ten opzichte van
+                een ander geo-object. Op basis van het hoogteniveau kan worden
+                bepaald op welke wijze geo-objecten elkaar kruisen, waarbij het
+                hoogste object op niveau 0 ligt.
+            fysiekVoorkomen:
+              type: array
+              items:
+                type: string
+              description: >-
+                De plaats waar het object zich bevindt t.o.v. andere
+                constructies.
+            typeInfrastructuur:
+              type: string
+              description: >-
+                Aanduiding of het object een verbinding, een kruising of iets
+                anders is.
+            verhardingstype:
+              type: string
+              description: Het type verharding van een wegdeel.
+            hoofdverkeersgebruik:
+              type: array
+              items:
+                type: string
+              description: Soort verkeer waarvoor een weg bestemd is.
+            verhardingsbreedteklasse:
+              type: string
+              description: 'De breedte van de verharding, ingedeeld in klassen.'
+            _embedded:
+              type: object
+              properties:
+                geometrie:
+                  type: object
+                  description: De geometrie van een wegdeel in GeoJSON formaat.
+                  properties:
+                    type:
+                      type: string
+                      example: Point
+                    coordinates:
+                      type: array
+                      items:
+                        oneOf:
+                          - type: array
+                            items: {}
+                          - type: number
+                      example:
+                        - 6.861053257304809
+                        - 53.32271304611565
+    Spoorbaandeel:
+      allOf:
+        - $ref: '#/components/schemas/top10nl'
+        - properties:
+            tunnelnaam:
+              type: string
+              description: Naam van een tunnel.
+            brugnaam:
+              type: string
+              description: De naam van een brug.
+            baanvaknaam:
+              type: string
+              description: De naam van het baanvak.
+            hoogteniveau:
+              type: integer
+              description: >-
+                De relatieve hoogteligging van het geo-object ten opzichte van
+                een ander geo-object. Op basis van het hoogteniveau kan worden
+                bepaald op welke wijze geo-objecten elkaar kruisen, waarbij het
+                hoogste object op niveau 0 ligt.
+            elektrificatie:
+              type: boolean
+              description: Aanduiding of het spoorbaandeel geëlektrificeerd is of niet.
+            typeInfrastructuur:
+              type: string
+              description: >-
+                Aanduiding of het object een verbinding of een kruising is.
+                Kruising is meestal een wissel.
+            spoorbreedte:
+              type: string
+              description: De breedteklasse van het spoor.
+            aantalSporen:
+              type: string
+              description: Het aantal sporen van het spoorbaandeel.
+            vervoerfunctie:
+              type: string
+              description: De functie waarvoor het spoor gebruikt wordt (of werd).
+            fysiekVoorkomen:
+              type: array
+              items:
+                type: string
+              description: >-
+                De plaats waar het object zich bevindt t.o.v. andere
+                constructies.
+            _embedded:
+              type: object
+              properties:
+                geometrie:
+                  type: object
+                  description: De geometrie van een spoorbaandeel in GeoJSON formaat.
+                  properties:
+                    type:
+                      type: string
+                      example: Point
+                    coordinates:
+                      type: array
+                      items:
+                        oneOf:
+                          - type: array
+                            items: {}
+                          - type: number
+                      example:
+                        - 6.861053257304809
+                        - 53.32271304611565
+    PlanTopografie:
+      allOf:
+        - $ref: '#/components/schemas/top10nl'
+        - properties:
+            naam:
+              type: string
+              description: De naam.
+            _embedded:
+              type: object
+              properties:
+                geometrie:
+                  type: object
+                  description: De geometrie van een plan topografie in GeoJSON formaat.
+                  properties:
+                    type:
+                      type: string
+                      example: Point
+                    coordinates:
+                      type: array
+                      items:
+                        oneOf:
+                          - type: array
+                            items: {}
+                          - type: number
+                      example:
+                        - 6.861053257304809
+                        - 53.32271304611565
+    top10nlCollection:
+      type: object
+      properties:
+        _links:
+          type: object
+          required:
+            - self
+          properties:
+            self:
+              type: object
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  example: >-
+                    https://brt.basisregistraties.overheid.nl/api/v1/inrichtingselement/
+                  description: Link naar huidige pagina.
+            next:
+              type: object
+              required:
+                - href
+              properties:
+                href:
+                  type: string
+                  example: >-
+                    https://brt.basisregistraties.overheid.nl/api/v1/inrichtingselement/?page=2
+                  description: Link naar volgende pagina.
+    InrichtingselementCollection:
+      allOf:
+        - $ref: '#/components/schemas/top10nlCollection'
+        - properties:
+            _embedded:
+              type: object
+              required:
+                - inrichtingselementen
+              properties:
+                inrichtingselementen:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Inrichtingselement'
+    ReliefCollection:
+      allOf:
+        - $ref: '#/components/schemas/top10nlCollection'
+        - properties:
+            _embedded:
+              type: object
+              required:
+                - reliefs
+              properties:
+                reliefs:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Relief'
+    RegistratiefGebiedCollection:
+      allOf:
+        - $ref: '#/components/schemas/top10nlCollection'
+        - properties:
+            _embedded:
+              type: object
+              required:
+                - registratieveGebieden
+              properties:
+                registratieveGebieden:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/RegistratiefGebied'
+    FunctioneelGebiedCollection:
+      allOf:
+        - $ref: '#/components/schemas/top10nlCollection'
+        - properties:
+            _embedded:
+              type: object
+              required:
+                - functioneleGebieden
+              properties:
+                functioneleGebieden:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/FunctioneelGebied'
+    GeografischGebiedCollection:
+      allOf:
+        - $ref: '#/components/schemas/top10nlCollection'
+        - properties:
+            _embedded:
+              type: object
+              required:
+                - geografischeGebieden
+              properties:
+                geografischeGebieden:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/GeografischGebied'
+    PlaatsCollection:
+      allOf:
+        - $ref: '#/components/schemas/top10nlCollection'
+        - properties:
+            _embedded:
+              type: object
+              required:
+                - plaatsen
+              properties:
+                plaatsen:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Plaats'
+    TerreinCollection:
+      allOf:
+        - $ref: '#/components/schemas/top10nlCollection'
+        - properties:
+            _embedded:
+              type: object
+              required:
+                - terreinen
+              properties:
+                terreinen:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Terrein'
+    GebouwCollection:
+      allOf:
+        - $ref: '#/components/schemas/top10nlCollection'
+        - properties:
+            _embedded:
+              type: object
+              required:
+                - gebouwen
+              properties:
+                gebouwen:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Gebouw'
+    WaterdeelCollection:
+      allOf:
+        - $ref: '#/components/schemas/top10nlCollection'
+        - properties:
+            _embedded:
+              type: object
+              required:
+                - waterdelen
+              properties:
+                waterdelen:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Waterdeel'
+    WegdeelCollection:
+      allOf:
+        - $ref: '#/components/schemas/top10nlCollection'
+        - properties:
+            _embedded:
+              type: object
+              required:
+                - wegdelen
+              properties:
+                wegdelen:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Wegdeel'
+    SpoorbaandeelCollection:
+      allOf:
+        - $ref: '#/components/schemas/top10nlCollection'
+        - properties:
+            _embedded:
+              type: object
+              required:
+                - spoorbaandelen
+              properties:
+                spoorbaandelen:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Spoorbaandeel'
+    PlanTopografieCollection:
+      allOf:
+        - $ref: '#/components/schemas/top10nlCollection'
+        - properties:
+            _embedded:
+              type: object
+              required:
+                - planTopografieen
+              properties:
+                planTopografieen:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/PlanTopografie'
+    HoogteCollection:
+      allOf:
+        - $ref: '#/components/schemas/top10nlCollection'
+        - properties:
+            _embedded:
+              type: object
+              required:
+                - hoogtes
+              properties:
+                hoogtes:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Hoogte'
