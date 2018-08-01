@@ -16,6 +16,9 @@ info:
 
     
     Wanneer een geo-referentieobject (bijv. een adres of woonplaats) d.m.v. intypen gezocht moet worden, dan moet de suggest-service gebruikt worden. Deze is geschikt voor toepassingen die gebruik maken van autocomplete, vanwege de (relatief) kleine antwoorden en het gebruik van highlighting. Wanneer hiervan een object geselecteerd wordt, kan het ID-property van één van de teruggegeven objecten worden gebruikt om meer informatie op te vragen d.m.v. de lookup-service. De vrije geocodeerservice (het "free" endpoint) is bedoeld voor het klassieke geocoderen, waarbij een string (een adres, e.d.) wordt meegegeven en een lijst met matches wordt teruggegeven. De vrije geocodeerservice komt het meest overeen met de functionaliteit van de oude PDOK geocoder. Voor meer informatie zie de inleidende teksten in de hoofdstukken voor de suggest-, lookup- en vrije geocoderservices.
+externalDocs:
+  description: Bekijk een uitgebreidere documentatie op de Github pagina van de PDOK Locatieserver.
+  url: https://github.com/PDOK/locatieserver/wiki/API-Locatieserver
 paths:
   /suggest:
     get:
