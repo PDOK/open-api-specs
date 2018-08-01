@@ -7,13 +7,9 @@ info:
   contact:
     name: PDOK
     email: support@pdok.nl
-    url: 'https://www.pdok.nl'
+    url: https://www.pdok.nl
   description: >-
-    Dit document beschrijft de API van Locatieserver, de geocodeerservice van PDOK. Alle ondersteunde endpoints die via deze service beschikbaar komen, worden hier beschreven. Het doel van dit document is om afnemers inzicht te verschaffen hoe ze de services van Locatieserver kunnen aanspreken. Als search engine wordt Apache Solr gebruikt.
-    
-    Momenteel worden 2 versies ondersteund, nl. versie 2 (v2) en versie 3 (v3). Versie 1 was de oorspronkelijke geocodeerservice. Versie 2 is de versie van Locatieserver die eind 2016 live is gegaan, met daarin alleen BAG-objecten. Versie 3 is de huidige versie. Hierin zijn ook de percelen en appartementsrechten uit de Digitale Kadastrale Kaart (DKK), het Nationaal Wegen Bestand (NWB), de waterschapsgrenzen van het Waterschapshuis, de Bestuurlijke Grenzen en de wijken en buurten uit het CBS opgenomen. Wanneer het versienummer uit de URL helemaal wordt weggelaten, wordt versie 2 geserveerd. Dit i.v.m. backward compatibility.
-   
-    Wanneer een geo-referentieobject (bijv. een adres of woonplaats) d.m.v. intypen gezocht moet worden, dan moet de suggest-service gebruikt worden. Deze is geschikt voor toepassingen die gebruik maken van autocomplete, vanwege de (relatief) kleine antwoorden en het gebruik van highlighting. Wanneer hiervan een object geselecteerd wordt, kan het ID-property van één van de teruggegeven objecten worden gebruikt om meer informatie op te vragen d.m.v. de lookup-service. De vrije geocodeerservice (het "free" endpoint) is bedoeld voor het klassieke geocoderen, waarbij een string (een adres, e.d.) wordt meegegeven en een lijst met matches wordt teruggegeven. De vrije geocodeerservice komt het meest overeen met de functionaliteit van de oude PDOK geocoder. Voor meer informatie zie de inleidende teksten in de hoofdstukken voor de suggest-, lookup- en vrije geocoderservices.
+    Dit document beschrijft de API van Locatieserver, de geocodeerservice van PDOK. Alle ondersteunde endpoints die via deze service beschikbaar komen, worden hier beschreven. Het doel van dit document is om afnemers inzicht te verschaffen hoe ze de services van Locatieserver kunnen aanspreken. Als search engine wordt Apache Solr gebruikt.     Momenteel worden 2 versies ondersteund, nl. versie 2 (v2) en versie 3 (v3). Versie 1 was de oorspronkelijke geocodeerservice. Versie 2 is de versie van Locatieserver die eind 2016 live is gegaan, met daarin alleen BAG-objecten. Versie 3 is de huidige versie. Hierin zijn ook de percelen en appartementsrechten uit de Digitale Kadastrale Kaart (DKK), het Nationaal Wegen Bestand (NWB), de waterschapsgrenzen van het Waterschapshuis, de Bestuurlijke Grenzen en de wijken en buurten uit het CBS opgenomen. Wanneer het versienummer uit de URL helemaal wordt weggelaten, wordt versie 2 geserveerd. Dit i.v.m. backward compatibility. Wanneer een geo-referentieobject (bijv. een adres of woonplaats) d.m.v. intypen gezocht moet worden, dan moet de suggest-service gebruikt worden. Deze is geschikt voor toepassingen die gebruik maken van autocomplete, vanwege de (relatief) kleine antwoorden en het gebruik van highlighting. Wanneer hiervan een object geselecteerd wordt, kan het ID-property van één van de teruggegeven objecten worden gebruikt om meer informatie op te vragen d.m.v. de lookup-service. De vrije geocodeerservice (het "free" endpoint) is bedoeld voor het klassieke geocoderen, waarbij een string (een adres, e.d.) wordt meegegeven en een lijst met matches wordt teruggegeven. De vrije geocodeerservice komt het meest overeen met de functionaliteit van de oude PDOK geocoder. Voor meer informatie zie de inleidende teksten in de hoofdstukken voor de suggest-, lookup- en vrije geocoderservices.
 externalDocs:
   description: Bekijk een uitgebreidere documentatie op de Github pagina van de PDOK Locatieserver.
   url: https://github.com/PDOK/locatieserver/wiki/API-Locatieserver
@@ -62,6 +58,7 @@ paths:
       description: >-
         Deze service is bedoeld voor het vinden van zo goed mogelijke matches voor alle typen geo-referentieobjecten die in de voorziening beschikbaar zijn op basis van een opgegeven zoekterm, eventueel in combinatie met een XY-coördinaat van een locatie.
       parameters:
+        - $ref: '#/components/parameters/q'
         - $ref: '#/components/parameters/fl'
         - $ref: '#/components/parameters/sort'
         - $ref: '#/components/parameters/df'
