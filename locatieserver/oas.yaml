@@ -6,7 +6,7 @@ info:
   title: PDOK Locatieserver
   contact:
     name: PDOK
-    email: support@pdok.nl
+    email: beheerpdok@kadaster.nl
     url: https://www.pdok.nl
   description: >-
     Dit document beschrijft de API van Locatieserver, de geocodeerservice van PDOK. Alle ondersteunde endpoints die via deze service beschikbaar komen, worden hier beschreven. Het doel van dit document is om afnemers inzicht te verschaffen hoe ze de services van Locatieserver kunnen aanspreken. Als search engine wordt Apache Solr gebruikt.
