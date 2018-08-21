@@ -48,7 +48,56 @@ parameters:
     enum:
     - "epsg:4258"
     - "epsg:28992"
+  id:
+    name: "id"
+    in: "path"
+    description: "NEN3610ID: Identificatiecode"
+    required: true
+    type: "string"
 paths:
+  /plannen/{id}:
+    get:
+      tags:
+      - "Plannen"
+      summary: "plan resource"
+      parameters:
+      - $ref: "#/parameters/id"
+      - $ref: "#/parameters/Accept-Crs"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Plan"
+          headers:
+            Content-Crs:
+              type: "string"
+              description: "Coordinaatreferentiesysteem van de meegegeven geometrie"
+              default: "epsg:4258"
+              enum:
+              - "epsg:4258"
+              - "epsg:28992"
+        404:
+          description: "Status 404"
+          schema:
+            $ref: "#/definitions/Error"
+        406:
+          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
+            \ kan momenteel alleen `application/hal+json` terugsturen."
+          schema:
+            $ref: "#/definitions/Error"
+        503:
+          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
+            \ of een storing plaats."
+          schema:
+            $ref: "#/definitions/Error"
+          headers:
+            Retry-After:
+              type: "string"
+              format: "date-time"
+              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
+                \ zal zijn."
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
   /plannen/_zoek:
     post:
       tags:
@@ -125,10 +174,6 @@ paths:
             X-Total-Count:
               type: "integer"
               description: "Totaal aantal resultaten (max 15.000)"
-        403:
-          description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
-          schema:
-            $ref: "#/definitions/Error"
         406:
           description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
             \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
@@ -167,10 +212,23 @@ definitions:
             properties:
               href:
                 type: "string"
-                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsplangebieden/759"
+                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/plannen/759"
               title:
                 type: "string"
                 example: "Buitengebied; Elderinkweg 9 Hengelo (vastgesteld, 2016-10-27)"
+          bestemmingsvlakken:
+            type: array
+            items:
+              type: "object"
+              required:
+              - "href"
+              properties:
+                href:
+                  type: "string"
+                  example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsvlakken/NL.IMRO.423d9f5d924c4f76a001a94f8ca284b4"
+                title:
+                  type: "string"
+                  example: "Enkelbestemming Bedrijventerrein"
       _embedded:
         type: "object"
         properties:
@@ -240,7 +298,7 @@ definitions:
         - rijksbestemmingsplan
         - buiten toepassing verklaring beheersverordening
         example: "uitwerkingsplan"
-        description: "`buiten toepassing verklaring beheersverordening` en `rijksbestemmingsplan` zouden in de praktijk niet voor mogen komen, dit is een data kwaliteits issue."
+        description: "De types `buiten toepassing verklaring beheersverordening` en `rijksbestemmingsplan` zouden in de praktijk niet voor mogen komen, dit is een datakwaliteit issue."
       beleidsmatigVerantwoordelijkeOverheid:
         type: "object"
         properties:
@@ -357,28 +415,4 @@ definitions:
             type: "string"
             format: "uri"
             description: "URL van de link"
-            example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsplangebieden?page=2"
-      prev:
-        type: "object"
-        description: "Absolute link naar vorige pagina (niet aanwezig als er geen\
-          \ vorige pagina is)"
-        required:
-        - "href"
-        properties:
-          href:
-            type: "string"
-            format: "uri"
-            description: "URL van de link"
-            example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsplangebieden?page=1"
-      next:
-        type: "object"
-        description: "Absolute link naar volgende pagina (niet aanwezig als er geen\
-          \ volgende pagina is)"
-        required:
-        - "href"
-        properties:
-          href:
-            type: "string"
-            format: "uri"
-            description: "URL van de link"
-            example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsplangebieden?page=3"
+            example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/plannen/_zoek"
