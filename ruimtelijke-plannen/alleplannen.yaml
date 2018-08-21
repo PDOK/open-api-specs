@@ -1,0 +1,384 @@
+---
+swagger: "2.0"
+host: "data.informatiehuisruimte.nl"
+basePath: "/api/ruimtelijke-plannen/v1"
+schemes:
+- "https"
+consumes:
+- "application/json"
+produces:
+- "application/hal+json"
+- "application/problem+json"
+info:
+  version: "1.0.1"
+  title: "Ruimtelijke Plannen API"
+  description: "Ruimtelijke Plannen API"
+  contact:
+    name: "Kadaster"
+    email: "dataplatform@kadaster.nl"
+    url: "https://www.kadaster.nl"
+tags:
+- name: "Plannen"
+  description: "Alle plantypes"
+x-page-size: 20
+parameters:
+  Content-Type:
+    name: "Content-Type"
+    in: "header"
+    required: false
+    type: "string"
+    description: "Media type van het request"
+  Content-Crs:
+    name: "Content-Crs"
+    in: "header"
+    required: false
+    type: "string"
+    description: "CRS van de meegegeven geometrie"
+    default: "epsg:4258"
+    enum:
+    - "epsg:4258"
+    - "epsg:28992"
+  Accept-Crs:
+    name: "Accept-Crs"
+    in: "header"
+    required: false
+    type: "string"
+    description: "Gewenste CRS van de coördinaten in de response"
+    default: "epsg:4258"
+    enum:
+    - "epsg:4258"
+    - "epsg:28992"
+paths:
+  /plannen/_zoek:
+    post:
+      tags:
+      - "Plannen"
+      summary: "Zoeken binnen alle plannen"
+      parameters:
+      - $ref: "#/parameters/Content-Type"
+      - $ref: "#/parameters/Content-Crs"
+      - $ref: "#/parameters/Accept-Crs"
+      - name: "status"
+        in: "query"
+        required: false
+        type: "string"
+        description: "Filteren op status van een plan. Dit kan alleen `vastgesteld` zijn."
+        enum:
+        - "vastgesteld"
+        default: "vastgesteld"
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+          properties:
+            _geo:
+              type: "object"
+              required:
+              - "contains"
+              properties:
+                contains:
+                  description: "Moet een puntgeometrie bevatten zodat enkel plannen waarin dat punt ligt worden teruggegeven.\n"
+                  type: "object"
+                  required:
+                  - type
+                  - coordinates
+                  properties:
+                    type:
+                      type: string
+                      enum: [Point]
+                      default: Point
+                    coordinates:
+                      type: array
+                      example: [125.6, 10.1]
+                      items:
+                        type: number
+      responses:
+        200:
+          description: "OK"
+          x-pagination: true
+          schema:
+            required:
+            - "_embedded"
+            - "_links"
+            type: "object"
+            properties:
+              _embedded:
+                required:
+                - "plannen"
+                type: "object"
+                properties:
+                  plannen:
+                    type: "array"
+                    items:
+                      $ref: "#/definitions/Plan"
+              _links:
+                $ref: "#/definitions/CollectionLinks"
+          headers:
+            Content-Crs:
+              type: "string"
+              description: "Coordinaatreferentiesysteem van de meegegeven geometrie"
+              default: "epsg:4258"
+              enum:
+              - "epsg:4258"
+              - "epsg:28992"
+            X-Total-Count:
+              type: "integer"
+              description: "Totaal aantal resultaten (max 15.000)"
+        403:
+          description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
+          schema:
+            $ref: "#/definitions/Error"
+        406:
+          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
+            \ kan momenteel alleen `application/hal+json` terugsturen."
+          schema:
+            $ref: "#/definitions/Error"
+        503:
+          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
+            \ of een storing plaats."
+          schema:
+            $ref: "#/definitions/Error"
+          headers:
+            Retry-After:
+              type: "string"
+              format: "date-time"
+              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
+                \ zal zijn."
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
+definitions:
+  Plan:
+    type: "object"
+    required:
+    - "_links"
+    - "id"
+    - "type"
+    properties:
+      _links:
+        required:
+        - "self"
+        type: "object"
+        properties:
+          self:
+            type: "object"
+            required:
+            - "href"
+            properties:
+              href:
+                type: "string"
+                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsplangebieden/759"
+              title:
+                type: "string"
+                example: "Buitengebied; Elderinkweg 9 Hengelo (vastgesteld, 2016-10-27)"
+      _embedded:
+        type: "object"
+        properties:
+          teksten:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                titel:
+                  type: "string"
+                  example: "artikel 12 Algemene afwijkingsregels"
+                inhoud:
+                  type: "string"
+                  description: "Inhoud van van het tekstblok. Voor de Ruimtelijke\
+                    \ Plannen is dit XHTML, voor LVBB wellicht XML en voor andere\
+                    \ informatiehuizen wellicht plain text. Hoe een client dit moet\
+                    \ behandelen wordt in de verbeelding afgehandeld.\n"
+                  example: "<p>Dit is een paragraaf met een <a href=\\\"https://www.google.com\\\
+                    \">Linkje naar Google</a>.</p> "
+                volgnummer:
+                  type: "integer"
+                  example: "42"
+                _links:
+                  type: "object"
+                  properties:
+                    bestemmingsvlakken:
+                      type: "object"
+                      required:
+                      - "href"
+                      properties:
+                        href:
+                          type: "string"
+                          example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsvlakken?tekst=429"
+                        title:
+                          type: "string"
+                    self:
+                      required:
+                      - "href"
+                      type: "object"
+                      properties:
+                        href:
+                          type: "string"
+                          example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/teksten/429"
+      id:
+        type: "string"
+        example: "NL.IMRO.0268.BPa10500-VG01"
+      type:
+        type: "string"
+        enum:
+        - uitwerkingsplan
+        - wijzigingsplan
+        - inpassingsplan
+        - beheersverordening
+        - bestemmingsplan
+        - exploitatieplan
+        - tijdelijke ontheffing buitenplans
+        - omgevingsvergunning
+        - projectbesluit
+        - reactieve aanwijzing
+        - gerechtelijke uitspraak
+        - voorbereidingsbesluit
+        - provinciale verordening
+        - aanwijzingsbesluit
+        - amvb
+        - regeling
+        - structuurvisie
+        - rijksbestemmingsplan
+        - buiten toepassing verklaring beheersverordening
+        example: "uitwerkingsplan"
+        description: "`buiten toepassing verklaring beheersverordening` en `rijksbestemmingsplan` zouden in de praktijk niet voor mogen komen, dit is een data kwaliteits issue."
+      beleidsmatigVerantwoordelijkeOverheid:
+        type: "object"
+        properties:
+          type:
+            type: "string"
+            enum:
+            - "gemeentelijke overheid"
+            - "deelgemeente/stadsdeel"
+            - "provinciale overheid"
+            - "nationale overheid"
+            example: "gemeentelijke overheid"
+          code:
+            type: "string"
+            description: "CBS-code van de beleidsmatig verantwoordelijke overheid.\
+              \ Altijd 4 cijfers, indien nodig aangevuld met voorloopnullen."
+            example: "0000"
+          naam:
+            type: "array"
+            items:
+              type: "string"
+              example: "gemeente Nijmegen"
+      naam:
+        type: "string"
+        example: "Nijmegen Westkanaaldijk 2016"
+      planstatusInfo:
+        type: "object"
+        properties:
+          planstatus:
+            type: "string"
+            enum:
+            - "concept"
+            - "voorontwerp"
+            - "ontwerp"
+            - "vastgesteld"
+            - "geconsolideerd"
+            example: "vastgesteld"
+          datum:
+            type: "string"
+            example: "2012-01-12"
+            format: "date"
+      geometrie:
+        type: "object"
+        allOf:
+        - $ref: "#/definitions/GeoJSON"
+  GeoJSON:
+    type: "object"
+    description: "Object gespecificeerd volgens https://tools.ietf.org/html/rfc7946#section-3.1"
+    required:
+    - "coordinates"
+    - "type"
+    properties:
+      type:
+        type: "string"
+        enum:
+        - "Point"
+        - "Polygon"
+        - "LineString"
+        - "MultiPoint"
+        - "MultiLineString"
+        - "MultiPolygon"
+        example: "Polygon"
+      coordinates:
+        type: "array"
+        description: "Array met coördinaten behorende bij dit GeoJSON object. De structuur\
+          \ van de array hangt af van het `type`."
+        items:
+          type: number
+        example:
+        - - - 5.858910083770752
+            - 51.84376540294041
+          - - 5.85968255996704
+            - 51.84259879644993
+          - - 5.860852003097533
+            - 51.84413658957469
+          - - 5.858910083770752
+            - 51.84376540294041
+  Error:
+    type: "object"
+    description: "Object gespecificeerd volgens https://tools.ietf.org/html/rfc7807."
+    required:
+    - "title"
+    - "status"
+    - "detail"
+    properties:
+      type:
+        type: "string"
+        description: "URI naar een pagina met meer informatie over deze foutmelding\
+          \ voor de ontwikkelaar."
+        example: "about:blank"
+      title:
+        type: "string"
+        example: "Not Found"
+      status:
+        type: "integer"
+        example: 404
+      detail:
+        type: "string"
+        example: "HTTP 404 Not Found"
+      instance:
+        type: "string"
+        example: "self"
+  CollectionLinks:
+    type: "object"
+    required:
+    - "self"
+    properties:
+      self:
+        type: "object"
+        description: "Absolute link naar huidige pagina"
+        required:
+        - "href"
+        properties:
+          href:
+            type: "string"
+            format: "uri"
+            description: "URL van de link"
+            example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsplangebieden?page=2"
+      prev:
+        type: "object"
+        description: "Absolute link naar vorige pagina (niet aanwezig als er geen\
+          \ vorige pagina is)"
+        required:
+        - "href"
+        properties:
+          href:
+            type: "string"
+            format: "uri"
+            description: "URL van de link"
+            example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsplangebieden?page=1"
+      next:
+        type: "object"
+        description: "Absolute link naar volgende pagina (niet aanwezig als er geen\
+          \ volgende pagina is)"
+        required:
+        - "href"
+        properties:
+          href:
+            type: "string"
+            format: "uri"
+            description: "URL van de link"
+            example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/bestemmingsplangebieden?page=3"
