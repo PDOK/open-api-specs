@@ -84,6 +84,32 @@ parameters:
     type: "boolean"
     description: "Laat alle planstatussen zien"
     default: false
+  planType:
+    name: "type"
+    in: "query"
+    required: false
+    type: "string"
+    description: "Filteren op type plan"
+    enum:
+    - "uitwerkingsplan"
+    - "wijzigingsplan"
+    - "inpassingsplan"
+    - "beheersverordening"
+    - "bestemmingsplan"
+    - "exploitatieplan"
+    - "tijdelijke ontheffing buitenplans"
+    - "omgevingsvergunning"
+    - "projectbesluit"
+    - "reactieve aanwijzing"
+    - "gerechtelijke uitspraak"
+    - "voorbereidingsbesluit"
+    - "provinciale verordening"
+    - "aanwijzingsbesluit"
+    - "amvb"
+    - "regeling"
+    - "structuurvisie"
+    - "rijksbestemmingsplan"
+    - "buiten toepassing verklaring beheersverordening"
 paths:
   /leidende-plannen/_zoek:
     post:
@@ -213,31 +239,7 @@ paths:
         - "geconsolideerd"
         - "onherroepelijk"
         - "geconsolideerde versie"
-      - name: "type"
-        in: "query"
-        required: false
-        type: "string"
-        description: "Filteren op type plan"
-        enum:
-        - "uitwerkingsplan"
-        - "wijzigingsplan"
-        - "inpassingsplan"
-        - "beheersverordening"
-        - "bestemmingsplan"
-        - "exploitatieplan"
-        - "tijdelijke ontheffing buitenplans"
-        - "omgevingsvergunning"
-        - "projectbesluit"
-        - "reactieve aanwijzing"
-        - "gerechtelijke uitspraak"
-        - "voorbereidingsbesluit"
-        - "provinciale verordening"
-        - "aanwijzingsbesluit"
-        - "amvb"
-        - "regeling"
-        - "structuurvisie"
-        - "rijksbestemmingsplan"
-        - "buiten toepassing verklaring beheersverordening"
+      - $ref: "#/parameters/planType"
       responses:
         200:
           description: "OK"
@@ -312,10 +314,10 @@ paths:
         type: "string"
         description: "Filteren op beleidsmatig verantwoordelijke overheid"
         enum:
-        - "GemeentelijkeOverheid"
-        - "Deelgemeente_Stadsdeel"
-        - "ProvincialeOverheid"
-        - "NationaleOverheid"
+        - "gemeentelijke overheid"
+        - "deelgemeente/stadsdeel"
+        - "provinciale overheid"
+        - "nationale overheid"
       - name: "status"
         in: "query"
         required: false
@@ -327,6 +329,7 @@ paths:
         - "ontwerp"
         - "vastgesteld"
         - "geconsolideerd"
+      - $ref: "#/parameters/planType"
       - name: "body"
         in: "body"
         required: false
