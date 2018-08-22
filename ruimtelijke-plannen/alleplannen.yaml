@@ -19,8 +19,6 @@ info:
     url: "https://www.kadaster.nl"
 tags:
 - name: "Plannen"
-  description: "Alle plantypes"
-x-page-size: 20
 parameters:
   Content-Type:
     name: "Content-Type"
@@ -54,55 +52,44 @@ parameters:
     description: "NEN3610ID: Identificatiecode"
     required: true
     type: "string"
+  page:
+    description: "Page number"
+    name: "page"
+    in: "query"
+    required: false
+    type: "integer"
+    minimum: 1
+    default: 1
+  pageSize:
+    name: "pageSize"
+    in: "query"
+    required: false
+    type: "integer"
+    enum:
+    - 10
+    - 20
+    - 50
+    - 100
+    default: 20
+  tekst:
+    name: "tekst"
+    in: "query"
+    required: false
+    type: "string"
+    description: "Filteren op tekst"
+  alleStatussen:
+    name: "alleStatussen"
+    in: "query"
+    required: false
+    type: "boolean"
+    description: "Laat alle planstatussen zien"
+    default: false
 paths:
-  /plannen/{id}:
-    get:
-      tags:
-      - "Plannen"
-      summary: "plan resource"
-      parameters:
-      - $ref: "#/parameters/id"
-      - $ref: "#/parameters/Accept-Crs"
-      responses:
-        200:
-          description: "OK"
-          schema:
-            $ref: "#/definitions/Plan"
-          headers:
-            Content-Crs:
-              type: "string"
-              description: "Coordinaatreferentiesysteem van de meegegeven geometrie"
-              default: "epsg:4258"
-              enum:
-              - "epsg:4258"
-              - "epsg:28992"
-        404:
-          description: "Status 404"
-          schema:
-            $ref: "#/definitions/Error"
-        406:
-          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
-            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
-            \ kan momenteel alleen `application/hal+json` terugsturen."
-          schema:
-            $ref: "#/definitions/Error"
-        503:
-          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
-            \ of een storing plaats."
-          schema:
-            $ref: "#/definitions/Error"
-          headers:
-            Retry-After:
-              type: "string"
-              format: "date-time"
-              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
-                \ zal zijn."
-              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
-  /plannen/_zoek:
+  /leidende-plannen/_zoek:
     post:
       tags:
       - "Plannen"
-      summary: "Zoeken binnen alle plannen"
+      summary: "Zoeken binnen leidende plannen"
       parameters:
       - $ref: "#/parameters/Content-Type"
       - $ref: "#/parameters/Content-Crs"
@@ -192,6 +179,275 @@ paths:
               description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
                 \ zal zijn."
               x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
+  /plannen:
+    get:
+      tags:
+      - "Plannen"
+      summary: "plannen collectie"
+      parameters:
+      - $ref: "#/parameters/Accept-Crs"
+      - $ref: "#/parameters/page"
+      - $ref: "#/parameters/pageSize"
+      - $ref: "#/parameters/tekst"
+      - $ref: "#/parameters/alleStatussen"
+      - name: "beleidsmatigVerantwoordelijkeOverheid.type"
+        in: "query"
+        required: false
+        type: "string"
+        description: "Filteren op beleidsmatig verantwoordelijke overheid"
+        enum:
+        - "gemeentelijke overheid"
+        - "deelgemeente/stadsdeel"
+        - "provinciale overheid"
+        - "nationale overheid"
+      - name: "status"
+        in: "query"
+        required: false
+        type: "string"
+        description: "Filteren op status van een plan"
+        enum:
+        - "concept"
+        - "voorontwerp"
+        - "ontwerp"
+        - "vastgesteld"
+        - "geconsolideerd"
+        - "onherroepelijk"
+        - "geconsolideerde versie"
+      - name: "type"
+        in: "query"
+        required: false
+        type: "string"
+        description: "Filteren op type plan"
+        enum:
+        - "uitwerkingsplan"
+        - "wijzigingsplan"
+        - "inpassingsplan"
+        - "beheersverordening"
+        - "bestemmingsplan"
+        - "exploitatieplan"
+        - "tijdelijke ontheffing buitenplans"
+        - "omgevingsvergunning"
+        - "projectbesluit"
+        - "reactieve aanwijzing"
+        - "gerechtelijke uitspraak"
+        - "voorbereidingsbesluit"
+        - "provinciale verordening"
+        - "aanwijzingsbesluit"
+        - "amvb"
+        - "regeling"
+        - "structuurvisie"
+        - "rijksbestemmingsplan"
+        - "buiten toepassing verklaring beheersverordening"
+      responses:
+        200:
+          description: "OK"
+          x-pagination: true
+          schema:
+            required:
+            - "_embedded"
+            - "_links"
+            type: "object"
+            properties:
+              _embedded:
+                required:
+                - "plannen"
+                type: "object"
+                properties:
+                  plannen:
+                    type: "array"
+                    items:
+                      $ref: "#/definitions/Plan"
+              _links:
+                $ref: "#/definitions/CollectionLinks"
+          headers:
+            Content-Crs:
+              type: "string"
+              description: "Coordinaatreferentiesysteem van de meegegeven geometrie"
+              default: "epsg:4258"
+              enum:
+              - "epsg:4258"
+              - "epsg:28992"
+            X-Pagination-Page:
+              type: "integer"
+              description: "Nummer van de huidige pagina (paginanummering start bij\
+                \ 1)"
+            X-Pagination-Limit:
+              type: "integer"
+              description: "Aantal Objecten per pagina"
+            X-Total-Count:
+              type: "integer"
+              description: "Totaal aantal resultaten (max 15.000)"
+        406:
+          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
+            \ kan momenteel alleen `application/hal+json` terugsturen."
+          schema:
+            $ref: "#/definitions/Error"
+        503:
+          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
+            \ of een storing plaats."
+          schema:
+            $ref: "#/definitions/Error"
+          headers:
+            Retry-After:
+              type: "string"
+              format: "date-time"
+              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
+                \ zal zijn."
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
+  /plannen/_zoek:
+    post:
+      tags:
+      - "Plannen"
+      summary: "Zoeken binnen plannen"
+      parameters:
+      - $ref: "#/parameters/Content-Type"
+      - $ref: "#/parameters/Content-Crs"
+      - $ref: "#/parameters/Accept-Crs"
+      - $ref: "#/parameters/page"
+      - $ref: "#/parameters/pageSize"
+      - name: "beleidsmatigVerantwoordelijkeOverheid.type"
+        in: "query"
+        required: false
+        type: "string"
+        description: "Filteren op beleidsmatig verantwoordelijke overheid"
+        enum:
+        - "GemeentelijkeOverheid"
+        - "Deelgemeente_Stadsdeel"
+        - "ProvincialeOverheid"
+        - "NationaleOverheid"
+      - name: "status"
+        in: "query"
+        required: false
+        type: "string"
+        description: "Filteren op status van een plan"
+        enum:
+        - "concept"
+        - "voorontwerp"
+        - "ontwerp"
+        - "vastgesteld"
+        - "geconsolideerd"
+      - name: "body"
+        in: "body"
+        required: false
+        schema:
+          type: "object"
+          properties:
+            _geo:
+              type: "object"
+              properties:
+                intersects:
+                  description: "De manier van 'samenvallen' van de zoek-geometrie\
+                    \ en de resultaat-geometrie, zie OGC specificaties\n"
+                  $ref: "#/definitions/GeoJSON"
+                contains:
+                  description: "De manier van 'samenvallen' van de zoek-geometrie\
+                    \ en de resultaat-geometrie, zie OGC specificaties\n"
+                  $ref: "#/definitions/GeoJSON"
+                within:
+                  description: "De manier van 'samenvallen' van de zoek-geometrie\
+                    \ en de resultaat-geometrie, zie OGC specificaties\n"
+                  $ref: "#/definitions/GeoJSON"
+      responses:
+        200:
+          description: "OK"
+          x-pagination: true
+          schema:
+            required:
+            - "_embedded"
+            - "_links"
+            type: "object"
+            properties:
+              _embedded:
+                required:
+                - "plannen"
+                type: "object"
+                properties:
+                  plannen:
+                    type: "array"
+                    items:
+                      $ref: "#/definitions/Plan"
+              _links:
+                $ref: "#/definitions/CollectionLinks"
+          headers:
+            Content-Crs:
+              type: "string"
+              description: "Coordinaatreferentiesysteem van de meegegeven geometrie"
+              default: "epsg:4258"
+              enum:
+              - "epsg:4258"
+              - "epsg:28992"
+            X-Pagination-Page:
+              type: "integer"
+              description: "Nummer van de huidige pagina (paginanummering start bij\
+                \ 1)"
+            X-Pagination-Limit:
+              type: "integer"
+              description: "Aantal Objecten per pagina"
+            X-Total-Count:
+              type: "integer"
+              description: "Totaal aantal resultaten (max 15.000)"
+        406:
+          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
+            \ kan momenteel alleen `application/hal+json` terugsturen."
+          schema:
+            $ref: "#/definitions/Error"
+        503:
+          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
+            \ of een storing plaats."
+          schema:
+            $ref: "#/definitions/Error"
+          headers:
+            Retry-After:
+              type: "string"
+              format: "date-time"
+              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
+                \ zal zijn."
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
+  /plannen/{id}:
+    get:
+      tags:
+      - "Plannen"
+      summary: "plan resource"
+      parameters:
+      - $ref: "#/parameters/id"
+      - $ref: "#/parameters/Accept-Crs"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Plan"
+          headers:
+            Content-Crs:
+              type: "string"
+              description: "Coordinaatreferentiesysteem van de meegegeven geometrie"
+              default: "epsg:4258"
+              enum:
+              - "epsg:4258"
+              - "epsg:28992"
+        404:
+          description: "Status 404"
+          schema:
+            $ref: "#/definitions/Error"
+        406:
+          description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat\
+            \ met de `Accept` header verstuurd welke niet ondersteund wordt. De API\
+            \ kan momenteel alleen `application/hal+json` terugsturen."
+          schema:
+            $ref: "#/definitions/Error"
+        503:
+          description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud\
+            \ of een storing plaats."
+          schema:
+            $ref: "#/definitions/Error"
+          headers:
+            Retry-After:
+              type: "string"
+              format: "date-time"
+              description: "Tijdstip waarop verwacht is dat de service weer beschikbaar\
+                \ zal zijn."
+              x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
 definitions:
   Plan:
     type: "object"
@@ -229,6 +485,16 @@ definitions:
                 title:
                   type: "string"
                   example: "Enkelbestemming Bedrijventerrein"
+          teksten:
+            type: "object"
+            required:
+            - "href"
+            properties:
+              href:
+                type: "string"
+                example: "https://data.informatiehuisruimte.nl/api/ruimtelijke-plannen/v1/teksten?bestemmingsplangebied=759"
+              title:
+                type: "string"
       _embedded:
         type: "object"
         properties:
@@ -278,25 +544,25 @@ definitions:
       type:
         type: "string"
         enum:
-        - uitwerkingsplan
-        - wijzigingsplan
-        - inpassingsplan
-        - beheersverordening
-        - bestemmingsplan
-        - exploitatieplan
-        - tijdelijke ontheffing buitenplans
-        - omgevingsvergunning
-        - projectbesluit
-        - reactieve aanwijzing
-        - gerechtelijke uitspraak
-        - voorbereidingsbesluit
-        - provinciale verordening
-        - aanwijzingsbesluit
-        - amvb
-        - regeling
-        - structuurvisie
-        - rijksbestemmingsplan
-        - buiten toepassing verklaring beheersverordening
+        - "uitwerkingsplan"
+        - "wijzigingsplan"
+        - "inpassingsplan"
+        - "beheersverordening"
+        - "bestemmingsplan"
+        - "exploitatieplan"
+        - "tijdelijke ontheffing buitenplans"
+        - "omgevingsvergunning"
+        - "projectbesluit"
+        - "reactieve aanwijzing"
+        - "gerechtelijke uitspraak"
+        - "voorbereidingsbesluit"
+        - "provinciale verordening"
+        - "aanwijzingsbesluit"
+        - "amvb"
+        - "regeling"
+        - "structuurvisie"
+        - "rijksbestemmingsplan"
+        - "buiten toepassing verklaring beheersverordening"
         example: "uitwerkingsplan"
         description: "De types `buiten toepassing verklaring beheersverordening` en `rijksbestemmingsplan` zouden in de praktijk niet voor mogen komen, dit is een datakwaliteit issue."
       beleidsmatigVerantwoordelijkeOverheid:
