@@ -93,7 +93,7 @@ components:
   parameters:
     type:
       name: type
-      in: path
+      in: query
       description: Type openbaar lichaam
       required: false
       schema:
@@ -181,16 +181,24 @@ components:
     OpenbaarLichaam:
       type: object
       required:
+        - type
+        - oin
+        - cbsCode
+        - aknId
+        - naam
         - _links
       properties:
+        oin:
+          type: string
         type:
           type: string
           enum: [provincie, gemeente]
-        oin:
-          type: string
         cbsCode:
           type: string
+          nullable: true
         aknId:
+          type: string
+        naam:
           type: string
         _embedded:
           type: object
