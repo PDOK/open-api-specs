@@ -21,11 +21,23 @@ acceptCrs:
       - 'epsg:28992'
     default: 'epsg:4326'
 page:
+  description: Pagina nummer
   name: page
   in: query
-  description: Page number
   required: false
   schema:
     type: integer
     minimum: 1
     default: 1
+pageSize:
+  name: pageSize
+  in: query
+  required: false
+  schema:
+    type: integer
+    enum:
+      - 10
+      - 20
+      - 50
+      - 100
+    default: 20
