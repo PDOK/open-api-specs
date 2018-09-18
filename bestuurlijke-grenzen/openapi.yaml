@@ -1,0 +1,273 @@
+openapi: 3.0.0
+info:
+  version: 0.0.1
+  title: Bestuurlijke Grenzen API
+  contact:
+    name: Kadaster
+    email: dimitri.vanhees@kadaster.nl
+    url: 'https://www.kadaster.nl'
+servers:
+  - url: 'https://.../..'
+paths:
+  /bestuurlijke-grenzen:
+    get:
+      summary: Collectie van bestuurlijke grenzen
+      parameters:
+      - $ref: '#/components/parameters/oin'
+      - $ref: '#/components/parameters/cbsCode'
+      - $ref: '#/components/parameters/aknId'
+      - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/parameters.yaml#/acceptCrs'
+      responses:
+        '200':
+          $ref: '#/components/responses/BestuurlijkeGrenzen'
+        '401':
+          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/403'
+        '406':
+          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/503'
+  /bestuurlijke-grenzen/{id}:
+    get:
+      summary: Enkele bestuurlijke grens
+      parameters:
+      - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          $ref: '#/components/responses/BestuurlijkeGrens'
+        '401':
+          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/403'
+        '406':
+          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/503'
+  /bestuurlijke-grenzen/_zoek:
+    post:
+      summary: Zoeken op bestuurlijke grenzen
+      parameters:
+      - $ref: '#/components/parameters/oin'
+      - $ref: '#/components/parameters/cbsCode'
+      - $ref: '#/components/parameters/aknId'
+      - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/parameters.yaml#/acceptCrs'
+      - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/parameters.yaml#/contentCrs'
+      responses:
+        '200':
+          $ref: '#/components/responses/BestuurlijkeGrenzen'
+        '401':
+          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/403'
+        '406':
+          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/503'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                'gebied.geometrie':
+                  type: object
+                  description: Het veld waarop geografisch gezocht moet worden. In dit geval is dit het veld `gebied.geometrie`.
+                  properties:
+                    within:
+                      allOf:
+                      - $ref: '#/components/schemas/GeoJSON'
+                      description: >-
+                        Deze property bepaalt het type query. In dit geval
+                        `within`, maar het kan ook `contains` of
+                        `intersects` zijn. Het moet een valide GeoJSON `Point`
+                        of `Polygon` object bevatten.
+                      properties:
+                        type: 
+                          type: string
+                          enum: [Point, Polygon]
+components:
+  parameters:
+    id:
+      name: id
+      in: path
+      description: Identificatiecode
+      required: true
+      schema:
+        type: string
+    oin:
+      name: oin
+      in: query
+      description: OIN
+      required: false
+      schema:
+        type: string
+    cbsCode:
+      name: cbsCode
+      in: query
+      description: CBS Code
+      required: false
+      schema:
+        type: string
+    aknId:
+      name: aknId
+      in: query
+      description: AKN Identifier
+      required: false
+      schema:
+        type: string
+    page:
+      description: Pagina nummer
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    limit:
+      name: pageSize
+      in: query
+      required: false
+      schema:
+        type: integer
+        enum:
+          - 10
+          - 20
+          - 50
+          - 100
+        default: 20
+  responses:
+    BestuurlijkeGrens:
+      description: OK.
+      headers:
+        Content-Crs:
+          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/contentCrs'
+      content:
+        application/hal+json:
+          schema:
+            $ref: '#/components/schemas/BestuurlijkeGrens'
+    BestuurlijkeGrenzen:
+      description: OK.
+      headers:
+        Content-Crs:
+          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/contentCrs'
+      content:
+        application/hal+json:
+          schema:
+            required:
+              - _embedded
+              - _links
+            type: object
+            properties:
+              _embedded:
+                required:
+                  - 'bestuurlijke-grenzen'
+                type: object
+                properties:
+                  bestuurlijke-grenzen:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/BestuurlijkeGrens'
+              _links:
+                type: object
+                allOf:
+                  - $ref: '#/components/schemas/CollectionLinks'
+  schemas:
+    BestuurlijkeGrens:
+      type: object
+      required:
+        - _links
+      properties:
+        type:
+          type: string
+          enum: [provincie, gemeente]
+        oin:
+          type: string
+        cbsCode:
+          type: string
+        aknId:
+          type: string
+        _embedded:
+          type: object
+          properties:
+            gebied:
+              type: object
+              properties:
+                geometrie:
+                  type: object
+                  allOf:
+                    - $ref: '#/components/schemas/GeoJSON'
+        _links:
+          required:
+            - self
+          type: object
+          properties:
+            self:
+              description: Absolute link naar huidige pagina
+              required:
+                - href
+              type: object
+              properties:
+                href:
+                  type: string
+                  description: URL van de link
+                  example: 'https://.../1'
+    GeoJSON:
+      type: object
+      required:
+        - coordinates
+        - type
+      properties:
+        type:
+          type: string
+          enum:
+            - Point
+            - Polygon
+            - LineString
+            - MultiPoint
+            - MultiLineString
+            - MultiPolygon
+          example: Polygon
+        coordinates:
+          type: array
+          items:
+            type: string
+          description: >-
+            Array met coördinaten behorende bij dit GeoJSON object. De structuur
+            van de array hangt af van het `type`.
+          example:
+            - - - 5.858910083770752
+                - 51.84376540294041
+              - - 5.85968255996704
+                - 51.84259879644993
+              - - 5.860852003097533
+                - 51.84413658957469
+              - - 5.858910083770752
+                - 51.84376540294041
+    CollectionLinks:
+      type: object
+      properties:
+        self:
+          required:
+            - href
+          type: object
+          description: Absolute link naar huidige pagina
+          properties:
+            href:
+              type: string
+              description: URL van de link
+              example: https://.../..
+        next:
+          required:
+            - href
+          type: object
+          description: >-
+            Absolute link naar volgende pagina (niet aanwezig als er geen
+            volgende pagina is)
+          properties:
+            href:
+              type: string
+              description: URL van de link
+              example: https://.../..?page=2
