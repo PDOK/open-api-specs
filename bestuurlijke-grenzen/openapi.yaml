@@ -9,17 +9,18 @@ info:
 servers:
   - url: 'https://.../..'
 paths:
-  /bestuurlijke-grenzen:
+  /openbare-lichamen:
     get:
-      summary: Collectie van bestuurlijke grenzen
+      summary: Collectie van openbare lichamen
       parameters:
       - $ref: '#/components/parameters/oin'
       - $ref: '#/components/parameters/cbsCode'
       - $ref: '#/components/parameters/aknId'
+      - $ref: '#/components/parameters/type'
       - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/parameters.yaml#/acceptCrs'
       responses:
         '200':
-          $ref: '#/components/responses/BestuurlijkeGrenzen'
+          $ref: '#/components/responses/OpenbareLichamen'
         '401':
           $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/401'
         '403':
@@ -28,14 +29,14 @@ paths:
           $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/406'
         '503':
           $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/503'
-  /bestuurlijke-grenzen/{id}:
+  /openbare-lichamen/{oin}:
     get:
-      summary: Enkele bestuurlijke grens
+      summary: Enkel openbaar lichaam
       parameters:
-      - $ref: '#/components/parameters/id'
+      - $ref: '#/components/parameters/oin'
       responses:
         '200':
-          $ref: '#/components/responses/BestuurlijkeGrens'
+          $ref: '#/components/responses/OpenbaarLichaam'
         '401':
           $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/401'
         '403':
@@ -44,18 +45,19 @@ paths:
           $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/406'
         '503':
           $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/503'
-  /bestuurlijke-grenzen/_zoek:
+  /openbare-lichamen/_zoek:
     post:
-      summary: Zoeken op bestuurlijke grenzen
+      summary: Zoeken op openbare lichamen
       parameters:
       - $ref: '#/components/parameters/oin'
       - $ref: '#/components/parameters/cbsCode'
       - $ref: '#/components/parameters/aknId'
+      - $ref: '#/components/parameters/type'
       - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/parameters.yaml#/acceptCrs'
       - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/parameters.yaml#/contentCrs'
       responses:
         '200':
-          $ref: '#/components/responses/BestuurlijkeGrenzen'
+          $ref: '#/components/responses/OpenbareLichamen'
         '401':
           $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/401'
         '403':
@@ -89,13 +91,14 @@ paths:
                           enum: [Point, Polygon]
 components:
   parameters:
-    id:
-      name: id
+    type:
+      name: type
       in: path
-      description: Identificatiecode
-      required: true
+      description: Type openbaar lichaam
+      required: false
       schema:
         type: string
+        enum: [provincie, gemeente]
     oin:
       name: oin
       in: query
@@ -139,7 +142,7 @@ components:
           - 100
         default: 20
   responses:
-    BestuurlijkeGrens:
+    OpenbaarLichaam:
       description: OK.
       headers:
         Content-Crs:
@@ -147,8 +150,8 @@ components:
       content:
         application/hal+json:
           schema:
-            $ref: '#/components/schemas/BestuurlijkeGrens'
-    BestuurlijkeGrenzen:
+            $ref: '#/components/schemas/OpenbaarLichaam'
+    OpenbareLichamen:
       description: OK.
       headers:
         Content-Crs:
@@ -163,19 +166,19 @@ components:
             properties:
               _embedded:
                 required:
-                  - 'bestuurlijke-grenzen'
+                  - 'openbare-lichamen'
                 type: object
                 properties:
-                  bestuurlijke-grenzen:
+                  openbare-lichamen:
                     type: array
                     items:
-                      $ref: '#/components/schemas/BestuurlijkeGrens'
+                      $ref: '#/components/schemas/OpenbaarLichaam'
               _links:
                 type: object
                 allOf:
                   - $ref: '#/components/schemas/CollectionLinks'
   schemas:
-    BestuurlijkeGrens:
+    OpenbaarLichaam:
       type: object
       required:
         - _links
