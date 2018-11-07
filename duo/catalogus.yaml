@@ -1,0 +1,491 @@
+openapi: 3.0.0
+info:
+  contact:
+    name: Kadaster
+    email: dimitri.vanhees@kadaster.nl
+    url: 'https://www.kadaster.nl'
+  version: 0.0.1
+  title: 'DUO Catalogus API'
+servers:
+  - url: 'https://.../api/v0'
+paths:
+  /concepten:
+    get:
+      parameters:
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: '#/components/parameters/schema'
+        - $ref: '#/components/parameters/zoekstring'
+      responses:
+        '200':
+          $ref: '#/components/responses/Concepten'
+        '401':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
+        '406':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Concepten collectie'
+  '/concepten/{id}':
+    get:
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          $ref: '#/components/responses/Concept'
+        '401':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
+        '404':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/404'
+        '406':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Concept resource'
+  /klassen:
+    get:
+      parameters:
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: '#/components/parameters/concept'
+        - $ref: '#/components/parameters/zoekstring'
+      responses:
+        '200':
+          $ref: '#/components/responses/Klassen'
+        '401':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
+        '406':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Klassen collectie'
+  '/klassen/{id}':
+    get:
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          $ref: '#/components/responses/Klas'
+        '401':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
+        '404':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/404'
+        '406':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Klas resource'
+  /eigenschappen:
+    get:
+      parameters:
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: '#/components/parameters/concept'
+        - $ref: '#/components/parameters/zoekstring'
+      responses:
+        '200':
+          $ref: '#/components/responses/Eigenschappen'
+        '401':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
+        '406':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Eigenschappen collectie'
+  '/eigenschappen/{id}':
+    get:
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          $ref: '#/components/responses/Eigenschap'
+        '401':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
+        '404':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/404'
+        '406':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Eigenschap resource'
+  /modellen:
+    get:
+      parameters:
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: '#/components/parameters/datumVanaf'
+        - $ref: '#/components/parameters/zoekstring'
+      responses:
+        '200':
+          $ref: '#/components/responses/Modellen'
+        '401':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
+        '406':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Modellen collectie'
+  '/modellen/{id}':
+    get:
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          $ref: '#/components/responses/Model'
+        '401':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
+        '404':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/404'
+        '406':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Model resource'
+components:
+  parameters:
+    id:
+      name: id
+      in: path
+      description: Identifier
+      required: true
+      schema:
+        type: string
+    schema:
+      name: schema
+      in: query
+      description: 'Filteren op `schema`'
+      schema:
+        type: string
+    zoekstring:
+      name: zoekstring
+      in: query
+      description: 'Filteren op `zoekstring`'
+      schema:
+        type: string
+    concept:
+      name: concept
+      in: query
+      description: 'Filteren op `concept`'
+      schema:
+        type: string
+    datumVanaf:
+      name: datumVanaf
+      in: query
+      description: 'Filteren op `datumVanaf`'
+      schema:
+        type: string
+  responses:
+    Concepten:
+      description: OK.
+      headers:
+        Content-Crs:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs'
+        X-Pagination-Page:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage'
+        X-Pagination-Limit:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit'
+        X-Total-Count:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xTotalCount'
+      content:
+        application/hal+json:
+          schema:
+            required:
+              - _embedded
+              - _links
+            type: object
+            properties:
+              _embedded:
+                type: object
+                properties:
+                  concepten:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Concept'
+                required:
+                  - concepten
+              _links:
+                type: object
+                allOf:
+                  - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks'
+    Concept:
+      description: OK.
+      headers:
+        Content-Crs:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs'
+      content:
+        application/hal+json:
+          schema:
+            $ref: '#/components/schemas/Concept'
+    Klassen:
+      description: OK.
+      headers:
+        Content-Crs:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs'
+        X-Pagination-Page:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage'
+        X-Pagination-Limit:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit'
+        X-Total-Count:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xTotalCount'
+      content:
+        application/hal+json:
+          schema:
+            required:
+              - _embedded
+              - _links
+            type: object
+            properties:
+              _embedded:
+                type: object
+                properties:
+                  klassen:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Klas'
+                required:
+                  - klassen
+              _links:
+                type: object
+                allOf:
+                  - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks'
+    Klas:
+      description: OK.
+      headers:
+        Content-Crs:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs'
+      content:
+        application/hal+json:
+          schema:
+            $ref: '#/components/schemas/Klas'
+    Eigenschappen:
+      description: OK.
+      headers:
+        Content-Crs:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs'
+        X-Pagination-Page:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage'
+        X-Pagination-Limit:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit'
+        X-Total-Count:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xTotalCount'
+      content:
+        application/hal+json:
+          schema:
+            required:
+              - _embedded
+              - _links
+            type: object
+            properties:
+              _embedded:
+                type: object
+                properties:
+                  eigenschappen:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Eigenschap'
+                required:
+                  - eigenschappen
+              _links:
+                type: object
+                allOf:
+                  - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks'
+    Eigenschap:
+      description: OK.
+      headers:
+        Content-Crs:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs'
+      content:
+        application/hal+json:
+          schema:
+            $ref: '#/components/schemas/Eigenschap'
+    Modellen:
+      description: OK.
+      headers:
+        Content-Crs:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs'
+        X-Pagination-Page:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage'
+        X-Pagination-Limit:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit'
+        X-Total-Count:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xTotalCount'
+      content:
+        application/hal+json:
+          schema:
+            required:
+              - _embedded
+              - _links
+            type: object
+            properties:
+              _embedded:
+                type: object
+                properties:
+                  modellen:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Model'
+                required:
+                  - modellen
+              _links:
+                type: object
+                allOf:
+                  - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks'
+    Model:
+      description: OK.
+      headers:
+        Content-Crs:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs'
+      content:
+        application/hal+json:
+          schema:
+            $ref: '#/components/schemas/Model'
+  schemas:
+    Concept:
+      type: object
+      required:
+        - _links
+      properties:
+        _links:
+          type: object
+          properties:
+            self:
+              allOf:
+                - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalLink'
+              description: 'Absolute link naar deze resource'
+        schema:
+          type: string
+        label:
+          type: string
+        definitie:
+          type: string
+        voorbeeld:
+          type: string
+        toelichting:
+          type: string
+        interneRelatieAlg:
+          type: string
+        externeRelatieAlg:
+          type: string
+        bron:
+          type: string
+        interneHierarchie:
+          type: string
+        externeHierarchie:
+          type: string
+        externeEquivalentie:
+          type: string
+        bijnaEquivalentie:
+          type: string
+    Klas:
+      type: object
+      required:
+        - _links
+      properties:
+        _links:
+          type: object
+          properties:
+            self:
+              allOf:
+                - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalLink'
+              description: 'Absolute link naar deze resource'
+        concepten:
+          type: array
+          items:
+            type: string
+        label:
+          type: string
+        commentaar:
+          type: string
+        vervangenDoor:
+          type: string
+          nullable: true
+        enumeratie:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              label:
+                type: string
+        shapes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Shape'
+    Eigenschap:
+      type: object
+      required:
+        - _links
+      properties:
+        _links:
+          type: object
+          properties:
+            self:
+              allOf:
+                - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalLink'
+              description: 'Absolute link naar deze resource'
+        concepten:
+          type: array
+          items:
+            type: string
+        label:
+          type: string
+        commentaar:
+          type: string
+        vervangenDoor:
+          type: string
+          nullable: true
+        shapes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Shape'
+    Model:
+      type: object
+      required:
+        - _links
+      properties:
+        _links:
+          type: object
+          properties:
+            self:
+              allOf:
+                - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalLink'
+              description: 'Absolute link naar deze resource'
+        versieInfo:
+          type: string
+        klassen:
+          type: array
+          items:
+            type: string
+        eigenschappen:
+          type: array
+          items:
+            type: string
+    Shape:
+      type: object
+      properties:
+        eigenschap:
+          type: string
+        klasse:
+          type: string
+          nullable: true
+        constraint:
+          type: array
+          items:
+            type: string
