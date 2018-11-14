@@ -1,11 +1,7 @@
 openapi: 3.0.0
 info:
-  version: 0.2.0
-  title: Cultureel Erfgoed API
-  contact:
-    name: Kadaster
-    email: dimitri.vanhees@kadaster.nl
-    url: 'https://www.kadaster.nl'
+  version: 1.0.0
+  title: 'RCE API'
 servers:
   - url: 'https://data.cultureelerfgoed.nl/api/v1'
 paths:
@@ -13,247 +9,598 @@ paths:
     post:
       summary: Globaal zoeken
       parameters:
-      - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/parameters.yaml#/acceptCrs'
-      - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/parameters.yaml#/contentCrs'
-      - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
-      - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/acceptCrs'
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/contentCrs'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
       responses:
         '200':
           $ref: '#/components/responses/SearchResults'
         '401':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/401'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
         '403':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/403'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
         '406':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/406'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
         '503':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/503'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
       requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                'geometrie':
-                  type: object
-                  description: Het veld waarop geografisch gezocht moet worden. In dit geval is dit het veld `geometrie`.
-                  properties:
-                    within:
-                      allOf:
-                      - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/schemas.yaml#/GeoJsonObject'
-                      description: >-
-                        Deze property bepaalt het type query. In dit geval
-                        `within`, maar het kan ook `contains` of
-                        `intersects` zijn. Het moet een valide GeoJSON `Point`
-                        of `Polygon` object bevatten.
-                      properties:
-                        type: 
-                          type: string
-                          enum: [Point, Polygon]
+        $ref: '#/components/requestBodies/SearchBody'
   /archeologische-complexen:
     get:
-      summary: Archeologische complexen
       parameters:
-      - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/parameters.yaml#/acceptCrs'
-      - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
-      - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/acceptCrs'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: '#/components/parameters/functie'
+        - $ref: '#/components/parameters/materiaal'
+        - $ref: '#/components/parameters/omschrijving'
+        - $ref: '#/components/parameters/type'
+        - $ref: '#/components/parameters/stijlEnCultuur'
+        - $ref: '#/components/parameters/bouwkundigeKwaliteit'
       responses:
         '200':
           $ref: '#/components/responses/ArcheologischeComplexen'
         '401':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/401'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
         '403':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/403'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
         '406':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/406'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
         '503':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/503'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Archeologische complexen collectie'
+  '/archeologische-complexen/{id}':
+    get:
+      parameters:
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/acceptCrs'
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          $ref: '#/components/responses/ArcheologischComplex'
+        '401':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
+        '404':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/404'
+        '406':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Archeologisch complex resource'
   /archeologische-complexen/_zoek:
     post:
-      summary: Zoeken op archeologische complexen
       parameters:
-      - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/parameters.yaml#/acceptCrs'
-      - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/parameters.yaml#/contentCrs'
-      - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
-      - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/acceptCrs'
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/contentCrs'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
       responses:
         '200':
           $ref: '#/components/responses/ArcheologischeComplexen'
         '401':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/401'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
         '403':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/403'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
         '406':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/406'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
         '503':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/503'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
       requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                'geometrie':
-                  type: object
-                  description: Het veld waarop geografisch gezocht moet worden. In dit geval is dit het veld `geometrie`.
-                  properties:
-                    within:
-                      allOf:
-                      - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/schemas.yaml#/GeoJsonObject'
-                      description: >-
-                        Deze property bepaalt het type query. In dit geval
-                        `within`, maar het kan ook `contains` of
-                        `intersects` zijn. Het moet een valide GeoJSON `Point`
-                        of `Polygon` object bevatten.
-                      properties:
-                        type: 
-                          type: string
-                          enum: [Point, Polygon]
+        $ref: '#/components/requestBodies/SearchBody'
+      summary: 'Geografisch zoeken binnen archeologische complexen'
   /archeologische-onderzoeksgebieden:
     get:
-      summary: Archeologische onderzoeksgebieden
       parameters:
-      - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/parameters.yaml#/acceptCrs'
-      - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
-      - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/acceptCrs'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: '#/components/parameters/functie'
+        - $ref: '#/components/parameters/materiaal'
+        - $ref: '#/components/parameters/omschrijving'
+        - $ref: '#/components/parameters/type'
+        - $ref: '#/components/parameters/stijlEnCultuur'
+        - $ref: '#/components/parameters/bouwkundigeKwaliteit'
       responses:
         '200':
           $ref: '#/components/responses/ArcheologischeOnderzoeksgebieden'
         '401':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/401'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
         '403':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/403'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
         '406':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/406'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
         '503':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/503'  
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Archeologische onderzoeksgebieden collectie'
+  '/archeologische-onderzoeksgebieden/{id}':
+    get:
+      parameters:
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/acceptCrs'
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          $ref: '#/components/responses/ArcheologischOnderzoeksgebied'
+        '401':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
+        '404':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/404'
+        '406':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Archeologisch onderzoeksgebied resource'
+  /archeologische-onderzoeksgebieden/_zoek:
+    post:
+      parameters:
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/acceptCrs'
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/contentCrs'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+      responses:
+        '200':
+          $ref: '#/components/responses/ArcheologischeOnderzoeksgebieden'
+        '401':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
+        '406':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      requestBody:
+        $ref: '#/components/requestBodies/SearchBody'
+      summary: 'Geografisch zoeken binnen archeologische onderzoeksgebieden'
   /archeologische-terreinen:
     get:
-      summary: Archeologische terreinen
       parameters:
-      - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/parameters.yaml#/acceptCrs'
-      - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
-      - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/acceptCrs'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: '#/components/parameters/functie'
+        - $ref: '#/components/parameters/materiaal'
+        - $ref: '#/components/parameters/omschrijving'
+        - $ref: '#/components/parameters/type'
+        - $ref: '#/components/parameters/stijlEnCultuur'
+        - $ref: '#/components/parameters/bouwkundigeKwaliteit'
       responses:
         '200':
           $ref: '#/components/responses/ArcheologischeTerreinen'
         '401':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/401'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
         '403':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/403'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
         '406':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/406'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
         '503':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/503'  
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Archeologische terreinen collectie'
+  '/archeologische-terreinen/{id}':
+    get:
+      parameters:
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/acceptCrs'
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          $ref: '#/components/responses/ArcheologischTerrein'
+        '401':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
+        '404':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/404'
+        '406':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Archeologisch terrein resource'
+  /archeologische-terreinen/_zoek:
+    post:
+      parameters:
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/acceptCrs'
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/contentCrs'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+      responses:
+        '200':
+          $ref: '#/components/responses/ArcheologischeTerreinen'
+        '401':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
+        '406':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      requestBody:
+        $ref: '#/components/requestBodies/SearchBody'
+      summary: 'Geografisch zoeken binnen archeologische terreinen'
   /complexen:
     get:
-      summary: Complexen
       parameters:
-      - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/parameters.yaml#/acceptCrs'
-      - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
-      - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/acceptCrs'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: '#/components/parameters/functie'
+        - $ref: '#/components/parameters/materiaal'
+        - $ref: '#/components/parameters/omschrijving'
+        - $ref: '#/components/parameters/type'
+        - $ref: '#/components/parameters/stijlEnCultuur'
+        - $ref: '#/components/parameters/bouwkundigeKwaliteit'
       responses:
         '200':
           $ref: '#/components/responses/Complexen'
         '401':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/401'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
         '403':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/403'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
         '406':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/406'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
         '503':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/503'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Complexen collectie'
+  '/complexen/{id}':
+    get:
+      parameters:
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/acceptCrs'
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          $ref: '#/components/responses/Complex'
+        '401':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
+        '404':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/404'
+        '406':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Complex resource'
+  /complexen/_zoek:
+    post:
+      parameters:
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/acceptCrs'
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/contentCrs'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+      responses:
+        '200':
+          $ref: '#/components/responses/Complexen'
+        '401':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
+        '406':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      requestBody:
+        $ref: '#/components/requestBodies/SearchBody'
+      summary: 'Geografisch zoeken binnen complexen'
   /grondsporen:
     get:
-      summary: Grondsporen
       parameters:
-      - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/parameters.yaml#/acceptCrs'
-      - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
-      - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/acceptCrs'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: '#/components/parameters/functie'
+        - $ref: '#/components/parameters/materiaal'
+        - $ref: '#/components/parameters/omschrijving'
+        - $ref: '#/components/parameters/type'
+        - $ref: '#/components/parameters/stijlEnCultuur'
+        - $ref: '#/components/parameters/bouwkundigeKwaliteit'
       responses:
         '200':
           $ref: '#/components/responses/Grondsporen'
         '401':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/401'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
         '403':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/403'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
         '406':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/406'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
         '503':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/503'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Grondsporen collectie'
+  '/grondsporen/{id}':
+    get:
+      parameters:
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/acceptCrs'
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          $ref: '#/components/responses/Grondspoor'
+        '401':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
+        '404':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/404'
+        '406':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Grondspoor resource'
+  /grondsporen/_zoek:
+    post:
+      parameters:
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/acceptCrs'
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/contentCrs'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+      responses:
+        '200':
+          $ref: '#/components/responses/Grondsporen'
+        '401':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
+        '406':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      requestBody:
+        $ref: '#/components/requestBodies/SearchBody'
+      summary: 'Geografisch zoeken binnen grondsporen'
   /rijksmonumenten:
     get:
-      summary: Rijksmonumenten
       parameters:
-      - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/parameters.yaml#/acceptCrs'
-      - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
-      - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/acceptCrs'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: '#/components/parameters/functie'
+        - $ref: '#/components/parameters/materiaal'
+        - $ref: '#/components/parameters/omschrijving'
+        - $ref: '#/components/parameters/type'
+        - $ref: '#/components/parameters/stijlEnCultuur'
+        - $ref: '#/components/parameters/bouwkundigeKwaliteit'
       responses:
         '200':
           $ref: '#/components/responses/Rijksmonumenten'
         '401':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/401'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
         '403':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/403'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
         '406':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/406'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
         '503':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/503'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Rijksmonumenten collectie'
+  '/rijksmonumenten/{id}':
+    get:
+      parameters:
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/acceptCrs'
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          $ref: '#/components/responses/Rijksmonument'
+        '401':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
+        '404':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/404'
+        '406':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Rijksmonument resource'
+  /rijksmonumenten/_zoek:
+    post:
+      parameters:
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/acceptCrs'
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/contentCrs'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+      responses:
+        '200':
+          $ref: '#/components/responses/Rijksmonumenten'
+        '401':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
+        '406':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      requestBody:
+        $ref: '#/components/requestBodies/SearchBody'
+      summary: 'Geografisch zoeken binnen rijksmonumenten'
   /vondsten:
     get:
-      summary: Vondsten
       parameters:
-      - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/parameters.yaml#/acceptCrs'
-      - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
-      - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/acceptCrs'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: '#/components/parameters/functie'
+        - $ref: '#/components/parameters/materiaal'
+        - $ref: '#/components/parameters/omschrijving'
+        - $ref: '#/components/parameters/type'
+        - $ref: '#/components/parameters/stijlEnCultuur'
+        - $ref: '#/components/parameters/bouwkundigeKwaliteit'
       responses:
         '200':
           $ref: '#/components/responses/Vondsten'
         '401':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/401'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
         '403':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/403'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
         '406':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/406'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
         '503':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/503'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Vondsten collectie'
+  '/vondsten/{id}':
+    get:
+      parameters:
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/acceptCrs'
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          $ref: '#/components/responses/Vondst'
+        '401':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
+        '404':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/404'
+        '406':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Vondst resource'
+  /vondsten/_zoek:
+    post:
+      parameters:
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/acceptCrs'
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/contentCrs'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+      responses:
+        '200':
+          $ref: '#/components/responses/Vondsten'
+        '401':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
+        '406':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      requestBody:
+        $ref: '#/components/requestBodies/SearchBody'
+      summary: 'Geografisch zoeken binnen vondsten'
   /vondstlocaties:
     get:
-      summary: Vondstlocaties
       parameters:
-      - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/parameters.yaml#/acceptCrs'
-      - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
-      - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/acceptCrs'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: '#/components/parameters/functie'
+        - $ref: '#/components/parameters/materiaal'
+        - $ref: '#/components/parameters/omschrijving'
+        - $ref: '#/components/parameters/type'
+        - $ref: '#/components/parameters/stijlEnCultuur'
+        - $ref: '#/components/parameters/bouwkundigeKwaliteit'
       responses:
         '200':
           $ref: '#/components/responses/Vondstlocaties'
         '401':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/401'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
         '403':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/403'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
         '406':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/406'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
         '503':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/503'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Vondstlocaties collectie'
+  '/vondstlocaties/{id}':
+    get:
+      parameters:
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/acceptCrs'
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          $ref: '#/components/responses/Vondstlocatie'
+        '401':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
+        '404':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/404'
+        '406':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Vondstlocatie resource'
+  /vondstlocaties/_zoek:
+    post:
+      parameters:
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/acceptCrs'
+        - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/parameters.yaml#/contentCrs'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+      responses:
+        '200':
+          $ref: '#/components/responses/Vondstlocaties'
+        '401':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
+        '406':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      requestBody:
+        $ref: '#/components/requestBodies/SearchBody'
+      summary: 'Geografisch zoeken binnen vondstlocaties'
 components:
+  parameters:
+    id:
+      name: id
+      in: path
+      description: Identifier
+      required: true
+      schema:
+        type: string
+    functie:
+      name: functie
+      in: query
+      description: 'Filteren op `functie`'
+      schema:
+        type: string
+    materiaal:
+      name: materiaal
+      in: query
+      description: 'Filteren op `materiaal`'
+      schema:
+        type: string
+    omschrijving:
+      name: omschrijving
+      in: query
+      description: 'Filteren op `omschrijving`'
+      schema:
+        type: string
+    type:
+      name: type
+      in: query
+      description: 'Filteren op `type`'
+      schema:
+        type: string
+    stijlEnCultuur:
+      name: stijlEnCultuur
+      in: query
+      description: 'Filteren op `stijlEnCultuur`'
+      schema:
+        type: string
+    bouwkundigeKwaliteit:
+      name: bouwkundigeKwaliteit
+      in: query
+      description: 'Filteren op `bouwkundigeKwaliteit`'
+      schema:
+        type: string
   responses:
     SearchResults:
       description: OK.
       headers:
         Content-Crs:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/contentCrs'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs'
         X-Pagination-Page:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xPaginationPage'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage'
         X-Pagination-Limit:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xPaginationLimit'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit'
         X-Total-Count:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xTotalCount'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xTotalCount'
       content:
         application/hal+json:
           schema:
-            required: [_embedded, _links]
+            required:
+              - _embedded
+              - _links
             type: object
             properties:
               _embedded:
@@ -267,221 +614,19 @@ components:
                       $ref: '#/components/schemas/SearchResult'
               _links:
                 type: object
-                allOf: [$ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/schemas.yaml#/HalCollectionLinks']
+                allOf:
+                  - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks'
     ArcheologischeComplexen:
       description: OK.
       headers:
         Content-Crs:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/contentCrs'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs'
         X-Pagination-Page:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xPaginationPage'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage'
         X-Pagination-Limit:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xPaginationLimit'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit'
         X-Total-Count:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xTotalCount'
-      content:
-        application/hal+json:
-          schema:
-            required: [_embedded, _links]
-            type: object
-            properties:
-              _embedded:
-                required:
-                  - 'archeologischeComplexen'
-                type: object
-                properties:
-                  archeologischeComplexen:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/ArcheologischComplex'
-              _links:
-                type: object
-                allOf: [$ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/schemas.yaml#/HalCollectionLinks']
-    ArcheologischeOnderzoeksgebieden:
-      description: OK.
-      headers:
-        Content-Crs:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/contentCrs'
-        X-Pagination-Page:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xPaginationPage'
-        X-Pagination-Limit:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xPaginationLimit'
-        X-Total-Count:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xTotalCount'
-      content:
-        application/hal+json:
-          schema:
-            required: [_embedded, _links]
-            type: object
-            properties:
-              _embedded:
-                required:
-                  - 'archeologischeOnderzoeksgebieden'
-                type: object
-                properties:
-                  grondsporen:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/ArcheologischOnderzoeksgebied'
-              _links:
-                type: object
-                allOf: [$ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/schemas.yaml#/HalCollectionLinks']
-    ArcheologischeTerreinen:
-      description: OK.
-      headers:
-        Content-Crs:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/contentCrs'
-        X-Pagination-Page:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xPaginationPage'
-        X-Pagination-Limit:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xPaginationLimit'
-        X-Total-Count:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xTotalCount'
-      content:
-        application/hal+json:
-          schema:
-            required: [_embedded, _links]
-            type: object
-            properties:
-              _embedded:
-                required:
-                  - 'archeologischeTerreinen'
-                type: object
-                properties:
-                  grondsporen:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/ArcheologischTerrein'
-              _links:
-                type: object
-                allOf: [$ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/schemas.yaml#/HalCollectionLinks']
-    Complexen:
-      description: OK.
-      headers:
-        Content-Crs:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/contentCrs'
-        X-Pagination-Page:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xPaginationPage'
-        X-Pagination-Limit:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xPaginationLimit'
-        X-Total-Count:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xTotalCount'
-      content:
-        application/hal+json:
-          schema:
-            required: [_embedded, _links]
-            type: object
-            properties:
-              _embedded:
-                required:
-                  - 'complexen'
-                type: object
-                properties:
-                  complexen:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Grondspoor'
-              _links:
-                type: object
-                allOf: [$ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/schemas.yaml#/HalCollectionLinks']
-    Grondsporen:
-      description: OK.
-      headers:
-        Content-Crs:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/contentCrs'
-        X-Pagination-Page:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xPaginationPage'
-        X-Pagination-Limit:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xPaginationLimit'
-        X-Total-Count:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xTotalCount'
-      content:
-        application/hal+json:
-          schema:
-            required: [_embedded, _links]
-            type: object
-            properties:
-              _embedded:
-                required:
-                  - 'grondsporen'
-                type: object
-                properties:
-                  grondsporen:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Grondspoor'
-              _links:
-                type: object
-                allOf: [$ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/schemas.yaml#/HalCollectionLinks']
-    Rijksmonumenten:
-      description: OK.
-      headers:
-        Content-Crs:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/contentCrs'
-        X-Pagination-Page:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xPaginationPage'
-        X-Pagination-Limit:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xPaginationLimit'
-        X-Total-Count:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xTotalCount'
-      content:
-        application/hal+json:
-          schema:
-            required: [_embedded, _links]
-            type: object
-            properties:
-              _embedded:
-                required:
-                  - 'rijksmonumenten'
-                type: object
-                properties:
-                  rijksmonumenten:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Rijksmonument'
-              _links:
-                type: object
-                allOf: [$ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/schemas.yaml#/HalCollectionLinks']
-    Vondsten:
-      description: OK.
-      headers:
-        Content-Crs:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/contentCrs'
-        X-Pagination-Page:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xPaginationPage'
-        X-Pagination-Limit:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xPaginationLimit'
-        X-Total-Count:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xTotalCount'
-      content:
-        application/hal+json:
-          schema:
-            required: [_embedded, _links]
-            type: object
-            properties:
-              _embedded:
-                required:
-                  - 'vondsten'
-                type: object
-                properties:
-                  rijksmonumenten:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Vondst'
-              _links:
-                type: object
-                allOf: [$ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/schemas.yaml#/HalCollectionLinks']
-    Vondstlocaties:
-      description: OK.
-      headers:
-        Content-Crs:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/contentCrs'
-        X-Pagination-Page:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xPaginationPage'
-        X-Pagination-Limit:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xPaginationLimit'
-        X-Total-Count:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xTotalCount'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xTotalCount'
       content:
         application/hal+json:
           schema:
@@ -491,34 +636,336 @@ components:
             type: object
             properties:
               _embedded:
+                type: object
+                properties:
+                  archeologischeComplexen:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ArcheologischComplex'
                 required:
-                  - 'vondstlocaties'
+                  - archeologischeComplexen
+              _links:
+                type: object
+                allOf:
+                  - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks'
+    ArcheologischComplex:
+      description: OK.
+      headers:
+        Content-Crs:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs'
+      content:
+        application/hal+json:
+          schema:
+            $ref: '#/components/schemas/ArcheologischComplex'
+    ArcheologischeOnderzoeksgebieden:
+      description: OK.
+      headers:
+        Content-Crs:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs'
+        X-Pagination-Page:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage'
+        X-Pagination-Limit:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit'
+        X-Total-Count:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xTotalCount'
+      content:
+        application/hal+json:
+          schema:
+            required:
+              - _embedded
+              - _links
+            type: object
+            properties:
+              _embedded:
+                type: object
+                properties:
+                  archeologischeOnderzoeksgebieden:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ArcheologischOnderzoeksgebied'
+                required:
+                  - archeologischeOnderzoeksgebieden
+              _links:
+                type: object
+                allOf:
+                  - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks'
+    ArcheologischOnderzoeksgebied:
+      description: OK.
+      headers:
+        Content-Crs:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs'
+      content:
+        application/hal+json:
+          schema:
+            $ref: '#/components/schemas/ArcheologischOnderzoeksgebied'
+    ArcheologischeTerreinen:
+      description: OK.
+      headers:
+        Content-Crs:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs'
+        X-Pagination-Page:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage'
+        X-Pagination-Limit:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit'
+        X-Total-Count:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xTotalCount'
+      content:
+        application/hal+json:
+          schema:
+            required:
+              - _embedded
+              - _links
+            type: object
+            properties:
+              _embedded:
+                type: object
+                properties:
+                  archeologischeTerreinen:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ArcheologischTerrein'
+                required:
+                  - archeologischeTerreinen
+              _links:
+                type: object
+                allOf:
+                  - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks'
+    ArcheologischTerrein:
+      description: OK.
+      headers:
+        Content-Crs:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs'
+      content:
+        application/hal+json:
+          schema:
+            $ref: '#/components/schemas/ArcheologischTerrein'
+    Complexen:
+      description: OK.
+      headers:
+        Content-Crs:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs'
+        X-Pagination-Page:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage'
+        X-Pagination-Limit:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit'
+        X-Total-Count:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xTotalCount'
+      content:
+        application/hal+json:
+          schema:
+            required:
+              - _embedded
+              - _links
+            type: object
+            properties:
+              _embedded:
+                type: object
+                properties:
+                  complexen:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Complex'
+                required:
+                  - complexen
+              _links:
+                type: object
+                allOf:
+                  - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks'
+    Complex:
+      description: OK.
+      headers:
+        Content-Crs:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs'
+      content:
+        application/hal+json:
+          schema:
+            $ref: '#/components/schemas/Complex'
+    Grondsporen:
+      description: OK.
+      headers:
+        Content-Crs:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs'
+        X-Pagination-Page:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage'
+        X-Pagination-Limit:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit'
+        X-Total-Count:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xTotalCount'
+      content:
+        application/hal+json:
+          schema:
+            required:
+              - _embedded
+              - _links
+            type: object
+            properties:
+              _embedded:
+                type: object
+                properties:
+                  grondsporen:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Grondspoor'
+                required:
+                  - grondsporen
+              _links:
+                type: object
+                allOf:
+                  - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks'
+    Grondspoor:
+      description: OK.
+      headers:
+        Content-Crs:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs'
+      content:
+        application/hal+json:
+          schema:
+            $ref: '#/components/schemas/Grondspoor'
+    Rijksmonumenten:
+      description: OK.
+      headers:
+        Content-Crs:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs'
+        X-Pagination-Page:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage'
+        X-Pagination-Limit:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit'
+        X-Total-Count:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xTotalCount'
+      content:
+        application/hal+json:
+          schema:
+            required:
+              - _embedded
+              - _links
+            type: object
+            properties:
+              _embedded:
+                type: object
+                properties:
+                  rijksmonumenten:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Rijksmonument'
+                required:
+                  - rijksmonumenten
+              _links:
+                type: object
+                allOf:
+                  - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks'
+    Rijksmonument:
+      description: OK.
+      headers:
+        Content-Crs:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs'
+      content:
+        application/hal+json:
+          schema:
+            $ref: '#/components/schemas/Rijksmonument'
+    Vondsten:
+      description: OK.
+      headers:
+        Content-Crs:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs'
+        X-Pagination-Page:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage'
+        X-Pagination-Limit:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit'
+        X-Total-Count:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xTotalCount'
+      content:
+        application/hal+json:
+          schema:
+            required:
+              - _embedded
+              - _links
+            type: object
+            properties:
+              _embedded:
+                type: object
+                properties:
+                  vondsten:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Vondst'
+                required:
+                  - vondsten
+              _links:
+                type: object
+                allOf:
+                  - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks'
+    Vondst:
+      description: OK.
+      headers:
+        Content-Crs:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs'
+      content:
+        application/hal+json:
+          schema:
+            $ref: '#/components/schemas/Vondst'
+    Vondstlocaties:
+      description: OK.
+      headers:
+        Content-Crs:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs'
+        X-Pagination-Page:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage'
+        X-Pagination-Limit:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit'
+        X-Total-Count:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xTotalCount'
+      content:
+        application/hal+json:
+          schema:
+            required:
+              - _embedded
+              - _links
+            type: object
+            properties:
+              _embedded:
                 type: object
                 properties:
                   vondstlocaties:
                     type: array
                     items:
                       $ref: '#/components/schemas/Vondstlocatie'
+                required:
+                  - vondstlocaties
               _links:
                 type: object
-                allOf: [$ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/schemas.yaml#/HalCollectionLinks']
+                allOf:
+                  - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks'
+    Vondstlocatie:
+      description: OK.
+      headers:
+        Content-Crs:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs'
+      content:
+        application/hal+json:
+          schema:
+            $ref: '#/components/schemas/Vondstlocatie'
   schemas:
     ArcheologischComplex:
-      allOf: [$ref: '#/components/schemas/CultuurhistorischObject']
+      allOf:
+        - $ref: '#/components/schemas/CultuurhistorischObject'
     ArcheologischOnderzoeksgebied:
-      allOf: [$ref: '#/components/schemas/CultuurhistorischObject']
+      allOf:
+        - $ref: '#/components/schemas/CultuurhistorischObject'
     ArcheologischTerrein:
-      allOf: [$ref: '#/components/schemas/CultuurhistorischObject']
+      allOf:
+        - $ref: '#/components/schemas/CultuurhistorischObject'
     Complex:
-      allOf: [$ref: '#/components/schemas/CultuurhistorischObject']
+      allOf:
+        - $ref: '#/components/schemas/CultuurhistorischObject'
     Grondspoor:
-      allOf: [$ref: '#/components/schemas/CultuurhistorischObject']
-    Vondst:
-      allOf: [$ref: '#/components/schemas/CultuurhistorischObject']
-    Vondstlocatie:
-      allOf: [$ref: '#/components/schemas/CultuurhistorischObject']
+      allOf:
+        - $ref: '#/components/schemas/CultuurhistorischObject'
+      properties:
+        aantal:
+          type: string
     Rijksmonument:
-      allOf: [$ref: '#/components/schemas/CultuurhistorischObject']
+      allOf:
+        - $ref: '#/components/schemas/CultuurhistorischObject'
       properties:
         locn:
           type: object
@@ -547,6 +994,51 @@ components:
             provincie:
               type: string
               example: NH
+    Vondst:
+      allOf:
+        - $ref: '#/components/schemas/CultuurhistorischObject'  
+      properties:
+        _links:
+          type: object
+          properties:
+            self:
+              allOf:
+                - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalLink'
+              description: 'Absolute link naar deze resource'
+            vondstlocatie:
+              allOf:
+                - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalLink'
+              description: 'Link naar de betreffende vondstlocatie van deze vondst'
+    Vondstlocatie:
+      allOf:
+        - $ref: '#/components/schemas/CultuurhistorischObject'  
+      properties:
+        _links:
+          type: object
+          properties:
+            self:
+              allOf:
+                - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalLink'
+              description: 'Absolute link naar deze resource'
+            archeologischOnderzoeksgebied:
+              allOf:
+                - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalLink'
+              description: 'Link naar het betreffende archeologisch onderzoeksgebied van deze vondstlocatie'
+    SearchResult:
+      type: object
+      required:
+        - _links
+        - type
+      properties:
+        type:
+          type: string
+        _links:
+          type: object
+          properties:
+            self:
+              allOf:
+                - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalLink'
+              description: 'Absolute link naar deze resource'
     CultuurhistorischObject:
       type: object
       required:
@@ -569,31 +1061,37 @@ components:
         geometrie:
           type: object
           allOf:
-            - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/schemas.yaml#/GeoJsonObject'
+            - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/GeoJsonObject'
         _links:
           type: object
           properties:
             self:
-              allOf: [$ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/schemas.yaml#/HalLink']
-              description: Absolute link naar huidige pagina
+              allOf:
+                - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalLink'
+              description: 'Absolute link naar deze resource'
             samenhang:
-              allOf: [$ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/schemas.yaml#/HalLink']
+              allOf:
+                - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalLink'
               description: Absolute link naar andere cultuurhistorische objecten in de API
-    SearchResult:
-      type: object
-      required:
-        - _links
-        - type
-      properties:
-        type:
-          type: string
-        _links:
-          type: object
-          properties:
-            self:
-              allOf: [$ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/schemas.yaml#/HalLink']
-              description: Absolute link naar de gevonden resource
-              properties:
-                title:
-                  type: string
-                  description: Voor mens leesbare titel van de link
+  requestBodies:
+    SearchBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              geometrie:
+                type: object
+                description: 'Het veld waarop geografisch gezocht moet worden. In dit geval is dit het veld `geometrie`.'
+                properties:
+                  within:
+                    allOf:
+                      - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/GeoJsonObject'
+                    description: 'Deze property bepaalt het type query. In dit geval `within`, maar het kan ook `contains` of `intersects` zijn. Het moet een valide GeoJSON `Point` of `Polygon` object bevatten.'
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - Point
+                          - Polygon
