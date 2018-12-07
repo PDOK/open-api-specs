@@ -12,8 +12,8 @@ paths:
   /concepten:
     get:
       parameters:
-        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
-        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: 'https://cdn.jsdelivr.net/gh/PDOK/open-api-specs/shared/parameters.yaml#/page'
+        - $ref: 'https://cdn.jsdelivr.net/gh/PDOK/open-api-specs/shared/parameters.yaml#/pageSize'
         - $ref: '#/components/parameters/schema'
         - $ref: '#/components/parameters/zoekstring'
       responses:
@@ -49,8 +49,8 @@ paths:
   /klassen:
     get:
       parameters:
-        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
-        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: 'https://cdn.jsdelivr.net/gh/PDOK/open-api-specs/shared/parameters.yaml#/page'
+        - $ref: 'https://cdn.jsdelivr.net/gh/PDOK/open-api-specs/shared/parameters.yaml#/pageSize'
         - $ref: '#/components/parameters/concept'
         - $ref: '#/components/parameters/zoekstring'
       responses:
@@ -86,8 +86,8 @@ paths:
   /eigenschappen:
     get:
       parameters:
-        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
-        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: 'https://cdn.jsdelivr.net/gh/PDOK/open-api-specs/shared/parameters.yaml#/page'
+        - $ref: 'https://cdn.jsdelivr.net/gh/PDOK/open-api-specs/shared/parameters.yaml#/pageSize'
         - $ref: '#/components/parameters/concept'
         - $ref: '#/components/parameters/zoekstring'
       responses:
@@ -123,8 +123,8 @@ paths:
   /modellen:
     get:
       parameters:
-        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
-        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: 'https://cdn.jsdelivr.net/gh/PDOK/open-api-specs/shared/parameters.yaml#/page'
+        - $ref: 'https://cdn.jsdelivr.net/gh/PDOK/open-api-specs/shared/parameters.yaml#/pageSize'
         - $ref: '#/components/parameters/datumVanaf'
         - $ref: '#/components/parameters/zoekstring'
       responses:

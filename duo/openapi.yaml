@@ -12,8 +12,8 @@ paths:
   /bevoegd-gezagen:
     get:
       parameters:
-        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
-        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: 'https://cdn.jsdelivr.net/gh/PDOK/open-api-specs/shared/parameters.yaml#/page'
+        - $ref: 'https://cdn.jsdelivr.net/gh/PDOK/open-api-specs/shared/parameters.yaml#/pageSize'
         - $ref: '#/components/parameters/denominatie'
         - $ref: '#/components/parameters/wetgeving'
         - $ref: '#/components/parameters/type'
@@ -22,13 +22,13 @@ paths:
         '200':
           $ref: '#/components/responses/BevoegdGezagen'
         '401':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/401'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/401'
         '403':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/403'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/403'
         '406':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/406'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/406'
         '503':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/503'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/503'
       summary: 'Bevoegd gezagen collectie'
   '/bevoegd-gezagen/{id}':
     get:
@@ -38,21 +38,21 @@ paths:
         '200':
           $ref: '#/components/responses/BevoegdGezag'
         '401':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/401'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/401'
         '403':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/403'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/403'
         '404':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/404'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/404'
         '406':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/406'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/406'
         '503':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/503'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/503'
       summary: 'Bevoegd gezag resource'
   /onderwijsinstellingen:
     get:
       parameters:
-        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
-        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: 'https://cdn.jsdelivr.net/gh/PDOK/open-api-specs/shared/parameters.yaml#/page'
+        - $ref: 'https://cdn.jsdelivr.net/gh/PDOK/open-api-specs/shared/parameters.yaml#/pageSize'
         - $ref: '#/components/parameters/denominatie'
         - $ref: '#/components/parameters/wetgeving'
         - $ref: '#/components/parameters/type'
@@ -61,13 +61,13 @@ paths:
         '200':
           $ref: '#/components/responses/Onderwijsinstellingen'
         '401':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/401'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/401'
         '403':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/403'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/403'
         '406':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/406'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/406'
         '503':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/503'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/503'
       summary: 'Onderwijsinstellingen collectie'
   '/onderwijsinstellingen/{id}':
     get:
@@ -77,15 +77,15 @@ paths:
         '200':
           $ref: '#/components/responses/Onderwijsinstelling'
         '401':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/401'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/401'
         '403':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/403'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/403'
         '404':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/404'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/404'
         '406':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/406'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/406'
         '503':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/503'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/503'
       summary: 'Onderwijsinstelling resource'
 components:
   parameters:
@@ -125,11 +125,11 @@ components:
       description: OK.
       headers:
         X-Pagination-Page:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xPaginationPage'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/headers.yaml#/xPaginationPage'
         X-Pagination-Limit:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xPaginationLimit'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/headers.yaml#/xPaginationLimit'
         X-Total-Count:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xTotalCount'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/headers.yaml#/xTotalCount'
       content:
         application/hal+json:
           schema:
@@ -150,7 +150,7 @@ components:
               _links:
                 type: object
                 allOf:
-                  - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/schemas.yaml#/HalCollectionLinks'
+                  - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/schemas.yaml#/HalCollectionLinks'
     BevoegdGezag:
       description: OK.
       content:
@@ -161,11 +161,11 @@ components:
       description: OK.
       headers:
         X-Pagination-Page:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xPaginationPage'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/headers.yaml#/xPaginationPage'
         X-Pagination-Limit:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xPaginationLimit'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/headers.yaml#/xPaginationLimit'
         X-Total-Count:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xTotalCount'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/headers.yaml#/xTotalCount'
       content:
         application/hal+json:
           schema:
@@ -186,7 +186,7 @@ components:
               _links:
                 type: object
                 allOf:
-                  - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/schemas.yaml#/HalCollectionLinks'
+                  - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/schemas.yaml#/HalCollectionLinks'
     Onderwijsinstelling:
       description: OK.
       content:
@@ -204,7 +204,7 @@ components:
           properties:
             self:
               allOf:
-                - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/schemas.yaml#/HalLink'
+                - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/schemas.yaml#/HalLink'
               description: 'Absolute link naar deze resource'
         denominatie:
           type: string
@@ -224,7 +224,7 @@ components:
           properties:
             self:
               allOf:
-                - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/schemas.yaml#/HalLink'
+                - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/schemas.yaml#/HalLink'
               description: 'Absolute link naar deze resource'
         denominatie:
           type: string

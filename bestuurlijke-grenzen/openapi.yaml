@@ -17,20 +17,20 @@ paths:
       - $ref: '#/components/parameters/cbsCode'
       - $ref: '#/components/parameters/aknId'
       - $ref: '#/components/parameters/type'
-      - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/parameters.yaml#/acceptCrs'
-      - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
-      - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+      - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/parameters.yaml#/acceptCrs'
+      - $ref: 'https://cdn.jsdelivr.net/gh/PDOK/open-api-specs/shared/parameters.yaml#/page'
+      - $ref: 'https://cdn.jsdelivr.net/gh/PDOK/open-api-specs/shared/parameters.yaml#/pageSize'
       responses:
         '200':
           $ref: '#/components/responses/OpenbareLichamen'
         '401':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/401'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/401'
         '403':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/403'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/403'
         '406':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/406'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/406'
         '503':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/503'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/503'
   /openbare-lichamen/{oin}:
     get:
       summary: Enkel openbaar lichaam
@@ -40,13 +40,13 @@ paths:
         '200':
           $ref: '#/components/responses/OpenbaarLichaam'
         '401':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/401'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/401'
         '403':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/403'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/403'
         '406':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/406'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/406'
         '503':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/503'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/503'
   /openbare-lichamen/_zoek:
     post:
       summary: Zoeken op openbare lichamen
@@ -55,21 +55,21 @@ paths:
       - $ref: '#/components/parameters/cbsCode'
       - $ref: '#/components/parameters/aknId'
       - $ref: '#/components/parameters/type'
-      - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/parameters.yaml#/acceptCrs'
-      - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/parameters.yaml#/contentCrs'
-      - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
-      - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+      - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/parameters.yaml#/acceptCrs'
+      - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/parameters.yaml#/contentCrs'
+      - $ref: 'https://cdn.jsdelivr.net/gh/PDOK/open-api-specs/shared/parameters.yaml#/page'
+      - $ref: 'https://cdn.jsdelivr.net/gh/PDOK/open-api-specs/shared/parameters.yaml#/pageSize'
       responses:
         '200':
           $ref: '#/components/responses/OpenbareLichamen'
         '401':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/401'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/401'
         '403':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/403'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/403'
         '406':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/406'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/406'
         '503':
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/responses.yaml#/503'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/responses.yaml#/503'
       requestBody:
         required: true
         content:
@@ -83,7 +83,7 @@ paths:
                   properties:
                     within:
                       allOf:
-                      - $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/schemas.yaml#/GeoJsonObject'
+                      - $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/schemas.yaml#/GeoJsonObject'
                       description: >-
                         Deze property bepaalt het type query. In dit geval
                         `within`, maar het kan ook `contains` of
@@ -129,7 +129,7 @@ components:
       description: OK.
       headers:
         Content-Crs:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/contentCrs'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/headers.yaml#/contentCrs'
       content:
         application/hal+json:
           schema:
@@ -138,13 +138,13 @@ components:
       description: OK.
       headers:
         Content-Crs:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/contentCrs'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/headers.yaml#/contentCrs'
         X-Pagination-Page:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xPaginationPage'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/headers.yaml#/xPaginationPage'
         X-Pagination-Limit:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xPaginationLimit'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/headers.yaml#/xPaginationLimit'
         X-Total-Count:
-          $ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/headers.yaml#/xTotalCount'
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/headers.yaml#/xTotalCount'
       content:
         application/hal+json:
           schema:
@@ -162,7 +162,7 @@ components:
                       $ref: '#/components/schemas/OpenbaarLichaam'
               _links:
                 type: object
-                allOf: [$ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/schemas.yaml#/HalCollectionLinks']
+                allOf: [$ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/schemas.yaml#/HalCollectionLinks']
   schemas:
     OpenbaarLichaam:
       type: object
@@ -194,12 +194,12 @@ components:
               properties:
                 geometrie:
                   type: object
-                  allOf: [$ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/schemas.yaml#/GeoJsonObject']
+                  allOf: [$ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/schemas.yaml#/GeoJsonObject']
         _links:
           required:
             - self
           type: object
           properties:
             self:
-              allOf: [$ref: 'https://rawgit.com/dvh/KP-APIs/master/oas-components/schemas.yaml#/HalLink']
+              allOf: [$ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs/oas-components/schemas.yaml#/HalLink']
               description: Absolute link naar huidige pagina
