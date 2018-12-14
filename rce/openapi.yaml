@@ -973,7 +973,7 @@ components:
             waarde:
               type: "object"
               allOf:
-              - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/GeoJSON"
+              - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/GeoJsonObject"
     ArcheologischComplex:
       type: "object"
       allOf:
@@ -1308,7 +1308,7 @@ components:
           properties:
             self:
               allOf:
-              - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/ResourceLink"
+              - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalLink"
               description: "Absolute link naar deze resource"
     Locatieaanduiding:
       type: "object"
@@ -1543,12 +1543,12 @@ components:
                   intersects:
                     description: "De manier van 'samenvallen' van de zoek-geometrie\
                       \ en de resultaat-geometrie, zie OGC specificaties."
-                    $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/GeoJSON"
+                    $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/GeoJsonObject"
                   contains:
                     description: "De manier van 'samenvallen' van de zoek-geometrie\
                       \ en de resultaat-geometrie, zie OGC specificaties."
-                    $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/GeoJSON"
+                    $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/GeoJsonObject"
                   within:
                     description: "De manier van 'samenvallen' van de zoek-geometrie\
                       \ en de resultaat-geometrie, zie OGC specificaties."
-                    $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/GeoJSON"
+                    $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/GeoJsonObject"
