@@ -3,7 +3,7 @@ info:
   version: 1.0.0
   title: 'RCE API'
 servers:
-  - url: 'https://data.cultureelerfgoed.nl/api/v1'
+  - url: 'https://linkeddata.cultureelerfgoed.nl/api/v1'
 paths:
   /_zoek:
     post:
