@@ -540,13 +540,13 @@ components:
       description: "OK."
       headers:
         Content-Crs:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/Content-Crs"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs"
         X-Pagination-Page:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/X-Pagination-Page"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage"
         X-Pagination-Limit:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/X-Pagination-Limit"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit"
         X-Total-Count:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/X-Total-Count"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xTotalCount"
       content:
         application/hal+json:
           schema:
@@ -572,13 +572,13 @@ components:
       description: "OK."
       headers:
         Content-Crs:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/Content-Crs"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs"
         X-Pagination-Page:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/X-Pagination-Page"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage"
         X-Pagination-Limit:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/X-Pagination-Limit"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit"
         X-Total-Count:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/X-Total-Count"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xTotalCount"
       content:
         application/hal+json:
           schema:
@@ -604,7 +604,7 @@ components:
       description: "OK."
       headers:
         Content-Crs:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/Content-Crs"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs"
       content:
         application/hal+json:
           schema:
@@ -615,13 +615,13 @@ components:
       description: "OK."
       headers:
         Content-Crs:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/Content-Crs"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs"
         X-Pagination-Page:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/X-Pagination-Page"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage"
         X-Pagination-Limit:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/X-Pagination-Limit"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit"
         X-Total-Count:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/X-Total-Count"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xTotalCount"
       content:
         application/hal+json:
           schema:
@@ -647,7 +647,7 @@ components:
       description: "OK."
       headers:
         Content-Crs:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/Content-Crs"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs"
       content:
         application/hal+json:
           schema:
@@ -658,13 +658,13 @@ components:
       description: "OK."
       headers:
         Content-Crs:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/Content-Crs"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs"
         X-Pagination-Page:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/X-Pagination-Page"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage"
         X-Pagination-Limit:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/X-Pagination-Limit"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit"
         X-Total-Count:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/X-Total-Count"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xTotalCount"
       content:
         application/hal+json:
           schema:
@@ -690,7 +690,7 @@ components:
       description: "OK."
       headers:
         Content-Crs:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/Content-Crs"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs"
       content:
         application/hal+json:
           schema:
@@ -701,13 +701,13 @@ components:
       description: "OK."
       headers:
         Content-Crs:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/Content-Crs"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs"
         X-Pagination-Page:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/X-Pagination-Page"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage"
         X-Pagination-Limit:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/X-Pagination-Limit"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit"
         X-Total-Count:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/X-Total-Count"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xTotalCount"
       content:
         application/hal+json:
           schema:
@@ -733,7 +733,7 @@ components:
       description: "OK."
       headers:
         Content-Crs:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/Content-Crs"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs"
       content:
         application/hal+json:
           schema:
@@ -744,13 +744,13 @@ components:
       description: "OK."
       headers:
         Content-Crs:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/Content-Crs"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs"
         X-Pagination-Page:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/X-Pagination-Page"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage"
         X-Pagination-Limit:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/X-Pagination-Limit"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit"
         X-Total-Count:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/X-Total-Count"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xTotalCount"
       content:
         application/hal+json:
           schema:
@@ -776,7 +776,7 @@ components:
       description: "OK."
       headers:
         Content-Crs:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/Content-Crs"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs"
       content:
         application/hal+json:
           schema:
@@ -787,11 +787,11 @@ components:
       description: "OK."
       headers:
         Content-Crs:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/Content-Crs"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs"
         X-Pagination-Page:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/X-Pagination-Page"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage"
         X-Pagination-Limit:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/X-Pagination-Limit"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit"
       content:
         application/hal+json:
           schema:
@@ -817,7 +817,7 @@ components:
       description: "OK."
       headers:
         Content-Crs:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/Content-Crs"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs"
       content:
         application/hal+json:
           schema:
@@ -828,13 +828,13 @@ components:
       description: "OK."
       headers:
         Content-Crs:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/Content-Crs"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs"
         X-Pagination-Page:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/X-Pagination-Page"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage"
         X-Pagination-Limit:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/X-Pagination-Limit"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit"
         X-Total-Count:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/X-Total-Count"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xTotalCount"
       content:
         application/hal+json:
           schema:
@@ -860,7 +860,7 @@ components:
       description: "OK."
       headers:
         Content-Crs:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/Content-Crs"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs"
       content:
         application/hal+json:
           schema:
@@ -871,13 +871,13 @@ components:
       description: "OK."
       headers:
         Content-Crs:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/Content-Crs"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs"
         X-Pagination-Page:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/X-Pagination-Page"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage"
         X-Pagination-Limit:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/X-Pagination-Limit"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit"
         X-Total-Count:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/X-Total-Count"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xTotalCount"
       content:
         application/hal+json:
           schema:
@@ -903,7 +903,7 @@ components:
       description: "OK."
       headers:
         Content-Crs:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/Content-Crs"
+          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/contentCrs"
       content:
         application/hal+json:
           schema:
