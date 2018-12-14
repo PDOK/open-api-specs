@@ -567,7 +567,7 @@ components:
               _links:
                 type: "object"
                 allOf:
-                - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/CollectionLinks"
+                - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks"
     ArcheologischeComplexen:
       description: "OK."
       headers:
@@ -599,7 +599,7 @@ components:
               _links:
                 type: "object"
                 allOf:
-                - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/CollectionLinks"
+                - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks"
     ArcheologischComplex:
       description: "OK."
       headers:
@@ -642,7 +642,7 @@ components:
               _links:
                 type: "object"
                 allOf:
-                - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/CollectionLinks"
+                - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks"
     ArcheologischOnderzoeksgebied:
       description: "OK."
       headers:
@@ -685,7 +685,7 @@ components:
               _links:
                 type: "object"
                 allOf:
-                - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/CollectionLinks"
+                - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks"
     ArcheologischTerrein:
       description: "OK."
       headers:
@@ -728,7 +728,7 @@ components:
               _links:
                 type: "object"
                 allOf:
-                - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/CollectionLinks"
+                - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks"
     Complex:
       description: "OK."
       headers:
@@ -771,7 +771,7 @@ components:
               _links:
                 type: "object"
                 allOf:
-                - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/CollectionLinks"
+                - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks"
     Grondspoor:
       description: "OK."
       headers:
@@ -812,7 +812,7 @@ components:
               _links:
                 type: "object"
                 allOf:
-                - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/CollectionLinks"
+                - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks"
     Rijksmonument:
       description: "OK."
       headers:
@@ -855,7 +855,7 @@ components:
               _links:
                 type: "object"
                 allOf:
-                - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/CollectionLinks"
+                - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks"
     Vondst:
       description: "OK."
       headers:
@@ -898,7 +898,7 @@ components:
               _links:
                 type: "object"
                 allOf:
-                - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/CollectionLinks"
+                - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks"
     Vondstlocatie:
       description: "OK."
       headers:
