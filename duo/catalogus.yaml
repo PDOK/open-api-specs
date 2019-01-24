@@ -56,6 +56,7 @@ paths:
       - $ref: "#/components/parameters/concept"
       - $ref: "#/components/parameters/zoekstring"
       - $ref: "#/components/parameters/model"
+      - $ref: "#/components/parameters/eigenschap"
       responses:
         200:
           $ref: "#/components/responses/Klassen"
@@ -274,7 +275,7 @@ components:
                   klassen:
                     type: "array"
                     items:
-                      $ref: "#/components/schemas/Klassen"
+                      $ref: "#/components/schemas/Klasse"
                 required:
                 - "klassen"
               _links:
@@ -366,13 +367,13 @@ components:
             allOf:
             - $ref: "#/components/schemas/Model"
   schemas:
-    CodeLabel:
+    UriEnLabel:
       type: "object"
       required:
-      - "code"
+      - "uri"
       - "label"
       properties:
-        "code":
+        "uri":
           type: "string"
         "label":
           type: "string"
@@ -417,20 +418,21 @@ components:
     Concept:
       type: "object"
       allOf:
-      - $ref: "#/components/schemas/ConceptLinks"
-      - properties:
-          schema:
-            type: "array"
-            items:
-              $ref: "#/components/schemas/CodeLabel"
+      - type: "object"
+        properties:
           label:
             type: "string"
           definitie:
             type: "string"
-          bron:
+          bronnen:
             type: "array"
             items:
-              $ref: "#/components/schemas/CodeLabel"
+              $ref: "#/components/schemas/UriEnLabel"
+          schemas:
+            type: "array"
+            items:
+              $ref: "#/components/schemas/UriEnLabel"
+      - $ref: "#/components/schemas/ConceptLinks"
     KlasseLinks:
       type: "object"
       required:
@@ -449,41 +451,54 @@ components:
                   type: "string"
                   format: "uri"
                   description: "URL van de link"
-    KlasseKort:
-      type: "object"
-      properties:
-        concepten:
-          type: "array"
-          items:
-            type: "string"
-        label:
-          type: "string"
-        commentaar:
-          type: "array"
-          items:
-            type: "string"
-    Klassen:
-      type: "object"
-      allOf:
-      - $ref: "#/components/schemas/KlasseKort"
-      - $ref: "#/components/schemas/KlasseLinks"
+            concepten:
+              type: "object"
+              required:
+              - "href"
+              properties:
+                href:
+                  type: "string"
+                  format: "uri"
+                  description: "Link naar concepten die horen bij deze klasse"
+                  example: ".../concepten?klasse=http://lod.onderwijsregistratie.nl/cat/term/BevoegdGezag"
+            modellen:
+              type: "object"
+              required:
+              - "href"
+              properties:
+                href:
+                  type: "string"
+                  format: "uri"
+                  description: "Link naar modellen die horen bij deze klasse"
+                  example: ".../modellen?klasse=http://lod.onderwijsregistratie.nl/cat/term/BevoegdGezag"
+            eigenschappen:
+              type: "object"
+              required:
+              - "href"
+              properties:
+                href:
+                  type: "string"
+                  format: "uri"
+                  description: "Link naar eigenschappen die horen bij deze klasse"
+                  example: ".../eigenschappen?klasse=http://lod.onderwijsregistratie.nl/cat/term/BevoegdGezag"
     Klasse:
       type: "object"
       allOf:
-      - $ref: "#/components/schemas/KlasseKort"
-      - properties:
+      - "type": "object"
+        properties:
+          label:
+            type: "string"
+          commentaar:
+            type: "array"
+            items:
+              type: "string"
           vervangenDoor:
             type: "string"
             nullable: true
           enumeratie:
             type: "array"
             items:
-              type: "object"
-              properties:
-                code:
-                  type: "string"
-                label:
-                  type: "string"
+              $ref: "#/components/schemas/UriEnLabel"
       - $ref: "#/components/schemas/KlasseLinks"
     EigenschapLinks:
       type: "object"
@@ -525,7 +540,8 @@ components:
       type: "object"
       allOf:
       - $ref: "#/components/schemas/EigenschapKort"
-      - properties:
+      - type: "object"
+        properties:
           vervangenDoor:
             type: "string"
             nullable: true
@@ -569,7 +585,8 @@ components:
       type: "object"
       allOf:
       - $ref: "#/components/schemas/ModelKort"
-      - required:
+      - type: "object"
+        required:
         - "_links"
         properties:
           imports:
