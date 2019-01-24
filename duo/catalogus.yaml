@@ -470,10 +470,6 @@ components:
                   type: "string"
                 label:
                   type: "string"
-          shapes:
-            type: "array"
-            items:
-              $ref: "#/components/schemas/Shape"
       - $ref: "#/components/schemas/KlasseLinks"
     EigenschapLinks:
       type: "object"
@@ -519,10 +515,6 @@ components:
           vervangenDoor:
             type: "string"
             nullable: true
-          shapes:
-            type: "array"
-            items:
-              $ref: "#/components/schemas/Shape"
       - $ref: "#/components/schemas/EigenschapLinks"
     ModelLinks:
       type: "object"
@@ -603,22 +595,3 @@ components:
                     type: "string"
                     format: "uri"
                     description: "URL van de link"
-    Shape:
-      type: "object"
-      properties:
-        naam:
-          type: "string"
-        eigenschap:
-          type: "string"
-        klasse:
-          type: "string"
-          nullable: true
-        constraints:
-          type: "array"
-          items:
-            type: "object"
-            properties:
-              type:
-                type: "string"
-              waarde:
-                type: "string"
