@@ -93,6 +93,7 @@ paths:
       - $ref: "https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page"
       - $ref: "https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize"
       - $ref: "#/components/parameters/concept"
+      - $ref: "#/components/parameters/klasse"
       - $ref: "#/components/parameters/zoekstring"
       - $ref: "#/components/parameters/model"
       responses:
@@ -132,6 +133,7 @@ paths:
       - $ref: "https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize"
       - $ref: "#/components/parameters/datumVanaf"
       - $ref: "#/components/parameters/zoekstring"
+      - $ref: "#/components/parameters/eigenschap"
       responses:
         200:
           $ref: "#/components/responses/Modellen"
@@ -313,7 +315,7 @@ components:
                   eigenschappen:
                     type: "array"
                     items:
-                      $ref: "#/components/schemas/Eigenschappen"
+                      $ref: "#/components/schemas/Eigenschap"
                 required:
                 - "eigenschappen"
               _links:
@@ -384,6 +386,8 @@ components:
       properties:
         _links:
           type: "object"
+          required:
+            - "self"
           properties:
             self:
               type: "object"
@@ -419,6 +423,8 @@ components:
       type: "object"
       allOf:
       - type: "object"
+        required:
+          - "definitie"
         properties:
           label:
             type: "string"
@@ -440,6 +446,8 @@ components:
       properties:
         _links:
           type: "object"
+          "required": 
+          - "self"
           properties:
             self:
               type: "object"
@@ -518,33 +526,56 @@ components:
                   type: "string"
                   format: "uri"
                   description: "URL van de link"
-    EigenschapKort:
-      type: "object"
-      properties:
-        concepten:
-          type: "array"
-          items:
-            type: "string"
-        label:
-          type: "array"
-          items:
-            type: "string"
-        commentaar:
-          type: "string"
-    Eigenschappen:
-      type: "object"
-      allOf:
-      - $ref: "#/components/schemas/EigenschapKort"
-      - $ref: "#/components/schemas/EigenschapLinks"
+            concepten:
+              type: "object"
+              required:
+              - "href"
+              properties:
+                href:
+                  type: "string"
+                  format: "uri"
+                  description: "Link naar concepten die horen bij deze eigenschap"
+                  example: ".../concepten?eigenschap=http://lod.onderwijsregistratie.nl/cat/term/BevoegdGezag"
+            klassen:
+              type: "object"
+              required:
+              - "href"
+              properties:
+                href:
+                  type: "string"
+                  format: "uri"
+                  description: "Link naar klassen die horen bij deze eigenschap"
+                  example: ".../klassen?eigenschap=http://lod.onderwijsregistratie.nl/cat/term/BevoegdGezag"
+            modellen:
+              type: "object"
+              required:
+              - "href"
+              properties:
+                href:
+                  type: "string"
+                  format: "uri"
+                  description: "Link naar modellen die horen bij deze eigenschap"
+                  example: ".../modellen?eigenschap=http://lod.onderwijsregistratie.nl/cat/term/BevoegdGezag"
     Eigenschap:
       type: "object"
       allOf:
-      - $ref: "#/components/schemas/EigenschapKort"
       - type: "object"
         properties:
           vervangenDoor:
             type: "string"
             nullable: true
+          label:
+            type: "array"
+            items:
+              type: "string"
+          commentaar:
+            type: "string"
+          pattern:
+            type: "string"
+          minLength:
+            type: "integer"
+          maxLength:
+            type: "integer"
       - $ref: "#/components/schemas/EigenschapLinks"
     ModelLinks:
       type: "object"
