@@ -308,6 +308,7 @@ components:
                 allOf:
                 - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks"
     Eigenschap:
+      description: "OK."
       content:
         application/hal+json:
           schema:
@@ -345,6 +346,7 @@ components:
                 allOf:
                 - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks"
     Model:
+      description: "OK."
       content:
         application/hal+json:
           schema:
@@ -361,7 +363,7 @@ components:
         "code":
           type: "string"
         "label":
-          "label": "string"
+          type: "string"
     ConceptLinks:
       type: "object"
       required:
