@@ -200,6 +200,18 @@ components:
       description: "Filteren op `model`"
       schema:
         type: "string"
+    klasse:
+      name: "klasse"
+      in: "query"
+      description: "Filteren op `klasse`"
+      schema:
+        type: "string"
+    eigenschap:
+      name: "eigenschap"
+      in: "query"
+      description: "Filteren op `eigenschap`"
+      schema:
+        type: "string"
   responses:
     Concepten:
       description: "OK."
