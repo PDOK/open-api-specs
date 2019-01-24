@@ -16,6 +16,8 @@ paths:
       - $ref: "https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize"
       - $ref: "#/components/parameters/schema"
       - $ref: "#/components/parameters/zoekstring"
+      - $ref: "#/components/parameters/klasse"
+      - $ref: "#/components/parameters/eigenschap"
       responses:
         200:
           $ref: "#/components/responses/Concepten"
@@ -222,7 +224,7 @@ components:
                   concepten:
                     type: "array"
                     items:
-                      $ref: "#/components/schemas/Concepten"
+                      $ref: "#/components/schemas/Concept"
                 required:
                 - "concepten"
               _links:
@@ -350,6 +352,16 @@ components:
             allOf:
             - $ref: "#/components/schemas/Model"
   schemas:
+    CodeLabel:
+      type: "object"
+      required:
+      - "code"
+      - "label"
+      properties:
+        "code":
+          type: "string"
+        "label":
+          "label": "string"
     ConceptLinks:
       type: "object"
       required:
@@ -388,64 +400,24 @@ components:
                   format: "uri"
                   description: "URL van de link"
                   example: ".../eigenschappen?concept=http://lod.onderwijsregistratie.nl/cat/term/BevoegdGezag"
-    ConceptKort:
-      type: "object"
-      properties:
-        schema:
-          type: "string"
-        label:
-          type: "string"
-        definitie:
-          type: "string"
-    Concepten:
-      type: "object"
-      allOf:
-      - $ref: "#/components/schemas/ConceptKort"
-      - $ref: "#/components/schemas/ConceptLinks"
     Concept:
       type: "object"
       allOf:
-      - $ref: "#/components/schemas/ConceptKort"
+      - $ref: "#/components/schemas/ConceptLinks"
       - properties:
-          synoniem:
+        properties:
+          schema:
             type: "array"
             items:
-              type: "string"
-          voorbeeld:
-            type: "array"
-            items:
-              type: "string"
-          toelichting:
+              $ref: "#/components/schemas/CodeLabel"
+          label:
             type: "string"
-          interneRelatieAlg:
-            type: "array"
-            items:
-              type: "string"
-          externeRelatieAlg:
-            type: "array"
-            items:
-              type: "string"
+          definitie:
+            type: "string"
           bron:
             type: "array"
             items:
-              type: "string"
-          interneHierarchie:
-            type: "array"
-            items:
-              type: "string"
-          externeHierarchie:
-            type: "array"
-            items:
-              type: "string"
-          externeEquivalentie:
-            type: "array"
-            items:
-              type: "string"
-          bijnaEquivalentie:
-            type: "array"
-            items:
-              type: "string"
-      - $ref: "#/components/schemas/ConceptLinks"
+              $ref: "#/components/schemas/CodeLabel"
     KlasseLinks:
       type: "object"
       required:
