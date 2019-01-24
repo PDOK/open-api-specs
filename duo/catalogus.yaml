@@ -405,7 +405,6 @@ components:
       allOf:
       - $ref: "#/components/schemas/ConceptLinks"
       - properties:
-        properties:
           schema:
             type: "array"
             items:
