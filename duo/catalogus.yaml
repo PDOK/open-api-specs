@@ -174,7 +174,7 @@ components:
     sort:
       name: "sort"
       in: "query"
-      description: "Specificeert op welk atribuut gesorteert moet worden. Indien waarde eindigt op '.DESC', wordt er aflopend gesorteerd"
+      description: "Specificeert op welk atribuut gesorteert moet worden. Indien er na de naam van het attribut, de string '.DESC' wordt meegegeven, wordt er aflopend gesorteerd"
       required: false
       schema:
         type: "string"
@@ -205,6 +205,7 @@ components:
       in: "query"
       description: "Filteren op `concept`"
       required: false
+      example: "http://lod.onderwijsregistratie.nl/scheme/Opleiding/Collegegeld"
       schema:
         type: "string"
     datumVanaf:
@@ -418,7 +419,8 @@ components:
                 href:
                   type: "string"
                   format: "uri"
-                  description: "URL van de link"
+                  example: ".../concept?subject=http://lod.onderwijsregistratie.nl/scheme/Opleiding/Collegegeld"
+                  description: "URL van dit betreffende concept"
             klassen:
               type: "object"
               required:
@@ -427,8 +429,8 @@ components:
                 href:
                   type: "string"
                   format: "uri"
-                  description: "URL van de link"
-                  example: ".../klassen?concept=http://lod.onderwijsregistratie.nl/cat/term/BevoegdGezag"
+                  description: "Klassen die horen bij dit concept"
+                  example: ".../klassen?concept=http://lod.onderwijsregistratie.nl/scheme/Opleiding/Collegegeld"
             eigenschappen:
               type: "object"
               required:
@@ -437,8 +439,8 @@ components:
                 href:
                   type: "string"
                   format: "uri"
-                  description: "URL van de link"
-                  example: ".../eigenschappen?concept=http://lod.onderwijsregistratie.nl/cat/term/BevoegdGezag"
+                  description: "Eigenschappen die horen bij dit concept"
+                  example: ".../eigenschappen?concept=http://lod.onderwijsregistratie.nl/scheme/Opleiding/Collegegeld"
     Concept:
       type: "object"
       allOf:
@@ -448,12 +450,15 @@ components:
         properties:
           label:
             type: "string"
+            example: "Collegegeld"
           definitie:
             type: "string"
+            example: "Is het bedrag dat een student moet betalen om colleges aan een universiteit of hogeschool te mogen bijwonen."
           bronnen:
             type: "array"
             items:
-              $ref: "#/components/schemas/UriEnLabel"
+              type: "string"
+              example: "http://wetten.overheid.nl/BWBR0018259/2017-01-01/#Paragraaf2_Artikel9"
           schemas:
             type: "array"
             items:
