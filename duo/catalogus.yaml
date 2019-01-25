@@ -449,6 +449,7 @@ components:
           type: "object"
           "required": 
           - "self"
+          - "modellen"
           properties:
             self:
               type: "object"
@@ -493,7 +494,7 @@ components:
     Klasse:
       type: "object"
       allOf:
-      - "type": "object"
+      - type: "object"
         properties:
           label:
             type: "string"
@@ -561,6 +562,8 @@ components:
       type: "object"
       allOf:
       - type: "object"
+        required:
+        - "datatype"
         properties:
           vervangenDoor:
             type: "string"
@@ -570,6 +573,10 @@ components:
             items:
               type: "string"
           commentaar:
+            type: "string"
+            items:
+              type: "string"
+          datatype:
             type: "string"
           pattern:
             type: "string"
@@ -624,6 +631,8 @@ components:
       type: "object"
       allOf:
       - type: "object"
+        required:
+        - "datumVanaf"
         properties:
           datumVanaf:
             type: "string"
