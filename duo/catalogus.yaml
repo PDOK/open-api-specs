@@ -14,6 +14,7 @@ paths:
       parameters:
       - $ref: "https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page"
       - $ref: "https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize"
+      - $ref: "#/components/parameters/sort"
       - $ref: "#/components/parameters/schema"
       - $ref: "#/components/parameters/zoekstring"
       - $ref: "#/components/parameters/klasse"
@@ -53,6 +54,7 @@ paths:
       parameters:
       - $ref: "https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page"
       - $ref: "https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize"
+      - $ref: "#/components/parameters/sort"
       - $ref: "#/components/parameters/concept"
       - $ref: "#/components/parameters/zoekstring"
       - $ref: "#/components/parameters/model"
@@ -92,6 +94,7 @@ paths:
       parameters:
       - $ref: "https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page"
       - $ref: "https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize"
+      - $ref: "#/components/parameters/sort"
       - $ref: "#/components/parameters/concept"
       - $ref: "#/components/parameters/klasse"
       - $ref: "#/components/parameters/zoekstring"
@@ -131,6 +134,7 @@ paths:
       parameters:
       - $ref: "https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page"
       - $ref: "https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize"
+      - $ref: "#/components/parameters/sort"
       - $ref: "#/components/parameters/datumVanaf"
       - $ref: "#/components/parameters/zoekstring"
       - $ref: "#/components/parameters/klasse"
@@ -167,53 +171,68 @@ paths:
       summary: "Model resource"
 components:
   parameters:
+    sort:
+      name: "sort"
+      in: "query"
+      description: "Specificeert op welk atribuut gesorteert moet worden. Indien waarde eindigt op '.DESC', wordt er aflopend gesorteerd"
+      required: false
+      schema:
+        type: "string"
+        pattern: '^\w*\.(ASC|DESC)$'
     subject:
       name: "subject"
       in: "query"
       description: "URI van de op te vragen resource. Voorbeeld: http://lod.onderwijsregistratie.nl/cat/term/Cijfer"
-      required: true
+      required: false
       schema:
         type: "string"
     schema:
       name: "schema"
       in: "query"
       description: "Filteren op `schema`"
+      required: false
       schema:
         type: "string"
     zoekstring:
       name: "zoekstring"
       in: "query"
       description: "Filteren op `zoekstring`"
+      required: false
       schema:
         type: "string"
     concept:
       name: "concept"
       in: "query"
       description: "Filteren op `concept`"
+      required: false
       schema:
         type: "string"
     datumVanaf:
       name: "datumVanaf"
       in: "query"
       description: "Filteren op `datumVanaf`"
+      required: false
       schema:
         type: "string"
     model:
       name: "model"
       in: "query"
       description: "Filteren op `model`"
+      required: false
       schema:
         type: "string"
     klasse:
       name: "klasse"
       in: "query"
       description: "Filteren op `klasse`"
+      required: false
       schema:
         type: "string"
     eigenschap:
       name: "eigenschap"
       in: "query"
       description: "Filteren op `eigenschap`"
+      required: false
       schema:
         type: "string"
   responses:
