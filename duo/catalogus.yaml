@@ -415,12 +415,18 @@ components:
               type: "object"
               required:
               - "href"
+              - "uri"
               properties:
                 href:
                   type: "string"
-                  format: "uri"
+                  format: "url"
                   example: ".../concept?subject=http://lod.onderwijsregistratie.nl/scheme/Opleiding/Collegegeld"
                   description: "API URL van dit betreffende concept"
+                uri:
+                  type: "string"
+                  format: "uri"
+                  example: "http://lod.onderwijsregistratie.nl/scheme/Opleiding/Collegegeld"
+                  description: "URI van dit betreffende concept"
             klassen:
               type: "object"
               required:
@@ -428,7 +434,7 @@ components:
               properties:
                 href:
                   type: "string"
-                  format: "uri"
+                  format: "url"
                   description: "API URL van klassen die horen bij dit concept"
                   example: ".../klassen?concept=http://lod.onderwijsregistratie.nl/scheme/Opleiding/Collegegeld"
             eigenschappen:
@@ -438,7 +444,7 @@ components:
               properties:
                 href:
                   type: "string"
-                  format: "uri"
+                  format: "url"
                   description: "API URL van eigenschappen die horen bij dit concept"
                   example: ".../eigenschappen?concept=http://lod.onderwijsregistratie.nl/scheme/Opleiding/Collegegeld"
     Concept:
@@ -482,9 +488,14 @@ components:
               properties:
                 href:
                   type: "string"
-                  format: "uri"
+                  format: "url"
                   description: "API URL van deze betreffende klasse"
                   example: ".../klasse?subject=http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
+                uri:
+                  type: "string"
+                  format: "uri"
+                  example: "http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
+                  description: "URI van deze betreffende klasse"
             concepten:
               type: "object"
               required:
@@ -492,7 +503,7 @@ components:
               properties:
                 href:
                   type: "string"
-                  format: "uri"
+                  format: "url"
                   description: "API URL van concepten die horen bij deze klasse"
                   example: ".../concepten?klasse=http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
             modellen:
@@ -502,7 +513,7 @@ components:
               properties:
                 href:
                   type: "string"
-                  format: "uri"
+                  format: "url"
                   description: "API URL van modellen die horen bij deze klasse"
                   example: ".../modellen?klasse=http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
             eigenschappen:
@@ -512,7 +523,7 @@ components:
               properties:
                 href:
                   type: "string"
-                  format: "uri"
+                  format: "url"
                   description: "API URL van eigenschappen die horen bij deze klasse"
                   example: ".../eigenschappen?klasse=http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
     Klasse:
@@ -554,9 +565,14 @@ components:
               properties:
                 href:
                   type: "string"
-                  format: "uri"
+                  format: "url"
                   description: "API URL van dit betreffende eigenschap"
                   example: ".../eigenschap?subject=http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
+                uri:
+                  type: "string"
+                  format: "uri"
+                  example: "http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
+                  description: "URI van deze betreffende eigenschap"
             concepten:
               type: "object"
               required:
@@ -564,7 +580,7 @@ components:
               properties:
                 href:
                   type: "string"
-                  format: "uri"
+                  format: "url"
                   description: "API URL van concepten die horen bij deze eigenschap"
                   example: ".../concepten?eigenschap=http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
             klassen:
@@ -574,7 +590,7 @@ components:
               properties:
                 href:
                   type: "string"
-                  format: "uri"
+                  format: "url"
                   description: "API URL van klassen die horen bij deze eigenschap"
                   example: ".../klassen?eigenschap=http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
             modellen:
@@ -584,7 +600,7 @@ components:
               properties:
                 href:
                   type: "string"
-                  format: "uri"
+                  format: "url"
                   description: "API URL van modellen die horen bij deze eigenschap"
                   example: ".../modellen?eigenschap=http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
     Eigenschap:
@@ -595,14 +611,13 @@ components:
         - "datatype"
         properties:
           vervangenDoor:
-            type: "string"
-            nullable: true
+            $ref: "#/components/schemas/UriEnLabel"
           label:
-            type: "array"
-            items:
-              type: "string"
-          commentaar:
             type: "string"
+            example: "postcode"
+            description: "https://www.w3.org/2000/01/rdf-schema#label"
+          commentaar:
+            type: "array"
             items:
               type: "string"
               example: "De door de Post NL vastgestelde code behorend bij de straatnaam en het huisnummer dan wel de door Post NL vastgestelde code behorende bij een bepaalde combinatie van een naam openbare ruimte en een huisnummer."
@@ -646,9 +661,14 @@ components:
               properties:
                 href:
                   type: "string"
-                  format: "uri"
+                  format: "url"
                   description: "API URL van dit betreffende model"
                   example: ".../model?subject=http://lod.onderwijsregistraties.nl/doc/ontology/v0/Cdm"
+                uri:
+                  type: "string"
+                  format: "uri"
+                  example: "http://lod.onderwijsregistraties.nl/doc/ontology/v0/Cdm"
+                  description: "URI van dit betreffende model"
             klassen:
               type: "object"
               required:
@@ -656,7 +676,7 @@ components:
               properties:
                 href:
                   type: "string"
-                  format: "uri"
+                  format: "url"
                   description: "API URL van klassen die horen bij deze eigenschap"
                   example: ".../klassen?model=http://lod.onderwijsregistraties.nl/doc/ontology/v0/Cdm"
             eigenschappen:
@@ -666,7 +686,7 @@ components:
               properties:
                 href:
                   type: "string"
-                  format: "uri"
+                  format: "url"
                   description: "API URL van modellen die horen bij deze eigenschap"
                   example: ".../eigenschappen?model=http://lod.onderwijsregistraties.nl/doc/ontology/v0/Cdm"
     Model:
