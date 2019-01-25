@@ -404,8 +404,10 @@ components:
       properties:
         "uri":
           type: "string"
+          example: "http://lod.voorbeelduri.org"
         "label":
           type: "string"
+          example: "VoorbeeldLabel"
     ConceptLinks:
       type: "object"
       required:
