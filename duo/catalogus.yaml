@@ -227,6 +227,7 @@ components:
       in: "query"
       description: "Filteren op `klasse`"
       required: false
+      example: "http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
       schema:
         type: "string"
     eigenschap:
@@ -429,7 +430,7 @@ components:
                 href:
                   type: "string"
                   format: "uri"
-                  description: "Klassen die horen bij dit concept"
+                  description: "Link naar klassen die horen bij dit concept"
                   example: ".../klassen?concept=http://lod.onderwijsregistratie.nl/scheme/Opleiding/Collegegeld"
             eigenschappen:
               type: "object"
@@ -439,7 +440,7 @@ components:
                 href:
                   type: "string"
                   format: "uri"
-                  description: "Eigenschappen die horen bij dit concept"
+                  description: "Link naar eigenschappen die horen bij dit concept"
                   example: ".../eigenschappen?concept=http://lod.onderwijsregistratie.nl/scheme/Opleiding/Collegegeld"
     Concept:
       type: "object"
@@ -484,7 +485,8 @@ components:
                 href:
                   type: "string"
                   format: "uri"
-                  description: "URL van de link"
+                  description: "URL van deze Klasse"
+                  example: ".../klasse=subject=http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
             concepten:
               type: "object"
               required:
@@ -494,7 +496,7 @@ components:
                   type: "string"
                   format: "uri"
                   description: "Link naar concepten die horen bij deze klasse"
-                  example: ".../concepten?klasse=http://lod.onderwijsregistratie.nl/cat/term/BevoegdGezag"
+                  example: ".../concepten?klasse=http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
             modellen:
               type: "object"
               required:
@@ -504,7 +506,7 @@ components:
                   type: "string"
                   format: "uri"
                   description: "Link naar modellen die horen bij deze klasse"
-                  example: ".../modellen?klasse=http://lod.onderwijsregistratie.nl/cat/term/BevoegdGezag"
+                  example: ".../modellen?klasse=http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
             eigenschappen:
               type: "object"
               required:
@@ -514,7 +516,7 @@ components:
                   type: "string"
                   format: "uri"
                   description: "Link naar eigenschappen die horen bij deze klasse"
-                  example: ".../eigenschappen?klasse=http://lod.onderwijsregistratie.nl/cat/term/BevoegdGezag"
+                  example: ".../eigenschappen?klasse=http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
     Klasse:
       type: "object"
       allOf:
@@ -522,15 +524,20 @@ components:
         properties:
           label:
             type: "string"
+            example: "Postadres"
           commentaar:
             type: "array"
             items:
               type: "string"
+              example: "Een adres waarop de post kan worden bezorgd"
           vervangenDoor:
             type: "string"
+            example: "http://lod.onderwijsregistraties.nl/cdm/def/Postadres-v02"
             nullable: true
           enumeratie:
             type: "array"
+            nullable: true
+            description: "Indien klasse een enumeratie is, is deze lijst gevuld met de uris van de waardes die voor mogen komen"
             items:
               $ref: "#/components/schemas/UriEnLabel"
       - $ref: "#/components/schemas/KlasseLinks"
