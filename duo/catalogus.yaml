@@ -133,6 +133,7 @@ paths:
       - $ref: "https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize"
       - $ref: "#/components/parameters/datumVanaf"
       - $ref: "#/components/parameters/zoekstring"
+      - $ref: "#/components/parameters/klasse"
       - $ref: "#/components/parameters/eigenschap"
       responses:
         200:
@@ -353,7 +354,7 @@ components:
                   modellen:
                     type: "array"
                     items:
-                      $ref: "#/components/schemas/Modellen"
+                      $ref: "#/components/schemas/Model"
                 required:
                 - "modellen"
               _links:
@@ -576,6 +577,10 @@ components:
             type: "integer"
           maxLength:
             type: "integer"
+          minInclusive:
+            type: "integer"
+          maxInclusive:
+            type: "integer"
       - $ref: "#/components/schemas/EigenschapLinks"
     ModelLinks:
       type: "object"
@@ -595,65 +600,38 @@ components:
                   type: "string"
                   format: "uri"
                   description: "URL van de link"
-    ModelKort:
-      type: "object"
-      properties:
-        datumVanaf:
-          type: "string"
-          format: "date"
-        label:
-          type: "string"
-        versieInfo:
-          type: "array"
-          items:
-            type: "string"
-    Modellen:
-      type: "object"
-      allOf:
-      - $ref: "#/components/schemas/ModelKort"
-      - $ref: "#/components/schemas/ModelLinks"
+            klassen:
+              type: "object"
+              required:
+              - "href"
+              properties:
+                href:
+                  type: "string"
+                  format: "uri"
+                  description: "Link naar klassen die horen bij deze eigenschap"
+                  example: ".../klassen?model=http://lod.onderwijsregistratie.nl/cat/term/BevoegdGezag"
+            eigenschappen:
+              type: "object"
+              required:
+              - "href"
+              properties:
+                href:
+                  type: "string"
+                  format: "uri"
+                  description: "Link naar modellen die horen bij deze eigenschap"
+                  example: ".../eigenschappen?model=http://lod.onderwijsregistratie.nl/cat/term/BevoegdGezag"
     Model:
       type: "object"
       allOf:
-      - $ref: "#/components/schemas/ModelKort"
       - type: "object"
-        required:
-        - "_links"
         properties:
-          imports:
+          datumVanaf:
+            type: "string"
+            format: "date"
+          label:
+            type: "string"
+          versieInfo:
             type: "array"
             items:
               type: "string"
-          _links:
-            type: "object"
-            properties:
-              self:
-                type: "object"
-                description: "Absolute link naar de resource"
-                required:
-                - "href"
-                properties:
-                  href:
-                    type: "string"
-                    format: "uri"
-                    description: "URL van de link"
-              klassen:
-                type: "object"
-                description: "Absolute link naar de resource"
-                required:
-                - "href"
-                properties:
-                  href:
-                    type: "string"
-                    format: "uri"
-                    description: "URL van de link"
-              eigenschappen:
-                type: "object"
-                description: "Absolute link naar de resource"
-                required:
-                - "href"
-                properties:
-                  href:
-                    type: "string"
-                    format: "uri"
-                    description: "URL van de link"
+      - $ref: "#/components/schemas/ModelLinks"
