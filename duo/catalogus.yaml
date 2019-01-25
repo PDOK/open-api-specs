@@ -16,7 +16,7 @@ paths:
       - $ref: "https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize"
       - $ref: "#/components/parameters/sort"
       - $ref: "#/components/parameters/schema"
-      - $ref: "#/components/parameters/zoekstring"
+      - $ref: "#/components/parameters/filter"
       - $ref: "#/components/parameters/klasse"
       - $ref: "#/components/parameters/eigenschap"
       responses:
@@ -56,7 +56,7 @@ paths:
       - $ref: "https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize"
       - $ref: "#/components/parameters/sort"
       - $ref: "#/components/parameters/concept"
-      - $ref: "#/components/parameters/zoekstring"
+      - $ref: "#/components/parameters/filter"
       - $ref: "#/components/parameters/model"
       - $ref: "#/components/parameters/eigenschap"
       responses:
@@ -97,7 +97,7 @@ paths:
       - $ref: "#/components/parameters/sort"
       - $ref: "#/components/parameters/concept"
       - $ref: "#/components/parameters/klasse"
-      - $ref: "#/components/parameters/zoekstring"
+      - $ref: "#/components/parameters/filter"
       - $ref: "#/components/parameters/model"
       responses:
         200:
@@ -136,7 +136,7 @@ paths:
       - $ref: "https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize"
       - $ref: "#/components/parameters/sort"
       - $ref: "#/components/parameters/datumVanaf"
-      - $ref: "#/components/parameters/zoekstring"
+      - $ref: "#/components/parameters/filter"
       - $ref: "#/components/parameters/klasse"
       - $ref: "#/components/parameters/eigenschap"
       responses:
@@ -176,6 +176,7 @@ components:
       in: "query"
       description: "Specificeert op welk atribuut gesorteert moet worden. Indien er na de naam van het attribut, de string '.DESC' wordt meegegeven, wordt er aflopend gesorteerd"
       required: false
+      example: "label.ASC"
       schema:
         type: "string"
         pattern: '^\w*\.(ASC|DESC)$'
@@ -190,13 +191,14 @@ components:
       name: "schema"
       in: "query"
       description: "Filteren op `schema`"
+      example: "https://lod.onderwijsregistraties.nl/scheme/Onderwijswettelijk"
       required: false
       schema:
         type: "string"
-    zoekstring:
-      name: "zoekstring"
+    filter:
+      name: "filter"
       in: "query"
-      description: "Filteren op `zoekstring`"
+      description: "Filteren op `labels` van de resource"
       required: false
       schema:
         type: "string"
@@ -215,11 +217,13 @@ components:
       required: false
       schema:
         type: "string"
+        format: "date"
     model:
       name: "model"
       in: "query"
       description: "Filteren op `model`"
       required: false
+      example: "http://lod.onderwijsregistraties.nl/doc/ontology/v0/Cdm"
       schema:
         type: "string"
     klasse:
@@ -235,6 +239,7 @@ components:
       in: "query"
       description: "Filteren op `eigenschap`"
       required: false
+      example: "http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
       schema:
         type: "string"
   responses:
