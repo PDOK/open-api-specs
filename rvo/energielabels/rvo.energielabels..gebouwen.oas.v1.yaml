@@ -15,6 +15,8 @@ paths:
         - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
         - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
         - $ref: '#/components/parameters/label'
+        - $ref: '#/components/parameters/labeltype'
+        - $ref: '#/components/parameters/gebouwtype'
         - $ref: '#/components/parameters/bouwjaar'
         - $ref: '#/components/parameters/gebruiksfunctie'
       responses:
@@ -54,6 +56,7 @@ paths:
         - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
         - $ref: '#/components/parameters/gebouwdeel'
         - $ref: '#/components/parameters/label'
+        - $ref: '#/components/parameters/labeltype'
         - $ref: '#/components/parameters/gebruiksfunctie'
         - $ref: '#/components/parameters/postcode'
         - $ref: '#/components/parameters/huisnummer'
@@ -107,18 +110,18 @@ components:
     postcode:
       name: postcode
       in: query
-      description: 'Filteren op `postcode`'
+      description: 'Filteren op `postcode`. Let op hierbij is ook het filteren op `huisnummer` verplicht'
       schema:
         type: string
     huisnummer:
       name: huisnummer
       in: query
-      description: 'Filteren op `huisnummer`'
+      description: 'Filteren op `huisnummer`. Let op hierbij is ook het filteren op `postcode` verplicht'
       schema:
         type: integer
         format: int32
     huisnummertoevoeging:
-      name: concept
+      name: huisnummertoevoeging
       in: query
       description: 'Filteren op `huisnummertoevoeging`'
       schema:
@@ -129,6 +132,15 @@ components:
       description: 'Filteren op `gebruiksfunctie`'
       schema:
         type: string
+    gebouwtype:
+      name: gebouwtype
+      in: query
+      description: 'Filteren op `gebouwtype`'
+      schema:
+        type: "string"
+        enum:
+        - Woning
+        - Utiliteitsgebouw
     bouwjaar:
       name: bouwjaar
       in: query
@@ -142,6 +154,15 @@ components:
       description: 'Filteren op `label`'
       schema:
         type: "string"
+    labeltype:
+      name: labeltype
+      in: query
+      description: 'Filteren op `labeltype`'
+      schema:
+        type: "string"
+        enum:
+        - Definitief
+        - Voorlopig
     bagId:
       name: bagId
       in: query
@@ -225,8 +246,16 @@ components:
     Gebouwdeel:
       type: object
       required:
+        - type
+        - energielabel
+        - energielabelmetadata
         - _links
       properties:
+        gebouwtype:
+          type: string
+          enum:
+          - Woning
+          - Utiliteitsgebouw
         bouwjaar:
           type: integer
           format: int32
@@ -388,7 +417,14 @@ components:
     Energielabelmetadata:
       type: object
       properties:
+        labeltype:
+          type: string
+          enum:
+          - Definitief
+          - Voorlopig
         registratiedatum:
           type: string
+          format: date
         opnamedatum:
           type: string
+          format: date
