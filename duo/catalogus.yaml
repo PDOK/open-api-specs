@@ -198,7 +198,7 @@ components:
     filter:
       name: "filter"
       in: "query"
-      description: "Filteren op `labels` van de resource"
+      description: "Hoofdletter ongevoelig filteren op `labels` van de resource"
       required: false
       schema:
         type: "string"
@@ -231,7 +231,7 @@ components:
       in: "query"
       description: "Filteren op `klasse`"
       required: false
-      example: "http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
+      example: "http://lod.onderwijsregistraties.nl/cat/cdm/def/Postadres"
       schema:
         type: "string"
     eigenschap:
@@ -239,7 +239,7 @@ components:
       in: "query"
       description: "Filteren op `eigenschap`"
       required: false
-      example: "http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
+      example: "http://lod.onderwijsregistraties.nl/cat/cdm/def/postcode-v02"
       schema:
         type: "string"
   responses:
@@ -497,11 +497,11 @@ components:
                   type: "string"
                   format: "url"
                   description: "API URL van deze betreffende klasse"
-                  example: ".../klasse?subject=http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
+                  example: ".../klasse?subject=http://lod.onderwijsregistraties.nl/cat/cdm/def/Postadres"
                 uri:
                   type: "string"
                   format: "uri"
-                  example: "http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
+                  example: "http://lod.onderwijsregistraties.nl/cat/cdm/def/Postadres"
                   description: "URI van deze betreffende klasse"
             concepten:
               type: "object"
@@ -512,7 +512,7 @@ components:
                   type: "string"
                   format: "url"
                   description: "API URL van concepten die horen bij deze klasse"
-                  example: ".../concepten?klasse=http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
+                  example: ".../concepten?klasse=http://lod.onderwijsregistraties.nl/cat/cdm/def/Postadres"
             modellen:
               type: "object"
               required:
@@ -522,7 +522,7 @@ components:
                   type: "string"
                   format: "url"
                   description: "API URL van modellen die horen bij deze klasse"
-                  example: ".../modellen?klasse=http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
+                  example: ".../modellen?klasse=http://lod.onderwijsregistraties.nl/cat/cdm/def/Postadres"
             eigenschappen:
               type: "object"
               required:
@@ -532,7 +532,7 @@ components:
                   type: "string"
                   format: "url"
                   description: "API URL van eigenschappen die horen bij deze klasse"
-                  example: ".../eigenschappen?klasse=http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
+                  example: ".../eigenschappen?klasse=http://lod.onderwijsregistraties.nl/cat/cdm/def/Postadres"
     Klasse:
       type: "object"
       allOf:
@@ -542,13 +542,11 @@ components:
             type: "string"
             example: "Postadres"
           commentaar:
-            type: "array"
-            items:
-              type: "string"
-              example: "Een adres waarop de post kan worden bezorgd"
+            type: "string"
+            example: "Een adres waarop de post kan worden bezorgd"
           vervangenDoor:
             type: "string"
-            example: "http://lod.onderwijsregistraties.nl/cdm/def/Postadres-v02"
+            example: "http://lod.onderwijsregistraties.nl/cat/cdm/def/Postadres-v02"
             nullable: true
           enumeratie:
             type: "array"
@@ -574,11 +572,11 @@ components:
                   type: "string"
                   format: "url"
                   description: "API URL van dit betreffende eigenschap"
-                  example: ".../eigenschap?subject=http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
+                  example: ".../eigenschap?subject=http://lod.onderwijsregistraties.nl/cat/cdm/def/postcode-v02"
                 uri:
                   type: "string"
                   format: "uri"
-                  example: "http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
+                  example: "http://lod.onderwijsregistraties.nl/cat/cdm/def/postcode-v02"
                   description: "URI van deze betreffende eigenschap"
             concepten:
               type: "object"
@@ -589,8 +587,8 @@ components:
                   type: "string"
                   format: "url"
                   description: "API URL van concepten die horen bij deze eigenschap"
-                  example: ".../concepten?eigenschap=http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
-            klassen:
+                  example: ".../concepten?eigenschap=http://lod.onderwijsregistraties.nl/cat/cdm/def/postcode-v02"
+            klasseVan:
               type: "object"
               required:
               - "href"
@@ -598,8 +596,18 @@ components:
                 href:
                   type: "string"
                   format: "url"
-                  description: "API URL van klassen die horen bij deze eigenschap"
-                  example: ".../klassen?eigenschap=http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
+                  description: "API URL van de klasse die deze eigenschap heeft"
+                  example: ".../klasse?subject=http://lod.onderwijsregistraties.nl/cat/cdm/def/Adres"
+            klasseNaar:
+              type: "object"
+              required:
+              - "href"
+              properties:
+                href:
+                  type: "string"
+                  format: "url"
+                  description: "In het geval dat deze eigenschap de relatie van een Klasse (A) met een andere Klasse (B) beschrijft, dan is dit de API URL naar de Klasse (B)"
+                  example: ".../klasse?subject=..."
             modellen:
               type: "object"
               required:
@@ -609,7 +617,7 @@ components:
                   type: "string"
                   format: "url"
                   description: "API URL van modellen die horen bij deze eigenschap"
-                  example: ".../modellen?eigenschap=http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
+                  example: ".../modellen?eigenschap=http://lod.onderwijsregistraties.nl/cat/cdm/def/postcode-v02"
     Eigenschap:
       type: "object"
       allOf:
