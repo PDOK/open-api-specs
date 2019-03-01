@@ -198,7 +198,7 @@ components:
     filter:
       name: "filter"
       in: "query"
-      description: "Filteren op `labels` van de resource"
+      description: "Hoofdletter ongevoelig filteren op `labels` van de resource"
       required: false
       schema:
         type: "string"
@@ -542,10 +542,8 @@ components:
             type: "string"
             example: "Postadres"
           commentaar:
-            type: "array"
-            items:
-              type: "string"
-              example: "Een adres waarop de post kan worden bezorgd"
+            type: "string"
+            example: "Een adres waarop de post kan worden bezorgd"
           vervangenDoor:
             type: "string"
             example: "http://lod.onderwijsregistraties.nl/cdm/def/Postadres-v02"
@@ -590,7 +588,7 @@ components:
                   format: "url"
                   description: "API URL van concepten die horen bij deze eigenschap"
                   example: ".../concepten?eigenschap=http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
-            klassen:
+            klasseVan:
               type: "object"
               required:
               - "href"
@@ -598,8 +596,18 @@ components:
                 href:
                   type: "string"
                   format: "url"
-                  description: "API URL van klassen die horen bij deze eigenschap"
-                  example: ".../klassen?eigenschap=http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
+                  description: "API URL van de klasse die deze eigenschap heeft"
+                  example: ".../klasse?eigenschap=http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
+            klasseNaar:
+              type: "object"
+              required:
+              - "href"
+              properties:
+                href:
+                  type: "string"
+                  format: "url"
+                  description: "In het geval dat deze eigenschap de relatie van een Klasse (A) met een andere Klasse (B) beschrijft, dan is dit de API URL naar de Klasse (B)"
+                  example: ".../klasse?subject=..."
             modellen:
               type: "object"
               required:
