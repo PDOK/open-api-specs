@@ -1,36 +1,15 @@
+---
 openapi: "3.0.0"
 info:
   contact:
-    name: "Kadaster"
     email: "dimitri.vanhees@kadaster.nl"
+    name: "Kadaster"
     url: "https://www.kadaster.nl"
-  version: "0.0.1"
   title: "DUO Catalogus API"
+  version: "0.0.1"
 servers:
-- url: "https://.../api/v0"
+- url: "https://lod.onderwijsregistratie.nl/api/catalogus/v1"
 paths:
-  /concepten:
-    get:
-      parameters:
-      - $ref: "https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page"
-      - $ref: "https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize"
-      - $ref: "#/components/parameters/sort"
-      - $ref: "#/components/parameters/schema"
-      - $ref: "#/components/parameters/filter"
-      - $ref: "#/components/parameters/klasse"
-      - $ref: "#/components/parameters/eigenschap"
-      responses:
-        200:
-          $ref: "#/components/responses/Concepten"
-        401:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401"
-        403:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403"
-        406:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406"
-        503:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503"
-      summary: "Concepten collectie"
   /concept:
     get:
       parameters:
@@ -39,78 +18,39 @@ paths:
         200:
           $ref: "#/components/responses/Concept"
         401:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401"
+          $ref: "#/components/responses/401"
         403:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403"
+          $ref: "#/components/responses/403"
         404:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/404"
+          $ref: "#/components/responses/404"
         406:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406"
+          $ref: "#/components/responses/406"
         503:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503"
+          $ref: "#/components/responses/503"
       summary: "Concept resource"
-  /klassen:
+  /concepten:
     get:
       parameters:
-      - $ref: "https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page"
-      - $ref: "https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize"
-      - $ref: "#/components/parameters/sort"
-      - $ref: "#/components/parameters/concept"
-      - $ref: "#/components/parameters/filter"
-      - $ref: "#/components/parameters/model"
-      - $ref: "#/components/parameters/eigenschap"
-      responses:
-        200:
-          $ref: "#/components/responses/Klassen"
-        401:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401"
-        403:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403"
-        406:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406"
-        503:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503"
-      summary: "Klassen collectie"
-  /klasse:
-    get:
-      parameters:
-      - $ref: "#/components/parameters/subject"
-      responses:
-        200:
-          $ref: "#/components/responses/Klasse"
-        401:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401"
-        403:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403"
-        404:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/404"
-        406:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406"
-        503:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503"
-      summary: "Klasse resource"
-  /eigenschappen:
-    get:
-      parameters:
-      - $ref: "https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page"
-      - $ref: "https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize"
-      - $ref: "#/components/parameters/sort"
-      - $ref: "#/components/parameters/concept"
+      - $ref: "#/components/parameters/page"
+      - $ref: "#/components/parameters/pageSize"
+      - $ref: "#/components/parameters/schema"
       - $ref: "#/components/parameters/klasse"
+      - $ref: "#/components/parameters/eigenschap"
       - $ref: "#/components/parameters/filter"
-      - $ref: "#/components/parameters/model"
+      - $ref: "#/components/parameters/sortPropertyConcept"
+      - $ref: "#/components/parameters/sortDirection"
       responses:
         200:
-          $ref: "#/components/responses/Eigenschappen"
+          $ref: "#/components/responses/Concepten"
         401:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401"
+          $ref: "#/components/responses/401"
         403:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403"
+          $ref: "#/components/responses/403"
         406:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406"
+          $ref: "#/components/responses/406"
         503:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503"
-      summary: "Eigenschappen collectie"
+          $ref: "#/components/responses/503"
+      summary: "Concepten collectie"
   /eigenschap:
     get:
       parameters:
@@ -119,38 +59,81 @@ paths:
         200:
           $ref: "#/components/responses/Eigenschap"
         401:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401"
+          $ref: "#/components/responses/401"
         403:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403"
+          $ref: "#/components/responses/403"
         404:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/404"
+          $ref: "#/components/responses/404"
         406:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406"
+          $ref: "#/components/responses/406"
         503:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503"
+          $ref: "#/components/responses/503"
       summary: "Eigenschap resource"
-  /modellen:
+  /eigenschappen:
     get:
       parameters:
-      - $ref: "https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page"
-      - $ref: "https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize"
-      - $ref: "#/components/parameters/sort"
-      - $ref: "#/components/parameters/datumVanaf"
-      - $ref: "#/components/parameters/filter"
-      - $ref: "#/components/parameters/klasse"
+      - $ref: "#/components/parameters/page"
+      - $ref: "#/components/parameters/pageSize"
+      - $ref: "#/components/parameters/concept"
       - $ref: "#/components/parameters/eigenschap"
+      - $ref: "#/components/parameters/klasse"
+      - $ref: "#/components/parameters/model"
+      - $ref: "#/components/parameters/filter"
+      - $ref: "#/components/parameters/sortProperty"
+      - $ref: "#/components/parameters/sortDirection"
       responses:
         200:
-          $ref: "#/components/responses/Modellen"
+          $ref: "#/components/responses/Eigenschappen"
         401:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401"
+          $ref: "#/components/responses/401"
         403:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403"
+          $ref: "#/components/responses/403"
         406:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406"
+          $ref: "#/components/responses/406"
         503:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503"
-      summary: "Modellen collectie"
+          $ref: "#/components/responses/503"
+      summary: "Eigenschappen collectie"
+  /klasse:
+    get:
+      parameters:
+      - $ref: "#/components/parameters/subject"
+      responses:
+        200:
+          $ref: "#/components/responses/Klasse"
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        404:
+          $ref: "#/components/responses/404"
+        406:
+          $ref: "#/components/responses/406"
+        503:
+          $ref: "#/components/responses/503"
+      summary: "Klasse resource"
+  /klassen:
+    get:
+      parameters:
+      - $ref: "#/components/parameters/page"
+      - $ref: "#/components/parameters/pageSize"
+      - $ref: "#/components/parameters/concept"
+      - $ref: "#/components/parameters/eigenschap"
+      - $ref: "#/components/parameters/model"
+      - $ref: "#/components/parameters/filter"
+      - $ref: "#/components/parameters/sortProperty"
+      - $ref: "#/components/parameters/sortDirection"
+      responses:
+        200:
+          $ref: "#/components/responses/Klassen"
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        406:
+          $ref: "#/components/responses/406"
+        503:
+          $ref: "#/components/responses/503"
+      summary: "Klassen collectie"
   /model:
     get:
       parameters:
@@ -159,566 +142,831 @@ paths:
         200:
           $ref: "#/components/responses/Model"
         401:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401"
+          $ref: "#/components/responses/401"
         403:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403"
+          $ref: "#/components/responses/403"
         404:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/404"
+          $ref: "#/components/responses/404"
         406:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406"
+          $ref: "#/components/responses/406"
         503:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503"
+          $ref: "#/components/responses/503"
       summary: "Model resource"
+  /modellen:
+    get:
+      parameters:
+      - $ref: "#/components/parameters/page"
+      - $ref: "#/components/parameters/pageSize"
+      - $ref: "#/components/parameters/datumVanaf"
+      - $ref: "#/components/parameters/eigenschap"
+      - $ref: "#/components/parameters/klasse"
+      - $ref: "#/components/parameters/filter"
+      - $ref: "#/components/parameters/sortProperty"
+      - $ref: "#/components/parameters/sortDirection"
+      responses:
+        200:
+          $ref: "#/components/responses/Modellen"
+        401:
+          $ref: "#/components/responses/401"
+        403:
+          $ref: "#/components/responses/403"
+        406:
+          $ref: "#/components/responses/406"
+        503:
+          $ref: "#/components/responses/503"
+      summary: "Modellen collectie"
 components:
+  headers:
+    Retry-After:
+      description: "Tijdstip waarop verwacht is dat de service weer beschikbaar zal\
+        \ zijn."
+      schema:
+        format: "date-time"
+        type: "string"
+      x-example: "Sun, 28 Nov 2017 16:41:41 GMT"
+    X-Pagination-Limit:
+      description: "Aantal Objecten per pagina"
+      schema:
+        format: "int32"
+        type: "integer"
+    X-Pagination-Page:
+      description: "Nummer van de huidige pagina (paginanummering start bij 1)"
+      schema:
+        format: "int32"
+        type: "integer"
+    X-Request-ID:
+      description: "ID van het request"
+      schema:
+        type: "string"
+    X-Total-Count:
+      description: "Totaal aantal resultaten (max 15.000)"
+      schema:
+        format: "int32"
+        type: "integer"
   parameters:
-    sort:
-      name: "sort"
-      in: "query"
-      description: "Specificeert op welk atribuut gesorteert moet worden. Indien er na de naam van het attribut, de string '.DESC' wordt meegegeven, wordt er aflopend gesorteerd"
-      required: false
-      example: "label.ASC"
-      schema:
-        type: "string"
-        pattern: '^\w*\.(ASC|DESC)$'
-    subject:
-      name: "subject"
-      in: "query"
-      description: "URI van de op te vragen resource. Voorbeeld: http://lod.onderwijsregistratie.nl/cat/term/Cijfer"
-      required: false
-      schema:
-        type: "string"
-    schema:
-      name: "schema"
-      in: "query"
-      description: "Filteren op `schema`"
-      example: "https://lod.onderwijsregistraties.nl/scheme/Onderwijswettelijk"
-      required: false
-      schema:
-        type: "string"
-    filter:
-      name: "filter"
-      in: "query"
-      description: "Hoofdletter ongevoelig filteren op `labels` van de resource"
-      required: false
-      schema:
-        type: "string"
     concept:
-      name: "concept"
-      in: "query"
       description: "Filteren op `concept`"
-      required: false
-      example: "http://lod.onderwijsregistratie.nl/scheme/Opleiding/Collegegeld"
+      in: "query"
+      name: "concept"
       schema:
         type: "string"
     datumVanaf:
-      name: "datumVanaf"
-      in: "query"
       description: "Filteren op `datumVanaf`"
-      required: false
-      schema:
-        type: "string"
-        format: "date"
-    model:
-      name: "model"
       in: "query"
-      description: "Filteren op `model`"
-      required: false
-      example: "http://lod.onderwijsregistraties.nl/doc/ontology/v0/Cdm"
-      schema:
-        type: "string"
-    klasse:
-      name: "klasse"
-      in: "query"
-      description: "Filteren op `klasse`"
-      required: false
-      example: "http://lod.onderwijsregistraties.nl/cat/cdm/def/Postadres"
+      name: "datumVanaf"
       schema:
         type: "string"
     eigenschap:
-      name: "eigenschap"
-      in: "query"
       description: "Filteren op `eigenschap`"
+      example: "http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
+      in: "query"
+      name: "eigenschap"
+      schema:
+        type: "string"
+    filter:
+      description: "Hoofdletter ongevoelig filteren op `labels` van de resource"
+      in: "query"
+      name: "filter"
+      schema:
+        type: "string"
+    klasse:
+      description: "Filteren op `klasse`"
+      example: "http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
+      in: "query"
+      name: "klasse"
+      schema:
+        type: "string"
+    model:
+      description: "Filteren op `model`"
+      in: "query"
+      name: "model"
+      schema:
+        type: "string"
+    page:
+      description: "Paginanummer voor paginering. Gebruik het `_links.next.href` object\
+        \ om te navigeren."
+      in: "query"
+      name: "page"
       required: false
-      example: "http://lod.onderwijsregistraties.nl/cat/cdm/def/postcode-v02"
+      schema:
+        default: 1
+        format: "int32"
+        minimum: 1
+        type: "integer"
+    pageSize:
+      in: "query"
+      name: "pageSize"
+      required: false
+      schema:
+        default: 20
+        enum:
+        - 10
+        - 20
+        - 50
+        - 100
+        format: "int32"
+        type: "integer"
+    schema:
+      description: "Filteren op `schema`"
+      in: "query"
+      name: "schema"
+      schema:
+        type: "string"
+    sortDirection:
+      description: "Specificeert de richting van de sortering."
+      example: "http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
+      in: "query"
+      name: "sortDirection"
+      schema:
+        default: "asc"
+        enum:
+        - "asc"
+        - "desc"
+        type: "string"
+    sortProperty:
+      description: "Specificeert op welk atribuut gesorteerd moet worden."
+      example: "http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
+      in: "query"
+      name: "sortProperty"
+      schema:
+        enum:
+        - "label"
+        type: "string"
+    sortPropertyConcept:
+      description: "Specificeert op welk atribuut gesorteerd moet worden."
+      example: "http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
+      in: "query"
+      name: "sortProperty"
+      schema:
+        enum:
+        - "label"
+        - "altLabel"
+        type: "string"
+    subject:
+      description: "URI van de op te vragen resource. Voorbeeld: http://lod.onderwijsregistratie.nl/cat/term/Cijfer"
+      in: "query"
+      name: "subject"
+      required: true
       schema:
         type: "string"
   responses:
-    Concepten:
-      description: "OK."
+    401:
+      content:
+        application/hal+json:
+          schema:
+            $ref: "#/components/schemas/Error"
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Error"
+      description: "Unauthorized. Je hebt waarschijnlijk geen geldige `X-Api-Key`\
+        \ header meegestuurd."
       headers:
-        X-Pagination-Page:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage"
-        X-Pagination-Limit:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit"
-        X-Total-Count:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xTotalCount"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+    403:
       content:
         application/hal+json:
           schema:
-            required:
-            - "_embedded"
-            - "_links"
-            type: "object"
-            properties:
-              _embedded:
-                type: "object"
-                properties:
-                  concepten:
-                    type: "array"
-                    items:
-                      $ref: "#/components/schemas/Concept"
-                required:
-                - "concepten"
-              _links:
-                type: "object"
-                allOf:
-                - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks"
+            $ref: "#/components/schemas/Error"
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Error"
+      description: "Forbidden. Je hebt geen rechten om deze URL te benaderen."
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+    404:
+      content:
+        application/hal+json:
+          schema:
+            $ref: "#/components/schemas/Error"
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Error"
+      description: "Not found"
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+    406:
+      content:
+        application/hal+json:
+          schema:
+            $ref: "#/components/schemas/Error"
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Error"
+      description: "Not Acceptable. Je hebt waarschijnlijk een gewenst formaat met\
+        \ de `Accept` header verstuurd welke niet ondersteund wordt. De API kan momenteel\
+        \ alleen `application/hal+json` terugsturen."
+      headers:
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
+    503:
+      content:
+        application/hal+json:
+          schema:
+            $ref: "#/components/schemas/Error"
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/Error"
+      description: "Service Unavailable. Er vindt mogelijk (gepland) onderhoud of\
+        \ een storing plaats."
+      headers:
+        Retry-After:
+          $ref: "#/components/headers/Retry-After"
+        X-Request-ID:
+          $ref: "#/components/headers/X-Request-ID"
     Concept:
-      description: "OK."
       content:
         application/hal+json:
           schema:
-            type: "object"
             allOf:
             - $ref: "#/components/schemas/Concept"
-    Klassen:
+            type: "object"
       description: "OK."
-      headers:
-        X-Pagination-Page:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage"
-        X-Pagination-Limit:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit"
-        X-Total-Count:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xTotalCount"
+    Concepten:
       content:
         application/hal+json:
           schema:
+            properties:
+              _embedded:
+                properties:
+                  concepten:
+                    items:
+                      $ref: "#/components/schemas/Concept"
+                    type: "array"
+                required:
+                - "concepten"
+                type: "object"
+              _links:
+                properties:
+                  next:
+                    description: "Absolute link naar volgende pagina (niet aanwezig\
+                      \ als er geen volgende pagina is)"
+                    properties:
+                      href:
+                        description: "URL van de link"
+                        example: "https://data.pdok.nl/api/rce/v1/rijksmonumenten?page=3"
+                        format: "uri"
+                        type: "string"
+                    required:
+                    - "href"
+                    type: "object"
+                  prev:
+                    description: "Absolute link naar vorige pagina (niet aanwezig\
+                      \ als er geen vorige pagina is)"
+                    properties:
+                      href:
+                        description: "URL van de link"
+                        example: "https://data.pdok.nl/api/rce/v1/rijksmonumenten?page=1"
+                        format: "uri"
+                        type: "string"
+                    required:
+                    - "href"
+                    type: "object"
+                  self:
+                    description: "Absolute link naar huidige pagina"
+                    properties:
+                      href:
+                        description: "URL van de link"
+                        example: "https://data.pdok.nl/api/rce/v1/rijksmonumenten?page=2"
+                        format: "uri"
+                        type: "string"
+                    required:
+                    - "href"
+                    type: "object"
+                required:
+                - "self"
+                type: "object"
             required:
             - "_embedded"
             - "_links"
             type: "object"
-            properties:
-              _embedded:
-                type: "object"
-                properties:
-                  klassen:
-                    type: "array"
-                    items:
-                      $ref: "#/components/schemas/Klasse"
-                required:
-                - "klassen"
-              _links:
-                type: "object"
-                allOf:
-                - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks"
-    Klasse:
-      description: "OK."
-      content:
-        application/hal+json:
-          schema:
-            type: "object"
-            allOf:
-            - $ref: "#/components/schemas/Klasse"
-    Eigenschappen:
       description: "OK."
       headers:
-        X-Pagination-Page:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage"
         X-Pagination-Limit:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit"
+          $ref: "#/components/headers/X-Pagination-Limit"
+        X-Pagination-Page:
+          $ref: "#/components/headers/X-Pagination-Page"
         X-Total-Count:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xTotalCount"
-      content:
-        application/hal+json:
-          schema:
-            required:
-            - "_embedded"
-            - "_links"
-            type: "object"
-            properties:
-              _embedded:
-                type: "object"
-                properties:
-                  eigenschappen:
-                    type: "array"
-                    items:
-                      $ref: "#/components/schemas/Eigenschap"
-                required:
-                - "eigenschappen"
-              _links:
-                type: "object"
-                allOf:
-                - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks"
+          $ref: "#/components/headers/X-Total-Count"
     Eigenschap:
-      description: "OK."
       content:
         application/hal+json:
           schema:
-            type: "object"
             allOf:
             - $ref: "#/components/schemas/Eigenschap"
-    Modellen:
-      description: "OK."
-      headers:
-        X-Pagination-Page:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage"
-        X-Pagination-Limit:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit"
-        X-Total-Count:
-          $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xTotalCount"
+            type: "object"
+    Eigenschappen:
       content:
         application/hal+json:
           schema:
+            properties:
+              _embedded:
+                properties:
+                  eigenschappen:
+                    items:
+                      $ref: "#/components/schemas/Eigenschap"
+                    type: "array"
+                required:
+                - "eigenschappen"
+                type: "object"
+              _links:
+                properties:
+                  next:
+                    description: "Absolute link naar volgende pagina (niet aanwezig\
+                      \ als er geen volgende pagina is)"
+                    properties:
+                      href:
+                        description: "URL van de link"
+                        example: "https://data.pdok.nl/api/rce/v1/rijksmonumenten?page=3"
+                        format: "uri"
+                        type: "string"
+                    required:
+                    - "href"
+                    type: "object"
+                  prev:
+                    description: "Absolute link naar vorige pagina (niet aanwezig\
+                      \ als er geen vorige pagina is)"
+                    properties:
+                      href:
+                        description: "URL van de link"
+                        example: "https://data.pdok.nl/api/rce/v1/rijksmonumenten?page=1"
+                        format: "uri"
+                        type: "string"
+                    required:
+                    - "href"
+                    type: "object"
+                  self:
+                    description: "Absolute link naar huidige pagina"
+                    properties:
+                      href:
+                        description: "URL van de link"
+                        example: "https://data.pdok.nl/api/rce/v1/rijksmonumenten?page=2"
+                        format: "uri"
+                        type: "string"
+                    required:
+                    - "href"
+                    type: "object"
+                required:
+                - "self"
+                type: "object"
             required:
             - "_embedded"
             - "_links"
             type: "object"
-            properties:
-              _embedded:
-                type: "object"
-                properties:
-                  modellen:
-                    type: "array"
-                    items:
-                      $ref: "#/components/schemas/Model"
-                required:
-                - "modellen"
-              _links:
-                type: "object"
-                allOf:
-                - $ref: "https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks"
-    Model:
       description: "OK."
+      headers:
+        X-Pagination-Limit:
+          $ref: "#/components/headers/X-Pagination-Limit"
+        X-Pagination-Page:
+          $ref: "#/components/headers/X-Pagination-Page"
+        X-Total-Count:
+          $ref: "#/components/headers/X-Total-Count"
+    Klasse:
       content:
         application/hal+json:
           schema:
+            allOf:
+            - $ref: "#/components/schemas/Klasse"
             type: "object"
+      description: "OK."
+    Klassen:
+      content:
+        application/hal+json:
+          schema:
+            properties:
+              _embedded:
+                properties:
+                  klassen:
+                    items:
+                      $ref: "#/components/schemas/Klasse"
+                    type: "array"
+                required:
+                - "klassen"
+                type: "object"
+              _links:
+                properties:
+                  next:
+                    description: "Absolute link naar volgende pagina (niet aanwezig\
+                      \ als er geen volgende pagina is)"
+                    properties:
+                      href:
+                        description: "URL van de link"
+                        example: "https://data.pdok.nl/api/rce/v1/rijksmonumenten?page=3"
+                        format: "uri"
+                        type: "string"
+                    required:
+                    - "href"
+                    type: "object"
+                  prev:
+                    description: "Absolute link naar vorige pagina (niet aanwezig\
+                      \ als er geen vorige pagina is)"
+                    properties:
+                      href:
+                        description: "URL van de link"
+                        example: "https://data.pdok.nl/api/rce/v1/rijksmonumenten?page=1"
+                        format: "uri"
+                        type: "string"
+                    required:
+                    - "href"
+                    type: "object"
+                  self:
+                    description: "Absolute link naar huidige pagina"
+                    properties:
+                      href:
+                        description: "URL van de link"
+                        example: "https://data.pdok.nl/api/rce/v1/rijksmonumenten?page=2"
+                        format: "uri"
+                        type: "string"
+                    required:
+                    - "href"
+                    type: "object"
+                required:
+                - "self"
+                type: "object"
+            required:
+            - "_embedded"
+            - "_links"
+            type: "object"
+      description: "OK."
+      headers:
+        X-Pagination-Limit:
+          $ref: "#/components/headers/X-Pagination-Limit"
+        X-Pagination-Page:
+          $ref: "#/components/headers/X-Pagination-Page"
+        X-Total-Count:
+          $ref: "#/components/headers/X-Total-Count"
+    Model:
+      content:
+        application/hal+json:
+          schema:
             allOf:
             - $ref: "#/components/schemas/Model"
+            type: "object"
+    Modellen:
+      content:
+        application/hal+json:
+          schema:
+            properties:
+              _embedded:
+                properties:
+                  modellen:
+                    items:
+                      $ref: "#/components/schemas/Model"
+                    type: "array"
+                required:
+                - "modellen"
+                type: "object"
+              _links:
+                properties:
+                  next:
+                    description: "Absolute link naar volgende pagina (niet aanwezig\
+                      \ als er geen volgende pagina is)"
+                    properties:
+                      href:
+                        description: "URL van de link"
+                        example: "https://data.pdok.nl/api/rce/v1/rijksmonumenten?page=3"
+                        format: "uri"
+                        type: "string"
+                    required:
+                    - "href"
+                    type: "object"
+                  prev:
+                    description: "Absolute link naar vorige pagina (niet aanwezig\
+                      \ als er geen vorige pagina is)"
+                    properties:
+                      href:
+                        description: "URL van de link"
+                        example: "https://data.pdok.nl/api/rce/v1/rijksmonumenten?page=1"
+                        format: "uri"
+                        type: "string"
+                    required:
+                    - "href"
+                    type: "object"
+                  self:
+                    description: "Absolute link naar huidige pagina"
+                    properties:
+                      href:
+                        description: "URL van de link"
+                        example: "https://data.pdok.nl/api/rce/v1/rijksmonumenten?page=2"
+                        format: "uri"
+                        type: "string"
+                    required:
+                    - "href"
+                    type: "object"
+                required:
+                - "self"
+                type: "object"
+            required:
+            - "_embedded"
+            - "_links"
+            type: "object"
+      description: "OK."
+      headers:
+        X-Pagination-Limit:
+          $ref: "#/components/headers/X-Pagination-Limit"
+        X-Pagination-Page:
+          $ref: "#/components/headers/X-Pagination-Page"
+        X-Total-Count:
+          $ref: "#/components/headers/X-Total-Count"
   schemas:
-    UriEnLabel:
-      type: "object"
-      required:
-      - "uri"
-      - "label"
-      properties:
-        "uri":
-          type: "string"
-          example: "http://lod.voorbeelduri.org"
-        "label":
-          type: "string"
-          example: "VoorbeeldLabel"
-    ConceptLinks:
-      type: "object"
-      required:
-      - "_links"
-      properties:
-        _links:
-          type: "object"
-          required:
-            - "self"
-          properties:
-            self:
-              type: "object"
-              required:
-              - "href"
-              - "uri"
-              properties:
-                href:
-                  type: "string"
-                  format: "url"
-                  example: ".../concept?subject=http://lod.onderwijsregistratie.nl/scheme/Opleiding/Collegegeld"
-                  description: "API URL van dit betreffende concept"
-                uri:
-                  type: "string"
-                  format: "uri"
-                  example: "http://lod.onderwijsregistratie.nl/scheme/Opleiding/Collegegeld"
-                  description: "URI van dit betreffende concept"
-            klassen:
-              type: "object"
-              required:
-              - "href"
-              properties:
-                href:
-                  type: "string"
-                  format: "url"
-                  description: "API URL van klassen die horen bij dit concept"
-                  example: ".../klassen?concept=http://lod.onderwijsregistratie.nl/scheme/Opleiding/Collegegeld"
-            eigenschappen:
-              type: "object"
-              required:
-              - "href"
-              properties:
-                href:
-                  type: "string"
-                  format: "url"
-                  description: "API URL van eigenschappen die horen bij dit concept"
-                  example: ".../eigenschappen?concept=http://lod.onderwijsregistratie.nl/scheme/Opleiding/Collegegeld"
     Concept:
-      type: "object"
-      allOf:
-      - type: "object"
-        required:
-          - "definitie"
-        properties:
-          label:
-            type: "string"
-            example: "Collegegeld"
-          definitie:
-            type: "string"
-            example: "Is het bedrag dat een student moet betalen om colleges aan een universiteit of hogeschool te mogen bijwonen."
-          bronnen:
-            type: "array"
-            items:
-              type: "string"
-              example: "http://wetten.overheid.nl/BWBR0018259/2017-01-01/#Paragraaf2_Artikel9"
-          schemas:
-            type: "array"
-            items:
-              $ref: "#/components/schemas/UriEnLabel"
-      - $ref: "#/components/schemas/ConceptLinks"
-    KlasseLinks:
-      type: "object"
-      required:
-      - "_links"
       properties:
         _links:
-          type: "object"
-          "required": 
-          - "self"
-          - "modellen"
           properties:
-            self:
-              type: "object"
-              required:
-              - "href"
-              properties:
-                href:
-                  type: "string"
-                  format: "url"
-                  description: "API URL van deze betreffende klasse"
-                  example: ".../klasse?subject=http://lod.onderwijsregistraties.nl/cat/cdm/def/Postadres"
-                uri:
-                  type: "string"
-                  format: "uri"
-                  example: "http://lod.onderwijsregistraties.nl/cat/cdm/def/Postadres"
-                  description: "URI van deze betreffende klasse"
-            concepten:
-              type: "object"
-              required:
-              - "href"
-              properties:
-                href:
-                  type: "string"
-                  format: "url"
-                  description: "API URL van concepten die horen bij deze klasse"
-                  example: ".../concepten?klasse=http://lod.onderwijsregistraties.nl/cat/cdm/def/Postadres"
-            modellen:
-              type: "object"
-              required:
-              - "href"
-              properties:
-                href:
-                  type: "string"
-                  format: "url"
-                  description: "API URL van modellen die horen bij deze klasse"
-                  example: ".../modellen?klasse=http://lod.onderwijsregistraties.nl/cat/cdm/def/Postadres"
             eigenschappen:
-              type: "object"
-              required:
-              - "href"
+              description: "Link naar de eigenschappen die horen bij dit concept"
               properties:
                 href:
-                  type: "string"
-                  format: "url"
-                  description: "API URL van eigenschappen die horen bij deze klasse"
-                  example: ".../eigenschappen?klasse=http://lod.onderwijsregistraties.nl/cat/cdm/def/Postadres"
-    Klasse:
-      type: "object"
-      allOf:
-      - type: "object"
-        properties:
-          label:
-            type: "string"
-            example: "Postadres"
-          commentaar:
-            type: "string"
-            example: "Een adres waarop de post kan worden bezorgd"
-          vervangenDoor:
-            type: "string"
-            example: "http://lod.onderwijsregistraties.nl/cat/cdm/def/Postadres-v02"
-            nullable: true
-          enumeratie:
-            type: "array"
-            nullable: true
-            description: "Indien klasse een enumeratie is, is deze lijst gevuld met de uris van de waardes die voor mogen komen"
-            items:
-              $ref: "#/components/schemas/UriEnLabel"
-      - $ref: "#/components/schemas/KlasseLinks"
-    EigenschapLinks:
-      type: "object"
-      required:
-      - "_links"
-      properties:
-        _links:
-          type: "object"
-          properties:
-            self:
-              type: "object"
-              required:
-              - "href"
-              properties:
-                href:
-                  type: "string"
-                  format: "url"
-                  description: "API URL van dit betreffende eigenschap"
-                  example: ".../eigenschap?subject=http://lod.onderwijsregistraties.nl/cat/cdm/def/postcode-v02"
-                uri:
-                  type: "string"
+                  description: "URL van de link"
+                  example: ".../eigenschappen?concept=http://lod.onderwijsregistratie.nl/scheme/Opleiding/Collegegeld"
                   format: "uri"
-                  example: "http://lod.onderwijsregistraties.nl/cat/cdm/def/postcode-v02"
-                  description: "URI van deze betreffende eigenschap"
-            concepten:
-              type: "object"
+                  type: "string"
               required:
               - "href"
-              properties:
-                href:
-                  type: "string"
-                  format: "url"
-                  description: "API URL van concepten die horen bij deze eigenschap"
-                  example: ".../concepten?eigenschap=http://lod.onderwijsregistraties.nl/cat/cdm/def/postcode-v02"
-            klasseVan:
               type: "object"
-              required:
-              - "href"
-              properties:
-                href:
-                  type: "string"
-                  format: "url"
-                  description: "API URL van de klasse die deze eigenschap heeft"
-                  example: ".../klasse?subject=http://lod.onderwijsregistraties.nl/cat/cdm/def/Adres"
-            klasseNaar:
-              type: "object"
-              required:
-              - "href"
-              properties:
-                href:
-                  type: "string"
-                  format: "url"
-                  description: "In het geval dat deze eigenschap de relatie van een Klasse (A) met een andere Klasse (B) beschrijft, dan is dit de API URL naar de Klasse (B)"
-                  example: ".../klasse?subject=..."
-            modellen:
-              type: "object"
-              required:
-              - "href"
-              properties:
-                href:
-                  type: "string"
-                  format: "url"
-                  description: "API URL van modellen die horen bij deze eigenschap"
-                  example: ".../modellen?eigenschap=http://lod.onderwijsregistraties.nl/cat/cdm/def/postcode-v02"
-    Eigenschap:
-      type: "object"
-      allOf:
-      - type: "object"
-        required:
-        - "datatype"
-        properties:
-          vervangenDoor:
-            $ref: "#/components/schemas/UriEnLabel"
-          label:
-            type: "string"
-            example: "postcode"
-            description: "https://www.w3.org/2000/01/rdf-schema#label"
-          commentaar:
-            type: "string"
-            example: "De door de Post NL vastgestelde code behorend bij de straatnaam en het huisnummer dan wel de door Post NL vastgestelde code behorende bij een bepaalde combinatie van een naam openbare ruimte en een huisnummer."
-          datatype:
-            type: "string"
-            description: "http://www.w3.org/ns/shacl#datatype"
-            example: "string"
-          pattern:
-            type: "string"
-            description: "http://www.w3.org/ns/shacl#pattern"
-            example: "([1-9]{1}[0-9]{3}[A-Z]{2})"
-          minLength:
-            type: "integer"
-            description: "http://www.w3.org/ns/shacl#minLength"
-            example: 6
-          maxLength:
-            type: "integer"
-            description: "http://www.w3.org/ns/shacl#maxLength"
-            example: 6
-          minInclusive:
-            type: "integer"
-            description: "http://www.w3.org/ns/shacl#minInclusive"
-            example: 6
-          maxInclusive:
-            type: "integer"
-            description: "http://www.w3.org/ns/shacl#maxInclusive"
-            example: 6
-      - $ref: "#/components/schemas/EigenschapLinks"
-    ModelLinks:
-      type: "object"
-      required:
-      - "_links"
-      properties:
-        _links:
-          type: "object"
-          properties:
-            self:
-              type: "object"
-              required:
-              - "href"
-              properties:
-                href:
-                  type: "string"
-                  format: "url"
-                  description: "API URL van dit betreffende model"
-                  example: ".../model?subject=http://lod.onderwijsregistraties.nl/doc/ontology/v0/Cdm"
-                uri:
-                  type: "string"
-                  format: "uri"
-                  example: "http://lod.onderwijsregistraties.nl/doc/ontology/v0/Cdm"
-                  description: "URI van dit betreffende model"
             klassen:
-              type: "object"
-              required:
-              - "href"
+              description: "Link naar klassen die horen bij dit concept"
               properties:
                 href:
+                  description: "URL van de link"
+                  example: ".../klassen?concept=http://lod.onderwijsregistratie.nl/scheme/Opleiding/Collegegeld"
+                  format: "uri"
                   type: "string"
-                  format: "url"
-                  description: "API URL van klassen die horen bij deze eigenschap"
-                  example: ".../klassen?model=http://lod.onderwijsregistraties.nl/doc/ontology/v0/Cdm"
-            eigenschappen:
-              type: "object"
               required:
               - "href"
+              type: "object"
+            self:
+              description: "Absolute link naar het concept"
               properties:
                 href:
+                  description: "URL van de link"
+                  example: ".../concept?subject=http://lod.onderwijsregistratie.nl/scheme/Opleiding/Collegegeld"
+                  format: "uri"
                   type: "string"
-                  format: "url"
-                  description: "API URL van modellen die horen bij deze eigenschap"
-                  example: ".../eigenschappen?model=http://lod.onderwijsregistraties.nl/doc/ontology/v0/Cdm"
-    Model:
+              required:
+              - "href"
+              type: "object"
+          type: "object"
+        bronnen:
+          items:
+            type: "string"
+          type: "array"
+        definitie:
+          type: "string"
+        label:
+          type: "string"
+        schemas:
+          items:
+            type: "string"
+          type: "array"
+        uri:
+          type: "string"
       type: "object"
-      allOf:
-      - type: "object"
-        required:
-        - "datumVanaf"
-        properties:
-          datumVanaf:
+    Eigenschap:
+      properties:
+        _links:
+          properties:
+            concepten:
+              description: "Link naar concepten die horen bij deze eigenschap"
+              properties:
+                href:
+                  description: "URL van de link"
+                  example: ".../concepten?eigenschap=http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
+                  format: "uri"
+                  type: "string"
+              required:
+              - "href"
+              type: "object"
+            klasseNaar:
+              description: "In het geval dat deze eigenschap de relatie van een Klasse\
+                \ (A) met een andere Klasse (B) beschrijft, dan is dit de link naar\
+                \ de Klasse (B)"
+              properties:
+                href:
+                  description: "URL van de link"
+                  example: ".../klasse?subject=http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
+                  format: "uri"
+                  type: "string"
+              required:
+              - "href"
+              type: "object"
+            klasseVan:
+              description: "Link naar de klasse die deze eigenschap heeft"
+              properties:
+                href:
+                  description: "URL van de link"
+                  example: ".../klasse?subject=http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
+                  format: "uri"
+                  type: "string"
+              required:
+              - "href"
+              type: "object"
+            modellen:
+              description: "Link naar modellen die horen bij deze eigenschap"
+              properties:
+                href:
+                  description: "URL van de link"
+                  example: ".../modellen?eigenschap=http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
+                  format: "uri"
+                  type: "string"
+              required:
+              - "href"
+              type: "object"
+            self:
+              description: "Link naar deze eigenschap"
+              properties:
+                href:
+                  description: "URL van de link"
+                  example: ".../eigenschap?subject=http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
+                  format: "uri"
+                  type: "string"
+              required:
+              - "href"
+              type: "object"
+          type: "object"
+        commentaar:
+          example: "De door de Post NL vastgestelde code behorend bij de straatnaam\
+            \ en het huisnummer dan wel de door Post NL vastgestelde code behorende\
+            \ bij een bepaalde combinatie van een naam openbare ruimte en een huisnummer."
+          type: "string"
+        datatype:
+          description: "http://www.w3.org/ns/shacl#datatype"
+          example: "string"
+          type: "string"
+        label:
+          description: "https://www.w3.org/2000/01/rdf-schema#label"
+          example: "postcode"
+          type: "string"
+        maxCount:
+          description: "http://www.w3.org/ns/shacl#maxCount"
+          example: 6
+          type: "integer"
+        maxLength:
+          description: "http://www.w3.org/ns/shacl#maxLength"
+          example: 6
+          type: "integer"
+        minCount:
+          description: "http://www.w3.org/ns/shacl#minCount"
+          example: 6
+          type: "integer"
+        minLength:
+          description: "http://www.w3.org/ns/shacl#minLength"
+          example: 6
+          type: "integer"
+        pattern:
+          description: "http://www.w3.org/ns/shacl#pattern"
+          example: "([1-9]{1}[0-9]{3}[A-Z]{2})"
+          type: "string"
+        uri:
+          type: "string"
+      required:
+      - "_links"
+      type: "object"
+    Error:
+      description: "Object gespecificeerd volgens https://tools.ietf.org/html/rfc7807."
+      properties:
+        detail:
+          example: "HTTP 404 Not Found"
+          type: "string"
+        instance:
+          example: "self"
+          type: "string"
+        status:
+          example: 404
+          format: "int32"
+          type: "integer"
+        title:
+          example: "Not Found"
+          type: "string"
+        type:
+          description: "URI naar een pagina met meer informatie over deze foutmelding\
+            \ voor de ontwikkelaar."
+          example: "about:blank"
+          type: "string"
+      required:
+      - "title"
+      - "status"
+      - "detail"
+      type: "object"
+    Klasse:
+      properties:
+        _links:
+          properties:
+            concepten:
+              description: "Link naar concepten die horen bij deze eigenschap"
+              properties:
+                href:
+                  description: "URL van de link"
+                  example: ".../concepten?klasse=http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
+                  format: "uri"
+                  type: "string"
+              required:
+              - "href"
+              type: "object"
+            eigenschappen:
+              description: "Link naar de eigenschappen die horen bij deze klasse"
+              properties:
+                href:
+                  description: "URL van de link"
+                  example: ".../eigenschappen?klasse=http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
+                  format: "uri"
+                  type: "string"
+              required:
+              - "href"
+              type: "object"
+            modellen:
+              description: "Link naar odellen die horen bij deze eigenschap"
+              properties:
+                href:
+                  description: "URL van de link"
+                  example: ".../modellen?klasse=http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
+                  format: "uri"
+                  type: "string"
+              required:
+              - "href"
+              type: "object"
+            self:
+              description: "Absolute link naar de resource"
+              properties:
+                href:
+                  description: "URL van de link"
+                  example: ".../klasse?subject=http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
+                  format: "uri"
+                  type: "string"
+              required:
+              - "href"
+              type: "object"
+          type: "object"
+        commentaar:
+          type: "string"
+        enumeratie:
+          items:
+            properties:
+              code:
+                type: "string"
+              label:
+                type: "string"
+            type: "object"
+          type: "array"
+        label:
+          type: "string"
+        uri:
+          type: "string"
+        vervangenDoor:
+          nullable: true
+          type: "string"
+      required:
+      - "_links"
+      type: "object"
+    Model:
+      properties:
+        _links:
+          properties:
+            eigenschappen:
+              description: "Link naar eigenschappen die horen bij dit model"
+              properties:
+                href:
+                  description: "URL van de link"
+                  example: ".../eigenschappen?model=http://lod.onderwijsregistraties.nl/doc/ontology/v0/Cdm"
+                  format: "uri"
+                  type: "string"
+              required:
+              - "href"
+              type: "object"
+            klassen:
+              description: "Link naar klassen die horen bij dit model"
+              properties:
+                href:
+                  description: "URL van de link"
+                  example: ".../klassen?model=http://lod.onderwijsregistraties.nl/doc/ontology/v0/Cdm"
+                  format: "uri"
+                  type: "string"
+              required:
+              - "href"
+              type: "object"
+            self:
+              description: "Link naar dit model"
+              properties:
+                href:
+                  description: "URL van de link"
+                  example: ".../model?subject=http://lod.onderwijsregistraties.nl/doc/ontology/v0/Cdm"
+                  format: "uri"
+                  type: "string"
+              required:
+              - "href"
+              type: "object"
+          type: "object"
+        datumVanaf:
+          format: "date"
+          type: "string"
+        label:
+          type: "string"
+        uri:
+          type: "string"
+        versieInfo:
+          items:
             type: "string"
-            format: "date"
-            example: "2019-01-24"
-          label:
-            type: "string"
-            example: "Canoniek Datamodel DUO"
-          versieInfo:
-            type: "array"
-            items:
-              type: "string"
-              example: "Aangemaakt op 2019-01-24 09:11:24 op basis van commit 3715."
-      - $ref: "#/components/schemas/ModelLinks"
+          type: "array"
+      type: "object"
