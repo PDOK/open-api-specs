@@ -545,6 +545,7 @@ components:
                  minLength: 
                  pattern: "\\d{0,3}"
                  uri: http://lod.onderwijsregistratie.nl/cat/cdm/def/cijferExamen-v02
+      description: "OK."
     Eigenschappen:
       content:
         application/hal+json:
@@ -692,6 +693,7 @@ components:
             allOf:
             - $ref: "#/components/schemas/Model"
             type: "object"
+      description: "OK."
     Modellen:
       content:
         application/hal+json:
@@ -761,9 +763,9 @@ components:
   schemas:
     Concept:
       description: >
-        Een concept is een “onderwerp van gesprek”. Concepten worden uitgewerkt als onderdeel van een conceptueel 
+        Een concept is een "onderwerp van gesprek". Concepten worden uitgewerkt als onderdeel van een conceptueel 
         model en daarbij horen definities, toelichtingen, relaties met andere concepten, wetsartikelen of andere 
-        uitleg. Bij elkaar vormen alle concepten een soort “van Dale” van de uitvoering.
+        uitleg. Bij elkaar vormen alle concepten een soort "van Dale" van de uitvoering.
       properties:
         _links:
           properties:
