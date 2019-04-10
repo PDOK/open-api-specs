@@ -319,7 +319,7 @@ components:
         - "label"
         - "altLabel"
         type: "string"
-    subjectConcept:
+    subject:
       description: "URI van de op te vragen resource. Voorbeeld: http://lod.onderwijsregistratie.nl/cat/term/Cijfer"
       in: "query"
       name: "subject"
