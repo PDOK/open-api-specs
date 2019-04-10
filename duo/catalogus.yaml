@@ -22,7 +22,7 @@ info:
     als afnemer van de basisregistraties, zou op deze manier een link 
     kunnen opnemen van BPR- of andere gegevens in applicatie-ontwerpen.
     Nota bene 2: In de praktijk maken organisaties een eigen keuze uit 
-    een scala van (commerciële)  ontwikkelplatforms. Het idee achter de 
+    een scala van (commerci&#235;le)  ontwikkelplatforms. Het idee achter de 
     catalogus-API is vooral krachtig als zulke platforms in staat zijn 
     om de API uit te vragen.
     Een API-key voor het krijgen van toegang tot de catalogus-api is 
@@ -178,7 +178,6 @@ paths:
       parameters:
       - $ref: "#/components/parameters/page"
       - $ref: "#/components/parameters/pageSize"
-      - $ref: "#/components/parameters/datumVanaf"
       - $ref: "#/components/parameters/eigenschap"
       - $ref: "#/components/parameters/klasse"
       - $ref: "#/components/parameters/filter"
@@ -229,12 +228,7 @@ components:
       description: "Filteren op `concept`"
       in: "query"
       name: "concept"
-      schema:
-        type: "string"
-    datumVanaf:
-      description: "Filteren op `datumVanaf`"
-      in: "query"
-      name: "datumVanaf"
+      example: "http://lod.onderwijsregistratie.nl/cat/term/BevoegdGezag"
       schema:
         type: "string"
     eigenschap:
@@ -259,6 +253,7 @@ components:
         type: "string"
     model:
       description: "Filteren op `model`"
+      example: "http://lod.onderwijsregistratie.nl/cat/doc/ontology/v1/Cdm"
       in: "query"
       name: "model"
       schema:
@@ -289,13 +284,14 @@ components:
         type: "integer"
     schema:
       description: "Filteren op `schema`"
+      example: "http://lod.onderwijsregistratie.nl/cat/doc/taxonomy/Onderwijswettelijk"
       in: "query"
       name: "schema"
       schema:
         type: "string"
     sortDirection:
       description: "Specificeert de richting van de sortering."
-      example: "http://lod.onderwijsregistratie.nl/cdm/def/postcode-v02"
+      example: "desc"
       in: "query"
       name: "sortDirection"
       schema:
@@ -306,7 +302,7 @@ components:
         type: "string"
     sortProperty:
       description: "Specificeert op welk atribuut gesorteerd moet worden."
-      example: "http://lod.onderwijsregistratie.nl/cdm/def/postcode-v02"
+      example: "label"
       in: "query"
       name: "sortProperty"
       schema:
@@ -315,7 +311,7 @@ components:
         type: "string"
     sortPropertyConcept:
       description: "Specificeert op welk atribuut gesorteerd moet worden."
-      example: "http://lod.onderwijsregistratie.nl/cdm/def/postcode-v02"
+      example: "altLabel"
       in: "query"
       name: "sortProperty"
       schema:
@@ -323,7 +319,7 @@ components:
         - "label"
         - "altLabel"
         type: "string"
-    subject:
+    subjectConcept:
       description: "URI van de op te vragen resource. Voorbeeld: http://lod.onderwijsregistratie.nl/cat/term/Cijfer"
       in: "query"
       name: "subject"
