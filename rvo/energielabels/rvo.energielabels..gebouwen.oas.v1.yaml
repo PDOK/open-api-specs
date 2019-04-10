@@ -1,0 +1,430 @@
+openapi: 3.0.0
+info:
+  contact:
+    name: RVO
+    email: TODO@rvo.nl
+    url: 'https://www.rvo.nl'
+  version: 0.0.1
+  title: 'Energielabels Gebouwen API'
+servers:
+  - url: 'https://energielabels.gebouwen.overheid.nl/api/v1'
+paths:
+  /gebouwdelen:
+    get:
+      parameters:
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: '#/components/parameters/label'
+        - $ref: '#/components/parameters/labeltype'
+        - $ref: '#/components/parameters/gebouwtype'
+        - $ref: '#/components/parameters/bouwjaar'
+        - $ref: '#/components/parameters/gebruiksfunctie'
+      responses:
+        '200':
+          $ref: '#/components/responses/Gebouwdelen'
+        '401':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
+        '406':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Gebouwdelen collectie'
+  /gebouwdelen/{id}:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          $ref: '#/components/responses/Gebouwdeel'
+        '401':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
+        '404':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/404'
+        '406':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Gebouwdeel resource'
+  /adressen:
+    get:
+      parameters:
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/page'
+        - $ref: 'https://rawgit.com/PDOK/open-api-specs/master/shared/parameters.yaml#/pageSize'
+        - $ref: '#/components/parameters/gebouwdeel'
+        - $ref: '#/components/parameters/label'
+        - $ref: '#/components/parameters/labeltype'
+        - $ref: '#/components/parameters/gebruiksfunctie'
+        - $ref: '#/components/parameters/postcode'
+        - $ref: '#/components/parameters/huisnummer'
+        - $ref: '#/components/parameters/huisnummertoevoeging'
+        - $ref: '#/components/parameters/bagId'
+      responses:
+        '200':
+          $ref: '#/components/responses/Adressen'
+        '401':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
+        '406':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Adressen collectie'
+  /adressen/{id}:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          $ref: '#/components/responses/Adres'
+        '401':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/401'
+        '403':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/403'
+        '404':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/404'
+        '406':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/406'
+        '503':
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/responses.yaml#/503'
+      summary: 'Adres resource'
+components:
+  parameters:
+    id:
+      name: id
+      in: path
+      description: identifier van de op te vragen API resource.
+      required: true
+      schema:
+        type: string
+    gebouwdeel:
+      name: gebouwdeel
+      in: query
+      description: 'Filteren op `gebouwdeel`'
+      schema:
+        type: string
+    postcode:
+      name: postcode
+      in: query
+      description: 'Filteren op `postcode`. Let op hierbij is ook het filteren op `huisnummer` verplicht'
+      schema:
+        type: string
+    huisnummer:
+      name: huisnummer
+      in: query
+      description: 'Filteren op `huisnummer`. Let op hierbij is ook het filteren op `postcode` verplicht'
+      schema:
+        type: integer
+        format: int32
+    huisnummertoevoeging:
+      name: huisnummertoevoeging
+      in: query
+      description: 'Filteren op `huisnummertoevoeging`'
+      schema:
+        type: string
+    gebruiksfunctie:
+      name: gebruiksfunctie
+      in: query
+      description: 'Filteren op `gebruiksfunctie`'
+      schema:
+        type: string
+    gebouwtype:
+      name: gebouwtype
+      in: query
+      description: 'Filteren op `gebouwtype`'
+      schema:
+        type: "string"
+        enum:
+        - Woning
+        - Utiliteitsgebouw
+    bouwjaar:
+      name: bouwjaar
+      in: query
+      description: 'Filteren op `bouwjaar`'
+      schema:
+        type: integer
+        format: int32
+    label:
+      name: label
+      in: query
+      description: 'Filteren op `label`'
+      schema:
+        type: "string"
+    labeltype:
+      name: labeltype
+      in: query
+      description: 'Filteren op `labeltype`'
+      schema:
+        type: "string"
+        enum:
+        - Definitief
+        - Voorlopig
+    bagId:
+      name: bagId
+      in: query
+      description: 'Filteren op `bagId`'
+      schema:
+        type: "string"
+  responses:
+    Gebouwdelen:
+      description: OK.
+      headers:
+        xPaginationPage:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage'
+        xPaginationLimit:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit'
+        xTotalCount:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xTotalCount'
+      content:
+        application/hal+json:
+          schema:
+            required:
+              - _embedded
+              - _links
+            type: object
+            properties:
+              _embedded:
+                type: object
+                properties:
+                  gebouwdelen:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Gebouwdeel'
+                required:
+                  - gebouwdelen
+              _links:
+                $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks'
+    Gebouwdeel:
+      description: OK.
+      content:
+        application/hal+json:
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/components/schemas/Gebouwdeel'
+    Adressen:
+      description: OK.
+      headers:
+        xPaginationPage:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationPage'
+        xPaginationLimit:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xPaginationLimit'
+        xTotalCount:
+          $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/headers.yaml#/xTotalCount'
+      content:
+        application/hal+json:
+          schema:
+            required:
+              - _embedded
+              - _links
+            type: object
+            properties:
+              _embedded:
+                type: object
+                properties:
+                  adressen:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Adressen'
+                required:
+                  - adressen
+              _links:
+                $ref: 'https://cdn.jsdelivr.net/gh/dvh/KP-APIs@0.1/oas-components/schemas.yaml#/HalCollectionLinks'
+    Adres:
+      description: OK.
+      content:
+        application/hal+json:
+          schema:
+            type: object
+            allOf:
+            - $ref: '#/components/schemas/Adres'
+  schemas:
+    Gebouwdeel:
+      type: object
+      required:
+        - type
+        - energielabel
+        - energielabelmetadata
+        - _links
+      properties:
+        gebouwtype:
+          type: string
+          enum:
+          - Woning
+          - Utiliteitsgebouw
+        bouwjaar:
+          type: integer
+          format: int32
+        gebruiksfunctie:
+          type: string
+          enum:
+            - "Bijeenkomstfunctie"
+            - "Bijeenkomstfunctie met alcoholgebruik"
+            - "Bijeenkomstfunctie voor kinderopvang"
+            - "Celfunctie"
+            - "Gezondheidszorg"
+            - "Gezondheidszorg klinisch"
+            - "Gezondheidszorg niet klinisch"
+            - "Industriefunctie"
+            - "Kantoorfunctie"
+            - "Logiesfunctie"
+            - "Onderwijsfunctie"
+            - "Overige gebruiksfunctie"
+            - "Sportfunctie"
+            - "Sportfunctie, anders dan matig verwarmd"
+            - "Sportfunctie, matig verwarmd"
+            - "Winkelfunctie"
+            - "Woonfunctie"
+        energieprestatie:
+          type: number
+          format: double
+        energielabel:
+          type: string
+          enum:
+            - "A"
+            - "A+"
+            - "A++"
+            - "A+++"
+            - "A++++"
+            - "B"
+            - "C"
+            - "D"
+            - "E"
+            - "F"
+            - "G"
+        energielabelmetadata:
+          $ref: '#/components/schemas/Energielabelmetadata'
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              description: Absolute link naar de resource
+              required:
+              - href
+              properties:
+                href:
+                  type: string
+                  format: uri
+                  description: URL van de link
+                  example: ".../gebouwdelen/2423325"
+            adressen:
+              type: object
+              description: Link naar de adressen die horen bij dit gebouwdeel
+              required:
+              - href
+              properties:
+                href:
+                  type: string
+                  format: uri
+                  description: URL van de link
+                  example: ".../adressen?gebouwdeel=2423325"
+    Adressen:
+      type: object
+      required:
+        - huisnummer
+        - postcode
+        - _links
+      allOf:
+      - properties:
+          huisnummer:
+            type: "string"
+          huisnummertoevoeging:
+            type: "string"
+          postcode:
+            type: "string"
+          gebruiksfunctie:
+            type: string
+            enum:
+              - "Bijeenkomstfunctie"
+              - "Bijeenkomstfunctie met alcoholgebruik"
+              - "Bijeenkomstfunctie voor kinderopvang"
+              - "Celfunctie"
+              - "Gezondheidszorg"
+              - "Gezondheidszorg klinisch"
+              - "Gezondheidszorg niet klinisch"
+              - "Industriefunctie"
+              - "Kantoorfunctie"
+              - "Logiesfunctie"
+              - "Onderwijsfunctie"
+              - "Overige gebruiksfunctie"
+              - "Sportfunctie"
+              - "Sportfunctie, anders dan matig verwarmd"
+              - "Sportfunctie, matig verwarmd"
+              - "Winkelfunctie"
+              - "Woonfunctie"
+          bagId:
+            type: "string"
+          _links:
+            type: object
+            properties:
+              self:
+                type: object
+                description: Link naar dit adres
+                required:
+                - href
+                properties:
+                  href:
+                    type: string
+                    format: uri
+                    description: URL van de link
+                    example: ".../adressen/22234972461007KE70238"
+              gebouwdeel:
+                type: object
+                description: Link naar het gebouwdeel waar dit adres bijhoort
+                required:
+                - href
+                properties:
+                  href:
+                    type: string
+                    format: uri
+                    description: URL van de link
+                    example: ".../gebouwdelen/2423325"
+    Adres:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/Adressen'
+      - properties:
+          _embedded:
+            type: object
+            properties:
+              gebouwdeel:
+                type: object
+                properties:
+                  energieprestatie:
+                    type: number
+                    format: double
+                  energielabel:
+                    type: string
+                    enum:
+                      - "A"
+                      - "A+"
+                      - "A++"
+                      - "A+++"
+                      - "A++++"
+                      - "B"
+                      - "C"
+                      - "D"
+                      - "E"
+                      - "F"
+                      - "G"
+                  energielabelmetadata:
+                    $ref: '#/components/schemas/Energielabelmetadata'
+    Energielabelmetadata:
+      type: object
+      properties:
+        labeltype:
+          type: string
+          enum:
+          - Definitief
+          - Voorlopig
+        registratiedatum:
+          type: string
+          format: date
+        opnamedatum:
+          type: string
+          format: date
