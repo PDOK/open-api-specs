@@ -96,7 +96,6 @@ paths:
       - $ref: "#/components/parameters/page"
       - $ref: "#/components/parameters/pageSize"
       - $ref: "#/components/parameters/concept"
-      - $ref: "#/components/parameters/eigenschap"
       - $ref: "#/components/parameters/klasse"
       - $ref: "#/components/parameters/model"
       - $ref: "#/components/parameters/filter"
@@ -233,20 +232,21 @@ components:
         type: "string"
     eigenschap:
       description: "Filteren op `eigenschap`"
-      example: "http://lod.onderwijsregistratie.nl/cdm/def/postcode-v02"
+      example: "http://lod.onderwijsregistratie.nl/cat/cdm/def/bevoegdGezagnummer"
       in: "query"
       name: "eigenschap"
       schema:
         type: "string"
     filter:
       description: "Hoofdletter ongevoelig filteren op `labels` van de resource"
+      example: "post"
       in: "query"
       name: "filter"
       schema:
         type: "string"
     klasse:
       description: "Filteren op `klasse`"
-      example: "http://lod.onderwijsregistratie.nl/cdm/def/Postadres"
+      example: "http://lod.onderwijsregistratie.nl/cat/cdm/def/BevoegdGezagErkenning"
       in: "query"
       name: "klasse"
       schema:
