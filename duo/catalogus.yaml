@@ -25,9 +25,6 @@ info:
     een scala van (commerci&#235;le)  ontwikkelplatforms. Het idee achter de 
     catalogus-API is vooral krachtig als zulke platforms in staat zijn 
     om de API uit te vragen.
-    Een API-key voor het krijgen van toegang tot de catalogus-api is 
-    gratis en kan verkregen worden door een e-mail te sturen naar 
-    dataplatform@kadaster.nl.  Deze API-key werkt ook voor de RIO-data.
 servers:
 - url: "https://lod.onderwijsregistratie.nl/api/catalogus/v1"
 paths:
