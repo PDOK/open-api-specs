@@ -2,18 +2,31 @@
 openapi: "3.0.0"
 info:
   contact:
-    email: "dimitri.vanhees@kadaster.nl"
-    name: "Kadaster"
-    url: "https://www.kadaster.nl"
+    email: "gegevensmagazijn@duo.nl"
+    name: "Dienst Uitvoering Onderwijs"
+    url: "https://www.duo.nl"
+  description: "Voor ontwikkelaars die de data uit RIO in een eigen applicatie willen\
+    \ inzetten  is de catalogus met RIO-metadata gevirtualiseerd met een API.  Dit\
+    \ heeft als doel perfecte traceerbaarheid van gegevens door verschillende omgevingen\
+    \ in een ketenproces heen. Met deze API kunnen de gewenste gegevensbeschrijvingen\
+    \ worden opgezocht en de URI worden vastgelegd in lokale systemen/documentatie.\
+    \  Hierdoor blijven de definities scherp en de terminologie eenduidig. Ook kunnen\
+    \ de consequenties van veranderingen aan de bron makkelijker worden uitgezocht.\
+    \ Nota bene 1:  Het is aantrekkelijk als aanbieders van data hun metadata volgens\
+    \ een collectief profiel als dit ontsluiten. DUO, als afnemer van de basisregistraties,\
+    \ zou op deze manier een link kunnen opnemen van BPR- of andere gegevens in applicatie-ontwerpen.\
+    \ Nota bene 2: In de praktijk maken organisaties een eigen keuze uit een scala\
+    \ van (commerciÃ«le)  ontwikkelplatforms. Het idee achter de catalogus-API is vooral\
+    \ krachtig als zulke platforms in staat zijn om de API uit te vragen."
   title: "DUO Catalogus API"
-  version: "0.0.1"
+  version: "1.0.0"
 servers:
 - url: "https://lod.onderwijsregistratie.nl/api/catalogus/v1"
 paths:
   /concept:
     get:
       parameters:
-      - $ref: "#/components/parameters/subject"
+      - $ref: "#/components/parameters/subjectConcept"
       responses:
         200:
           $ref: "#/components/responses/Concept"
@@ -54,7 +67,7 @@ paths:
   /eigenschap:
     get:
       parameters:
-      - $ref: "#/components/parameters/subject"
+      - $ref: "#/components/parameters/subjectEigenschap"
       responses:
         200:
           $ref: "#/components/responses/Eigenschap"
@@ -96,7 +109,7 @@ paths:
   /klasse:
     get:
       parameters:
-      - $ref: "#/components/parameters/subject"
+      - $ref: "#/components/parameters/subjectKlasse"
       responses:
         200:
           $ref: "#/components/responses/Klasse"
@@ -137,7 +150,7 @@ paths:
   /model:
     get:
       parameters:
-      - $ref: "#/components/parameters/subject"
+      - $ref: "#/components/parameters/subjectModel"
       responses:
         200:
           $ref: "#/components/responses/Model"
@@ -157,7 +170,6 @@ paths:
       parameters:
       - $ref: "#/components/parameters/page"
       - $ref: "#/components/parameters/pageSize"
-      - $ref: "#/components/parameters/datumVanaf"
       - $ref: "#/components/parameters/eigenschap"
       - $ref: "#/components/parameters/klasse"
       - $ref: "#/components/parameters/filter"
@@ -206,38 +218,35 @@ components:
   parameters:
     concept:
       description: "Filteren op `concept`"
+      example: "http://lod.onderwijsregistratie.nl/cat/term/BevoegdGezag"
       in: "query"
       name: "concept"
       schema:
         type: "string"
-    datumVanaf:
-      description: "Filteren op `datumVanaf`"
-      in: "query"
-      name: "datumVanaf"
-      schema:
-        type: "string"
     eigenschap:
       description: "Filteren op `eigenschap`"
-      example: "http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
+      example: "http://lod.onderwijsregistratie.nl/cat/cdm/def/bevoegdGezagnummer"
       in: "query"
       name: "eigenschap"
       schema:
         type: "string"
     filter:
       description: "Hoofdletter ongevoelig filteren op `labels` van de resource"
+      example: "post"
       in: "query"
       name: "filter"
       schema:
         type: "string"
     klasse:
       description: "Filteren op `klasse`"
-      example: "http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
+      example: "http://lod.onderwijsregistratie.nl/cat/cdm/def/BevoegdGezagErkenning"
       in: "query"
       name: "klasse"
       schema:
         type: "string"
     model:
       description: "Filteren op `model`"
+      example: "http://lod.onderwijsregistratie.nl/cat/doc/ontology/v1/Cdm"
       in: "query"
       name: "model"
       schema:
@@ -254,11 +263,12 @@ components:
         minimum: 1
         type: "integer"
     pageSize:
+      description: "Aantal resultaten per pagina"
       in: "query"
       name: "pageSize"
       required: false
       schema:
-        default: 20
+        default: 10
         enum:
         - 10
         - 20
@@ -268,13 +278,14 @@ components:
         type: "integer"
     schema:
       description: "Filteren op `schema`"
+      example: "http://lod.onderwijsregistratie.nl/cat/doc/taxonomy/Onderwijswettelijk"
       in: "query"
       name: "schema"
       schema:
         type: "string"
     sortDirection:
       description: "Specificeert de richting van de sortering."
-      example: "http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
+      example: "desc"
       in: "query"
       name: "sortDirection"
       schema:
@@ -285,7 +296,7 @@ components:
         type: "string"
     sortProperty:
       description: "Specificeert op welk atribuut gesorteerd moet worden."
-      example: "http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
+      example: "label"
       in: "query"
       name: "sortProperty"
       schema:
@@ -294,7 +305,7 @@ components:
         type: "string"
     sortPropertyConcept:
       description: "Specificeert op welk atribuut gesorteerd moet worden."
-      example: "http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
+      example: "altLabel"
       in: "query"
       name: "sortProperty"
       schema:
@@ -302,8 +313,33 @@ components:
         - "label"
         - "altLabel"
         type: "string"
-    subject:
-      description: "URI van de op te vragen resource. Voorbeeld: http://lod.onderwijsregistratie.nl/cat/term/Cijfer"
+    subjectConcept:
+      description: "URI van de op te vragen resource."
+      example: "http://lod.onderwijsregistratie.nl/cat/term/BevoegdGezag"
+      in: "query"
+      name: "subject"
+      required: true
+      schema:
+        type: "string"
+    subjectEigenschap:
+      description: "URI van de op te vragen resource."
+      example: "http://lod.onderwijsregistratie.nl/cat/cdm/sh/Cijfer/cijferExamen"
+      in: "query"
+      name: "subject"
+      required: true
+      schema:
+        type: "string"
+    subjectKlasse:
+      description: "URI van de op te vragen resource."
+      example: "http://lod.onderwijsregistratie.nl/cat/cdm/def/AangebodenMboOpleiding"
+      in: "query"
+      name: "subject"
+      required: true
+      schema:
+        type: "string"
+    subjectModel:
+      description: "URI van de op te vragen resource."
+      example: "http://lod.onderwijsregistratie.nl/cat/doc/ontology/v1/Cdm"
       in: "query"
       name: "subject"
       required: true
@@ -406,7 +442,7 @@ components:
                     properties:
                       href:
                         description: "URL van de link"
-                        example: "https://data.pdok.nl/api/rce/v1/rijksmonumenten?page=3"
+                        example: "https://data.pdok.nl/api/v1/your-api-resource?page=3"
                         format: "uri"
                         type: "string"
                     required:
@@ -418,7 +454,7 @@ components:
                     properties:
                       href:
                         description: "URL van de link"
-                        example: "https://data.pdok.nl/api/rce/v1/rijksmonumenten?page=1"
+                        example: "https://data.pdok.nl/api/v1/your-api-resource?page=1"
                         format: "uri"
                         type: "string"
                     required:
@@ -429,7 +465,7 @@ components:
                     properties:
                       href:
                         description: "URL van de link"
-                        example: "https://data.pdok.nl/api/rce/v1/rijksmonumenten?page=2"
+                        example: "https://data.pdok.nl/api/v1/your-api-resource?page=2"
                         format: "uri"
                         type: "string"
                     required:
@@ -456,7 +492,75 @@ components:
           schema:
             allOf:
             - $ref: "#/components/schemas/Eigenschap"
+            examples:
+              CijferExamen:
+                value:
+                  _links:
+                    concepten:
+                      href: "https://lod.onderwijsregistratie.nl/api/catalogus/v1/concepten?eigenschap=http://lod.onderwijsregistratie.nl/cat/cdm/def/cijferExamen-v02"
+                    klasseNaar:
+                      href: null
+                    klasseVan:
+                      href: "https://lod.onderwijsregistratie.nl/api/catalogus/v1/klasse?subject=http://lod.onderwijsregistratie.nl/cat/cdm/def/Cijfer"
+                    modellen:
+                      href: "https://lod.onderwijsregistratie.nl/api/catalogus/v1/modellen?eigenschap=http://lod.onderwijsregistratie.nl/cat/cdm/sh/Cijfer/cijferExamen"
+                    self:
+                      href: "https://lod.onderwijsregistratie.nl/api/catalogus/v1/eigenschap?subject=http://lod.onderwijsregistratie.nl/cat/cdm/sh/Cijfer/cijferExamen"
+                  commentaar: "Een kwantitatief beoordelingsresultaat van een examenonderdeel"
+                  datatype: "http://www.w3.org/2001/XMLSchema#integer"
+                  label: "CijferExamen"
+                  maxCount: 1
+                  maxLength: null
+                  minCount: 1
+                  minLength: null
+                  pattern: "\\d{0,3}"
+                  uri: "http://lod.onderwijsregistratie.nl/cat/cdm/def/cijferExamen-v02"
+              PeriodeBegindatum:
+                value:
+                  _links:
+                    concepten:
+                      href: "https://lod.onderwijsregistratie.nl/api/catalogus/v1/concepten?eigenschap=http://lod.onderwijsregistratie.nl/cat/cdm/def/periodeBegindatum-v01"
+                    klasseNaar:
+                      href: null
+                    klasseVan:
+                      href: "https://lod.onderwijsregistratie.nl/api/catalogus/v1/klasse?subject=http://lod.onderwijsregistratie.nl/cat/cdm/def/AanmeldingMboCohort"
+                    modellen:
+                      href: "https://lod.onderwijsregistratie.nl/api/catalogus/v1/modellen?eigenschap=http://lod.onderwijsregistratie.nl/cat/cdm/sh/AanmeldingMboCohort/beginAanmeldperiode"
+                    self:
+                      href: "https://lod.onderwijsregistratie.nl/api/catalogus/v1/eigenschap?subject=http://lod.onderwijsregistratie.nl/cat/cdm/sh/AanmeldingMboCohort/beginAanmeldperiode"
+                  commentaar: "De datum die het begin van de periode aangeeft (inclusief)."
+                  datatype: "http://www.w3.org/2001/XMLSchema#date"
+                  label: "PeriodeBegindatum"
+                  maxCount: null
+                  maxLength: null
+                  minCount: null
+                  minLength: null
+                  pattern: "([0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))"
+                  uri: "http://lod.onderwijsregistratie.nl/cat/cdm/def/periodeBegindatum-v01"
+              wordt aangeboden door:
+                value:
+                  _links:
+                    concepten:
+                      href: "https://lod.onderwijsregistratie.nl/api/catalogus/v1/concepten?eigenschap=http://lod.onderwijsregistratie.nl/cat/cdm/def/AangebodenOpleiding/wordtaangebodendoor"
+                    klasseNaar:
+                      href: "https://lod.onderwijsregistratie.nl/api/catalogus/v1/klasse?subject=http://lod.onderwijsregistratie.nl/cat/cdm/def/Onderwijsaanbieder"
+                    klasseVan:
+                      href: "https://lod.onderwijsregistratie.nl/api/catalogus/v1/klasse?subject=http://lod.onderwijsregistratie.nl/cat/cdm/def/AangebodenOpleiding"
+                    modellen:
+                      href: "https://lod.onderwijsregistratie.nl/api/catalogus/v1/modellen?eigenschap=http://lod.onderwijsregistratie.nl/cat/cdm/sh/AangebodenOpleiding/wordtaangebodendoor"
+                    self:
+                      href: "https://lod.onderwijsregistratie.nl/api/catalogus/v1/eigenschap?subject=http://lod.onderwijsregistratie.nl/cat/cdm/sh/AangebodenOpleiding/wordtaangebodendoor"
+                  commentaar: null
+                  datatype: null
+                  label: "wordt aangeboden door"
+                  maxCount: 1
+                  maxLength: null
+                  minCount: 1
+                  minLength: null
+                  pattern: null
+                  uri: "http://lod.onderwijsregistratie.nl/cat/cdm/def/AangebodenOpleiding/wordtaangebodendoor"
             type: "object"
+      description: "OK."
     Eigenschappen:
       content:
         application/hal+json:
@@ -479,7 +583,7 @@ components:
                     properties:
                       href:
                         description: "URL van de link"
-                        example: "https://data.pdok.nl/api/rce/v1/rijksmonumenten?page=3"
+                        example: "https://data.pdok.nl/api/v1/your-api-resource?page=3"
                         format: "uri"
                         type: "string"
                     required:
@@ -491,7 +595,7 @@ components:
                     properties:
                       href:
                         description: "URL van de link"
-                        example: "https://data.pdok.nl/api/rce/v1/rijksmonumenten?page=1"
+                        example: "https://data.pdok.nl/api/v1/your-api-resource?page=1"
                         format: "uri"
                         type: "string"
                     required:
@@ -502,7 +606,7 @@ components:
                     properties:
                       href:
                         description: "URL van de link"
-                        example: "https://data.pdok.nl/api/rce/v1/rijksmonumenten?page=2"
+                        example: "https://data.pdok.nl/api/v1/your-api-resource?page=2"
                         format: "uri"
                         type: "string"
                     required:
@@ -553,7 +657,7 @@ components:
                     properties:
                       href:
                         description: "URL van de link"
-                        example: "https://data.pdok.nl/api/rce/v1/rijksmonumenten?page=3"
+                        example: "https://data.pdok.nl/api/v1/your-api-resource?page=3"
                         format: "uri"
                         type: "string"
                     required:
@@ -565,7 +669,7 @@ components:
                     properties:
                       href:
                         description: "URL van de link"
-                        example: "https://data.pdok.nl/api/rce/v1/rijksmonumenten?page=1"
+                        example: "https://data.pdok.nl/api/v1/your-api-resource?page=1"
                         format: "uri"
                         type: "string"
                     required:
@@ -576,7 +680,7 @@ components:
                     properties:
                       href:
                         description: "URL van de link"
-                        example: "https://data.pdok.nl/api/rce/v1/rijksmonumenten?page=2"
+                        example: "https://data.pdok.nl/api/v1/your-api-resource?page=2"
                         format: "uri"
                         type: "string"
                     required:
@@ -604,6 +708,7 @@ components:
             allOf:
             - $ref: "#/components/schemas/Model"
             type: "object"
+      description: "OK."
     Modellen:
       content:
         application/hal+json:
@@ -626,7 +731,7 @@ components:
                     properties:
                       href:
                         description: "URL van de link"
-                        example: "https://data.pdok.nl/api/rce/v1/rijksmonumenten?page=3"
+                        example: "https://data.pdok.nl/api/v1/your-api-resource?page=3"
                         format: "uri"
                         type: "string"
                     required:
@@ -638,7 +743,7 @@ components:
                     properties:
                       href:
                         description: "URL van de link"
-                        example: "https://data.pdok.nl/api/rce/v1/rijksmonumenten?page=1"
+                        example: "https://data.pdok.nl/api/v1/your-api-resource?page=1"
                         format: "uri"
                         type: "string"
                     required:
@@ -649,7 +754,7 @@ components:
                     properties:
                       href:
                         description: "URL van de link"
-                        example: "https://data.pdok.nl/api/rce/v1/rijksmonumenten?page=2"
+                        example: "https://data.pdok.nl/api/v1/your-api-resource?page=2"
                         format: "uri"
                         type: "string"
                     required:
@@ -672,6 +777,10 @@ components:
           $ref: "#/components/headers/X-Total-Count"
   schemas:
     Concept:
+      description: "Een concept is een \"onderwerp van gesprek\". Concepten worden\
+        \ uitgewerkt als onderdeel van een conceptueel model en daarbij horen definities,\
+        \ toelichtingen, relaties met andere concepten, wetsartikelen of andere uitleg.\
+        \ Bij elkaar vormen alle concepten een soort \"van Dale\" van de uitvoering.\n"
       properties:
         _links:
           properties:
@@ -680,7 +789,7 @@ components:
               properties:
                 href:
                   description: "URL van de link"
-                  example: ".../eigenschappen?concept=http://lod.onderwijsregistratie.nl/scheme/Opleiding/Collegegeld"
+                  example: "https://lod.onderwijsregistratie.nl/api/catalogus/v1/eigenschappen?concept=http://lod.onderwijsregistratie.nl/cat/term/BevoegdGezag"
                   format: "uri"
                   type: "string"
               required:
@@ -691,7 +800,7 @@ components:
               properties:
                 href:
                   description: "URL van de link"
-                  example: ".../klassen?concept=http://lod.onderwijsregistratie.nl/scheme/Opleiding/Collegegeld"
+                  example: "https://lod.onderwijsregistratie.nl/api/catalogus/v1/klassen?concept=http://lod.onderwijsregistratie.nl/cat/term/BevoegdGezag"
                   format: "uri"
                   type: "string"
               required:
@@ -702,7 +811,7 @@ components:
               properties:
                 href:
                   description: "URL van de link"
-                  example: ".../concept?subject=http://lod.onderwijsregistratie.nl/scheme/Opleiding/Collegegeld"
+                  example: "https://lod.onderwijsregistratie.nl/api/catalogus/v1/concept?subject=http://lod.onderwijsregistratie.nl/cat/term/BevoegdGezag"
                   format: "uri"
                   type: "string"
               required:
@@ -710,18 +819,30 @@ components:
               type: "object"
           type: "object"
         bronnen:
+          description: "http://purl.org/dc/terms/source"
           items:
+            example: "http://wetten.overheid.nl/jci1.3:c:BWBR0005537&hoofdstuk=1&titeldeel=1.1&artikel=1:1&z=2017-12-01&g=2017-12-01"
             type: "string"
           type: "array"
         definitie:
+          description: "http://www.w3.org/2004/02/skos/core#Definition"
+          example: "Een orgaan van een rechtspersoon krachtens publiekrecht ingesteld\
+            \ (a-orgaan) of een persoon of college met enig openbaar gezag bekleed\
+            \ (b-orgaan)."
           type: "string"
         label:
+          description: "https://www.w3.org/2000/01/rdf-schema#label"
+          example: "Bevoegd gezag"
           type: "string"
         schemas:
+          description: "http://www.w3.org/2004/02/skos/core#ConceptScheme"
           items:
+            example: "http://lod.onderwijsregistratie.nl/cat/doc/taxonomy/Organisatie"
             type: "string"
           type: "array"
         uri:
+          description: "URI van het specifieke concept"
+          example: "http://lod.onderwijsregistratie.nl/cat/term/BevoegdGezag"
           type: "string"
       type: "object"
     Eigenschap:
@@ -733,7 +854,6 @@ components:
               properties:
                 href:
                   description: "URL van de link"
-                  example: ".../concepten?eigenschap=http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
                   format: "uri"
                   type: "string"
               required:
@@ -746,7 +866,6 @@ components:
               properties:
                 href:
                   description: "URL van de link"
-                  example: ".../klasse?subject=http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
                   format: "uri"
                   type: "string"
               required:
@@ -757,7 +876,6 @@ components:
               properties:
                 href:
                   description: "URL van de link"
-                  example: ".../klasse?subject=http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
                   format: "uri"
                   type: "string"
               required:
@@ -768,7 +886,6 @@ components:
               properties:
                 href:
                   description: "URL van de link"
-                  example: ".../modellen?eigenschap=http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
                   format: "uri"
                   type: "string"
               required:
@@ -779,7 +896,6 @@ components:
               properties:
                 href:
                   description: "URL van de link"
-                  example: ".../eigenschap?subject=http://lod.onderwijsregistraties.nl/cdm/def/postcode-v02"
                   format: "uri"
                   type: "string"
               required:
@@ -787,39 +903,31 @@ components:
               type: "object"
           type: "object"
         commentaar:
-          example: "De door de Post NL vastgestelde code behorend bij de straatnaam\
-            \ en het huisnummer dan wel de door Post NL vastgestelde code behorende\
-            \ bij een bepaalde combinatie van een naam openbare ruimte en een huisnummer."
+          description: "http://www.w3.org/2000/01/rdf-schema#comment"
           type: "string"
         datatype:
           description: "http://www.w3.org/ns/shacl#datatype"
-          example: "string"
           type: "string"
         label:
           description: "https://www.w3.org/2000/01/rdf-schema#label"
-          example: "postcode"
           type: "string"
         maxCount:
           description: "http://www.w3.org/ns/shacl#maxCount"
-          example: 6
           type: "integer"
         maxLength:
           description: "http://www.w3.org/ns/shacl#maxLength"
-          example: 6
           type: "integer"
         minCount:
           description: "http://www.w3.org/ns/shacl#minCount"
-          example: 6
           type: "integer"
         minLength:
           description: "http://www.w3.org/ns/shacl#minLength"
-          example: 6
           type: "integer"
         pattern:
           description: "http://www.w3.org/ns/shacl#pattern"
-          example: "([1-9]{1}[0-9]{3}[A-Z]{2})"
           type: "string"
         uri:
+          description: "URI van de specifieke eigenschap"
           type: "string"
       required:
       - "_links"
@@ -851,6 +959,16 @@ components:
       - "detail"
       type: "object"
     Klasse:
+      description: "Een klasse van gegevens is de type-aanduiding voor een groep van\
+        \ gelijksoortige gegevens.  Het heeft een aantal verplichte of optionele eigenschappen.\
+        \  De structuur van de groep gegevens ligt daarmee vast. De betekenis en doelstelling\
+        \ van een klasse worden nader uitgelegd aan de hand van een concept. (Noot\
+        \ GGR: klassen kunnen eigenschappen overerven van een superklasse, maar dat\
+        \ is nu niet in de api opgenomen).\nEen enumeratieklasse is een speciaal soort\
+        \ klasse met een limitatieve set van toegestane waarden. Enumeratieklassen\
+        \ worden centraal beheerd en meervoudig gebruikt in logische modellen.  Wat\
+        \ wordt bedoeld met een enumatieklasse wordt nader uitgelegd aan de hand van\
+        \ een concept.\n"
       properties:
         _links:
           properties:
@@ -859,7 +977,7 @@ components:
               properties:
                 href:
                   description: "URL van de link"
-                  example: ".../concepten?klasse=http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
+                  example: "https://lod.onderwijsregistratie.nl/api/catalogus/v1/concepten?klasse=http://lod.onderwijsregistratie.nl/cat/cdm/def/AangebodenMboOpleiding"
                   format: "uri"
                   type: "string"
               required:
@@ -870,18 +988,18 @@ components:
               properties:
                 href:
                   description: "URL van de link"
-                  example: ".../eigenschappen?klasse=http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
+                  example: "https://lod.onderwijsregistratie.nl/api/catalogus/v1/eigenschappen?klasse=http://lod.onderwijsregistratie.nl/cat/cdm/def/AangebodenMboOpleiding"
                   format: "uri"
                   type: "string"
               required:
               - "href"
               type: "object"
             modellen:
-              description: "Link naar odellen die horen bij deze eigenschap"
+              description: "Link naar modellen die horen bij deze eigenschap"
               properties:
                 href:
                   description: "URL van de link"
-                  example: ".../modellen?klasse=http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
+                  example: "https://lod.onderwijsregistratie.nl/api/catalogus/v1/modellen?klasse=http://lod.onderwijsregistratie.nl/cat/cdm/def/AangebodenMboOpleiding"
                   format: "uri"
                   type: "string"
               required:
@@ -892,7 +1010,7 @@ components:
               properties:
                 href:
                   description: "URL van de link"
-                  example: ".../klasse?subject=http://lod.onderwijsregistraties.nl/cdm/def/Postadres"
+                  example: "https://lod.onderwijsregistratie.nl/api/catalogus/v1/klasse?subject=http://lod.onderwijsregistratie.nl/cat/cdm/def/AangebodenMboOpleiding"
                   format: "uri"
                   type: "string"
               required:
@@ -900,27 +1018,46 @@ components:
               type: "object"
           type: "object"
         commentaar:
+          description: "https://www.w3.org/2000/01/rdf-schema#comment"
+          example: "Is een Opleidingseenheid die door een Onderwijsaanbieder aangeboden\
+            \ wordt in het MBO, in een bepaalde vorm, al dan niet op een bepaalde\
+            \ Onderwijslocatie."
           type: "string"
         enumeratie:
           items:
             properties:
               code:
+                description: "URI van een voorkomen in de limitatieve set van toegestane\
+                  \ waarden."
                 type: "string"
               label:
+                description: "https://www.w3.org/2000/01/rdf-schema#label"
                 type: "string"
             type: "object"
           type: "array"
         label:
+          description: "https://www.w3.org/2000/01/rdf-schema#label"
+          example: "AangebodenMboOpleiding"
           type: "string"
         uri:
+          description: "URI van de specifieke klasse"
+          example: "http://lod.onderwijsregistratie.nl/cat/cdm/def/AangebodenMboOpleiding"
           type: "string"
         vervangenDoor:
+          description: "http://purl.org/dc/terms/isReplacedBy"
+          example: "http://lod.onderwijsregistratie.nl/cat/cdm/def/NieuweKlasse"
           nullable: true
           type: "string"
       required:
       - "_links"
       type: "object"
     Model:
+      description: "https://www.w3.org/2002/07/owl#Ontology: Logische data-/informatiemodellen\
+        \ worden in de ontwerpfase gemaakt om een set gegevens voor uitwisseling en/of\
+        \ opslag functioneel te beschrijven .  Modellen bestaan uit klassen, associaties,\
+        \ eigenschappen en enumeraties.  In samenhang kunnen ze dienen om de integriteit\
+        \ van de beschreven data te valideren. Technische modellen  worden afgeleid\
+        \ van de logische modellen maar zijn vaak specifiek voor gebruikte techniek.\n"
       properties:
         _links:
           properties:
@@ -929,7 +1066,7 @@ components:
               properties:
                 href:
                   description: "URL van de link"
-                  example: ".../eigenschappen?model=http://lod.onderwijsregistraties.nl/doc/ontology/v0/Cdm"
+                  example: "https://lod.onderwijsregistratie.nl/api/catalogus/v1/eigenschappen?model=http://lod.onderwijsregistratie.nl/cat/doc/ontology/v1/Cdm"
                   format: "uri"
                   type: "string"
               required:
@@ -940,7 +1077,7 @@ components:
               properties:
                 href:
                   description: "URL van de link"
-                  example: ".../klassen?model=http://lod.onderwijsregistraties.nl/doc/ontology/v0/Cdm"
+                  example: "https://lod.onderwijsregistratie.nl/api/catalogus/v1/klassen?model=http://lod.onderwijsregistratie.nl/cat/doc/ontology/v1/Cdm"
                   format: "uri"
                   type: "string"
               required:
@@ -951,21 +1088,29 @@ components:
               properties:
                 href:
                   description: "URL van de link"
-                  example: ".../model?subject=http://lod.onderwijsregistraties.nl/doc/ontology/v0/Cdm"
-                  format: "uri"
+                  example: "https://lod.onderwijsregistratie.nl/api/catalogus/v1/model?subject=http://lod.onderwijsregistratie.nl/cat/doc/ontology/v1/Cdm"
+                  format: "url"
                   type: "string"
               required:
               - "href"
               type: "object"
           type: "object"
         datumVanaf:
+          description: "http://purl.org/dc/terms/modified"
+          example: "2019-01-24"
           format: "date"
           type: "string"
         label:
+          description: "https://www.w3.org/2000/01/rdf-schema#label"
+          example: "Canoniek Datamodel DUO"
           type: "string"
         uri:
+          description: "URI van het specifieke model"
+          example: "http://lod.onderwijsregistratie.nl/cat/doc/ontology/v1/Cdm"
           type: "string"
         versieInfo:
+          description: "https://www.w3.org/2002/07/owl#versionInfo"
+          example: "Aangemaakt op 2019-01-24 09:11:24 op basis van commit 3715."
           items:
             type: "string"
           type: "array"
