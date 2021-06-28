@@ -7,24 +7,59 @@ info:
   contact:
     name: PDOK
     email: beheerpdok@kadaster.nl
-    url: https://www.pdok.nl
+    url: 'https://www.pdok.nl'
   description: >-
-    Dit document beschrijft de API van Locatieserver, de geocodeerservice van PDOK. Alle ondersteunde endpoints die via deze service beschikbaar komen, worden hier beschreven. Het doel van dit document is om afnemers inzicht te verschaffen hoe ze de services van Locatieserver kunnen aanspreken. Als search engine wordt Apache Solr gebruikt.
-    
-    
-    Momenteel worden 2 versies ondersteund, nl. versie 2 (v2) en versie 3 (v3). Versie 1 was de oorspronkelijke geocodeerservice. Versie 2 is de versie van Locatieserver die eind 2016 live is gegaan, met daarin alleen BAG-objecten. Versie 3 is de huidige versie. Hierin zijn ook de percelen en appartementsrechten uit de Digitale Kadastrale Kaart (DKK), het Nationaal Wegen Bestand (NWB), de waterschapsgrenzen van het Waterschapshuis, de Bestuurlijke Grenzen en de wijken en buurten uit het CBS opgenomen. Wanneer het versienummer uit de URL helemaal wordt weggelaten, wordt versie 2 geserveerd. Dit i.v.m. backward compatibility.
+    Dit document beschrijft de API van Locatieserver, de geocodeerservice van
+    PDOK. Alle ondersteunde endpoints die via deze service beschikbaar komen,
+    worden hier beschreven. Het doel van dit document is om afnemers inzicht te
+    verschaffen hoe ze de services van Locatieserver kunnen aanspreken. Als
+    search engine wordt Apache Solr gebruikt.
 
-    
-    Wanneer een geo-referentieobject (bijv. een adres of woonplaats) d.m.v. intypen gezocht moet worden, dan moet de suggest-service gebruikt worden. Deze is geschikt voor toepassingen die gebruik maken van autocomplete, vanwege de (relatief) kleine antwoorden en het gebruik van highlighting. Wanneer hiervan een object geselecteerd wordt, kan het ID-property van één van de teruggegeven objecten worden gebruikt om meer informatie op te vragen d.m.v. de lookup-service. De vrije geocodeerservice (het "free" endpoint) is bedoeld voor het klassieke geocoderen, waarbij een string (een adres, e.d.) wordt meegegeven en een lijst met matches wordt teruggegeven. De vrije geocodeerservice komt het meest overeen met de functionaliteit van de oude PDOK geocoder. Voor meer informatie zie de inleidende teksten in de hoofdstukken voor de suggest-, lookup- en vrije geocoderservices.
+
+    Momenteel worden 2 versies ondersteund, nl. versie 2 (v2) en versie 3 (v3).
+    Versie 1 was de oorspronkelijke geocodeerservice. Versie 2 is de versie van
+    Locatieserver die eind 2016 live is gegaan, met daarin alleen BAG-objecten.
+    Versie 3 is de huidige versie. Hierin zijn ook de percelen en
+    appartementsrechten uit de Digitale Kadastrale Kaart (DKK), het Nationaal
+    Wegen Bestand (NWB), de waterschapsgrenzen van het Waterschapshuis, de
+    Bestuurlijke Grenzen en de wijken en buurten uit het CBS opgenomen. Wanneer
+    het versienummer uit de URL helemaal wordt weggelaten, wordt versie 2
+    geserveerd. Dit i.v.m. backward compatibility.
+
+
+    Wanneer een geo-referentieobject (bijv. een adres of woonplaats) d.m.v.
+    intypen gezocht moet worden, dan moet de suggest-service gebruikt worden.
+    Deze is geschikt voor toepassingen die gebruik maken van autocomplete,
+    vanwege de (relatief) kleine antwoorden en het gebruik van highlighting.
+    Wanneer hiervan een object geselecteerd wordt, kan het ID-property van één
+    van de teruggegeven objecten worden gebruikt om meer informatie op te vragen
+    d.m.v. de lookup-service. De vrije geocodeerservice (het "free" endpoint) is
+    bedoeld voor het klassieke geocoderen, waarbij een string (een adres, e.d.)
+    wordt meegegeven en een lijst met matches wordt teruggegeven. De vrije
+    geocodeerservice komt het meest overeen met de functionaliteit van de oude
+    PDOK geocoder. Voor meer informatie zie de inleidende teksten in de
+    hoofdstukken voor de suggest-, lookup- en vrije geocoderservices.
 externalDocs:
-  description: Bekijk een uitgebreidere documentatie op de Github pagina van de PDOK Locatieserver.
-  url: https://github.com/PDOK/locatieserver/wiki/API-Locatieserver
+  description: >-
+    Bekijk een uitgebreidere documentatie op de Github pagina van de PDOK
+    Locatieserver.
+  url: 'https://github.com/PDOK/locatieserver/wiki/API-Locatieserver'
 paths:
   /suggest:
     get:
       summary: Suggest-service
       description: >-
-        Deze service is bedoeld voor het vinden van suggesties voor verschillende geo-referentieobjecten o.b.v. een opgegeven zoekterm. Deze service is specifiek bedoeld om te implementeren in combinatie met de lookup service in een zoekveld voor geo-referentieobjecten in een applicatie. In het zoekveld zullen dan steeds op basis van het al ingetypte deel van de zoekterm enkele suggesties worden gegeven voor mogelijk gezochte objecten (wegen, adressen, plaatsen, gebieden e.d.). De lijst wordt verkort of meer exact naarmate een groter deel van het gezochte object wordt ingetypt. Vervolgens kan het gezochte object worden gekozen, waarna met behulp van de lookup service de details van het object worden opgehaald.
+        Deze service is bedoeld voor het vinden van suggesties voor
+        verschillende geo-referentieobjecten o.b.v. een opgegeven zoekterm. Deze
+        service is specifiek bedoeld om te implementeren in combinatie met de
+        lookup service in een zoekveld voor geo-referentieobjecten in een
+        applicatie. In het zoekveld zullen dan steeds op basis van het al
+        ingetypte deel van de zoekterm enkele suggesties worden gegeven voor
+        mogelijk gezochte objecten (wegen, adressen, plaatsen, gebieden e.d.).
+        De lijst wordt verkort of meer exact naarmate een groter deel van het
+        gezochte object wordt ingetypt. Vervolgens kan het gezochte object
+        worden gekozen, waarna met behulp van de lookup service de details van
+        het object worden opgehaald.
       parameters:
         - $ref: '#/components/parameters/q'
         - $ref: '#/components/parameters/fl'
@@ -40,12 +75,26 @@ paths:
         - $ref: '#/components/parameters/fq'
       responses:
         '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuggestResponse'
           description: OK
   /lookup:
     get:
       summary: Lookup-service
       description: >-
-        Deze service is bedoeld voor het opvragen van informatie over één geo-referentieobject dat eerder was gevonden met behulp van de suggest-service. Deze service is specifiek bedoeld om te implementeren in combinatie met de suggest-service in een zoekveld voor geo-referentieobjecten in een applicatie. In het zoekveld zullen dan steeds op basis van het al ingetypte deel van de zoekterm enkele suggesties worden gegeven voor mogelijk gezochte objecten (wegen, adressen, plaatsen, gebieden e.d.). De lijst wordt verkort of meer exact naarmate een groter deel van het gezochte object wordt ingetypt. Vervolgens kan het gezochte object worden gekozen, waarna met behulp van de lookup-service de details van het object worden opgehaald.
+        Deze service is bedoeld voor het opvragen van informatie over één
+        geo-referentieobject dat eerder was gevonden met behulp van de
+        suggest-service. Deze service is specifiek bedoeld om te implementeren
+        in combinatie met de suggest-service in een zoekveld voor
+        geo-referentieobjecten in een applicatie. In het zoekveld zullen dan
+        steeds op basis van het al ingetypte deel van de zoekterm enkele
+        suggesties worden gegeven voor mogelijk gezochte objecten (wegen,
+        adressen, plaatsen, gebieden e.d.). De lijst wordt verkort of meer exact
+        naarmate een groter deel van het gezochte object wordt ingetypt.
+        Vervolgens kan het gezochte object worden gekozen, waarna met behulp van
+        de lookup-service de details van het object worden opgehaald.
       parameters:
         - $ref: '#/components/parameters/id'
         - $ref: '#/components/parameters/rows'
@@ -57,12 +106,19 @@ paths:
         - $ref: '#/components/parameters/fq'
       responses:
         '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LookupResponse'
           description: OK
   /free:
     get:
       summary: Vrije geocoder-service
       description: >-
-        Deze service is bedoeld voor het vinden van zo goed mogelijke matches voor alle typen geo-referentieobjecten die in de voorziening beschikbaar zijn op basis van een opgegeven zoekterm, eventueel in combinatie met een XY-coördinaat van een locatie.
+        Deze service is bedoeld voor het vinden van zo goed mogelijke matches
+        voor alle typen geo-referentieobjecten die in de voorziening beschikbaar
+        zijn op basis van een opgegeven zoekterm, eventueel in combinatie met
+        een XY-coördinaat van een locatie.
       parameters:
         - $ref: '#/components/parameters/q'
         - $ref: '#/components/parameters/fl'
@@ -77,6 +133,10 @@ paths:
         - $ref: '#/components/parameters/fq'
       responses:
         '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FreeResponse'
           description: OK
 components:
   parameters:
@@ -84,7 +144,11 @@ components:
       name: id
       in: query
       description: >-
-        Bij de lookup-service moet de id-parameter worden gebruikt om het ID op te geven van het object waar naar gezocht dient te worden. De waarde van het ID kan worden bepaald door gebruik te maken van de suggest-service, of deze kan uit een extern systeem komen waar dit ID eerder in is opgeslagen.
+        Bij de lookup-service moet de id-parameter worden gebruikt om het ID op
+        te geven van het object waar naar gezocht dient te worden. De waarde van
+        het ID kan worden bepaald door gebruik te maken van de suggest-service,
+        of deze kan uit een extern systeem komen waar dit ID eerder in is
+        opgeslagen.
       required: true
       schema:
         type: string
@@ -93,7 +157,8 @@ components:
       name: rows
       in: query
       description: >-
-        Hiermee wordt opgegeven wat het maximale aantal rijen (ofwel resultaten) is dat teruggegeven moet worden op deze bevraging.
+        Hiermee wordt opgegeven wat het maximale aantal rijen (ofwel resultaten)
+        is dat teruggegeven moet worden op deze bevraging.
       schema:
         type: integer
         default: 10
@@ -101,33 +166,46 @@ components:
       name: start
       in: query
       description: >-
-        Hiermee wordt opgegeven wat de index is van het eerste resultaat dat teruggegeven wordt. Dit is zero-based. In combinatie met de rows-parameter kunnen deze services gepagineerd worden bevraagd.
+        Hiermee wordt opgegeven wat de index is van het eerste resultaat dat
+        teruggegeven wordt. Dit is zero-based. In combinatie met de
+        rows-parameter kunnen deze services gepagineerd worden bevraagd.
       schema:
         type: integer
         default: 0
     wt:
       name: wt
       in: query
-      description: >-
-        Hiermee wordt opgegeven wat het outputformaat is van de bevraging.
+      description: Hiermee wordt opgegeven wat het outputformaat is van de bevraging.
       schema:
         type: string
-        enum: [json, xml]
+        enum:
+          - json
+          - xml
         default: json
     indent:
       name: indent
       in: query
       description: >-
-        Hiermee kan worden opgegeven of de teruggegeven JSON ingesprongen (geïndenteerd) moet worden.
+        Hiermee kan worden opgegeven of de teruggegeven JSON ingesprongen
+        (geïndenteerd) moet worden.
       schema:
         type: boolean
-        enum: [true, false]
+        enum:
+          - true
+          - false
         default: true
     lat:
       name: lat
       in: query
       description: >-
-        Werkt alleen in combinatie met `lon`. Hiermee kan een coördinaat (in lat/lon, ofwel WGS84) worden opgegeven. Met behulp van deze parameters worden de gevonden zoekresultaten gesorteerd op afstand van het meegegeven punt. Wanneer de locatie van de gebruiker bekend is, kan op deze manier effectiever worden gezocht. Het meegeven van een coördinaat is met name nuttig voor de suggest- en vrije geocoder-services. Hier worden meestal meerdere resultaten teruggegeven. Als decimaal scheidingsteken moet een punt worden opgegeven i.p.v. een komma.
+        Werkt alleen in combinatie met `lon`. Hiermee kan een coördinaat (in
+        lat/lon, ofwel WGS84) worden opgegeven. Met behulp van deze parameters
+        worden de gevonden zoekresultaten gesorteerd op afstand van het
+        meegegeven punt. Wanneer de locatie van de gebruiker bekend is, kan op
+        deze manier effectiever worden gezocht. Het meegeven van een coördinaat
+        is met name nuttig voor de suggest- en vrije geocoder-services. Hier
+        worden meestal meerdere resultaten teruggegeven. Als decimaal
+        scheidingsteken moet een punt worden opgegeven i.p.v. een komma.
       schema:
         type: number
         format: float
@@ -136,7 +214,14 @@ components:
       name: lon
       in: query
       description: >-
-        Werkt alleen in combinatie met `lat`. Hiermee kan een coördinaat (in lat/lon, ofwel WGS84) worden opgegeven. Met behulp van deze parameters worden de gevonden zoekresultaten gesorteerd op afstand van het meegegeven punt. Wanneer de locatie van de gebruiker bekend is, kan op deze manier effectiever worden gezocht. Het meegeven van een coördinaat is met name nuttig voor de suggest- en vrije geocoder-services. Hier worden meestal meerdere resultaten teruggegeven. Als decimaal scheidingsteken moet een punt worden opgegeven i.p.v. een komma.
+        Werkt alleen in combinatie met `lat`. Hiermee kan een coördinaat (in
+        lat/lon, ofwel WGS84) worden opgegeven. Met behulp van deze parameters
+        worden de gevonden zoekresultaten gesorteerd op afstand van het
+        meegegeven punt. Wanneer de locatie van de gebruiker bekend is, kan op
+        deze manier effectiever worden gezocht. Het meegeven van een coördinaat
+        is met name nuttig voor de suggest- en vrije geocoder-services. Hier
+        worden meestal meerdere resultaten teruggegeven. Als decimaal
+        scheidingsteken moet een punt worden opgegeven i.p.v. een komma.
       schema:
         type: number
         format: float
@@ -145,55 +230,506 @@ components:
       name: fq
       in: query
       description: >-
-        Hiermee kan een filter query worden opgegeven, bijv. `fq=bron:BAG`. Met `fq=*` kan de default filter query worden opgeheven.
+        Hiermee kan een filter query worden opgegeven, bijv. `fq=bron:BAG`. Met
+        `fq=*` kan de default filter query worden opgeheven.
       schema:
         type: string
-        default: type:(gemeente OR woonplaats OR weg OR postcode OR adres)
+        default: 'type:(gemeente OR woonplaats OR weg OR postcode OR adres)'
     q:
       name: q
       in: query
       description: >-
-        Hiermee worden de zoektermen opgegeven. De Solr-syntax voor zoektermen kan hier worden toegepast, bijv. combineren met `and`, en het gebruik van dubbele quotes voor opeenvolgende zoektermen. Zoektermen mogen incompleet zijn. Ook wordt er gebruik gemaakt van synoniemen.
+        Hiermee worden de zoektermen opgegeven. De Solr-syntax voor zoektermen
+        kan hier worden toegepast, bijv. combineren met `and`, en het gebruik
+        van dubbele quotes voor opeenvolgende zoektermen. Zoektermen mogen
+        incompleet zijn. Ook wordt er gebruik gemaakt van synoniemen.
       schema:
         type: string
         default: '*:*'
     fl:
       name: fl
       in: query
-      description: >-
-        Hiermee worden de velden opgegeven die teruggegeven dienen te worden.
+      description: Hiermee worden de velden opgegeven die teruggegeven dienen te worden.
       schema:
         type: string
-        default: id,weergavenaam,type,score
+        default: 'id,weergavenaam,type,score'
     sort:
       name: sort
       in: query
       description: >-
-        Hiermee kan worden opgegeven hoe de sortering plaatsvindt. De defaultwaarde is `score desc, sortering asc, weergavenaam asc`. Door voor deze string `typesortering asc` toe te voegen, kan de oude sortering worden gebruikt.
+        Hiermee kan worden opgegeven hoe de sortering plaatsvindt. De
+        defaultwaarde is `score desc, sortering asc, weergavenaam asc`. Door
+        voor deze string `typesortering asc` toe te voegen, kan de oude
+        sortering worden gebruikt.
       schema:
         type: string
-        default: score desc, sortering asc, weergavenaam asc
+        default: 'score desc, sortering asc, weergavenaam asc'
     qf:
       name: qf
       in: query
       description: >-
-        Met behulp van deze parameter kan aan bepaalde *velden* een extra boost worden meegegeven. Hiermee kan de scoreberekening worden aangepast. De defaultwaarde is exacte_match^1 suggest^0.5 huisnummer^0.5 huisletter^0.5 huisnummertoevoeging^0.5. Om alleen van het suggest-veld gebruik te maken, kan qf=suggest worden meegegeven.
+        Met behulp van deze parameter kan aan bepaalde *velden* een extra boost
+        worden meegegeven. Hiermee kan de scoreberekening worden aangepast. De
+        defaultwaarde is exacte_match^1 suggest^0.5 huisnummer^0.5
+        huisletter^0.5 huisnummertoevoeging^0.5. Om alleen van het suggest-veld
+        gebruik te maken, kan qf=suggest worden meegegeven.
       schema:
         type: string
-        default: score desc, sortering asc, weergavenaam asc
+        default: 'score desc, sortering asc, weergavenaam asc'
     bq:
       name: bq
       in: query
       description: >-
-        Met behulp van deze parameter kan aan bepaalde veldwaarden een extra boost worden meegegeven. Ook hiermee kan de scoreberekening worden aangepast. Dit gebeurt alleen o.b.v. de inhoud van het veld `type`. De overige typen (nog niet aanwezig) hebben geen boost. Voor elke boost query moet een aparte bq=<boost> worden gebruikt. Bijvoorbeeld `bq=type:gemeente^1.5&bq=type:woonplaats^1.5`.
+        Met behulp van deze parameter kan aan bepaalde veldwaarden een extra
+        boost worden meegegeven. Ook hiermee kan de scoreberekening worden
+        aangepast. Dit gebeurt alleen o.b.v. de inhoud van het veld `type`. De
+        overige typen (nog niet aanwezig) hebben geen boost. Voor elke boost
+        query moet een aparte bq=<boost> worden gebruikt. Bijvoorbeeld
+        `bq=type:gemeente^1.5&bq=type:woonplaats^1.5`.
       schema:
         type: string
-        default: type:provincie^1.5 type:gemeente^1.5 type:woonplaats^1.5 type:weg^1.5 type:postcode^0.5 type:adres^1
+        default: >-
+          type:provincie^1.5 type:gemeente^1.5 type:woonplaats^1.5 type:weg^1.5
+          type:postcode^0.5 type:adres^1
     df:
       name: df
       in: query
       description: >-
-        Hiermee wordt het default zoekveld opgegeven. Dit is het veld waar standaard in gezocht wordt, wanneer de veldnaam niet wordt meegegeven.
+        Hiermee wordt het default zoekveld opgegeven. Dit is het veld waar
+        standaard in gezocht wordt, wanneer de veldnaam niet wordt meegegeven.
       schema:
         type: string
         default: tekst
+  schemas:
+    SuggestDoc:
+      title: SuggestDoc
+      description: >-
+        BaseModel replacement for sharing the configuration across the different
+        schemas.
+      type: object
+      properties:
+        type:
+          title: Type
+          type: string
+        weergavenaam:
+          title: Weergavenaam
+          type: string
+        id:
+          title: Id
+          type: string
+        score:
+          title: Score
+          type: number
+      required:
+        - type
+        - weergavenaam
+        - id
+        - score
+    SuggestInlineResponse:
+      title: SuggestInlineResponse
+      description: >-
+        BaseModel replacement for sharing the configuration across the different
+        schemas.
+      type: object
+      properties:
+        numFound:
+          title: Numfound
+          type: integer
+        start:
+          title: Start
+          type: integer
+        maxScore:
+          title: Maxscore
+          type: number
+        docs:
+          title: Docs
+          type: array
+          items:
+            $ref: '#/components/schemas/SuggestDoc'
+      required:
+        - numFound
+        - start
+        - maxScore
+        - docs
+    Suggest:
+      title: Suggest
+      description: >-
+        BaseModel replacement for sharing the configuration across the different
+        schemas.
+      type: object
+      properties:
+        suggest:
+          title: Suggest
+          type: array
+          items:
+            type: string
+      required:
+        - suggest
+    Suggestion:
+      title: Suggestion
+      description: >-
+        BaseModel replacement for sharing the configuration across the different
+        schemas.
+      type: object
+      properties:
+        numFound:
+          title: Numfound
+          type: integer
+        startOffset:
+          title: Startoffset
+          type: integer
+        endOffset:
+          title: Endoffset
+          type: integer
+        suggestion:
+          title: Suggestion
+          type: array
+          items:
+            type: string
+      required:
+        - numFound
+        - startOffset
+        - endOffset
+        - suggestion
+    Collation:
+      title: Collation
+      description: >-
+        BaseModel replacement for sharing the configuration across the different
+        schemas.
+      type: object
+      properties:
+        collationQuery:
+          title: Collationquery
+          type: string
+        hits:
+          title: Hits
+          type: integer
+        misspellingsAndCorrections:
+          title: Misspellingsandcorrections
+          type: array
+          items:
+            type: string
+      required:
+        - collationQuery
+        - hits
+        - misspellingsAndCorrections
+    Spellcheck:
+      title: Spellcheck
+      description: >-
+        BaseModel replacement for sharing the configuration across the different
+        schemas.
+      type: object
+      properties:
+        suggestions:
+          title: Suggestions
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - $ref: '#/components/schemas/Suggestion'
+        collations:
+          title: Collations
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - $ref: '#/components/schemas/Collation'
+      required:
+        - suggestions
+        - collations
+    SuggestResponse:
+      title: SuggestResponse
+      description: Response for the suggest service
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/SuggestInlineResponse'
+        highlighting:
+          title: Highlighting
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Suggest'
+        spellcheck:
+          $ref: '#/components/schemas/Spellcheck'
+      required:
+        - response
+        - highlighting
+        - spellcheck
+    FreeDoc:
+      title: FreeDoc
+      description: Free service document
+      type: object
+      properties:
+        bron:
+          title: Bron
+          type: string
+        woonplaatscode:
+          title: Woonplaatscode
+          type: string
+        type:
+          title: Type
+          type: string
+        woonplaatsnaam:
+          title: Woonplaatsnaam
+          type: string
+        huis_nlt:
+          title: Huis Nlt
+          type: string
+        openbareruimtetype:
+          title: Openbareruimtetype
+          type: string
+        gemeentecode:
+          title: Gemeentecode
+          type: string
+        weergavenaam:
+          title: Weergavenaam
+          type: string
+        straatnaam_verkort:
+          title: Straatnaam Verkort
+          type: string
+        id:
+          title: Id
+          type: string
+        gemeentenaam:
+          title: Gemeentenaam
+          type: string
+        identificatie:
+          title: Identificatie
+          type: string
+        openbareruimte_id:
+          title: Openbareruimte Id
+          type: string
+        provinciecode:
+          title: Provinciecode
+          type: string
+        postcode:
+          title: Postcode
+          type: string
+        provincienaam:
+          title: Provincienaam
+          type: string
+        centroide_ll:
+          title: Centroide Ll
+          type: string
+        nummeraanduiding_id:
+          title: Nummeraanduiding Id
+          type: string
+        adresseerbaarobject_id:
+          title: Adresseerbaarobject Id
+          type: string
+        huisnummer:
+          title: Huisnummer
+          type: integer
+        provincieafkorting:
+          title: Provincieafkorting
+          type: string
+        centroide_rd:
+          title: Centroide Rd
+          type: string
+        straatnaam:
+          title: Straatnaam
+          type: string
+        gekoppeld_perceel:
+          title: Gekoppeld Perceel
+          type: array
+          items:
+            type: string
+        score:
+          title: Score
+          type: number
+      required:
+        - bron
+        - woonplaatscode
+        - type
+        - woonplaatsnaam
+        - huis_nlt
+        - openbareruimtetype
+        - gemeentecode
+        - weergavenaam
+        - straatnaam_verkort
+        - id
+        - gemeentenaam
+        - identificatie
+        - openbareruimte_id
+        - provinciecode
+        - postcode
+        - provincienaam
+        - centroide_ll
+        - nummeraanduiding_id
+        - adresseerbaarobject_id
+        - huisnummer
+        - provincieafkorting
+        - centroide_rd
+        - straatnaam
+        - gekoppeld_perceel
+        - score
+    FreeInlineResponse:
+      title: FreeInlineResponse
+      description: >-
+        BaseModel replacement for sharing the configuration across the different
+        schemas.
+      type: object
+      properties:
+        numFound:
+          title: Numfound
+          type: integer
+        start:
+          title: Start
+          type: integer
+        maxScore:
+          title: Maxscore
+          type: number
+        docs:
+          title: Docs
+          type: array
+          items:
+            $ref: '#/components/schemas/FreeDoc'
+      required:
+        - numFound
+        - start
+        - maxScore
+        - docs
+    FreeResponse:
+      title: FreeResponse
+      description: Response for the free service
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/FreeInlineResponse'
+      required:
+        - response
+    LookupDoc:
+      title: LookupDoc
+      description: Lookup service document
+      type: object
+      properties:
+        bron:
+          title: Bron
+          type: string
+        woonplaatscode:
+          title: Woonplaatscode
+          type: string
+        type:
+          title: Type
+          type: string
+        woonplaatsnaam:
+          title: Woonplaatsnaam
+          type: string
+        huis_nlt:
+          title: Huis Nlt
+          type: string
+        openbareruimtetype:
+          title: Openbareruimtetype
+          type: string
+        gemeentecode:
+          title: Gemeentecode
+          type: string
+        weergavenaam:
+          title: Weergavenaam
+          type: string
+        straatnaam_verkort:
+          title: Straatnaam Verkort
+          type: string
+        id:
+          title: Id
+          type: string
+        gemeentenaam:
+          title: Gemeentenaam
+          type: string
+        identificatie:
+          title: Identificatie
+          type: string
+        openbareruimte_id:
+          title: Openbareruimte Id
+          type: string
+        provinciecode:
+          title: Provinciecode
+          type: string
+        postcode:
+          title: Postcode
+          type: string
+        provincienaam:
+          title: Provincienaam
+          type: string
+        centroide_ll:
+          title: Centroide Ll
+          type: string
+        nummeraanduiding_id:
+          title: Nummeraanduiding Id
+          type: string
+        adresseerbaarobject_id:
+          title: Adresseerbaarobject Id
+          type: string
+        huisnummer:
+          title: Huisnummer
+          type: integer
+        provincieafkorting:
+          title: Provincieafkorting
+          type: string
+        centroide_rd:
+          title: Centroide Rd
+          type: string
+        straatnaam:
+          title: Straatnaam
+          type: string
+        gekoppeld_perceel:
+          title: Gekoppeld Perceel
+          type: array
+          items:
+            type: string
+      required:
+        - bron
+        - woonplaatscode
+        - type
+        - woonplaatsnaam
+        - huis_nlt
+        - openbareruimtetype
+        - gemeentecode
+        - weergavenaam
+        - straatnaam_verkort
+        - id
+        - gemeentenaam
+        - identificatie
+        - openbareruimte_id
+        - provinciecode
+        - postcode
+        - provincienaam
+        - centroide_ll
+        - nummeraanduiding_id
+        - adresseerbaarobject_id
+        - huisnummer
+        - provincieafkorting
+        - centroide_rd
+        - straatnaam
+        - gekoppeld_perceel
+    LookupInlineResponse:
+      title: LookupInlineResponse
+      description: >-
+        BaseModel replacement for sharing the configuration across the different
+        schemas.
+      type: object
+      properties:
+        numFound:
+          title: Numfound
+          type: integer
+        start:
+          title: Start
+          type: integer
+        docs:
+          title: Docs
+          type: array
+          items:
+            $ref: '#/components/schemas/LookupDoc'
+      required:
+        - numFound
+        - start
+        - docs
+    LookupResponse:
+      title: LookupResponse
+      description: Response for the lookup service
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/LookupInlineResponse'
+      required:
+        - response
