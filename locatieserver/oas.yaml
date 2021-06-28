@@ -106,6 +106,10 @@ paths:
         - $ref: '#/components/parameters/fq'
       responses:
         '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LookupResponse'
           description: OK
   /free:
     get:
@@ -129,6 +133,10 @@ paths:
         - $ref: '#/components/parameters/fq'
       responses:
         '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FreeResponse'
           description: OK
 components:
   parameters:
@@ -293,28 +301,8 @@ components:
         type: string
         default: tekst
   schemas:
-    SuggestResponse:
-      title: SuggestResponse
-      description: >-
-        BaseModel replacement for sharing the configuration across the different
-        schemas.
-      type: object
-      properties:
-        response:
-          $ref: '#/components/schemas/Response'
-        highlighting:
-          title: Highlighting
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/Suggest'
-        spellcheck:
-          $ref: '#/components/schemas/Spellcheck'
-      required:
-        - response
-        - highlighting
-        - spellcheck
-    Doc:
-      title: Doc
+    SuggestDoc:
+      title: SuggestDoc
       description: >-
         BaseModel replacement for sharing the configuration across the different
         schemas.
@@ -337,8 +325,8 @@ components:
         - weergavenaam
         - id
         - score
-    Response:
-      title: Response
+    SuggestInlineResponse:
+      title: SuggestInlineResponse
       description: >-
         BaseModel replacement for sharing the configuration across the different
         schemas.
@@ -357,7 +345,7 @@ components:
           title: Docs
           type: array
           items:
-            $ref: '#/components/schemas/Doc'
+            $ref: '#/components/schemas/SuggestDoc'
       required:
         - numFound
         - start
@@ -449,3 +437,299 @@ components:
       required:
         - suggestions
         - collations
+    SuggestResponse:
+      title: SuggestResponse
+      description: Response for the suggest service
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/SuggestInlineResponse'
+        highlighting:
+          title: Highlighting
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Suggest'
+        spellcheck:
+          $ref: '#/components/schemas/Spellcheck'
+      required:
+        - response
+        - highlighting
+        - spellcheck
+    FreeDoc:
+      title: FreeDoc
+      description: Free service document
+      type: object
+      properties:
+        bron:
+          title: Bron
+          type: string
+        woonplaatscode:
+          title: Woonplaatscode
+          type: string
+        type:
+          title: Type
+          type: string
+        woonplaatsnaam:
+          title: Woonplaatsnaam
+          type: string
+        huis_nlt:
+          title: Huis Nlt
+          type: string
+        openbareruimtetype:
+          title: Openbareruimtetype
+          type: string
+        gemeentecode:
+          title: Gemeentecode
+          type: string
+        weergavenaam:
+          title: Weergavenaam
+          type: string
+        straatnaam_verkort:
+          title: Straatnaam Verkort
+          type: string
+        id:
+          title: Id
+          type: string
+        gemeentenaam:
+          title: Gemeentenaam
+          type: string
+        identificatie:
+          title: Identificatie
+          type: string
+        openbareruimte_id:
+          title: Openbareruimte Id
+          type: string
+        provinciecode:
+          title: Provinciecode
+          type: string
+        postcode:
+          title: Postcode
+          type: string
+        provincienaam:
+          title: Provincienaam
+          type: string
+        centroide_ll:
+          title: Centroide Ll
+          type: string
+        nummeraanduiding_id:
+          title: Nummeraanduiding Id
+          type: string
+        adresseerbaarobject_id:
+          title: Adresseerbaarobject Id
+          type: string
+        huisnummer:
+          title: Huisnummer
+          type: integer
+        provincieafkorting:
+          title: Provincieafkorting
+          type: string
+        centroide_rd:
+          title: Centroide Rd
+          type: string
+        straatnaam:
+          title: Straatnaam
+          type: string
+        gekoppeld_perceel:
+          title: Gekoppeld Perceel
+          type: array
+          items:
+            type: string
+        score:
+          title: Score
+          type: number
+      required:
+        - bron
+        - woonplaatscode
+        - type
+        - woonplaatsnaam
+        - huis_nlt
+        - openbareruimtetype
+        - gemeentecode
+        - weergavenaam
+        - straatnaam_verkort
+        - id
+        - gemeentenaam
+        - identificatie
+        - openbareruimte_id
+        - provinciecode
+        - postcode
+        - provincienaam
+        - centroide_ll
+        - nummeraanduiding_id
+        - adresseerbaarobject_id
+        - huisnummer
+        - provincieafkorting
+        - centroide_rd
+        - straatnaam
+        - gekoppeld_perceel
+        - score
+    FreeInlineResponse:
+      title: FreeInlineResponse
+      description: >-
+        BaseModel replacement for sharing the configuration across the different
+        schemas.
+      type: object
+      properties:
+        numFound:
+          title: Numfound
+          type: integer
+        start:
+          title: Start
+          type: integer
+        maxScore:
+          title: Maxscore
+          type: number
+        docs:
+          title: Docs
+          type: array
+          items:
+            $ref: '#/components/schemas/FreeDoc'
+      required:
+        - numFound
+        - start
+        - maxScore
+        - docs
+    FreeResponse:
+      title: FreeResponse
+      description: Response for the free service
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/FreeInlineResponse'
+      required:
+        - response
+    LookupDoc:
+      title: LookupDoc
+      description: Lookup service document
+      type: object
+      properties:
+        bron:
+          title: Bron
+          type: string
+        woonplaatscode:
+          title: Woonplaatscode
+          type: string
+        type:
+          title: Type
+          type: string
+        woonplaatsnaam:
+          title: Woonplaatsnaam
+          type: string
+        huis_nlt:
+          title: Huis Nlt
+          type: string
+        openbareruimtetype:
+          title: Openbareruimtetype
+          type: string
+        gemeentecode:
+          title: Gemeentecode
+          type: string
+        weergavenaam:
+          title: Weergavenaam
+          type: string
+        straatnaam_verkort:
+          title: Straatnaam Verkort
+          type: string
+        id:
+          title: Id
+          type: string
+        gemeentenaam:
+          title: Gemeentenaam
+          type: string
+        identificatie:
+          title: Identificatie
+          type: string
+        openbareruimte_id:
+          title: Openbareruimte Id
+          type: string
+        provinciecode:
+          title: Provinciecode
+          type: string
+        postcode:
+          title: Postcode
+          type: string
+        provincienaam:
+          title: Provincienaam
+          type: string
+        centroide_ll:
+          title: Centroide Ll
+          type: string
+        nummeraanduiding_id:
+          title: Nummeraanduiding Id
+          type: string
+        adresseerbaarobject_id:
+          title: Adresseerbaarobject Id
+          type: string
+        huisnummer:
+          title: Huisnummer
+          type: integer
+        provincieafkorting:
+          title: Provincieafkorting
+          type: string
+        centroide_rd:
+          title: Centroide Rd
+          type: string
+        straatnaam:
+          title: Straatnaam
+          type: string
+        gekoppeld_perceel:
+          title: Gekoppeld Perceel
+          type: array
+          items:
+            type: string
+      required:
+        - bron
+        - woonplaatscode
+        - type
+        - woonplaatsnaam
+        - huis_nlt
+        - openbareruimtetype
+        - gemeentecode
+        - weergavenaam
+        - straatnaam_verkort
+        - id
+        - gemeentenaam
+        - identificatie
+        - openbareruimte_id
+        - provinciecode
+        - postcode
+        - provincienaam
+        - centroide_ll
+        - nummeraanduiding_id
+        - adresseerbaarobject_id
+        - huisnummer
+        - provincieafkorting
+        - centroide_rd
+        - straatnaam
+        - gekoppeld_perceel
+    LookupInlineResponse:
+      title: LookupInlineResponse
+      description: >-
+        BaseModel replacement for sharing the configuration across the different
+        schemas.
+      type: object
+      properties:
+        numFound:
+          title: Numfound
+          type: integer
+        start:
+          title: Start
+          type: integer
+        docs:
+          title: Docs
+          type: array
+          items:
+            $ref: '#/components/schemas/LookupDoc'
+      required:
+        - numFound
+        - start
+        - docs
+    LookupResponse:
+      title: LookupResponse
+      description: Response for the lookup service
+      type: object
+      properties:
+        response:
+          $ref: '#/components/schemas/LookupInlineResponse'
+      required:
+        - response
